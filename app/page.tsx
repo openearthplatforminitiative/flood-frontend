@@ -78,7 +78,7 @@ const Home = () => {
             <Typography variant={'h1'}>Floodsafe</Typography>
             <Box sx={{ width: 'fit-content' ,mt: 20, p: 5, border: '1px solid black'}}>
             <PushSubscriptionToggleButton/>
-            <Button variant={'contained'} onClick={() => handleSendNotification()}>Send notification!</Button>
+            <Button disabled={!hasActivePushSubscription} variant={'contained'} onClick={() => handleSendNotification()}>Send notification!</Button>
             </Box>
         </Box>
     )
