@@ -35,7 +35,7 @@ export const unregisterPushNotifications = async () => {
 }
 
 export const sendPushSubscriptionToServer = async (subscription: PushSubscription) => {
-    const response = await fetch("/api/register-push", { //Endpoint to be added later
+    const response = await fetch("/api/register-push", {
             method: 'POST',
             body: JSON.stringify(subscription)
         })
@@ -45,10 +45,20 @@ export const sendPushSubscriptionToServer = async (subscription: PushSubscriptio
 }
 
 export const deletePushSubscriptionFromServer = async (subscription: PushSubscription) => {
-    const response = await fetch("/api/register-push", { //Endpoint to be added later
+    const response = await fetch("/api/register-push", {
         method: 'DELETE',
         body: JSON.stringify(subscription)
     })
     if(!response.ok) {
         throw Error('Failed to delete push subscription from server');
-    }}
+    }
+}
+
+export const getPushNotificationFromServer = async () => { //Currently something is not working with the get call of notifications
+    const response = await fetch("/api/register-push", {
+        method: 'GET',
+    })
+    if(!response.ok) {
+        throw Error('Failed to send push notification');
+    }
+}

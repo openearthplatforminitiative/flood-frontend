@@ -1,8 +1,12 @@
-// @ts-check
-
 self.addEventListener('push', async (event) => {
     if (event.data) {
-        //const eventData = await event.data.json()
-        console.log("Push received")
+        const eventData = await event.data.json()
+        showLocalNotification(eventData.title, eventData.body, self.registration)
     }
 })
+
+const showLocalNotification = (title, body, swRegistration) => {
+    swRegistration.showNotification(title, {
+        body,
+    })
+}

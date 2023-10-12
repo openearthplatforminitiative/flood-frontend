@@ -1,24 +1,25 @@
+import {PushSubscription as DatabasePushSubscription} from 'web-push';
 
 type DummyDb = {
-    subscriptions: PushSubscription[]
+    subscriptions: DatabasePushSubscription[]
 }
 
 export const dummyDb: DummyDb = { subscriptions: [] }
 
 // fake Promise to simulate async call
 export const saveSubscriptionToDb = async (
-    subscription: PushSubscription
+    subscription: DatabasePushSubscription
 ): Promise<DummyDb> => {
     dummyDb.subscriptions.push(subscription)
-    return Promise.resolve(dummyDb)
+    return Promise.resolve(dummyDb);
 }
 
-export const deleteSubscriptionFromDb = async (subscription: PushSubscription): Promise<DummyDb> => {
+export const deleteSubscriptionFromDb = async (subscription: DatabasePushSubscription): Promise<DummyDb> => {
     const updatedSubscriptions = dummyDb.subscriptions.filter((oldSubscription) => subscription.endpoint !== oldSubscription.endpoint);
     dummyDb.subscriptions = updatedSubscriptions;
-    return Promise.resolve(dummyDb)
+    return Promise.resolve(dummyDb);
 }
 
 export const getSubscriptionsFromDb = () => {
-    return Promise.resolve(dummyDb.subscriptions)
+    return dummyDb.subscriptions;
 }

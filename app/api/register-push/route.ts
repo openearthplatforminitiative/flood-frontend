@@ -1,7 +1,14 @@
 import {deleteSubscriptionFromDb, getSubscriptionsFromDb, saveSubscriptionToDb } from '@/app/utils/in-memory-db'
-import { NextResponse } from 'next/server'
+import {NextRequest, NextResponse } from 'next/server'
+import webPush, { PushSubscription } from 'web-push';
 
-export async function POST(request: Request) {
+webPush.setVapidDetails(
+    'mailto:test@example.com',
+    process.env.NEXT_PUBLIC_NOTIFICATION_PUBLIC_KEY ?? '',
+    process.env.NOTIFICATION_PRIVATE_KEY ?? ''
+)
+
+export async function POST(request: NextRequest) {
     try {
         const newSubscription: PushSubscription | undefined = await request.json();
         if (!newSubscription) {
@@ -23,7 +30,7 @@ export async function POST(request: Request) {
     }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
     try {
         const subscriptionToDelete: PushSubscription | undefined = await request.json();
         if (!subscriptionToDelete) {
@@ -45,19 +52,28 @@ export async function DELETE(request: Request) {
     }
 }
 
-/*
-export async function GET() {
-    const subscriptions = await getSubscriptionsFromDb()
 
-    subscriptions.forEach((s) => {
-        const payload = JSON.stringify({
-            title: 'WebPush Notification!',
-            body: 'Hello World',
+export async function GET(_: NextRequest) {
+    try{
+        const subscriptions = getSubscriptionsFromDb();
+        const notifications = subscriptions.map((subscription) => { //Noe som ikke funker her. Notification blir ikke sendt
+            const payload = JSON.stringify({
+                title: 'WebPush Notification!',
+                body: 'Hello World',
+            })
+            webPush.sendNotification(subscription, payload)
         })
-        webpush.sendNotification(s, payload)
-    })
 
-    return NextResponse.json({
-        message: `${subscriptions.length} messages sent!`,
-    })
-}*/
+        await Promise.all(notifications);
+
+        return NextResponse.json({
+            message: `${subscriptions.length} messages sent!`,
+        })
+    } catch(error) {
+        console.error(error);
+        throw NextResponse.json(
+            { error: 'Internal server error '},
+            {status: 500}
+        );
+    }
+}
