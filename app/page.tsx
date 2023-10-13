@@ -10,6 +10,7 @@ import {
 
 const Home = () => {
     const [hasActivePushSubscription, setHasActivePushSubscription] = useState<boolean>();
+
     useEffect(() => {
         const getActivePushSubscription = async () => {
             const activeSubscription = await getCurrentPushSubscription();

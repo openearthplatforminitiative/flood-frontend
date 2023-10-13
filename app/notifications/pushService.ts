@@ -54,7 +54,7 @@ export const deletePushSubscriptionFromServer = async (subscription: PushSubscri
     }
 }
 
-export const getPushNotificationFromServer = async () => { //Currently something is not working with the get call of notifications
+export const getPushNotificationFromServer = async () => {
     const response = await fetch("/api/register-push", {
         method: 'GET',
     })
