@@ -6,7 +6,6 @@ export async function GET(_: NextRequest) {
   try {
     const subscriptions = getSubscriptionsFromDb();
     const notifications = subscriptions.map((subscription) => {
-      //Noe som ikke funker her. Notification blir ikke sendt
       const payload = JSON.stringify({
         title: "WebPush Notification!",
         body: "Hello World",
