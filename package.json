@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ngrok": "ngrok http 3000",
+    "prettier": "npx prettier . --write",
+    "check-prettier": "npx prettier . --check"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -14,14 +17,19 @@
     "@mui/material": "^5.14.12",
     "next": "^13.5.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "web-push": "^3.6.6"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/web-push": "^3.6.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
+    "eslint-config-prettier": "^9.0.0",
+    "ngrok": "^5.0.0-beta.2",
+    "prettier": "3.0.3",
     "typescript": "^5"
   }
 }
