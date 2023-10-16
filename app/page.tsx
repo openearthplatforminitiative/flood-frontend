@@ -1,12 +1,12 @@
 'use client'
 import { useEffect, useState } from "react";
-import { registerServiceWorker } from "./utils/serviceWorker";
 import {Box, Button, FormControlLabel, Switch, Typography } from "@mui/material";
 import {
     getCurrentPushSubscription, getPushNotificationFromServer,
     registerPushNotifications,
     unregisterPushNotifications
 } from "./notifications/pushService";
+import { registerServiceWorker } from "@/utils/serviceWorker";
 
 const Home = () => {
     const [hasActivePushSubscription, setHasActivePushSubscription] = useState<boolean>();
@@ -17,9 +17,7 @@ const Home = () => {
             setHasActivePushSubscription(!!activeSubscription);
         }
         getActivePushSubscription();
-    }, []);
 
-    useEffect(() => {
         const  setUpServiceWorker = async () => {
             try {
                 await registerServiceWorker();
@@ -29,6 +27,7 @@ const Home = () => {
         }
         setUpServiceWorker();
     }, []);
+
 
     const PushSubscriptionToggleButton = () => {
 

@@ -1,4 +1,4 @@
-import { getReadyServiceWorker } from "../utils/serviceWorker"
+import { getReadyServiceWorker } from "@/utils/serviceWorker";
 
 export const getCurrentPushSubscription = async (): Promise<PushSubscription | null> => {
     const serviceWorker = await getReadyServiceWorker();
@@ -35,7 +35,7 @@ export const unregisterPushNotifications = async () => {
 }
 
 export const sendPushSubscriptionToServer = async (subscription: PushSubscription) => {
-    const response = await fetch("/api/register-push", {
+    const response = await fetch("/api/push-subscriptions", {
             method: 'POST',
             body: JSON.stringify(subscription)
         })
@@ -45,7 +45,7 @@ export const sendPushSubscriptionToServer = async (subscription: PushSubscriptio
 }
 
 export const deletePushSubscriptionFromServer = async (subscription: PushSubscription) => {
-    const response = await fetch("/api/register-push", {
+    const response = await fetch("/api/push-subscriptions", {
         method: 'DELETE',
         body: JSON.stringify(subscription)
     })
@@ -55,7 +55,7 @@ export const deletePushSubscriptionFromServer = async (subscription: PushSubscri
 }
 
 export const getPushNotificationFromServer = async () => {
-    const response = await fetch("/api/register-push", {
+    const response = await fetch("/api/push-notifications", {
         method: 'GET',
     })
     if(!response.ok) {

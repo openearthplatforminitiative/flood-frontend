@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ngrok": "ngrok http 3000"
+
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -24,6 +26,7 @@
     "@types/web-push": "^3.6.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
+    "ngrok": "^5.0.0-beta.2",
     "typescript": "^5"
   }
 }
