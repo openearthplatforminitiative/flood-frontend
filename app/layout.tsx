@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#90cdf4" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body style={{ height: '100%', width: '100%'}}>{children}</body>
     </html>
   );
 }
