@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 
@@ -18,14 +18,20 @@ function getLocale(request: Request): string {
 }
 
 export function middleware(request: NextRequest) {
-  let locale = getLocale(request) ?? defaultLocale;
-  const pathname = request.nextUrl.pathname;
+  // Check if there is any supported locale in the pathname
+  const { pathname } = request.nextUrl;
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
 
-  const newUrl = new URL(`/${locale}${pathname}`, request.nextUrl);
+  if (pathnameHasLocale) return;
 
+  // Redirect if there is no locale
+  const locale = getLocale(request);
+  request.nextUrl.pathname = `/${locale}${pathname}`;
   // e.g. incoming request is /products
-  // The new URL is now /en/products
-  return NextResponse.rewrite(newUrl);
+  // The new URL is now /en-US/products
+  return Response.redirect(request.nextUrl);
 }
 
 export const config = {

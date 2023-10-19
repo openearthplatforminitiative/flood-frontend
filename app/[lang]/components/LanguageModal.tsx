@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -16,12 +16,12 @@ import {
 interface LanguageModalProps {
   open: boolean;
   onClose: () => void;
-  onLanguageChange: (newLanguage: string) => void;
+  changeLanguage: (newLanguage: string) => void;
 }
 
 const LanguageModal = ({
   open,
-  onLanguageChange,
+  changeLanguage,
   onClose,
 }: LanguageModalProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -31,13 +31,9 @@ const LanguageModal = ({
   };
 
   const handleSaveLanguage = () => {
-    onLanguageChange(selectedLanguage);
+    changeLanguage(selectedLanguage);
     onClose();
   };
-
-  useEffect(() => {
-    console.log('Selected language: ', selectedLanguage);
-  }, [selectedLanguage]);
 
   return (
     <Dialog open={open} onClose={() => {}} maxWidth={'lg'}>

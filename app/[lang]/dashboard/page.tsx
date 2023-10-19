@@ -3,15 +3,27 @@
 import { Box, Typography } from '@mui/material';
 import Logo from '@/public/icons/Logo';
 import LanguageModal from '@/app/[lang]/components/LanguageModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { getDictionary } from '@/app/[lang]/dictionaries';
 
-const Dashboard = ({ dict }: DashboardProps) => {
+const Dashboard = ({ lang }: { lang: string }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [dict, setDict] = useState<Dict>({});
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const handleLanguageChange = (newLanguage: string) => {
-    setSelectedLanguage(newLanguage);
-  };
+  const handleRoute = (locale: string) => router.push('/' + locale);
+
+  useEffect(() => {
+    if (lang) {
+      getDictionary(lang as Lang).then((res) => {
+        if (res) {
+          setDict(res);
+        }
+      });
+    }
+  }, [lang]);
 
   return (
     <Box>
@@ -20,7 +32,7 @@ const Dashboard = ({ dict }: DashboardProps) => {
       <LanguageModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onLanguageChange={handleLanguageChange}
+        changeLanguage={handleRoute}
       />
       <Typography>{dict.title}</Typography>
     </Box>
