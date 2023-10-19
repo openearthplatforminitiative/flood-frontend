@@ -3,7 +3,7 @@ interface PageProps {
 }
 
 interface DashboardProps {
-  lang: string;
+  dict: Dict;
 }
 
 interface LangDictionary {
