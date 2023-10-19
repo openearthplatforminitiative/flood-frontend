@@ -1,4 +1,4 @@
-import { getReadyServiceWorker } from "@/utils/serviceWorker";
+import { getReadyServiceWorker } from '@/utils/serviceWorker';
 
 export const getCurrentPushSubscription =
   async (): Promise<PushSubscription | null> => {
@@ -7,13 +7,13 @@ export const getCurrentPushSubscription =
   };
 
 export const registerPushNotifications = async () => {
-  if (!("PushManager" in window)) {
-    throw Error("Push notifications are not supported by this browser");
+  if (!('PushManager' in window)) {
+    throw Error('Push notifications are not supported by this browser');
   }
 
   const existingSubscription = await getCurrentPushSubscription();
   if (existingSubscription) {
-    throw Error("Existing push subscription found");
+    throw Error('Existing push subscription found');
   }
 
   const serviceWorker = await getReadyServiceWorker();
@@ -28,7 +28,7 @@ export const unregisterPushNotifications = async () => {
   const existingSubscription = await getCurrentPushSubscription();
 
   if (!existingSubscription) {
-    throw Error("No existing push subscription found");
+    throw Error('No existing push subscription found');
   }
 
   await deletePushSubscriptionFromServer(existingSubscription);
@@ -36,34 +36,34 @@ export const unregisterPushNotifications = async () => {
 };
 
 export const sendPushSubscriptionToServer = async (
-  subscription: PushSubscription,
+  subscription: PushSubscription
 ) => {
-  const response = await fetch("/api/push-subscriptions", {
-    method: "POST",
+  const response = await fetch('/api/push-subscriptions', {
+    method: 'POST',
     body: JSON.stringify(subscription),
   });
   if (!response.ok) {
-    throw Error("Failed to send push subscription to server");
+    throw Error('Failed to send push subscription to server');
   }
 };
 
 export const deletePushSubscriptionFromServer = async (
-  subscription: PushSubscription,
+  subscription: PushSubscription
 ) => {
-  const response = await fetch("/api/push-subscriptions", {
-    method: "DELETE",
+  const response = await fetch('/api/push-subscriptions', {
+    method: 'DELETE',
     body: JSON.stringify(subscription),
   });
   if (!response.ok) {
-    throw Error("Failed to delete push subscription from server");
+    throw Error('Failed to delete push subscription from server');
   }
 };
 
 export const getPushNotificationFromServer = async () => {
-  const response = await fetch("/api/push-notifications", {
-    method: "GET",
+  const response = await fetch('/api/push-notifications', {
+    method: 'GET',
   });
   if (!response.ok) {
-    throw Error("Failed to send push notification");
+    throw Error('Failed to send push notification');
   }
 };

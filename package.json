@@ -14,10 +14,19 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@formatjs/intl-localematcher": "^0.4.2",
     "@mui/material": "^5.14.12",
+    "@types/negotiator": "^0.6.2",
+    "accept-language": "^3.0.18",
+    "i18next": "^23.5.1",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-resources-to-backend": "^1.1.4",
+    "negotiator": "^0.6.3",
     "next": "^13.5.4",
     "react": "^18.2.0",
+    "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.3.0",
     "web-push": "^3.6.6"
   },
   "devDependencies": {
@@ -29,7 +38,7 @@
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.0.0",
     "ngrok": "^5.0.0-beta.2",
-    "prettier": "3.0.3",
+    "prettier": "^3.0.3",
     "typescript": "^5"
   }
 }
