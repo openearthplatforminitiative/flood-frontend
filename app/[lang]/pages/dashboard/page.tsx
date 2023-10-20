@@ -1,13 +1,14 @@
 'use client';
 
 import { Box, Typography } from '@mui/material';
-import Logo from '@/public/icons/Logo';
+import Logo from '@/public/assets/icons/Logo';
 import LanguageModal from '@/app/[lang]/components/LanguageModal';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { locales } from '@/middleware';
 import { useCookies } from 'react-cookie';
+import bg from '../../../../public/assets/images/start-screen-image.png';
 
 const Dashboard = ({ lang }: { lang: string }) => {
   const [dict, setDict] = useState<Dict>({});
@@ -23,7 +24,6 @@ const Dashboard = ({ lang }: { lang: string }) => {
   };
 
   useEffect(() => {
-    console.log('New langauge: ', lang);
     if (lang) {
       getDictionary(lang as Lang).then((res) => {
         if (res) {
@@ -34,15 +34,42 @@ const Dashboard = ({ lang }: { lang: string }) => {
   }, [lang]);
 
   return (
-    <Box>
-      <Logo />
-      <Typography variant={'h1'}>Floodsafe</Typography>
+    <Box
+      style={{
+        display: 'flex',
+        backgroundImage: `url(${bg.src})`,
+        backgroundRepeat: 'no-repeat',
+        height: '800px',
+        width: '360px',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 'fit-content',
+          width: 'fit-content',
+          marginBottom: '200px',
+        }}
+      >
+        <Logo />
+        <Typography
+          component={'h1'}
+          variant={'h4'}
+          style={{ marginLeft: '10px' }}
+        >
+          Floodsafe
+        </Typography>
+      </Box>
       <LanguageModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         changeLanguage={handleRoute}
       />
-      <Typography>{dict.title}</Typography>
     </Box>
   );
 };
