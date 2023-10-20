@@ -46,11 +46,7 @@ const LanguageModal = ({
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
-            <FormControlLabel
-              value="en-US"
-              control={<Radio />}
-              label="English"
-            />
+            <FormControlLabel value="en" control={<Radio />} label="English" />
             <Divider />
             <FormControlLabel value="fr" control={<Radio />} label="French" />
             <Divider />

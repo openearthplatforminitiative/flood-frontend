@@ -2,8 +2,8 @@ import { NextRequest } from 'next/server';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 
-let locales = ['en', 'fr', 'kw'];
-export let defaultLocale = 'fr';
+export const locales = ['en', 'fr', 'kw'];
+export let defaultLocale = 'en';
 
 function getLocale(request: Request): string {
   const headers = new Headers(request.headers);
@@ -37,7 +37,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|favicon.ico).*)',
+    '/((?!_next|api|favicon.ico|manifest.json).*)',
     // Optional: only run on root (/) URL
     // '/'
   ],

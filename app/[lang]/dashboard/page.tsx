@@ -4,18 +4,26 @@ import { Box, Typography } from '@mui/material';
 import Logo from '@/public/icons/Logo';
 import LanguageModal from '@/app/[lang]/components/LanguageModal';
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { getDictionary } from '@/app/[lang]/dictionaries';
+import { locales } from '@/middleware';
+import { useCookies } from 'react-cookie';
 
 const Dashboard = ({ lang }: { lang: string }) => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const [dict, setDict] = useState<Dict>({});
-  const pathname = usePathname();
   const router = useRouter();
+  const [cookies, setCookie] = useCookies(['language']);
+  const [isModalOpen, setIsModalOpen] = useState(!cookies.language);
 
-  const handleRoute = (locale: string) => router.push('/' + locale);
+  const handleRoute = (localeString: string) => {
+    if (locales.includes(localeString)) {
+      setCookie('language', localeString, { path: '/' });
+      router.replace('/' + localeString);
+    }
+  };
 
   useEffect(() => {
+    console.log('New langauge: ', lang);
     if (lang) {
       getDictionary(lang as Lang).then((res) => {
         if (res) {

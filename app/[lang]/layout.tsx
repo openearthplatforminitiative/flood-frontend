@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import { dir } from 'i18next';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +18,7 @@ export default function RootLayout({
   params: PageProps;
 }) {
   return (
-    <html lang={lang} dir={dir(lang)}>
+    <html lang={lang}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#90cdf4" />
