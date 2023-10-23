@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import ThemeRegistry from '@/app/[lang]/ThemeRegistry';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,7 +22,7 @@ export default function RootLayout({
         <title>FloodSafe</title>
       </head>
       <body style={{ height: '100%', width: '100%', margin: 0 }}>
-        {children}
+        <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
       </body>
     </html>
   );

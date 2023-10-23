@@ -12,7 +12,7 @@ export const getDictionary = async (lang: Lang) => {
   return {}; // Return an empty object or handle the error as needed.
 };
 
-export const getFromDictionary = (
+const getFromDictionary = (
   keys: Array<string>,
   dict: Dict | string
 ): Dict | string => {
