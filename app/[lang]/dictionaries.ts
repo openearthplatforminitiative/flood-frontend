@@ -12,7 +12,7 @@ export const getDictionary = async (lang: Lang) => {
   return {}; // Return an empty object or handle the error as needed.
 };
 
-const getFromDictionary = (
+export const getFromDictionary = (
   keys: Array<string>,
   dict: Dict | string
 ): Dict | string => {
@@ -29,4 +29,23 @@ const getFromDictionary = (
   }
   const key = keys.shift() || '';
   return getFromDictionary(keys, dict[key]);
+};
+
+export const t = (key: string, dict: Dict): string => {
+  console.log('Received string: ', key);
+  if (!key) {
+    return '';
+  }
+  const keys = key.split('.');
+  const ret = getFromDictionary(keys, dict);
+
+  if (!ret) {
+    return key;
+  }
+  if (typeof ret !== 'string') {
+    console.error('getFromDict returner a ', typeof ret);
+    return key;
+  }
+
+  return ret;
 };
