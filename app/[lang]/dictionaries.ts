@@ -32,7 +32,6 @@ export const getFromDictionary = (
 };
 
 export const t = (key: string, dict: Dict): string => {
-  console.log('Received string: ', key);
   if (!key) {
     return '';
   }
