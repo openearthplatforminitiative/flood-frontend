@@ -11,7 +11,7 @@ export default function RootLayout({
   params: { lang },
 }: {
   children: ReactNode;
-  params: PageProps;
+  params: { lang: string };
 }) {
   return (
     <html lang={lang}>

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import Dashboard from '@/app/[lang]/pages/dashboard/page';
+import Dashboard from '@/app/[lang]/dashboard/page';
 
 const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
   return (

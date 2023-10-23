@@ -3,8 +3,8 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useCookies } from 'react-cookie';
-import IntroScreen from '@/app/[lang]/pages/intro-screen/page';
-import OnboardingWelcome from '@/app/[lang]/pages/onboarding-welcome/page';
+import IntroScreen from '@/app/[lang]/intro-screen/page';
+import OnboardingWelcome from '@/app/[lang]/onboarding-welcome/page';
 
 const Dashboard = ({ lang }: { lang: string }) => {
   const [dict, setDict] = useState<Dict>({});
@@ -35,7 +35,7 @@ const Dashboard = ({ lang }: { lang: string }) => {
       border={2}
     >
       {!cookies.language ? (
-        <IntroScreen cookies={cookies} setCookie={setCookie} />
+        <IntroScreen cookies={cookies} setCookie={setCookie} dict={dict} />
       ) : (
         <OnboardingWelcome dict={dict} lang={lang} />
       )}

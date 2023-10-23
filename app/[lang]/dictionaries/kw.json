@@ -1,4 +1,9 @@
 {
+  "title": "Floodsafe",
   "createAccount": "Kora konti",
-  "logIn": "Injira"
+  "logIn": "Injira",
+  "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
+  "firstOnboardingPoint": "Receive flood warnings",
+  "secondOnboardingPoint": "Some other point",
+  "thirdOnboardingPoint": "And one final nice thing"
 }

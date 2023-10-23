@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import cookie from 'cookie';
 
 export const locales = ['en', 'fr', 'kw'];
-export let defaultLocale = 'en';
+const defaultLocale = 'en';
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
@@ -23,10 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next)
-    '/((?!_next|api|favicon.ico|manifest.json).*)',
-    // Optional: only run on root (/) URL
-    // '/'
-  ],
+  matcher: ['/((?!_next|api|favicon.ico|manifest.json).*)'],
 };
