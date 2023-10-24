@@ -45,6 +45,7 @@ const IntroScreen = ({ cookies, setCookie, dict }: IntroScreenProps) => {
       >
         <Title dict={dict} />
         <LanguageModal
+          dict={dict}
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           changeLanguage={handleRoute}

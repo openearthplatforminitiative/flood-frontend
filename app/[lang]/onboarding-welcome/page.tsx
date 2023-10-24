@@ -1,11 +1,9 @@
 import { Box, Button, Typography } from '@mui/material';
 import bg from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
-import { t } from '@/app/[lang]/dictionaries';
 
 interface WelcomeProps {
   dict: Dict;
-  lang: string;
 }
 
 const OnboardingWelcome = ({ dict }: WelcomeProps) => {
@@ -34,11 +32,11 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography>{t('additionalInfo', dict)}</Typography>
+        <Typography>{dict['additionalInfo']}</Typography>
         <ul>
-          <li>{t('firstOnboardingPoint', dict)}</li>
-          <li>{t('secondOnboardingPoint', dict)}</li>
-          <li>{t('thirdOnboardingPoint', dict)}</li>
+          <li>{dict['firstOnboardingPoint']}</li>
+          <li>{dict['secondOnboardingPoint']}</li>
+          <li>{dict['thirdOnboardingPoint']}</li>
         </ul>
       </Box>
       <Box
@@ -48,9 +46,9 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           padding: '20px',
         }}
       >
-        <Button variant={'contained'}>{t('createAccount', dict)}</Button>
+        <Button variant={'contained'}>{dict['createAccount']}</Button>
         <Button variant={'outlined'} style={{ marginTop: '15px' }}>
-          {t('logIn', dict)}
+          {dict['logIn']}
         </Button>
       </Box>
     </Box>

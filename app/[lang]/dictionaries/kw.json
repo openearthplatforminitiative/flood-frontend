@@ -2,8 +2,11 @@
   "title": "Floodsafe",
   "createAccount": "Kora konti",
   "logIn": "Injira",
-  "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
-  "firstOnboardingPoint": "Receive flood warnings",
-  "secondOnboardingPoint": "Some other point",
-  "thirdOnboardingPoint": "And one final nice thing"
+  "additionalInfo": "Inyandiko zinyongera zisobanura hano, iyi ni umwanya.",
+  "firstOnboardingPoint": "Akira imiburo y'umwuzure",
+  "secondOnboardingPoint": "Indi ngingo",
+  "thirdOnboardingPoint": "Kandi ikintu cyiza cya nyuma",
+  "confirm": "Emeza",
+  "sendNotification": "Kohereza imenyesha",
+  "chooseLanguage": "Hitamo ururimi"
 }

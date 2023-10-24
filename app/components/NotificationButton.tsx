@@ -9,7 +9,11 @@ import {
 import { useEffect, useState } from 'react';
 import { registerServiceWorker } from '@/utils/serviceWorker';
 
-const NotificationButton = () => {
+interface NotificationProps {
+  dict: Dict;
+}
+
+const NotificationButton = ({ dict }: NotificationProps) => {
   const [hasActivePushSubscription, setHasActivePushSubscription] =
     useState<boolean>();
   const handleSendNotification = async () => {
@@ -93,7 +97,7 @@ const NotificationButton = () => {
         variant={'contained'}
         onClick={() => handleSendNotification()}
       >
-        Send notification!
+        {dict['sendNotification']}
       </Button>
     </Box>
   );

@@ -14,12 +14,14 @@ import {
 } from '@mui/material';
 
 interface LanguageModalProps {
+  dict: Dict;
   open: boolean;
   onClose: () => void;
   changeLanguage: (newLanguage: string) => void;
 }
 
 const LanguageModal = ({
+  dict,
   open,
   changeLanguage,
   onClose,
@@ -37,7 +39,7 @@ const LanguageModal = ({
 
   return (
     <Dialog open={open} onClose={() => {}} maxWidth={'lg'}>
-      <DialogTitle>Choose Language</DialogTitle>
+      <DialogTitle>{dict['chooseLanguage']}</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup
@@ -61,7 +63,7 @@ const LanguageModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleSaveLanguage} color="primary">
-          Confirm
+          {dict['confirm']}
         </Button>
       </DialogActions>
     </Dialog>

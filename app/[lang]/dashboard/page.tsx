@@ -37,7 +37,7 @@ const Dashboard = ({ lang }: { lang: string }) => {
       {!cookies.language ? (
         <IntroScreen cookies={cookies} setCookie={setCookie} dict={dict} />
       ) : (
-        <OnboardingWelcome dict={dict} lang={lang} />
+        <OnboardingWelcome dict={dict} />
       )}
     </Box>
   );

@@ -2,8 +2,11 @@
   "title": "Floodsafe",
   "createAccount": "Créer un compte",
   "logIn": "Se connecter",
-  "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
-  "firstOnboardingPoint": "Receive flood warnings",
-  "secondOnboardingPoint": "Some other point",
-  "thirdOnboardingPoint": "And one final nice thing"
+  "additionalInfo": "Un texte explicatif supplémentaire ici, ceci est un espace réservé.",
+  "firstOnboardingPoint": "Recevez des alertes d'inondation",
+  "secondOnboardingPoint": "Un autre point",
+  "thirdOnboardingPoint": "Et une dernière bonne chose",
+  "confirm": "Confirmer",
+  "sendNotification": "Envoyez une notification",
+  "chooseLanguage": "Choisissez la langue"
 }

@@ -5,5 +5,8 @@
   "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
   "firstOnboardingPoint": "Receive flood warnings",
   "secondOnboardingPoint": "Some other point",
-  "thirdOnboardingPoint": "And one final nice thing"
+  "thirdOnboardingPoint": "And one final nice thing",
+  "confirm": "Confirm",
+  "sendNotification": "Send notification",
+  "chooseLanguage": "Choose language"
 }

@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import Logo from '@/public/assets/icons/Logo';
-import { t } from '@/app/[lang]/dictionaries';
 
 interface TitleProps {
   dict: Dict;
@@ -25,7 +24,7 @@ const Title = ({ dict }: TitleProps) => {
         variant={'h4'}
         style={{ marginLeft: '10px' }}
       >
-        {t('title', dict)}
+        {dict['title']}
       </Typography>
     </Box>
   );
