@@ -13,22 +13,3 @@ const dictionaries: LangDictionary = {
 export const getDictionary = async (lang: Lang) => {
   return dictionaries[lang]();
 };
-
-export const getFromDictionary = (
-  keys: Array<string>,
-  dict: Dict | string
-): Dict | string => {
-  if (typeof dict == 'string') {
-    return dict;
-  }
-
-  if (keys.length === 0) {
-    return '';
-  }
-
-  if (!dict) {
-    return '';
-  }
-  const key = keys.shift() || '';
-  return getFromDictionary(keys, dict[key]);
-};
