@@ -6,27 +6,21 @@ import Title from '@/app/components/Title';
 import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
 import { locales } from '@/middleware';
-import { useRouter } from 'next/navigation';
-import { CookieSetOptions } from 'universal-cookie';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { getCookie, setCookie } from 'cookies-next';
 
 interface IntroScreenProps {
-  cookies: { language?: any };
-  setCookie: (
-    name: 'language',
-    value: any,
-    options?: CookieSetOptions | undefined
-  ) => void;
   dict: Dict;
+  router: AppRouterInstance;
 }
 
-const IntroScreen = ({ cookies, setCookie, dict }: IntroScreenProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(!cookies.language);
-  const router = useRouter();
+const IntroScreen = ({ dict, router }: IntroScreenProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
 
   const handleRoute = (localeString: string) => {
     if (locales.includes(localeString)) {
-      setCookie('language', localeString, { path: '/' });
-      router.replace('/' + localeString);
+      setCookie('language', localeString);
+      router.replace('/' + localeString + '/onboarding');
     }
   };
 

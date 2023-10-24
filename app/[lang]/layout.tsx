@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,8 +21,24 @@ export default function RootLayout({
         <meta name="theme-color" content="#90cdf4" />
         <title>FloodSafe</title>
       </head>
-      <body style={{ height: '100%', width: '100%', margin: 0 }}>
-        {children}
+      <body
+        style={{
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+          margin: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Box
+          style={{
+            height: '800px',
+            width: '360px',
+          }}
+        >
+          {children}
+        </Box>
       </body>
     </html>
   );

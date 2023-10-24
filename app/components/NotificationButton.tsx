@@ -5,7 +5,7 @@ import {
   getPushNotificationFromServer,
   registerPushNotifications,
   unregisterPushNotifications,
-} from '@/app/[lang]/notifications/pushService';
+} from '@/app/notifications/pushService';
 import { useEffect, useState } from 'react';
 import { registerServiceWorker } from '@/utils/serviceWorker';
 

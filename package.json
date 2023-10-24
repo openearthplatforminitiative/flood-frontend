@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@formatjs/intl-localematcher": "^0.4.2",
     "@mui/material": "^5.14.12",
+    "cookies-next": "^4.0.0",
     "next": "^13.5.4",
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
@@ -23,11 +24,11 @@
     "web-push": "^3.6.6"
   },
   "devDependencies": {
+    "@types/negotiator": "^0.6.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/web-push": "^3.6.1",
-    "@types/negotiator": "^0.6.2",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.0.0",
