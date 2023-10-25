@@ -31,7 +31,7 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
     <Box
       width={'100%'}
       height={'100%'}
-      style={{
+      sx={{
         display: 'flex',
         justifyContent: 'center',
       }}

@@ -8,9 +8,9 @@ interface WelcomeProps {
 
 const OnboardingWelcome = ({ dict }: WelcomeProps) => {
   return (
-    <Box style={{ height: '100%', width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <Box
-        style={{
+        sx={{
           display: 'flex',
           backgroundImage: `url(${background.src})`,
           backgroundRepeat: 'no-repeat',
@@ -24,7 +24,7 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
         <Title dict={dict} />
       </Box>
       <Box
-        style={{
+        sx={{
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'white',
@@ -40,14 +40,14 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
         </ul>
       </Box>
       <Box
-        style={{
+        sx={{
           display: 'flex',
           flexDirection: 'column',
           padding: '20px',
         }}
       >
         <Button variant={'contained'}>{dict.onBoarding.createAccount}</Button>
-        <Button variant={'outlined'} style={{ marginTop: '15px' }}>
+        <Button variant={'outlined'} sx={{ marginTop: '15px' }}>
           {dict.onBoarding.logIn}
         </Button>
       </Box>

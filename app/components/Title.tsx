@@ -8,7 +8,7 @@ interface TitleProps {
 const Title = ({ dict }: TitleProps) => {
   return (
     <Box
-      style={{
+      sx={{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -19,11 +19,7 @@ const Title = ({ dict }: TitleProps) => {
       }}
     >
       <Logo />
-      <Typography
-        component={'h1'}
-        variant={'h4'}
-        style={{ marginLeft: '10px' }}
-      >
+      <Typography component={'h1'} variant={'h4'} sx={{ marginLeft: '10px' }}>
         {dict.title}
       </Typography>
     </Box>
