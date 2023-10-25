@@ -39,7 +39,7 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography variant={'subtitle1'}>
+        <Typography variant={'subtitle2'}>
           {dict.onBoarding.additionalInfo}
         </Typography>
         <List sx={{ listStyleType: 'disc' }}>
