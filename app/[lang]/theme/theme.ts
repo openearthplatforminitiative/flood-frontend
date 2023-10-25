@@ -1,24 +1,19 @@
 import { createTheme } from '@mui/material/styles';
+import { palettes } from '@/app/[lang]/theme/palettes';
+import { typography } from '@/app/[lang]/theme/typography';
 
 const theme = createTheme({
-  palette: {
-    mode: 'light', // or "dark" but needs more in place for working dark mode
-    primary: {
-      main: '#31905F',
-    },
-    secondary: {
-      main: '#4E6354',
-    },
-    error: {
-      main: '#BA1A1A',
-    },
-    background: {
-      default: '#FBFDF8',
+  palette: palettes,
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
     },
   },
-  typography: {
-    fontFamily: 'Inter, sans-serif',
-  },
+  typography: typography,
 });
 
 export default theme;
