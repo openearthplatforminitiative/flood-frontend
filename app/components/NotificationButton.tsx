@@ -1,23 +1,35 @@
-"use client";
-import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  Switch,
-  Typography,
-} from "@mui/material";
+'use client';
+import { Box, Button, FormControlLabel, Switch } from '@mui/material';
 import {
   getCurrentPushSubscription,
   getPushNotificationFromServer,
   registerPushNotifications,
   unregisterPushNotifications,
-} from "./notifications/pushService";
-import { registerServiceWorker } from "@/utils/serviceWorker";
+} from '@/app/notifications/pushService';
+import { useEffect, useState } from 'react';
+import { registerServiceWorker } from '@/utils/serviceWorker';
 
-const Home = () => {
+interface NotificationProps {
+  dict: Dict;
+}
+
+const NotificationButton = ({ dict }: NotificationProps) => {
   const [hasActivePushSubscription, setHasActivePushSubscription] =
     useState<boolean>();
+  const handleSendNotification = async () => {
+    try {
+      if (hasActivePushSubscription) {
+        await getPushNotificationFromServer();
+      }
+    } catch (error) {
+      console.error(error);
+      if (hasActivePushSubscription && Notification.permission === 'denied') {
+        alert('Please enable push notifications in your browser settings');
+      } else {
+        alert('Something went wrong, please try again.');
+      }
+    }
+  };
 
   useEffect(() => {
     const getActivePushSubscription = async () => {
@@ -47,10 +59,10 @@ const Home = () => {
         setHasActivePushSubscription(enabled);
       } catch (error) {
         console.error(error);
-        if (enabled && Notification.permission === "denied") {
-          alert("Please enable push notifications in your browser settings");
+        if (enabled && Notification.permission === 'denied') {
+          alert('Please enable push notifications in your browser settings');
         } else {
-          alert("Something went wrong, please try again.");
+          alert('Something went wrong, please try again.');
         }
       }
     };
@@ -70,46 +82,25 @@ const Home = () => {
           }
           label={
             hasActivePushSubscription
-              ? "Disable push notifications"
-              : "Enable push notifications"
+              ? 'Disable push notifications'
+              : 'Enable push notifications'
           }
         />
       </Box>
     );
   };
-
-  const handleSendNotification = async () => {
-    try {
-      if (hasActivePushSubscription) {
-        await getPushNotificationFromServer();
-      }
-    } catch (error) {
-      console.error(error);
-      if (hasActivePushSubscription && Notification.permission === "denied") {
-        alert("Please enable push notifications in your browser settings");
-      } else {
-        alert("Something went wrong, please try again.");
-      }
-    }
-  };
-
   return (
-    <Box width={"100%"}>
-      <Typography variant={"h1"}>Floodsafe</Typography>
-      <Box
-        sx={{ width: "fit-content", mt: 20, p: 5, border: "1px solid black" }}
+    <Box sx={{ width: 'fit-content', mt: 20, p: 5, border: '1px solid black' }}>
+      <PushSubscriptionToggleButton />
+      <Button
+        disabled={!hasActivePushSubscription}
+        variant={'contained'}
+        onClick={() => handleSendNotification()}
       >
-        <PushSubscriptionToggleButton />
-        <Button
-          disabled={!hasActivePushSubscription}
-          variant={"contained"}
-          onClick={() => handleSendNotification()}
-        >
-          Send notification!
-        </Button>
-      </Box>
+        {dict.notifications.sendNotification}
+      </Button>
     </Box>
   );
 };
 
-export default Home;
+export default NotificationButton;

@@ -1,4 +1,4 @@
-self.addEventListener("push", async (event) => {
+self.addEventListener('push', async (event) => {
   if (event.data) {
     const eventData = await event.data.json();
     showLocalNotification(eventData.title, eventData.body, self.registration);

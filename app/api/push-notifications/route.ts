@@ -1,14 +1,14 @@
-import { getSubscriptionsFromDb } from "@/utils/in-memory-db";
-import { NextRequest, NextResponse } from "next/server";
-import webPush, { PushSubscription } from "web-push";
+import { getSubscriptionsFromDb } from '@/utils/in-memory-db';
+import { NextRequest, NextResponse } from 'next/server';
+import webPush, { PushSubscription } from 'web-push';
 
 export async function GET(_: NextRequest) {
   try {
     const subscriptions = getSubscriptionsFromDb();
     const notifications = subscriptions.map((subscription) => {
       const payload = JSON.stringify({
-        title: "WebPush Notification!",
-        body: "Hello World",
+        title: 'WebPush Notification!',
+        body: 'Hello World',
       });
       webPush.sendNotification(subscription, payload);
     });
@@ -21,8 +21,8 @@ export async function GET(_: NextRequest) {
   } catch (error) {
     console.error(error);
     throw NextResponse.json(
-      { error: "Internal server error " },
-      { status: 500 },
+      { error: 'Internal server error ' },
+      { status: 500 }
     );
   }
 }
