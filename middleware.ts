@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
   const locale = cookies.language || defaultLocale;
 
   // Redirect to the locale path
-  request.nextUrl.pathname = `/${locale}${pathname}`;
+  request.nextUrl.pathname = `/${locale}`;
   return Response.redirect(request.nextUrl);
 }
 
