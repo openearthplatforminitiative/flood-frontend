@@ -1,6 +1,6 @@
 export const palettes = {
   primary: {
-    main: '#31905F',
+    main: '#006D41',
     '0': '#000000',
     '5': '#001509',
     '10': '#002110',
