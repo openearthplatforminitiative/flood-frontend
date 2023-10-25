@@ -11,9 +11,7 @@ const dictionaries: LangDictionary = {
 };
 
 export const getDictionary = async (lang: Lang) => {
-  const dictionaryFunction = dictionaries[lang];
-  if (typeof dictionaryFunction === 'function') {
-    return await dictionaryFunction();
-  }
-  return {}; // Return an empty object or handle the error as needed.
+  return dictionaries[lang]();
 };
+
+export const acceptedLocales: string[] = ['en', 'fr', 'kw'];

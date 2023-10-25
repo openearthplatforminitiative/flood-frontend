@@ -1,5 +1,26 @@
 type Lang = 'en' | 'fr' | 'kw';
 
 type Dict = {
-  [key: string]: string;
+  title: string;
+  onBoarding: OnBoarding;
+  languageSelection: LanguageSelection;
+  notifications: Notifications;
+};
+
+type OnBoarding = {
+  additionalInfo: string;
+  receiveFloodWarnings: string;
+  secondOnboardingPoint: string;
+  thirdOnboardingPoint: string;
+  createAccount: string;
+  logIn: string;
+};
+
+type LanguageSelection = {
+  confirm: string;
+  chooseLanguage: string;
+};
+
+type Notifications = {
+  sendNotification: string;
 };
