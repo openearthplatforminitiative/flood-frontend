@@ -36,7 +36,7 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
         justifyContent: 'center',
       }}
     >
-      {dict && <IntroScreen dict={dict} router={router} />}
+      <IntroScreen dict={dict} router={router} />
     </Box>
   );
 };

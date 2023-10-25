@@ -33,7 +33,7 @@ export default function RootLayout({
         }}
       >
         <Box
-          style={{
+          sx={{
             height: '800px',
             width: '360px',
           }}

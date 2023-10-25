@@ -1,7 +1,7 @@
 'use client';
 
 import { Box } from '@mui/material';
-import bg from '@/public/assets/images/start-screen-image.png';
+import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ interface IntroScreenProps {
 const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
 
-  const handleChangeLanguage = (localeString: Lang) => {
+  const handleChangeLanguage = (localeString: string) => {
     if (locales.includes(localeString)) {
       setCookie('language', localeString);
       router.replace('/' + localeString + '/onboarding');
@@ -29,7 +29,7 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
       <Box
         sx={{
           display: 'flex',
-          backgroundImage: `url(${bg.src})`,
+          backgroundImage: `url(${background.src})`,
           backgroundRepeat: 'no-repeat',
           justifyContent: 'center',
           alignItems: 'center',
