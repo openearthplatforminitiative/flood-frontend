@@ -23,5 +23,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  //middleware will be applied to all paths except those that contain _next, api, favicon.ico, or manifest.json
   matcher: ['/((?!_next|api|favicon.ico|manifest.json).*)'],
 };

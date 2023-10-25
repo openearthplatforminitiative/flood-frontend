@@ -17,7 +17,7 @@ interface IntroScreenProps {
 const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
 
-  const handleRoute = (localeString: string) => {
+  const handleChangeLanguage = (localeString: Lang) => {
     if (locales.includes(localeString)) {
       setCookie('language', localeString);
       router.replace('/' + localeString + '/onboarding');
@@ -25,9 +25,9 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   };
 
   return (
-    <Box style={{ height: '100%', width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <Box
-        style={{
+        sx={{
           display: 'flex',
           backgroundImage: `url(${bg.src})`,
           backgroundRepeat: 'no-repeat',
@@ -42,7 +42,7 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
           dict={dict}
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          changeLanguage={handleRoute}
+          changeLanguage={handleChangeLanguage}
         />
       </Box>
     </Box>

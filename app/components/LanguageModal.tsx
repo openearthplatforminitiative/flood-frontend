@@ -12,12 +12,13 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
+import { acceptedLocales } from '@/app/[lang]/dictionaries';
 
 interface LanguageModalProps {
   dict: Dict;
   open: boolean;
   onClose: () => void;
-  changeLanguage: (newLanguage: string) => void;
+  changeLanguage: (newLanguage: Lang) => void;
 }
 
 const LanguageModal = ({
@@ -26,10 +27,12 @@ const LanguageModal = ({
   changeLanguage,
   onClose,
 }: LanguageModalProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState<Lang>('en');
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedLanguage(event.target.value);
+    if (acceptedLocales.includes(event.target.value)) {
+      setSelectedLanguage(event.target.value as Lang);
+    }
   };
 
   const handleSaveLanguage = () => {
@@ -39,7 +42,7 @@ const LanguageModal = ({
 
   return (
     <Dialog open={open} onClose={() => {}} maxWidth={'lg'}>
-      <DialogTitle>{dict['chooseLanguage']}</DialogTitle>
+      <DialogTitle>{dict.languageSelection.chooseLanguage}</DialogTitle>
       <DialogContent>
         <FormControl component="fieldset">
           <RadioGroup
@@ -63,7 +66,7 @@ const LanguageModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleSaveLanguage} color="primary">
-          {dict['confirm']}
+          {dict.languageSelection.confirm}
         </Button>
       </DialogActions>
     </Dialog>

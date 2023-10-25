@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
-import bg from '@/public/assets/images/start-screen-image.png';
+import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 
 interface WelcomeProps {
@@ -12,7 +12,7 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
       <Box
         style={{
           display: 'flex',
-          backgroundImage: `url(${bg.src})`,
+          backgroundImage: `url(${background.src})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           justifyContent: 'center',
@@ -32,11 +32,11 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography>{dict['additionalInfo']}</Typography>
+        <Typography>{dict.onBoarding.additionalInfo}</Typography>
         <ul>
-          <li>{dict['firstOnboardingPoint']}</li>
-          <li>{dict['secondOnboardingPoint']}</li>
-          <li>{dict['thirdOnboardingPoint']}</li>
+          <li>{dict.onBoarding.receiveFloodWarnings}</li>
+          <li>{dict.onBoarding.secondOnboardingPoint}</li>
+          <li>{dict.onBoarding.thirdOnboardingPoint}</li>
         </ul>
       </Box>
       <Box
@@ -46,9 +46,9 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           padding: '20px',
         }}
       >
-        <Button variant={'contained'}>{dict['createAccount']}</Button>
+        <Button variant={'contained'}>{dict.onBoarding.createAccount}</Button>
         <Button variant={'outlined'} style={{ marginTop: '15px' }}>
-          {dict['logIn']}
+          {dict.onBoarding.logIn}
         </Button>
       </Box>
     </Box>

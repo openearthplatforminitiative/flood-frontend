@@ -8,12 +8,10 @@ import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict>({});
-  const [isMounted, setIsMounted] = useState(false);
+  const [dict, setDict] = useState<Dict | undefined>();
   const router = useRouter();
 
   useEffect(() => {
-    setIsMounted(true);
     if (lang) {
       getDictionary(lang as Lang).then((res) => {
         if (res) {
@@ -26,7 +24,7 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
     }
   }, [lang, router]);
 
-  if (!isMounted) {
+  if (!dict) {
     return null;
   }
   return (
@@ -38,7 +36,7 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
         justifyContent: 'center',
       }}
     >
-      <IntroScreen dict={dict} router={router} />
+      {dict && <IntroScreen dict={dict} router={router} />}
     </Box>
   );
 };

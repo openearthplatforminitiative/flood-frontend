@@ -24,7 +24,7 @@ const Title = ({ dict }: TitleProps) => {
         variant={'h4'}
         style={{ marginLeft: '10px' }}
       >
-        {dict['title']}
+        {dict.title}
       </Typography>
     </Box>
   );

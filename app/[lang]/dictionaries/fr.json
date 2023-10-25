@@ -1,12 +1,18 @@
 {
   "title": "Floodsafe",
-  "createAccount": "Créer un compte",
-  "logIn": "Se connecter",
-  "additionalInfo": "Un texte explicatif supplémentaire ici, ceci est un espace réservé.",
-  "firstOnboardingPoint": "Recevez des alertes d'inondation",
-  "secondOnboardingPoint": "Un autre point",
-  "thirdOnboardingPoint": "Et une dernière bonne chose",
-  "confirm": "Confirmer",
-  "sendNotification": "Envoyez une notification",
-  "chooseLanguage": "Choisissez la langue"
+  "onBoarding": {
+    "additionalInfo": "Un texte explicatif supplémentaire ici, ceci est un espace réservé.",
+    "receiveFloodWarnings": "Recevez des alertes d'inondation",
+    "secondOnboardingPoint": "Un autre point",
+    "thirdOnboardingPoint": "Et une dernière bonne chose",
+    "createAccount": "Créer un compte",
+    "logIn": "Se connecter"
+  },
+  "languageSelection": {
+    "confirm": "Confirmer",
+    "chooseLanguage": "Choisissez la langue"
+  },
+  "notifications": {
+    "sendNotification": "Envoyez une notification"
+  }
 }

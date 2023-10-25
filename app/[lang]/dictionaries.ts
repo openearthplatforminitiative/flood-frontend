@@ -13,3 +13,5 @@ const dictionaries: LangDictionary = {
 export const getDictionary = async (lang: Lang) => {
   return dictionaries[lang]();
 };
+
+export const acceptedLocales: string[] = ['en', 'fr', 'kw'];

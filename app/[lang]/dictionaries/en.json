@@ -1,12 +1,18 @@
 {
   "title": "Floodsafe",
-  "createAccount": "Create account",
-  "logIn": "Log in",
-  "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
-  "firstOnboardingPoint": "Receive flood warnings",
-  "secondOnboardingPoint": "Some other point",
-  "thirdOnboardingPoint": "And one final nice thing",
-  "confirm": "Confirm",
-  "sendNotification": "Send notification",
-  "chooseLanguage": "Choose language"
+  "onBoarding": {
+    "additionalInfo": "Some additional explanatory text here, this is a placeholder.",
+    "receiveFloodWarnings": "Receive flood warnings",
+    "secondOnboardingPoint": "Some other point",
+    "thirdOnboardingPoint": "And one final nice thing",
+    "createAccount": "Create account",
+    "logIn": "Log in"
+  },
+  "languageSelection": {
+    "confirm": "Confirm",
+    "chooseLanguage": "Choose language"
+  },
+  "notifications": {
+    "sendNotification": "Send notification"
+  }
 }

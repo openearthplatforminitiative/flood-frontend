@@ -97,7 +97,7 @@ const NotificationButton = ({ dict }: NotificationProps) => {
         variant={'contained'}
         onClick={() => handleSendNotification()}
       >
-        {dict['sendNotification']}
+        {dict.notifications.sendNotification}
       </Button>
     </Box>
   );
