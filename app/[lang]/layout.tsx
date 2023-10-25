@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import ThemeRegistry from '@/app/[lang]/ThemeRegistry';
+import ThemeRegistry from '@/app/components/ThemeRegistry';
+import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -12,7 +13,7 @@ export default function RootLayout({
   params: { lang },
 }: {
   children: ReactNode;
-  params: PageProps;
+  params: { lang: string };
 }) {
   return (
     <html lang={lang}>
@@ -21,8 +22,24 @@ export default function RootLayout({
         <meta name="theme-color" content="#90cdf4" />
         <title>FloodSafe</title>
       </head>
-      <body style={{ height: '100%', width: '100%', margin: 0 }}>
-        <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+      <body
+        style={{
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+          margin: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Box
+          style={{
+            height: '800px',
+            width: '360px',
+          }}
+        >
+          <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+        </Box>
       </body>
     </html>
   );

@@ -1,4 +1,12 @@
 {
+  "title": "Floodsafe",
   "createAccount": "Kora konti",
-  "logIn": "Injira"
+  "logIn": "Injira",
+  "additionalInfo": "Inyandiko zinyongera zisobanura hano, iyi ni umwanya.",
+  "firstOnboardingPoint": "Akira imiburo y'umwuzure",
+  "secondOnboardingPoint": "Indi ngingo",
+  "thirdOnboardingPoint": "Kandi ikintu cyiza cya nyuma",
+  "confirm": "Emeza",
+  "sendNotification": "Kohereza imenyesha",
+  "chooseLanguage": "Hitamo ururimi"
 }

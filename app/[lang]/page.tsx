@@ -1,17 +1,45 @@
-import { Box, Container } from '@mui/material';
-import Dashboard from '@/app/[lang]/pages/dashboard/page';
+'use client';
+import { Box } from '@mui/material';
+import IntroScreen from '@/app/components/IntroScreen';
 
-const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
+import { useEffect, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { getDictionary } from '@/app/[lang]/dictionaries';
+import { useRouter } from 'next/navigation';
+
+const Home = ({ params: { lang } }: { params: { lang: string } }) => {
+  const [dict, setDict] = useState<Dict>({});
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+    if (lang) {
+      getDictionary(lang as Lang).then((res) => {
+        if (res) {
+          setDict(res);
+        }
+      });
+    }
+    if (getCookie('language')) {
+      router.replace('/' + lang + '/onboarding');
+    }
+  }, [lang, router]);
+
+  if (!isMounted) {
+    return null;
+  }
   return (
-    <Container>
-      <Box
-        width={'100%'}
-        height={'100%'}
-        style={{ display: 'flex', justifyContent: 'center' }}
-      >
-        <Dashboard lang={lang} />
-      </Box>
-    </Container>
+    <Box
+      width={'100%'}
+      height={'100%'}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <IntroScreen dict={dict} router={router} />
+    </Box>
   );
 };
 

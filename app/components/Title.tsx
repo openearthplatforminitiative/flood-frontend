@@ -1,7 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import Logo from '@/public/assets/icons/Logo';
 
-const Title = () => {
+interface TitleProps {
+  dict: Dict;
+}
+
+const Title = ({ dict }: TitleProps) => {
   return (
     <Box
       style={{
@@ -20,7 +24,7 @@ const Title = () => {
         variant={'h4'}
         style={{ marginLeft: '10px' }}
       >
-        Floodsafe
+        {dict['title']}
       </Typography>
     </Box>
   );
