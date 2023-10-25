@@ -17,7 +17,7 @@ interface IntroScreenProps {
 const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
 
-  const handleChangeLanguage = (localeString: Lang) => {
+  const handleChangeLanguage = (localeString: string) => {
     if (locales.includes(localeString)) {
       setCookie('language', localeString);
       router.replace('/' + localeString + '/onboarding');

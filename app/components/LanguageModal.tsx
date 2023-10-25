@@ -12,7 +12,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { acceptedLocales } from '@/app/[lang]/dictionaries';
+import { locales } from '@/middleware';
 
 interface LanguageModalProps {
   dict: Dict;
@@ -30,7 +30,7 @@ const LanguageModal = ({
   const [selectedLanguage, setSelectedLanguage] = useState<Lang>('en');
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (acceptedLocales.includes(event.target.value)) {
+    if (locales.includes(event.target.value)) {
       setSelectedLanguage(event.target.value as Lang);
     }
   };
