@@ -5,7 +5,6 @@ import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
-import { locales } from '@/middleware';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { getCookie, setCookie } from 'cookies-next';
 
@@ -18,10 +17,8 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
 
   const handleChangeLanguage = (localeString: string) => {
-    if (locales.includes(localeString)) {
-      setCookie('language', localeString);
-      router.replace('/' + localeString + '/onboarding');
-    }
+    setCookie('language', localeString);
+    router.replace('/' + localeString + '/onboarding');
   };
 
   return (
