@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -44,25 +43,23 @@ const LanguageModal = ({
     <Dialog open={open} onClose={() => {}} maxWidth={'lg'}>
       <DialogTitle>{dict.languageSelection.chooseLanguage}</DialogTitle>
       <DialogContent>
-        <FormControl component="fieldset">
-          <RadioGroup
-            aria-label="language"
-            name="language"
-            value={selectedLanguage}
-            onChange={handleLanguageChange}
-          >
-            <FormControlLabel value="en" control={<Radio />} label="English" />
-            <Divider />
-            <FormControlLabel value="fr" control={<Radio />} label="French" />
-            <Divider />
-            <FormControlLabel
-              value="kw"
-              control={<Radio />}
-              label="Kinyarwanda"
-            />
-            <Divider />
-          </RadioGroup>
-        </FormControl>
+        <RadioGroup
+          aria-label="language"
+          name="language"
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+        >
+          <FormControlLabel value="en" control={<Radio />} label="English" />
+          <Divider />
+          <FormControlLabel value="fr" control={<Radio />} label="French" />
+          <Divider />
+          <FormControlLabel
+            value="kw"
+            control={<Radio />}
+            label="Kinyarwanda"
+          />
+          <Divider />
+        </RadioGroup>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleSaveLanguage} color="primary">

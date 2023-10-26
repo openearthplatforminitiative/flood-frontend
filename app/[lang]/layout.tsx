@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import ThemeRegistry from '@/app/components/ThemeRegistry';
 import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
@@ -37,7 +38,7 @@ export default function RootLayout({
             width: '360px',
           }}
         >
-          {children}
+          <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
         </Box>
       </body>
     </html>

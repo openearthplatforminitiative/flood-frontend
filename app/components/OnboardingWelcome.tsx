@@ -1,4 +1,11 @@
-import { Box, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 
@@ -32,12 +39,29 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography>{dict.onBoarding.additionalInfo}</Typography>
-        <ul>
-          <li>{dict.onBoarding.receiveFloodWarnings}</li>
-          <li>{dict.onBoarding.secondOnboardingPoint}</li>
-          <li>{dict.onBoarding.thirdOnboardingPoint}</li>
-        </ul>
+        <Typography variant={'subtitle2'}>
+          {dict.onBoarding.additionalInfo}
+        </Typography>
+        <List sx={{ listStyleType: 'disc' }}>
+          <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+            <ListItemText
+              sx={{ display: 'list-item' }}
+              primary={dict.onBoarding.receiveFloodWarnings}
+            />
+          </ListItem>
+          <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+            <ListItemText
+              sx={{ display: 'list-item' }}
+              primary={dict.onBoarding.secondOnboardingPoint}
+            />
+          </ListItem>
+          <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+            <ListItemText
+              sx={{ display: 'list-item' }}
+              primary={dict.onBoarding.thirdOnboardingPoint}
+            />
+          </ListItem>
+        </List>
       </Box>
       <Box
         sx={{
