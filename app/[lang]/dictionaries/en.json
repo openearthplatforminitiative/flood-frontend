@@ -6,7 +6,8 @@
     "secondOnboardingPoint": "Some other point",
     "thirdOnboardingPoint": "And one final nice thing",
     "createAccount": "Create account",
-    "logIn": "Log in"
+    "logIn": "Log in",
+    "nextStep": "Next step"
   },
   "languageSelection": {
     "confirm": "Confirm",

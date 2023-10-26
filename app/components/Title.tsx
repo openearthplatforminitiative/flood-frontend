@@ -15,7 +15,6 @@ const Title = ({ dict }: TitleProps) => {
         alignItems: 'center',
         height: 'fit-content',
         width: 'fit-content',
-        marginBottom: '200px',
       }}
     >
       <Logo />

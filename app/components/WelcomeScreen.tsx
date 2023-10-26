@@ -44,7 +44,7 @@ const WelcomeScreen = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography variant={'subtitle2'}>
+        <Typography variant={'subtitle2'} component={'p'}>
           {dict.onBoarding.additionalInfo}
         </Typography>
         <List sx={{ listStyleType: 'disc' }}>

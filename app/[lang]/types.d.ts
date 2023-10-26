@@ -14,6 +14,7 @@ type OnBoarding = {
   thirdOnboardingPoint: string;
   createAccount: string;
   logIn: string;
+  nextStep: string;
 };
 
 type LanguageSelection = {
