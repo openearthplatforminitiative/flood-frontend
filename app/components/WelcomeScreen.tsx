@@ -1,3 +1,4 @@
+'use client';
 import {
   Box,
   Button,
@@ -8,12 +9,16 @@ import {
 } from '@mui/material';
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface WelcomeProps {
   dict: Dict;
 }
 
-const OnboardingWelcome = ({ dict }: WelcomeProps) => {
+const WelcomeScreen = ({ dict }: WelcomeProps) => {
+  const pathname = usePathname();
+
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <Box
@@ -70,8 +75,19 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           padding: '20px',
         }}
       >
-        <Button variant={'contained'}>{dict.onBoarding.createAccount}</Button>
-        <Button variant={'outlined'} sx={{ marginTop: '15px' }}>
+        <Button
+          href={pathname + '/sign-up'}
+          LinkComponent={Link}
+          variant={'contained'}
+        >
+          {dict.onBoarding.createAccount}
+        </Button>
+        <Button
+          href={'/sign-in'}
+          LinkComponent={Link}
+          variant={'outlined'}
+          sx={{ marginTop: '15px' }}
+        >
           {dict.onBoarding.logIn}
         </Button>
       </Box>
@@ -79,4 +95,4 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
   );
 };
 
-export default OnboardingWelcome;
+export default WelcomeScreen;
