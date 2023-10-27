@@ -3,9 +3,9 @@ import {
   Box,
   Button,
   Checkbox,
+  FilledInput,
   FormControl,
   IconButton,
-  Input,
   InputAdornment,
   InputLabel,
   TextField,
@@ -112,29 +112,16 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
               placeholder="Phone number"
               margin="normal"
               helperText="Include country code (+250 etc)"
-              sx={{}}
             />
-            <FormControl
-              variant="filled"
-              margin="normal"
-              sx={{ background: '#E1E3DE' }}
-            >
+            <FormControl variant="filled" margin="normal">
               <InputLabel htmlFor="filled-adornment-password">
                 Password
               </InputLabel>
-              <Input
+              <FilledInput
                 id="filled-adornment-password"
                 type={showPassword ? 'text' : 'password'}
-                sx={{
-                  paddingBottom: '8px',
-                  paddingLeft: '12px',
-                  paddingTop: '5px',
-                }}
                 endAdornment={
-                  <InputAdornment
-                    position="end"
-                    sx={{ paddingBottom: '6px', paddingRight: '5px' }}
-                  >
+                  <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
@@ -148,28 +135,15 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
                 }
               />
             </FormControl>
-
-            <FormControl
-              variant="filled"
-              margin="normal"
-              sx={{ background: '#E1E3DE' }}
-            >
+            <FormControl variant="filled" margin="normal">
               <InputLabel htmlFor="filled-adornment-repeat-password">
                 Confirm password
               </InputLabel>
-              <Input
+              <FilledInput
                 id="filled-adornment-repeat-password"
                 type={showRepeatPassword ? 'text' : 'password'}
-                sx={{
-                  paddingBottom: '8px',
-                  paddingLeft: '12px',
-                  paddingTop: '5px',
-                }}
                 endAdornment={
-                  <InputAdornment
-                    position="end"
-                    sx={{ paddingBottom: '6px', paddingRight: '5px' }}
-                  >
+                  <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowRepeatPassword}
