@@ -5,23 +5,41 @@ import {
   Checkbox,
   FormControl,
   IconButton,
+  Input,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
   TextField,
   Typography,
 } from '@mui/material';
 import Title from '@/app/components/Title';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import Link from 'next/link';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import { Visibility, VisibilityOff } from '@mui/icons-material'; //Undersøke om det er en nyere versjon
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { usePathname } from 'next/navigation'; //Undersøke om det er en nyere versjon
+
+const initialValues: UserData = {
+  name: '',
+  phoneNumber: '',
+  countryCode: '',
+  password: '',
+};
 
 const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
   const [dict, setDict] = useState<Dict | undefined>();
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [values, setValues] = useState<UserData>(initialValues);
+  const pathname = usePathname();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowRepeatPassword = () =>
+    setShowRepeatPassword((show) => !show);
+
+  const handleSubmit = () => {
+    console.log('Values: ', values);
+  };
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -86,7 +104,6 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
               variant={'filled'}
               placeholder={'Name'}
               margin={'normal'}
-              sx={{ background: '#E1E3DE' }}
             />
             <TextField
               inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
@@ -94,33 +111,41 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
               variant={'filled'}
               placeholder="Phone number"
               margin="normal"
-              sx={{ background: '#E1E3DE' }}
               helperText="Include country code (+250 etc)"
+              sx={{}}
             />
             <FormControl
               variant="filled"
               margin="normal"
               sx={{ background: '#E1E3DE' }}
             >
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel htmlFor="filled-adornment-password">
                 Password
               </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
+              <Input
+                id="filled-adornment-password"
                 type={showPassword ? 'text' : 'password'}
+                sx={{
+                  paddingBottom: '8px',
+                  paddingLeft: '12px',
+                  paddingTop: '5px',
+                }}
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment
+                    position="end"
+                    sx={{ paddingBottom: '6px', paddingRight: '5px' }}
+                  >
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
+                      size={'small'}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
               />
             </FormControl>
 
@@ -129,25 +154,33 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
               margin="normal"
               sx={{ background: '#E1E3DE' }}
             >
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
+              <InputLabel htmlFor="filled-adornment-repeat-password">
+                Confirm password
               </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? 'text' : 'password'}
+              <Input
+                id="filled-adornment-repeat-password"
+                type={showRepeatPassword ? 'text' : 'password'}
+                sx={{
+                  paddingBottom: '8px',
+                  paddingLeft: '12px',
+                  paddingTop: '5px',
+                }}
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment
+                    position="end"
+                    sx={{ paddingBottom: '6px', paddingRight: '5px' }}
+                  >
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
+                      onClick={handleClickShowRepeatPassword}
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
+                      size={'small'}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Confirm password"
               />
             </FormControl>
           </Box>
@@ -162,10 +195,11 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
         </Box>
       </Box>
       <Button
-        href={'/notifications'}
+        href={'/' + pathname + '/notifications'}
         LinkComponent={Link}
         variant={'contained'}
         sx={{ marginTop: '55px', width: '100%' }}
+        onClick={handleSubmit}
       >
         {dict.onBoarding.nextStep}
       </Button>

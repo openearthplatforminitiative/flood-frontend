@@ -25,3 +25,10 @@ type LanguageSelection = {
 type Notifications = {
   sendNotification: string;
 };
+
+type UserData = {
+  name: string;
+  phoneNumber: string;
+  countryCode: string;
+  password: string;
+};
