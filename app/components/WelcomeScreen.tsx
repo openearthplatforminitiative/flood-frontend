@@ -33,7 +33,7 @@ const WelcomeScreen = ({ dict }: WelcomeProps) => {
           height: '50%',
         }}
       >
-        <Title dict={dict} />
+        <Title dict={dict} large margin={'0 0 200px 0'} />
       </Box>
       <Box
         sx={{

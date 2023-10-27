@@ -7,7 +7,8 @@
     "thirdOnboardingPoint": "And one final nice thing",
     "createAccount": "Create account",
     "logIn": "Log in",
-    "nextStep": "Next step"
+    "nextStep": "Next step",
+    "confirm": "Confirm"
   },
   "languageSelection": {
     "confirm": "Confirm",

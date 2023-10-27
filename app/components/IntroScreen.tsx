@@ -34,7 +34,7 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
           height: '100%',
         }}
       >
-        <Title dict={dict} />
+        <Title dict={dict} large margin={'0 0 200px 0'} />
         <LanguageModal
           dict={dict}
           open={isModalOpen}

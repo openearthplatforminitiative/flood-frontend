@@ -15,6 +15,7 @@ type OnBoarding = {
   createAccount: string;
   logIn: string;
   nextStep: string;
+  confirm: string;
 };
 
 type LanguageSelection = {

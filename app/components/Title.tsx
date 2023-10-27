@@ -1,11 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import Logo from '@/public/assets/icons/Logo';
+import LargeLogo from '@/public/assets/icons/LargeLogo';
 
 interface TitleProps {
   dict: Dict;
+  large?: boolean;
+  margin?: string;
 }
 
-const Title = ({ dict }: TitleProps) => {
+const Title = ({ dict, large, margin }: TitleProps) => {
   return (
     <Box
       sx={{
@@ -15,10 +18,15 @@ const Title = ({ dict }: TitleProps) => {
         alignItems: 'center',
         height: 'fit-content',
         width: 'fit-content',
+        margin: margin,
       }}
     >
-      <Logo />
-      <Typography component={'h1'} variant={'h4'} sx={{ marginLeft: '10px' }}>
+      {large ? <LargeLogo /> : <Logo />}
+      <Typography
+        component={'h1'}
+        variant={large ? 'h3' : 'h6'}
+        sx={{ marginLeft: '10px' }}
+      >
         {dict.title}
       </Typography>
     </Box>

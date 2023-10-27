@@ -16,7 +16,7 @@ import Title from '@/app/components/Title';
 import React, { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
 interface UserFormData extends UserData {
@@ -84,6 +84,10 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
     }
   };
 
+  const handleCancel = () => {
+    router.push('/onboarding');
+  };
+
   const isFormValid = (): boolean => {
     return (
       Object.values(errors).every((x) => x === '') &&
@@ -132,7 +136,25 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
       }}
     >
       <Box>
-        <Title dict={dict} />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Title dict={dict} large={false} />
+          <Button
+            variant={'outlined'}
+            size={'small'}
+            sx={{ width: '33%' }}
+            startIcon={<Close fontSize={'small'} />}
+            onClick={() => handleCancel()}
+          >
+            Cancel
+          </Button>
+        </Box>
         <Box component={'form'}>
           <Box
             sx={{
@@ -169,14 +191,18 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
             />
             <TextField
               inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              label="Phone number"
+              label={'Phone number'}
               variant={'filled'}
               placeholder="Phone number"
               margin="normal"
               helperText={
-                Boolean(errors.phoneNumber)
-                  ? errors.phoneNumber
-                  : 'Include country code (+250 etc)'
+                Boolean(errors.phoneNumber) ? (
+                  errors.phoneNumber
+                ) : (
+                  <Typography variant={'caption'} color={'black'}>
+                    Include country code (+250 etc)
+                  </Typography>
+                )
               }
               onChange={(e) =>
                 setValues({ ...values, phoneNumber: e.target.value })
@@ -229,7 +255,7 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
                       aria-label="toggle password visibility"
                       onClick={handleClickShowRepeatPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end"
+                      edge={'end'}
                       size={'small'}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
