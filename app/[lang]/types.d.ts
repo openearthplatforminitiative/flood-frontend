@@ -29,6 +29,5 @@ type Notifications = {
 type UserData = {
   name: string;
   phoneNumber: string;
-  countryCode: string;
   password: string;
 };
