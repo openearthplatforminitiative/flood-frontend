@@ -17,6 +17,7 @@
     "@formatjs/intl-localematcher": "^0.4.2",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
+    "@prisma/client": "^5.5.2",
     "cookies-next": "^4.0.0",
     "next": "^13.5.4",
     "react": "^18.2.0",
@@ -35,6 +36,7 @@
     "eslint-config-prettier": "^9.0.0",
     "ngrok": "^5.0.0-beta.2",
     "prettier": "^3.0.3",
+    "prisma": "^5.5.2",
     "typescript": "^5"
   }
 }

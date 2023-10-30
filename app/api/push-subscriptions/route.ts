@@ -1,6 +1,5 @@
 import {
   deleteSubscriptionFromDb,
-  getSubscriptionsFromDb,
   saveSubscriptionToDb,
 } from '@/utils/in-memory-db';
 import { NextRequest, NextResponse } from 'next/server';

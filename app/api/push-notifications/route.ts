@@ -1,6 +1,6 @@
 import { getSubscriptionsFromDb } from '@/utils/in-memory-db';
 import { NextRequest, NextResponse } from 'next/server';
-import webPush, { PushSubscription } from 'web-push';
+import webPush from 'web-push';
 
 export async function GET(_: NextRequest) {
   try {
