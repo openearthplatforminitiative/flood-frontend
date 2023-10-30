@@ -1,11 +1,11 @@
 'use client';
 import { Box, Button, Typography } from '@mui/material';
-import Title from '@/app/components/Title';
 import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
 import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
+import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 
 const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
   const [dict, setDict] = useState<Dict | undefined>();
@@ -21,7 +21,6 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
     }
   }, [lang]);
   const handleSubmit = () => {
-    //Confirm
     router.push('/');
   };
 
@@ -45,25 +44,12 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
         padding: '32px 32px 40px 32px',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Title dict={dict} large={false} />
-        <Button
-          variant={'outlined'}
-          size={'small'}
-          sx={{ width: '33%' }}
-          startIcon={<ArrowBack fontSize={'small'} />}
-          onClick={() => handleGoBack()}
-        >
-          Back
-        </Button>
-      </Box>
+      <OnboardingTitleBar
+        dict={dict}
+        icon={<ArrowBack fontSize={'small'} />}
+        text={'Back'}
+        onClick={handleGoBack}
+      />
       <Box sx={{ height: '100%' }}>
         <OnboardingIconHeader
           icon={<AddLocationAltOutlined />}
