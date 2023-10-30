@@ -18,6 +18,7 @@ import { getDictionary } from '@/app/[lang]/dictionaries';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 
 interface UserFormData extends UserData {
   confirmPassword: string;
@@ -156,23 +157,10 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
           </Button>
         </Box>
         <Box component={'form'}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              margin: '58px 0 43px 0',
-            }}
-          >
-            <PersonOutlinedIcon />
-            <Typography
-              sx={{ marginLeft: '12px' }}
-              variant={'h5'}
-              component={'h1'}
-            >
-              Personal details
-            </Typography>
-          </Box>
+          <OnboardingIconHeader
+            text={'Personal details'}
+            icon={<PersonOutlinedIcon />}
+          />
           <Box
             sx={{
               display: 'flex',

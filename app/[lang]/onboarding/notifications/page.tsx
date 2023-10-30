@@ -1,10 +1,20 @@
 'use client';
-import { Box, Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Switch,
+  Typography,
+} from '@mui/material';
 import Title from '@/app/components/Title';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
+import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 
 const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
   const [dict, setDict] = useState<Dict | undefined>();
@@ -63,7 +73,63 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
           Back
         </Button>
       </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box>
+          <OnboardingIconHeader
+            text={'Allow notifications'}
+            icon={<SpeakerPhone />}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              backgroundColor: 'white',
+              marginTop: '15px',
+            }}
+          >
+            <Typography variant={'subtitle2'} component={'p'}>
+              {dict.onBoarding.additionalInfo}
+            </Typography>
+            <List sx={{ listStyleType: 'disc' }}>
+              <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+                <ListItemText
+                  sx={{ display: 'list-item' }}
+                  primary={dict.onBoarding.receiveFloodWarnings}
+                />
+              </ListItem>
+              <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+                <ListItemText
+                  sx={{ display: 'list-item' }}
+                  primary={dict.onBoarding.secondOnboardingPoint}
+                />
+              </ListItem>
+              <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
+                <ListItemText
+                  sx={{ display: 'list-item' }}
+                  primary={dict.onBoarding.thirdOnboardingPoint}
+                />
+              </ListItem>
+            </List>
+          </Box>
+        </Box>
 
+        <FormControlLabel
+          sx={{
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            justifyContent: 'space-between',
+          }}
+          control={<Switch />}
+          label="Allow notifications"
+        />
+      </Box>
       <Button
         disabled={false}
         variant={'contained'}

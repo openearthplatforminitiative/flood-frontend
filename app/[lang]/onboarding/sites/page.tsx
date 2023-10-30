@@ -1,10 +1,11 @@
 'use client';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Title from '@/app/components/Title';
-import { ArrowBack } from '@mui/icons-material';
+import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
+import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 
 const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
   const [dict, setDict] = useState<Dict | undefined>();
@@ -62,6 +63,24 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
         >
           Back
         </Button>
+      </Box>
+      <Box sx={{ height: '100%' }}>
+        <OnboardingIconHeader
+          icon={<AddLocationAltOutlined />}
+          text={'Add your sites'}
+        />
+        <Box>
+          <Typography variant={'subtitle2'} component={'p'}>
+            {dict.onBoarding.additionalInfo}
+          </Typography>
+          <Button
+            variant={'outlined'}
+            sx={{ width: '100%', marginTop: '24px' }}
+            startIcon={<Add />}
+          >
+            Add new site
+          </Button>
+        </Box>
       </Box>
       <Button
         disabled={false}
