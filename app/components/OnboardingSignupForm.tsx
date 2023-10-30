@@ -25,6 +25,7 @@ interface OnboardingSignupFormProps {
   values: UserFormData;
   setValues: (value: UserFormData) => void;
   errors: UserFormData;
+  dict: Dict;
 }
 
 const OnboardingSignupForm = ({
@@ -33,9 +34,11 @@ const OnboardingSignupForm = ({
   values,
   setValues,
   errors,
+  dict,
 }: OnboardingSignupFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowRepeatPassword = () =>
     setShowRepeatPassword((show) => !show);
@@ -52,7 +55,7 @@ const OnboardingSignupForm = ({
   return (
     <Box component={'form'}>
       <OnboardingIconHeader
-        text={'Personal details'}
+        text={dict.onBoarding.signUp.signupHeader}
         icon={<PersonOutlinedIcon />}
       />
       <Box
@@ -63,9 +66,9 @@ const OnboardingSignupForm = ({
         }}
       >
         <TextField
-          label={'Name'}
+          label={dict.onBoarding.signUp.name}
           variant={'filled'}
-          placeholder={'Name'}
+          placeholder={dict.onBoarding.signUp.name}
           margin={'normal'}
           onChange={(e) => setValues({ ...values, name: e.target.value })}
           error={Boolean(errors.name)}
@@ -73,16 +76,16 @@ const OnboardingSignupForm = ({
         />
         <TextField
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          label={'Phone number'}
+          label={dict.onBoarding.signUp.phone}
           variant={'filled'}
-          placeholder="Phone number"
+          placeholder={dict.onBoarding.signUp.phone}
           margin="normal"
           helperText={
             Boolean(errors.phoneNumber) ? (
               errors.phoneNumber
             ) : (
               <Typography variant={'caption'} color={'black'}>
-                Include country code (+250 etc)
+                {dict.onBoarding.signUp.phoneHelper}
               </Typography>
             )
           }
@@ -92,7 +95,9 @@ const OnboardingSignupForm = ({
           error={Boolean(errors.phoneNumber)}
         />
         <FormControl variant="filled" margin="normal">
-          <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+          <InputLabel htmlFor="filled-adornment-password">
+            {dict.onBoarding.signUp.password}
+          </InputLabel>
           <FilledInput
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
@@ -118,7 +123,7 @@ const OnboardingSignupForm = ({
         </FormControl>
         <FormControl variant="filled" margin="normal">
           <InputLabel htmlFor="filled-adornment-repeat-password">
-            Confirm password
+            {dict.onBoarding.signUp.confirmPassword}
           </InputLabel>
           <FilledInput
             id="filled-adornment-repeat-password"
@@ -153,7 +158,7 @@ const OnboardingSignupForm = ({
           onChange={handleAcceptTerms}
         />
         <Typography variant={'subtitle1'} component={'p'}>
-          I agree to the terms and conditions of using this application.
+          {dict.onBoarding.signUp.terms}
         </Typography>
       </Box>
     </Box>

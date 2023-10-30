@@ -80,7 +80,7 @@ const WelcomeScreen = ({ dict }: WelcomeProps) => {
           LinkComponent={Link}
           variant={'contained'}
         >
-          {dict.onBoarding.createAccount}
+          {dict.onBoarding.buttons.createAccount}
         </Button>
         <Button
           href={'/sign-in'}
@@ -88,7 +88,7 @@ const WelcomeScreen = ({ dict }: WelcomeProps) => {
           variant={'outlined'}
           sx={{ marginTop: '15px' }}
         >
-          {dict.onBoarding.logIn}
+          {dict.onBoarding.buttons.logIn}
         </Button>
       </Box>
     </Box>

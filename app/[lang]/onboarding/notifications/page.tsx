@@ -70,7 +70,7 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
       >
         <Box>
           <OnboardingIconHeader
-            text={'Allow notifications'}
+            text={dict.onBoarding.allowNotifications}
             icon={<SpeakerPhone />}
           />
           <Box
@@ -114,7 +114,7 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
             justifyContent: 'space-between',
           }}
           control={<Switch />}
-          label="Allow notifications"
+          label={dict.onBoarding.allowNotifications}
         />
       </Box>
       <Button
@@ -123,7 +123,7 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}
       >
-        {dict.onBoarding.nextStep}
+        {dict.onBoarding.buttons.nextStep}
       </Button>
     </Box>
   );

@@ -122,6 +122,7 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
           values={values}
           setAcceptedTerms={setAcceptedTerms}
           acceptedTerms={acceptedTerms}
+          dict={dict}
         />
       </Box>
       <Button
@@ -130,7 +131,7 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}
       >
-        {dict.onBoarding.nextStep}
+        {dict.onBoarding.buttons.nextStep}
       </Button>
     </Box>
   );

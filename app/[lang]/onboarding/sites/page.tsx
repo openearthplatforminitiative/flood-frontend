@@ -24,6 +24,10 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
     router.push('/');
   };
 
+  const handleAddSite = () => {
+    router.push('/onboarding/sites/new-site');
+  };
+
   const handleGoBack = () => {
     router.push('/onboarding/notifications');
   };
@@ -47,24 +51,25 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
       <OnboardingTitleBar
         dict={dict}
         icon={<ArrowBack fontSize={'small'} />}
-        text={'Back'}
+        text={dict.onBoarding.buttons.backStep}
         onClick={handleGoBack}
       />
       <Box sx={{ height: '100%' }}>
         <OnboardingIconHeader
           icon={<AddLocationAltOutlined />}
-          text={'Add your sites'}
+          text={dict.onBoarding.sites.sitesHeader}
         />
         <Box>
           <Typography variant={'subtitle2'} component={'p'}>
-            {dict.onBoarding.additionalInfo}
+            {dict.onBoarding.sites.additionalInfo}
           </Typography>
           <Button
             variant={'outlined'}
             sx={{ width: '100%', marginTop: '24px' }}
             startIcon={<Add />}
+            onClick={() => handleAddSite()}
           >
-            Add new site
+            {dict.onBoarding.sites.addNewSite}
           </Button>
         </Box>
       </Box>
@@ -74,7 +79,7 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}
       >
-        {dict.onBoarding.confirm}
+        {dict.onBoarding.buttons.confirm}
       </Button>
     </Box>
   );
