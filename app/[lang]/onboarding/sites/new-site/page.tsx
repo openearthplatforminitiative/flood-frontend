@@ -131,9 +131,13 @@ const NewSite = ({ params: { lang } }: { params: { lang: string } }) => {
               '&:hover': {
                 backgroundColor: 'white',
               },
-              '&:focused': {
+              '&.Mui-focused': {
                 backgroundColor: 'white',
               },
+              '& .MuiSelect-select.MuiInputBase-input.MuiFilledInput-input:focus':
+                {
+                  backgroundColor: 'white',
+                },
             }}
           >
             <MenuItem value={'avocado'}>
