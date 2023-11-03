@@ -1,20 +1,38 @@
 'use client';
-import { Box, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
-import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
+import {
+  Add,
+  AddLocationAltOutlined,
+  ArrowBack,
+  ArrowRight,
+  Place,
+} from '@mui/icons-material';
 import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import React from 'react';
+import { UserFormData } from '@/app/components/OnboardingComponent';
 
 interface OnboardingSitesProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
   handleSubmit: () => void;
+  values: UserFormData;
 }
 
 const OnboardingSites = ({
   dict,
   setOnboardingStep,
   handleSubmit,
+  values,
 }: OnboardingSitesProps) => {
   const handleAddSite = () => {
     setOnboardingStep(4);
@@ -51,6 +69,25 @@ const OnboardingSites = ({
           <Typography variant={'subtitle2'} component={'p'}>
             {dict.onBoarding.sites.additionalInfo}
           </Typography>
+
+          <List>
+            {(values || []).sites.map((site, index) => {
+              return (
+                <ListItem disablePadding key={index}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <Place />
+                    </ListItemIcon>
+                    <ListItemText primary={site.name} secondary={site.type} />
+                    <ListItemIcon>
+                      <ArrowRight />
+                    </ListItemIcon>
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+
           <Button
             variant={'outlined'}
             sx={{ width: '100%', marginTop: '24px' }}

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -49,16 +50,44 @@ const OnboardingAddNewSite = ({
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
   const [openAddSite, setOpenAddSite] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
 
   const handleGoBack = () => {
     setOnboardingStep(3);
     //Denne burde cleare site-verdien hvis man går ut. Måten jeg gjør ting på nå gjør kanskje at dette skjer av seg selv? Ingenting lagres med mindre man trykker "Add site"
   };
 
-  const handleAddSite = () => {
-    setOnboardingStep(3);
-    setValues({ ...values, sites: [...values.sites, siteValues] });
+  const validate = () => {
+    let tempErrors = { ...initialErrors };
+
+    if (!siteValues.name) {
+      tempErrors.name = 'Name is required.';
+    }
+
+    if (!siteValues.type) {
+      tempErrors.type = 'Crop type is required.';
+    }
+
+    setErrors(tempErrors);
+
+    // Check if all errors are empty strings (i.e., no errors)
+    return Object.values(tempErrors).every((x) => x === '');
   };
+
+  const handleAddSite = () => {
+    setSubmitAttempted(true);
+
+    if (validate()) {
+      setOnboardingStep(3);
+      setValues({ ...values, sites: [...values.sites, siteValues] });
+    }
+  };
+
+  useEffect(() => {
+    if (submitAttempted) {
+      validate();
+    }
+  }, [siteValues, submitAttempted]);
 
   return (
     <Box
@@ -130,6 +159,7 @@ const OnboardingAddNewSite = ({
               setSiteValues({ ...siteValues, type: e.target.value })
             }
             label={dict.onBoarding.sites.type}
+            error={Boolean(errors.type)}
             sx={{
               background: 'white',
               width: '100%',
@@ -153,6 +183,7 @@ const OnboardingAddNewSite = ({
               );
             })}
           </Select>
+          <FormHelperText error>{errors.type}</FormHelperText>
         </FormControl>
         <Button
           sx={{ marginTop: '24px' }}

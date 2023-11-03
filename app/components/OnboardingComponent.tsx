@@ -112,6 +112,7 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
           dict={dict}
           setOnboardingStep={setOnboardingStep}
           handleSubmit={handleSubmit}
+          values={values}
         />
       )}
       {onboardingStep === 4 && (
