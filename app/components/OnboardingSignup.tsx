@@ -1,38 +1,31 @@
 'use client';
 import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getDictionary } from '@/app/[lang]/dictionaries';
 import { Close } from '@mui/icons-material';
-import { useRouter } from 'next/navigation';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import OnboardingSignupForm from '@/app/components/OnboardingSignupForm';
+import { UserFormData } from '@/app/components/OnboardingComponent';
 
-interface UserFormData extends UserData {
-  confirmPassword: string;
+interface OnboardingSignupProps {
+  dict: Dict;
+  setOnboardingStep: (value: number) => void;
+  values: UserFormData;
+  setValues: (values: UserFormData) => void;
+  initialErrors: UserFormData;
+  errors: UserFormData;
+  setErrors: (values: UserFormData) => void;
 }
 
-const initialValues: UserFormData = {
-  name: '',
-  phoneNumber: '',
-  password: '',
-  confirmPassword: '',
-};
-
-const initialErrors: UserFormData = {
-  name: '',
-  phoneNumber: '',
-  password: '',
-  confirmPassword: '',
-};
-
-const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
-
-  const [values, setValues] = useState<UserFormData>(initialValues);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [errors, setErrors] = useState<UserFormData>(initialErrors);
+const OnboardingSignup = ({
+  dict,
+  setOnboardingStep,
+  values,
+  setValues,
+  initialErrors,
+  errors,
+  setErrors,
+}: OnboardingSignupProps) => {
   const [submitAttempted, setSubmitAttempted] = useState(false);
-  const router = useRouter();
 
   const validate = (values: UserFormData) => {
     let tempErrors = { ...initialErrors };
@@ -57,35 +50,27 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
   };
 
   const handleSubmit = () => {
+    //Fikse denne når valideringen er ordnet
     setSubmitAttempted(true);
-    if (validate(values)) {
-      router.push('/onboarding/notifications');
+    if (validate(values) || true) {
+      setOnboardingStep(2);
     }
   };
 
   const handleCancel = () => {
-    router.push('/onboarding');
+    setOnboardingStep(0);
   };
 
   const isFormValid = (): boolean => {
+    console.log('Called: ');
     return (
       Object.values(errors).every((x) => x === '') &&
       values.name !== '' &&
       values.phoneNumber !== '' &&
       values.password !== '' &&
-      acceptedTerms
+      values.pushSubscription
     );
   };
-
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
 
   useEffect(() => {
     if (submitAttempted) {
@@ -120,13 +105,11 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
           errors={errors}
           setValues={setValues}
           values={values}
-          setAcceptedTerms={setAcceptedTerms}
-          acceptedTerms={acceptedTerms}
           dict={dict}
         />
       </Box>
       <Button
-        disabled={!isFormValid()}
+        disabled={false} //!isFormValid()}
         variant={'contained'}
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}
@@ -137,4 +120,4 @@ const SignUp = ({ params: { lang } }: { params: { lang: string } }) => {
   );
 };
 
-export default SignUp;
+export default OnboardingSignup;

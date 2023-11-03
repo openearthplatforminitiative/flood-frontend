@@ -9,16 +9,14 @@ import {
 } from '@mui/material';
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 interface WelcomeProps {
   dict: Dict;
+  setOnboardingStep: (value: number) => void;
 }
 
-const WelcomeScreen = ({ dict }: WelcomeProps) => {
-  const pathname = usePathname();
-
+const WelcomeScreen = ({ dict, setOnboardingStep }: WelcomeProps) => {
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <Box
@@ -75,11 +73,7 @@ const WelcomeScreen = ({ dict }: WelcomeProps) => {
           padding: '20px',
         }}
       >
-        <Button
-          href={pathname + '/sign-up'}
-          LinkComponent={Link}
-          variant={'contained'}
-        >
+        <Button onClick={() => setOnboardingStep(1)} variant={'contained'}>
           {dict.onBoarding.buttons.createAccount}
         </Button>
         <Button

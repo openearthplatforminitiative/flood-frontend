@@ -1,5 +1,5 @@
-import WelcomeScreen from '@/app/components/WelcomeScreen';
 import { getDictionary } from '@/app/[lang]/dictionaries';
+import OnboardingComponent from '@/app/components/OnboardingComponent';
 
 const Onboarding = async ({
   params: { lang },
@@ -8,7 +8,11 @@ const Onboarding = async ({
 }) => {
   const dict = await getDictionary(lang as Lang);
 
-  return dict && <WelcomeScreen dict={dict} />;
+  if (!dict) {
+    return null;
+  }
+
+  return <OnboardingComponent dict={dict} />;
 };
 
 export default Onboarding;

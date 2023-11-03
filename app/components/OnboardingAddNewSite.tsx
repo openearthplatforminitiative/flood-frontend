@@ -1,10 +1,7 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Divider,
   FormControl,
   InputLabel,
   MenuItem,
@@ -13,57 +10,57 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { palettes } from '@/app/[lang]/theme/palettes';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import { Add, ArrowBack, PlaceOutlined } from '@mui/icons-material';
-import { getDictionary } from '@/app/[lang]/dictionaries';
-import { palettes } from '@/app/[lang]/theme/palettes';
+import { SiteData } from '@/app/components/OnboardingComponent';
+import OnboardingAddNewSiteDialog from '@/app/components/OnboardingAddNewSiteDialog';
 
-interface SiteData {
-  name: string;
-  type: string;
-  location: string; //Don't know exactly what type this needs to be. Might need to be both lan and lat
+interface OnboardingAddNewSiteProps {
+  dict: Dict;
+  setOnboardingStep: (value: number) => void;
+  initialValues: SiteData;
+  initialErrors: SiteData;
 }
 
-const initialValues: SiteData = {
-  name: '',
-  type: '',
-  location: '',
-};
+const cropTypes: string[] = [
+  'avocado',
+  'beans',
+  'banana',
+  'coffee',
+  'maize',
+  'potato',
+  'rice',
+  'sugarcane',
+  'tea',
+  'wheat',
+  'other',
+];
 
-const initialErrors: SiteData = {
-  name: '',
-  type: '',
-  location: '',
-};
-
-const NewSite = ({ params: { lang } }: { params: { lang: string } }) => {
+const OnboardingAddNewSite = ({
+  dict,
+  setOnboardingStep,
+  initialValues,
+  initialErrors,
+}: OnboardingAddNewSiteProps) => {
   const [values, setValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
-  const [dict, setDict] = useState<Dict | undefined>();
   const [type, setType] = useState<string>('');
-  const router = useRouter();
+  const [openAddSite, setOpenAddSite] = useState(false);
 
   const handleGoBack = () => {
-    router.push('/onboarding/sites');
+    //router.push('/onboarding/sites');
+    setOnboardingStep(3);
+    //Denne burde cleare site-verdien hvis man går ut
+  };
+
+  const handleAddSite = () => {
+    setOnboardingStep(3);
   };
 
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
   };
-
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
-
-  if (!dict) {
-    return null;
-  }
 
   return (
     <Box
@@ -78,6 +75,12 @@ const NewSite = ({ params: { lang } }: { params: { lang: string } }) => {
         padding: '32px 32px 40px 32px',
       }}
     >
+      <OnboardingAddNewSiteDialog
+        dict={dict}
+        isOpen={openAddSite}
+        handleCancel={() => setOpenAddSite(false)}
+        handleConfirm={() => setOpenAddSite(false)}
+      />
       <OnboardingTitleBar
         dict={dict}
         icon={<ArrowBack fontSize={'small'} />}
@@ -140,56 +143,29 @@ const NewSite = ({ params: { lang } }: { params: { lang: string } }) => {
                 },
             }}
           >
-            <MenuItem value={'avocado'}>
-              {dict.onBoarding.sites.cropTypes.avocado}
-            </MenuItem>
-            <MenuItem value={'beans'}>
-              {dict.onBoarding.sites.cropTypes.beans}
-            </MenuItem>
-            <MenuItem value={'banana'}>
-              {dict.onBoarding.sites.cropTypes.banana}
-            </MenuItem>
-            <MenuItem value={'coffee'}>
-              {dict.onBoarding.sites.cropTypes.coffee}
-            </MenuItem>
-            <MenuItem value={'maize'}>
-              {dict.onBoarding.sites.cropTypes.maize}
-            </MenuItem>
-            <MenuItem value={'potato'}>
-              {dict.onBoarding.sites.cropTypes.potato}
-            </MenuItem>
-            <MenuItem value={'rice'}>
-              {dict.onBoarding.sites.cropTypes.rice}
-            </MenuItem>
-            <MenuItem value={'sugarcane'}>
-              {dict.onBoarding.sites.cropTypes.sugarcane}
-            </MenuItem>
-            <MenuItem value={'tea'}>
-              {dict.onBoarding.sites.cropTypes.tea}
-            </MenuItem>
-            <MenuItem value={'wheat'}>
-              {dict.onBoarding.sites.cropTypes.wheat}
-            </MenuItem>
-            <Divider />
-            <MenuItem value={'other'}>
-              {' '}
-              {dict.onBoarding.sites.cropTypes.other}{' '}
-            </MenuItem>
+            {cropTypes.map((crop) => {
+              return (
+                <MenuItem key={crop} value={crop}>
+                  {dict.onBoarding.sites.cropTypes[crop as keyof CropTypes]}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <Button
           sx={{ marginTop: '24px' }}
           variant={'outlined'}
           startIcon={<PlaceOutlined />}
+          onClick={() => setOpenAddSite(true)}
         >
           {dict.onBoarding.sites.setLocation}
         </Button>
       </Box>
-      <Button variant={'contained'} startIcon={<Add />}>
+      <Button variant={'contained'} startIcon={<Add />} onClick={handleAddSite}>
         {dict.onBoarding.sites.addSite}
       </Button>
     </Box>
   );
 };
 
-export default NewSite;
+export default OnboardingAddNewSite;

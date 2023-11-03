@@ -1,40 +1,28 @@
 'use client';
 import { Box, Button, Typography } from '@mui/material';
-import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
-import React, { useEffect, useState } from 'react';
-import { getDictionary } from '@/app/[lang]/dictionaries';
-import { useRouter } from 'next/navigation';
-import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
+import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
+import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
+import React from 'react';
 
-const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
-  const router = useRouter();
+interface OnboardingSitesProps {
+  dict: Dict;
+  setOnboardingStep: (value: number) => void;
+}
 
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
+const OnboardingSites = ({ dict, setOnboardingStep }: OnboardingSitesProps) => {
   const handleSubmit = () => {
-    router.push('/');
+    //burde denne ligge her eller i OnboardingComponent?
   };
 
   const handleAddSite = () => {
-    router.push('/onboarding/sites/new-site');
+    //setOpenAddSite(true);
+    setOnboardingStep(4);
   };
 
   const handleGoBack = () => {
-    router.push('/onboarding/notifications');
+    setOnboardingStep(2);
   };
-
-  if (!dict) {
-    return null;
-  }
 
   return (
     <Box
@@ -85,4 +73,4 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
   );
 };
 
-export default Sites;
+export default OnboardingSites;

@@ -10,37 +10,26 @@ import {
   Typography,
 } from '@mui/material';
 import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
-import React, { useEffect, useState } from 'react';
-import { getDictionary } from '@/app/[lang]/dictionaries';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 
-const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
-  const router = useRouter();
+interface OnboardingNotificationProps {
+  dict: Dict;
+  setOnboardingStep: (value: number) => void;
+}
 
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
-
+const OnboardingNotification = ({
+  dict,
+  setOnboardingStep,
+}: OnboardingNotificationProps) => {
   const handleSubmit = () => {
-    router.push('/onboarding/sites');
+    setOnboardingStep(3);
   };
 
   const handleGoBack = () => {
-    router.push('/onboarding/sign-up'); //Når bruker kommer tilbake til dette steget så burde informasjonen være lagret og utfylles
+    setOnboardingStep(1);
   };
-
-  if (!dict) {
-    return null;
-  }
 
   return (
     <Box
@@ -129,4 +118,4 @@ const Sites = ({ params: { lang } }: { params: { lang: string } }) => {
   );
 };
 
-export default Sites;
+export default OnboardingNotification;

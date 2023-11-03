@@ -14,23 +14,16 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React, { useState } from 'react';
-
-interface UserFormData extends UserData {
-  confirmPassword: string;
-}
+import { UserFormData } from '@/app/components/OnboardingComponent';
 
 interface OnboardingSignupFormProps {
-  acceptedTerms: boolean;
-  setAcceptedTerms: (value: boolean) => void;
   values: UserFormData;
-  setValues: (value: UserFormData) => void;
+  setValues: (values: UserFormData) => void;
   errors: UserFormData;
   dict: Dict;
 }
 
 const OnboardingSignupForm = ({
-  acceptedTerms,
-  setAcceptedTerms,
   values,
   setValues,
   errors,
@@ -44,7 +37,7 @@ const OnboardingSignupForm = ({
     setShowRepeatPassword((show) => !show);
 
   const handleAcceptTerms = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAcceptedTerms(event.target.checked);
+    setValues({ ...values, pushSubscription: !values.pushSubscription });
   };
 
   const handleMouseDownPassword = (
@@ -154,7 +147,7 @@ const OnboardingSignupForm = ({
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <Checkbox
           sx={{ padding: 0, marginLeft: '4px', marginRight: '16px' }}
-          checked={acceptedTerms}
+          checked={values.pushSubscription}
           onChange={handleAcceptTerms}
         />
         <Typography variant={'subtitle1'} component={'p'}>
