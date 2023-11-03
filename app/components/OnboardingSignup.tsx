@@ -25,7 +25,8 @@ const OnboardingSignup = ({
   errors,
   setErrors,
 }: OnboardingSignupProps) => {
-  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
 
   const validate = (values: UserFormData) => {
     let tempErrors = { ...initialErrors };
@@ -50,9 +51,8 @@ const OnboardingSignup = ({
   };
 
   const handleSubmit = () => {
-    //Fikse denne når valideringen er ordnet
     setSubmitAttempted(true);
-    if (validate(values) || true) {
+    if (validate(values)) {
       setOnboardingStep(2);
     }
   };
@@ -62,13 +62,12 @@ const OnboardingSignup = ({
   };
 
   const isFormValid = (): boolean => {
-    console.log('Called: ');
     return (
       Object.values(errors).every((x) => x === '') &&
       values.name !== '' &&
       values.phoneNumber !== '' &&
       values.password !== '' &&
-      values.pushSubscription
+      acceptedTerms
     );
   };
 
@@ -106,10 +105,12 @@ const OnboardingSignup = ({
           setValues={setValues}
           values={values}
           dict={dict}
+          setAcceptedTerms={setAcceptedTerms}
+          acceptedTerms={acceptedTerms}
         />
       </Box>
       <Button
-        disabled={false} //!isFormValid()}
+        disabled={!isFormValid()}
         variant={'contained'}
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}

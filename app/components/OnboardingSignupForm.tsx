@@ -19,6 +19,8 @@ import { UserFormData } from '@/app/components/OnboardingComponent';
 interface OnboardingSignupFormProps {
   values: UserFormData;
   setValues: (values: UserFormData) => void;
+  acceptedTerms: boolean;
+  setAcceptedTerms: (value: boolean) => void;
   errors: UserFormData;
   dict: Dict;
 }
@@ -26,6 +28,8 @@ interface OnboardingSignupFormProps {
 const OnboardingSignupForm = ({
   values,
   setValues,
+  setAcceptedTerms,
+  acceptedTerms,
   errors,
   dict,
 }: OnboardingSignupFormProps) => {
@@ -36,8 +40,8 @@ const OnboardingSignupForm = ({
   const handleClickShowRepeatPassword = () =>
     setShowRepeatPassword((show) => !show);
 
-  const handleAcceptTerms = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, pushSubscription: !values.pushSubscription });
+  const handleAcceptTerms = () => {
+    setAcceptedTerms(!acceptedTerms);
   };
 
   const handleMouseDownPassword = (
@@ -147,7 +151,7 @@ const OnboardingSignupForm = ({
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <Checkbox
           sx={{ padding: 0, marginLeft: '4px', marginRight: '16px' }}
-          checked={values.pushSubscription}
+          checked={acceptedTerms}
           onChange={handleAcceptTerms}
         />
         <Typography variant={'subtitle1'} component={'p'}>

@@ -14,7 +14,12 @@ interface OnboardingProps {
 
 export interface UserFormData extends UserData {
   confirmPassword: string;
-  pushSubscription: boolean;
+}
+
+export interface SiteData {
+  name: string;
+  type: string;
+  location: string; //Don't know exactly what type this needs to be. Might need to be both lan and lat
 }
 
 const initialValues: UserFormData = {
@@ -22,7 +27,6 @@ const initialValues: UserFormData = {
   phoneNumber: '',
   password: '',
   confirmPassword: '',
-  pushSubscription: false,
 };
 
 const initialErrors: UserFormData = {
@@ -30,14 +34,7 @@ const initialErrors: UserFormData = {
   phoneNumber: '',
   password: '',
   confirmPassword: '',
-  pushSubscription: false,
 };
-
-export interface SiteData {
-  name: string;
-  type: string;
-  location: string; //Don't know exactly what type this needs to be. Might need to be both lan and lat
-}
 
 const initialSiteValues: SiteData = {
   name: '',
