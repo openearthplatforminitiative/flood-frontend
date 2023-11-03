@@ -8,15 +8,15 @@ import React from 'react';
 interface OnboardingSitesProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
+  handleSubmit: () => void;
 }
 
-const OnboardingSites = ({ dict, setOnboardingStep }: OnboardingSitesProps) => {
-  const handleSubmit = () => {
-    //burde denne ligge her eller i OnboardingComponent?
-  };
-
+const OnboardingSites = ({
+  dict,
+  setOnboardingStep,
+  handleSubmit,
+}: OnboardingSitesProps) => {
   const handleAddSite = () => {
-    //setOpenAddSite(true);
     setOnboardingStep(4);
   };
 
@@ -55,7 +55,7 @@ const OnboardingSites = ({ dict, setOnboardingStep }: OnboardingSitesProps) => {
             variant={'outlined'}
             sx={{ width: '100%', marginTop: '24px' }}
             startIcon={<Add />}
-            onClick={() => handleAddSite()}
+            onClick={handleAddSite}
           >
             {dict.onBoarding.sites.addNewSite}
           </Button>

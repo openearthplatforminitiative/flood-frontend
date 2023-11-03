@@ -6,14 +6,13 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
 import { palettes } from '@/app/[lang]/theme/palettes';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import { Add, ArrowBack, PlaceOutlined } from '@mui/icons-material';
-import { SiteData } from '@/app/components/OnboardingComponent';
+import { SiteData, UserFormData } from '@/app/components/OnboardingComponent';
 import OnboardingAddNewSiteDialog from '@/app/components/OnboardingAddNewSiteDialog';
 
 interface OnboardingAddNewSiteProps {
@@ -21,6 +20,8 @@ interface OnboardingAddNewSiteProps {
   setOnboardingStep: (value: number) => void;
   initialValues: SiteData;
   initialErrors: SiteData;
+  values: UserFormData;
+  setValues: (values: UserFormData) => void;
 }
 
 const cropTypes: string[] = [
@@ -42,24 +43,22 @@ const OnboardingAddNewSite = ({
   setOnboardingStep,
   initialValues,
   initialErrors,
+  values,
+  setValues,
 }: OnboardingAddNewSiteProps) => {
-  const [values, setValues] = useState<SiteData>(initialValues);
+  const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
   const [type, setType] = useState<string>('');
   const [openAddSite, setOpenAddSite] = useState(false);
 
   const handleGoBack = () => {
-    //router.push('/onboarding/sites');
     setOnboardingStep(3);
-    //Denne burde cleare site-verdien hvis man går ut
+    //Denne burde cleare site-verdien hvis man går ut. Måten jeg gjør ting på nå gjør kanskje at dette skjer av seg selv? Ingenting lagres med mindre man trykker "Add site"
   };
 
   const handleAddSite = () => {
     setOnboardingStep(3);
-  };
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setType(event.target.value);
+    setValues({ ...values, sites: [...values.sites, siteValues] });
   };
 
   return (
@@ -99,7 +98,9 @@ const OnboardingAddNewSite = ({
           variant={'filled'}
           placeholder={dict.onBoarding.sites.name}
           margin={'none'}
-          onChange={(e) => setValues({ ...values, name: e.target.value })}
+          onChange={(e) =>
+            setSiteValues({ ...siteValues, name: e.target.value })
+          }
           error={Boolean(errors.name)}
           helperText={errors.name}
           sx={{
@@ -126,7 +127,9 @@ const OnboardingAddNewSite = ({
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             value={type}
-            onChange={handleChange}
+            onChange={(e) =>
+              setSiteValues({ ...siteValues, type: e.target.value })
+            }
             label={dict.onBoarding.sites.type}
             sx={{
               background: 'white',

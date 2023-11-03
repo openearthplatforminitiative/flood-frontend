@@ -13,15 +13,20 @@ import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
 import React from 'react';
 import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
+import { UserFormData } from '@/app/components/OnboardingComponent';
 
 interface OnboardingNotificationProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
+  values: UserFormData;
+  setValues: (values: UserFormData) => void;
 }
 
 const OnboardingNotification = ({
   dict,
   setOnboardingStep,
+  values,
+  setValues,
 }: OnboardingNotificationProps) => {
   const handleSubmit = () => {
     setOnboardingStep(3);
@@ -102,7 +107,17 @@ const OnboardingNotification = ({
             flexDirection: 'row-reverse',
             justifyContent: 'space-between',
           }}
-          control={<Switch />}
+          control={
+            <Switch
+              value={values.allowPushNotifications}
+              onClick={() =>
+                setValues({
+                  ...values,
+                  allowPushNotifications: !values.allowPushNotifications,
+                })
+              }
+            />
+          }
           label={dict.onBoarding.allowNotifications}
         />
       </Box>

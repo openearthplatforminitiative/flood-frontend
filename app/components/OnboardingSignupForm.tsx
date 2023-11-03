@@ -14,14 +14,17 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React, { useState } from 'react';
-import { UserFormData } from '@/app/components/OnboardingComponent';
+import {
+  UserFormData,
+  UserFormErrorData,
+} from '@/app/components/OnboardingComponent';
 
 interface OnboardingSignupFormProps {
   values: UserFormData;
   setValues: (values: UserFormData) => void;
   acceptedTerms: boolean;
   setAcceptedTerms: (value: boolean) => void;
-  errors: UserFormData;
+  errors: UserFormErrorData;
   dict: Dict;
 }
 

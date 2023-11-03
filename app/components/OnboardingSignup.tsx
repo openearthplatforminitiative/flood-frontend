@@ -4,16 +4,19 @@ import React, { useEffect, useState } from 'react';
 import { Close } from '@mui/icons-material';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import OnboardingSignupForm from '@/app/components/OnboardingSignupForm';
-import { UserFormData } from '@/app/components/OnboardingComponent';
+import {
+  UserFormData,
+  UserFormErrorData,
+} from '@/app/components/OnboardingComponent';
 
 interface OnboardingSignupProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
   values: UserFormData;
   setValues: (values: UserFormData) => void;
-  initialErrors: UserFormData;
-  errors: UserFormData;
-  setErrors: (values: UserFormData) => void;
+  initialErrors: UserFormErrorData;
+  errors: UserFormErrorData;
+  setErrors: (values: UserFormErrorData) => void;
 }
 
 const OnboardingSignup = ({

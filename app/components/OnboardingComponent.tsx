@@ -12,8 +12,23 @@ interface OnboardingProps {
   dict: Dict;
 }
 
+type UserData = {
+  name: string;
+  phoneNumber: string;
+  password: string;
+};
+
+export interface UserFormErrorData extends UserData {
+  name: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface UserFormData extends UserData {
   confirmPassword: string;
+  allowPushNotifications: boolean;
+  sites: SiteData[];
 }
 
 export interface SiteData {
@@ -27,9 +42,11 @@ const initialValues: UserFormData = {
   phoneNumber: '',
   password: '',
   confirmPassword: '',
+  allowPushNotifications: false,
+  sites: [],
 };
 
-const initialErrors: UserFormData = {
+const initialErrors = {
   name: '',
   phoneNumber: '',
   password: '',
@@ -51,11 +68,15 @@ const initialSiteErrors: SiteData = {
 const OnboardingComponent = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
-  const [errors, setErrors] = useState<UserFormData>(initialErrors);
+  const [errors, setErrors] = useState<UserFormErrorData>(initialErrors);
 
   useEffect(() => {
     console.log('Values: ', values);
   }, [values]);
+
+  const handleSubmit = () => {
+    console.log('Submit: ', values);
+  };
 
   return (
     <Box
@@ -80,12 +101,18 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
       )}
       {onboardingStep === 2 && (
         <OnboardingNotification
+          values={values}
+          setValues={setValues}
           dict={dict}
           setOnboardingStep={setOnboardingStep}
         />
       )}
       {onboardingStep === 3 && (
-        <OnboardingSites dict={dict} setOnboardingStep={setOnboardingStep} />
+        <OnboardingSites
+          dict={dict}
+          setOnboardingStep={setOnboardingStep}
+          handleSubmit={handleSubmit}
+        />
       )}
       {onboardingStep === 4 && (
         <OnboardingAddNewSite
@@ -93,6 +120,8 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
           setOnboardingStep={setOnboardingStep}
           initialValues={initialSiteValues}
           initialErrors={initialSiteErrors}
+          values={values}
+          setValues={setValues}
         />
       )}
     </Box>
