@@ -73,6 +73,7 @@ const OnboardingSignupForm = ({
           onChange={(e) => setValues({ ...values, name: e.target.value })}
           error={Boolean(errors.name)}
           helperText={errors.name}
+          value={values.name}
         />
         <TextField
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
@@ -93,6 +94,7 @@ const OnboardingSignupForm = ({
             setValues({ ...values, phoneNumber: e.target.value })
           }
           error={Boolean(errors.phoneNumber)}
+          value={values.phoneNumber}
         />
         <FormControl variant="filled" margin="normal">
           <InputLabel htmlFor="filled-adornment-password">
@@ -116,6 +118,7 @@ const OnboardingSignupForm = ({
                 </IconButton>
               </InputAdornment>
             }
+            value={values.password}
           />
           {errors.password && (
             <FormHelperText error>{errors.password}</FormHelperText>
@@ -145,6 +148,7 @@ const OnboardingSignupForm = ({
                 </IconButton>
               </InputAdornment>
             }
+            value={values.confirmPassword}
           />
           {errors.confirmPassword && (
             <FormHelperText error>{errors.confirmPassword}</FormHelperText>

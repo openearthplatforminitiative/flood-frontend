@@ -48,7 +48,6 @@ const OnboardingAddNewSite = ({
 }: OnboardingAddNewSiteProps) => {
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
-  const [type, setType] = useState<string>('');
   const [openAddSite, setOpenAddSite] = useState(false);
 
   const handleGoBack = () => {
@@ -126,7 +125,7 @@ const OnboardingAddNewSite = ({
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={type}
+            value={siteValues.type}
             onChange={(e) =>
               setSiteValues({ ...siteValues, type: e.target.value })
             }

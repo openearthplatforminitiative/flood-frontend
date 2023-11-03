@@ -51,6 +51,10 @@ const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
     router.push('/sign-in/forgot-password');
   };
 
+  const handleCancel = () => {
+    router.push('/onboarding');
+  };
+
   if (!dict) {
     return null;
   }
@@ -112,7 +116,11 @@ const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         <Button variant={'contained'}>Log in</Button>
-        <Button sx={{ marginTop: '16px' }} variant={'outlined'}>
+        <Button
+          sx={{ marginTop: '16px' }}
+          variant={'outlined'}
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
       </Box>

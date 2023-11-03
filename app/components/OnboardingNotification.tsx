@@ -109,7 +109,7 @@ const OnboardingNotification = ({
           }}
           control={
             <Switch
-              value={values.allowPushNotifications}
+              checked={values.allowPushNotifications}
               onClick={() =>
                 setValues({
                   ...values,
