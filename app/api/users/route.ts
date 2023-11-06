@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Req: ', request);
     const newUser = await request.json();
     if (!newUser) {
       throw NextResponse.json({
@@ -11,7 +12,12 @@ export async function POST(request: NextRequest) {
       });
     }
     const result = await prisma.user.create({
-      data: newUser,
+      data: {
+        ...newUser,
+        sites: {
+          create: newUser.sites,
+        },
+      },
     });
 
     return NextResponse.json({

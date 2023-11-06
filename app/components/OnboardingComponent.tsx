@@ -1,12 +1,13 @@
 'use client';
 
 import WelcomeScreen from '@/app/components/WelcomeScreen';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import OnboardingSignup from '@/app/components/OnboardingSignup';
 import OnboardingNotification from '@/app/components/OnboardingNotification';
 import OnboardingSites from '@/app/components/OnboardingSites';
 import OnboardingAddNewSite from '@/app/components/OnboardingAddNewSite';
+import { useRouter } from 'next/navigation';
 
 interface OnboardingProps {
   dict: Dict;
@@ -69,13 +70,23 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
   const [errors, setErrors] = useState<UserFormErrorData>(initialErrors);
+  const router = useRouter();
 
-  useEffect(() => {
-    console.log('Values: ', values);
-  }, [values]);
-
-  const handleSubmit = () => {
-    console.log('Submit: ', values);
+  const handleSubmit = async () => {
+    await fetch(`/api/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: values.name,
+        phone: values.phoneNumber,
+        password: values.password,
+        allowPushNotifications: values.allowPushNotifications,
+        sites: values.sites,
+      }),
+    });
+    router.push('/');
   };
 
   return (

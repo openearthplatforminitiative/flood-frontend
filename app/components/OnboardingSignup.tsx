@@ -113,7 +113,7 @@ const OnboardingSignup = ({
         />
       </Box>
       <Button
-        disabled={false} //!isFormValid()}
+        disabled={!isFormValid()}
         variant={'contained'}
         sx={{ marginTop: '55px', width: '100%' }}
         onClick={handleSubmit}

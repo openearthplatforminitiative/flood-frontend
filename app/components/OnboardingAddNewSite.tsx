@@ -54,7 +54,6 @@ const OnboardingAddNewSite = ({
 
   const handleGoBack = () => {
     setOnboardingStep(3);
-    //Denne burde cleare site-verdien hvis man går ut. Måten jeg gjør ting på nå gjør kanskje at dette skjer av seg selv? Ingenting lagres med mindre man trykker "Add site"
   };
 
   const validate = () => {
@@ -70,7 +69,6 @@ const OnboardingAddNewSite = ({
 
     setErrors(tempErrors);
 
-    // Check if all errors are empty strings (i.e., no errors)
     return Object.values(tempErrors).every((x) => x === '');
   };
 
