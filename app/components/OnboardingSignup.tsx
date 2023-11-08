@@ -1,6 +1,6 @@
 'use client';
 import { Box, Button } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Close } from '@mui/icons-material';
 import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import OnboardingSignupForm from '@/app/components/OnboardingSignupForm';
@@ -31,27 +31,30 @@ const OnboardingSignup = ({
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
 
-  const validate = (values: UserFormData) => {
-    let tempErrors = { ...initialErrors };
-    if (!values.name) {
-      tempErrors.name = 'Name is required.';
-    }
+  const validate = useCallback(
+    (values: UserFormData) => {
+      let tempErrors = { ...initialErrors };
+      if (!values.name) {
+        tempErrors.name = 'Name is required.';
+      }
 
-    if (!values.phoneNumber) {
-      tempErrors.phoneNumber = 'Phone number is required.';
-    } else if (!/^\+\d{1,3}\d{7,15}$/.test(values.phoneNumber)) {
-      tempErrors.phoneNumber = 'Phone number is not valid.';
-    }
+      if (!values.phoneNumber) {
+        tempErrors.phoneNumber = 'Phone number is required.';
+      } else if (!/^\+\d{1,3}\d{7,15}$/.test(values.phoneNumber)) {
+        tempErrors.phoneNumber = 'Phone number is not valid.';
+      }
 
-    if (!values.password) {
-      tempErrors.password = 'Password is required.';
-    } else if (values.password !== values.confirmPassword) {
-      tempErrors.confirmPassword = 'Passwords do not match.';
-    }
+      if (!values.password) {
+        tempErrors.password = 'Password is required.';
+      } else if (values.password !== values.confirmPassword) {
+        tempErrors.confirmPassword = 'Passwords do not match.';
+      }
 
-    setErrors(tempErrors);
-    return Object.values(tempErrors).every((x) => x === '');
-  };
+      setErrors(tempErrors);
+      return Object.values(tempErrors).every((x) => x === '');
+    },
+    [initialErrors, setErrors]
+  );
 
   const handleSubmit = () => {
     setSubmitAttempted(true);
@@ -78,7 +81,7 @@ const OnboardingSignup = ({
     if (submitAttempted) {
       validate(values);
     }
-  }, [values, submitAttempted]);
+  }, [values, submitAttempted, validate]);
 
   if (!dict) {
     return null;
