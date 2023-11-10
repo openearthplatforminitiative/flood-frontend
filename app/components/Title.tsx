@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import Logo from '@/public/assets/icons/Logo';
-import LargeLogo from '@/public/assets/icons/LargeLogo';
+import LargeLogo from '@/app/[lang]/assets/icons/LargeLogo';
+import Logo from '@/app/[lang]/assets/icons/Logo';
 
 interface TitleProps {
   dict: Dict;

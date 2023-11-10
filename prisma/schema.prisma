@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SiteData {
+model Site {
   id       String  @id @default(cuid())
   name     String
   type     String
@@ -17,12 +17,12 @@ model SiteData {
 }
 
 model User {
-  id                     String     @id @default(cuid())
+  id                     String   @id @default(cuid())
   name                   String
   password               String
   phone                  String
-  allowPushNotifications Boolean
-  sites                  SiteData[]
-  createdAt              DateTime   @default(now()) @map(name: "created_at")
-  updatedAt              DateTime   @updatedAt @map(name: "updated_at")
+  allowPushNotifications Boolean  @map(name: "allow_push_notifications")
+  sites                  Site[]
+  createdAt              DateTime @default(now()) @map(name: "created_at")
+  updatedAt              DateTime @updatedAt @map(name: "updated_at")
 }

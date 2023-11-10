@@ -2,23 +2,16 @@
 import { Box } from '@mui/material';
 import IntroScreen from '@/app/components/IntroScreen';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
+  const dict = getDictionary(lang as Lang);
   const router = useRouter();
 
   useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
     if (getCookie('language')) {
       router.replace('/' + lang + '/onboarding');
     }

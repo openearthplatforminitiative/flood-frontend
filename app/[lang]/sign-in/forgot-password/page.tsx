@@ -1,21 +1,14 @@
-'use client';
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 import Title from '@/app/components/Title';
 
-const ForgotPassword = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
-
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
+const ForgotPassword = async ({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) => {
+  const dict = await getDictionary(lang as Lang);
 
   if (!dict) {
     return null;

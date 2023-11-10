@@ -3,11 +3,11 @@
 import WelcomeScreen from '@/app/components/WelcomeScreen';
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import OnboardingSignup from '@/app/components/OnboardingSignup';
-import OnboardingNotification from '@/app/components/OnboardingNotification';
-import OnboardingSites from '@/app/components/OnboardingSites';
-import OnboardingAddNewSite from '@/app/components/OnboardingAddNewSite';
 import { useRouter } from 'next/navigation';
+import Signup from '@/app/components/onboarding/Signup';
+import Notification from '@/app/components/onboarding/Notification';
+import Sites from '@/app/components/onboarding/Sites';
+import AddNewSite from '@/app/components/onboarding/AddNewSite';
 
 interface OnboardingProps {
   dict: Dict;
@@ -66,7 +66,7 @@ const initialSiteErrors: SiteData = {
   location: '',
 };
 
-const OnboardingComponent = ({ dict }: OnboardingProps) => {
+const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
   const [errors, setErrors] = useState<UserFormErrorData>(initialErrors);
@@ -100,7 +100,7 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
         <WelcomeScreen dict={dict} setOnboardingStep={setOnboardingStep} />
       )}
       {onboardingStep === 1 && (
-        <OnboardingSignup
+        <Signup
           dict={dict}
           setOnboardingStep={setOnboardingStep}
           values={values}
@@ -111,7 +111,7 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
         />
       )}
       {onboardingStep === 2 && (
-        <OnboardingNotification
+        <Notification
           values={values}
           setValues={setValues}
           dict={dict}
@@ -119,7 +119,7 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
         />
       )}
       {onboardingStep === 3 && (
-        <OnboardingSites
+        <Sites
           dict={dict}
           setOnboardingStep={setOnboardingStep}
           handleSubmit={handleSubmit}
@@ -127,7 +127,7 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
         />
       )}
       {onboardingStep === 4 && (
-        <OnboardingAddNewSite
+        <AddNewSite
           dict={dict}
           setOnboardingStep={setOnboardingStep}
           initialValues={initialSiteValues}
@@ -140,4 +140,4 @@ const OnboardingComponent = ({ dict }: OnboardingProps) => {
   );
 };
 
-export default OnboardingComponent;
+export default OnboardingDashboard;

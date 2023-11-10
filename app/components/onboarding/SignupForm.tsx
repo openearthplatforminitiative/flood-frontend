@@ -1,4 +1,3 @@
-import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import {
   Box,
@@ -17,7 +16,8 @@ import React, { useState } from 'react';
 import {
   UserFormData,
   UserFormErrorData,
-} from '@/app/components/OnboardingComponent';
+} from '@/app/components/onboarding/OnboardingDashboard';
+import IconHeader from '@/app/components/onboarding/IconHeader';
 
 interface OnboardingSignupFormProps {
   values: UserFormData;
@@ -28,7 +28,7 @@ interface OnboardingSignupFormProps {
   dict: Dict;
 }
 
-const OnboardingSignupForm = ({
+const SignupForm = ({
   values,
   setValues,
   setAcceptedTerms,
@@ -54,7 +54,7 @@ const OnboardingSignupForm = ({
   };
   return (
     <Box component={'form'}>
-      <OnboardingIconHeader
+      <IconHeader
         text={dict.onBoarding.signUp.signupHeader}
         icon={<PersonOutlinedIcon />}
       />
@@ -169,4 +169,4 @@ const OnboardingSignupForm = ({
   );
 };
 
-export default OnboardingSignupForm;
+export default SignupForm;

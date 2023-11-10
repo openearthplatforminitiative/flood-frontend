@@ -2,12 +2,12 @@
 import { Box, Button } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Close } from '@mui/icons-material';
-import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
-import OnboardingSignupForm from '@/app/components/OnboardingSignupForm';
 import {
   UserFormData,
   UserFormErrorData,
-} from '@/app/components/OnboardingComponent';
+} from '@/app/components/onboarding/OnboardingDashboard';
+import TitleBar from '@/app/components/onboarding/TitleBar';
+import SignupForm from '@/app/components/onboarding/SignupForm';
 
 interface OnboardingSignupProps {
   dict: Dict;
@@ -19,7 +19,7 @@ interface OnboardingSignupProps {
   setErrors: (values: UserFormErrorData) => void;
 }
 
-const OnboardingSignup = ({
+const Signup = ({
   dict,
   setOnboardingStep,
   values,
@@ -100,13 +100,13 @@ const OnboardingSignup = ({
       }}
     >
       <Box>
-        <OnboardingTitleBar
+        <TitleBar
           dict={dict}
           text={'Cancel'}
           onClick={handleCancel}
           icon={<Close fontSize={'small'} />}
         />
-        <OnboardingSignupForm
+        <SignupForm
           errors={errors}
           setValues={setValues}
           values={values}
@@ -127,4 +127,4 @@ const OnboardingSignup = ({
   );
 };
 
-export default OnboardingSignup;
+export default Signup;

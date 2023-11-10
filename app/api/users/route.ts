@@ -3,11 +3,10 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('Req: ', request);
     const newUser = await request.json();
     if (!newUser) {
       throw NextResponse.json({
-        error: 'Missing users data in body ',
+        error: 'Missing user data in body ',
         status: 400,
       });
     }

@@ -19,7 +19,7 @@ interface OnboardingAddNewSiteDialogProps {
   handleConfirm: () => void;
 }
 
-const OnboardingAddNewSiteDialog = ({
+const AddNewSiteDialog = ({
   dict,
   isOpen,
   handleCancel,
@@ -55,4 +55,4 @@ const OnboardingAddNewSiteDialog = ({
   );
 };
 
-export default OnboardingAddNewSiteDialog;
+export default AddNewSiteDialog;

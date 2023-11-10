@@ -11,10 +11,13 @@ import {
   Typography,
 } from '@mui/material';
 import { palettes } from '@/app/[lang]/theme/palettes';
-import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import { Add, ArrowBack, PlaceOutlined } from '@mui/icons-material';
-import { SiteData, UserFormData } from '@/app/components/OnboardingComponent';
-import OnboardingAddNewSiteDialog from '@/app/components/OnboardingAddNewSiteDialog';
+import AddNewSiteDialog from '@/app/components/onboarding/AddNewSiteDialog';
+import TitleBar from '@/app/components/onboarding/TitleBar';
+import {
+  SiteData,
+  UserFormData,
+} from '@/app/components/onboarding/OnboardingDashboard';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -25,7 +28,7 @@ interface OnboardingAddNewSiteProps {
   setValues: (values: UserFormData) => void;
 }
 
-const cropTypes: string[] = [
+const cropTypes: CropType[] = [
   'avocado',
   'beans',
   'banana',
@@ -39,7 +42,7 @@ const cropTypes: string[] = [
   'other',
 ];
 
-const OnboardingAddNewSite = ({
+const AddNewSite = ({
   dict,
   setOnboardingStep,
   initialValues,
@@ -82,6 +85,7 @@ const OnboardingAddNewSite = ({
   };
 
   useEffect(() => {
+    //Fix
     if (submitAttempted) {
       validate();
     }
@@ -100,13 +104,13 @@ const OnboardingAddNewSite = ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <OnboardingAddNewSiteDialog
+      <AddNewSiteDialog
         dict={dict}
         isOpen={openAddSite}
         handleCancel={() => setOpenAddSite(false)}
         handleConfirm={() => setOpenAddSite(false)}
       />
-      <OnboardingTitleBar
+      <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize={'small'} />}
         text={dict.onBoarding.buttons.backStep}
@@ -176,7 +180,7 @@ const OnboardingAddNewSite = ({
             {cropTypes.map((crop) => {
               return (
                 <MenuItem key={crop} value={crop}>
-                  {dict.onBoarding.sites.cropTypes[crop as keyof CropTypes]}
+                  {dict.onBoarding.sites.cropTypes[crop]}
                 </MenuItem>
               );
             })}
@@ -199,4 +203,4 @@ const OnboardingAddNewSite = ({
   );
 };
 
-export default OnboardingAddNewSite;
+export default AddNewSite;

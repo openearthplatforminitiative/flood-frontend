@@ -1,15 +1,19 @@
+import { en } from '@/app/[lang]/dictionaries/en';
+import { fr } from '@/app/[lang]/dictionaries/fr';
+import { kw } from '@/app/[lang]/dictionaries/kw';
+
 interface LangDictionary {
-  en: () => Promise<Dict>;
-  fr: () => Promise<Dict>;
-  kw: () => Promise<Dict>;
+  en: Dict;
+  fr: Dict;
+  kw: Dict;
 }
 
 const dictionaries: LangDictionary = {
-  en: () => import('./dictionaries/en.json').then((module) => module.default),
-  fr: () => import('./dictionaries/fr.json').then((module) => module.default),
-  kw: () => import('./dictionaries/kw.json').then((module) => module.default),
+  en: en,
+  fr: fr,
+  kw: kw,
 };
 
-export const getDictionary = async (lang: Lang) => {
-  return dictionaries[lang]();
+export const getDictionary = (lang: Lang) => {
+  return dictionaries[lang];
 };

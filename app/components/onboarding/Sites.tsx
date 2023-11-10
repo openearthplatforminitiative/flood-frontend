@@ -9,7 +9,6 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
 import {
   Add,
   AddLocationAltOutlined,
@@ -17,9 +16,10 @@ import {
   ArrowRight,
   Place,
 } from '@mui/icons-material';
-import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
 import React from 'react';
-import { UserFormData } from '@/app/components/OnboardingComponent';
+import TitleBar from '@/app/components/onboarding/TitleBar';
+import IconHeader from '@/app/components/onboarding/IconHeader';
+import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
 
 interface OnboardingSitesProps {
   dict: Dict;
@@ -28,7 +28,7 @@ interface OnboardingSitesProps {
   values: UserFormData;
 }
 
-const OnboardingSites = ({
+const Sites = ({
   dict,
   setOnboardingStep,
   handleSubmit,
@@ -54,14 +54,14 @@ const OnboardingSites = ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <OnboardingTitleBar
+      <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize={'small'} />}
         text={dict.onBoarding.buttons.backStep}
         onClick={handleGoBack}
       />
       <Box sx={{ height: '100%' }}>
-        <OnboardingIconHeader
+        <IconHeader
           icon={<AddLocationAltOutlined />}
           text={dict.onBoarding.sites.sitesHeader}
         />
@@ -110,4 +110,4 @@ const OnboardingSites = ({
   );
 };
 
-export default OnboardingSites;
+export default Sites;

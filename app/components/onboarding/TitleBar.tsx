@@ -9,12 +9,7 @@ interface OnboardingTitlebarProps {
   icon: ReactNode;
 }
 
-const OnboardingTitleBar = ({
-  dict,
-  text,
-  onClick,
-  icon,
-}: OnboardingTitlebarProps) => {
+const TitleBar = ({ dict, text, onClick, icon }: OnboardingTitlebarProps) => {
   return (
     <Box
       sx={{
@@ -38,4 +33,4 @@ const OnboardingTitleBar = ({
   );
 };
 
-export default OnboardingTitleBar;
+export default TitleBar;

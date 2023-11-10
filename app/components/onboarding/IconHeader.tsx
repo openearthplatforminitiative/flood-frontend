@@ -6,7 +6,7 @@ interface OnboardingIconHeaderProps {
   icon: ReactNode;
 }
 
-const OnboardingIconHeader = ({ text, icon }: OnboardingIconHeaderProps) => {
+const IconHeader = ({ text, icon }: OnboardingIconHeaderProps) => {
   return (
     <Box
       sx={{
@@ -24,4 +24,4 @@ const OnboardingIconHeader = ({ text, icon }: OnboardingIconHeaderProps) => {
   );
 };
 
-export default OnboardingIconHeader;
+export default IconHeader;

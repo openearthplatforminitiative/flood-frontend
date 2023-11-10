@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
 import React from 'react';
-import OnboardingIconHeader from '@/app/components/OnboardingIconHeader';
-import OnboardingTitleBar from '@/app/components/OnboardingTitleBar';
-import { UserFormData } from '@/app/components/OnboardingComponent';
+import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
+import TitleBar from '@/app/components/onboarding/TitleBar';
+import IconHeader from '@/app/components/onboarding/IconHeader';
 
 interface OnboardingNotificationProps {
   dict: Dict;
@@ -22,7 +22,7 @@ interface OnboardingNotificationProps {
   setValues: (values: UserFormData) => void;
 }
 
-const OnboardingNotification = ({
+const Notification = ({
   dict,
   setOnboardingStep,
   values,
@@ -48,7 +48,7 @@ const OnboardingNotification = ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <OnboardingTitleBar
+      <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize={'small'} />}
         text={'Back'}
@@ -63,7 +63,7 @@ const OnboardingNotification = ({
         }}
       >
         <Box>
-          <OnboardingIconHeader
+          <IconHeader
             text={dict.onBoarding.allowNotifications}
             icon={<SpeakerPhone />}
           />
@@ -133,4 +133,4 @@ const OnboardingNotification = ({
   );
 };
 
-export default OnboardingNotification;
+export default Notification;

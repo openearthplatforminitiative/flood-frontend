@@ -1,18 +1,18 @@
 import { getDictionary } from '@/app/[lang]/dictionaries';
-import OnboardingComponent from '@/app/components/OnboardingComponent';
+import OnboardingDashboard from '@/app/components/onboarding/OnboardingDashboard';
 
 const Onboarding = async ({
   params: { lang },
 }: {
   params: { lang: string };
 }) => {
-  const dict = await getDictionary(lang as Lang);
+  const dict = getDictionary(lang as Lang);
 
   if (!dict) {
     return null;
   }
 
-  return <OnboardingComponent dict={dict} />;
+  return <OnboardingDashboard dict={dict} />;
 };
 
 export default Onboarding;
