@@ -104,6 +104,7 @@ const SignupForm = ({
           <FilledInput
             id="filled-adornment-password"
             type={showPassword ? 'text' : 'password'}
+            autoComplete={'on'}
             onChange={(e) => setValues({ ...values, password: e.target.value })}
             error={Boolean(errors.password)}
             endAdornment={
@@ -132,6 +133,7 @@ const SignupForm = ({
           <FilledInput
             id="filled-adornment-repeat-password"
             type={showRepeatPassword ? 'text' : 'password'}
+            autoComplete={'on'}
             onChange={(e) =>
               setValues({ ...values, confirmPassword: e.target.value })
             }
