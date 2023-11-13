@@ -14,21 +14,14 @@ interface OnboardingProps {
   dict: Dict;
 }
 
-type UserData = {
+export type UserData = {
   name: string;
   phoneNumber: string;
   password: string;
+  confirmPassword?: string;
 };
 
-export interface UserFormErrorData extends UserData {
-  name: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export interface UserFormData extends UserData {
-  confirmPassword: string;
   allowPushNotifications: boolean;
   sites: SiteData[];
 }
@@ -48,29 +41,9 @@ const initialValues: UserFormData = {
   sites: [],
 };
 
-const initialErrors = {
-  name: '',
-  phoneNumber: '',
-  password: '',
-  confirmPassword: '',
-};
-
-const initialSiteValues: SiteData = {
-  name: '',
-  type: '',
-  location: '',
-};
-
-const initialSiteErrors: SiteData = {
-  name: '',
-  type: '',
-  location: '',
-};
-
 const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
-  const [errors, setErrors] = useState<UserFormErrorData>(initialErrors);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -106,9 +79,6 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           setOnboardingStep={setOnboardingStep}
           values={values}
           setValues={setValues}
-          initialErrors={initialErrors}
-          errors={errors}
-          setErrors={setErrors}
         />
       )}
       {onboardingStep === 2 && (
@@ -131,8 +101,6 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
         <AddNewSite
           dict={dict}
           setOnboardingStep={setOnboardingStep}
-          initialValues={initialSiteValues}
-          initialErrors={initialSiteErrors}
           values={values}
           setValues={setValues}
         />

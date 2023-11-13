@@ -3,8 +3,8 @@ import { Box, Button } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Close } from '@mui/icons-material';
 import {
+  UserData,
   UserFormData,
-  UserFormErrorData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import SignupForm from '@/app/components/onboarding/SignupForm';
@@ -15,22 +15,24 @@ interface OnboardingSignupProps {
   setOnboardingStep: (value: number) => void;
   values: UserFormData;
   setValues: (values: UserFormData) => void;
-  initialErrors: UserFormErrorData;
-  errors: UserFormErrorData;
-  setErrors: (values: UserFormErrorData) => void;
 }
+
+const initialErrors: UserData = {
+  name: '',
+  phoneNumber: '',
+  password: '',
+  confirmPassword: '',
+};
 
 const Signup = ({
   dict,
   setOnboardingStep,
   values,
   setValues,
-  initialErrors,
-  errors,
-  setErrors,
 }: OnboardingSignupProps) => {
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
+  const [errors, setErrors] = useState<UserData>(initialErrors);
 
   const validate = useCallback(
     (values: UserFormData) => {
@@ -54,7 +56,7 @@ const Signup = ({
       setErrors(tempErrors);
       return Object.values(tempErrors).every((x) => x === '');
     },
-    [initialErrors, setErrors]
+    [setErrors]
   );
 
   const handleSubmit = () => {

@@ -23,17 +23,25 @@ import { cropTypes, Dict } from '@/app/[lang]/dictionaries';
 interface OnboardingAddNewSiteProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
-  initialValues: SiteData;
-  initialErrors: SiteData;
   values: UserFormData;
   setValues: (values: UserFormData) => void;
 }
 
+const initialValues: SiteData = {
+  name: '',
+  type: '',
+  location: '',
+};
+
+const initialErrors: SiteData = {
+  name: '',
+  type: '',
+  location: '',
+};
+
 const AddNewSite = ({
   dict,
   setOnboardingStep,
-  initialValues,
-  initialErrors,
   values,
   setValues,
 }: OnboardingAddNewSiteProps) => {

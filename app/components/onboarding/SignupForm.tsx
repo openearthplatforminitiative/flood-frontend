@@ -14,8 +14,8 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import React, { useState } from 'react';
 import {
+  UserData,
   UserFormData,
-  UserFormErrorData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import IconHeader from '@/app/components/onboarding/IconHeader';
 import { Dict } from '@/app/[lang]/dictionaries';
@@ -25,7 +25,7 @@ interface OnboardingSignupFormProps {
   setValues: (values: UserFormData) => void;
   acceptedTerms: boolean;
   setAcceptedTerms: (value: boolean) => void;
-  errors: UserFormErrorData;
+  errors: UserData;
   dict: Dict;
 }
 
