@@ -10,7 +10,6 @@ import {
   Typography,
 } from '@mui/material';
 import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
-import React from 'react';
 import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import IconHeader from '@/app/components/onboarding/IconHeader';

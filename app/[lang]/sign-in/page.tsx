@@ -11,8 +11,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { Dict, getDictionary, isLang } from '@/app/[lang]/dictionaries';
+import { useState } from 'react';
+import {
+  defaultLocale,
+  Dict,
+  getDictionary,
+  isLang,
+} from '@/app/[lang]/dictionaries';
 import Title from '@/app/components/Title';
 import { useRouter } from 'next/navigation';
 
@@ -35,7 +40,7 @@ const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
   const [values, setValues] = useState<LoginData>(initialValues);
   const [errors, setErrors] = useState<LoginData>(initialErrors);
   const router = useRouter();
-  const dict: Dict = getDictionary(isLang(lang) ? lang : 'en');
+  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
 
   const handleResetPassword = () => {
     router.push('/sign-in/forgot-password');
@@ -44,10 +49,6 @@ const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
   const handleCancel = () => {
     router.push('/onboarding');
   };
-
-  if (!dict) {
-    return null;
-  }
 
   return (
     <Box

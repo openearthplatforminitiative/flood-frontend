@@ -1,8 +1,6 @@
 import { NextRequest } from 'next/server';
 import cookie from 'cookie';
-import { languages } from '@/app/[lang]/dictionaries';
-
-const defaultLocale = 'en';
+import { defaultLocale, languages } from '@/app/[lang]/dictionaries';
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -80,11 +80,10 @@ const AddNewSite = ({
   };
 
   useEffect(() => {
-    //Fix
     if (submitAttempted) {
       validate();
     }
-  }, [siteValues, submitAttempted]);
+  }, [siteValues, submitAttempted, validate]); //Does this trigger infinite re-renders?
 
   return (
     <Box

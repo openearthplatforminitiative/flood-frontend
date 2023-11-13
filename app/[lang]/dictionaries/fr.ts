@@ -1,3 +1,5 @@
+import { Dict } from '@/app/[lang]/dictionaries';
+
 export const fr: Dict = {
   title: 'Floodsafe',
   onBoarding: {

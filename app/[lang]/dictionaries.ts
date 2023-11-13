@@ -14,6 +14,8 @@ const dictionaries: LangDictionary = {
   kw: kw,
 };
 
+export const defaultLocale = 'en';
+
 export type Dict = {
   title: string;
   onBoarding: {

@@ -16,7 +16,6 @@ import {
   ArrowRight,
   Place,
 } from '@mui/icons-material';
-import React from 'react';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import IconHeader from '@/app/components/onboarding/IconHeader';
 import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';

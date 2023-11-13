@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   UserData,
   UserFormData,

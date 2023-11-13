@@ -4,12 +4,17 @@ import IntroScreen from '@/app/components/IntroScreen';
 
 import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
-import { Dict, getDictionary, isLang } from '@/app/[lang]/dictionaries';
+import {
+  defaultLocale,
+  Dict,
+  getDictionary,
+  isLang,
+} from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const dict: Dict = getDictionary(isLang(lang) ? lang : 'en');
+  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
   const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
@@ -18,9 +23,6 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
     }
   }, [lang, router]);
 
-  if (!dict) {
-    return null;
-  }
   return (
     <Box
       width={'100%'}
