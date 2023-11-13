@@ -11,8 +11,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { getDictionary } from '@/app/[lang]/dictionaries';
+import React, { useState } from 'react';
+import { Dict, getDictionary, isLang } from '@/app/[lang]/dictionaries';
 import Title from '@/app/components/Title';
 import { useRouter } from 'next/navigation';
 
@@ -34,18 +34,8 @@ const initialErrors: LoginData = {
 const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
   const [values, setValues] = useState<LoginData>(initialValues);
   const [errors, setErrors] = useState<LoginData>(initialErrors);
-  const [dict, setDict] = useState<Dict | undefined>();
   const router = useRouter();
-
-  useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
-  }, [lang]);
+  const dict: Dict = getDictionary(isLang(lang) ? lang : 'en');
 
   const handleResetPassword = () => {
     router.push('/sign-in/forgot-password');

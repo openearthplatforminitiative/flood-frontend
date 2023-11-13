@@ -7,6 +7,7 @@ import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { getCookie, setCookie } from 'cookies-next';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface IntroScreenProps {
   dict: Dict;

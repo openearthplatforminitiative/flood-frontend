@@ -14,6 +14,7 @@ import React from 'react';
 import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import IconHeader from '@/app/components/onboarding/IconHeader';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingNotificationProps {
   dict: Dict;

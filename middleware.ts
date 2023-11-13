@@ -1,13 +1,13 @@
 import { NextRequest } from 'next/server';
 import cookie from 'cookie';
+import { languages } from '@/app/[lang]/dictionaries';
 
-export const locales = ['en', 'fr', 'kw'];
 const defaultLocale = 'en';
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
-  const pathnameHasLocale = locales.some(
+  const pathnameHasLocale = languages.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 

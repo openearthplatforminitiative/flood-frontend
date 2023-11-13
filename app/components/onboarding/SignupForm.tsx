@@ -18,6 +18,7 @@ import {
   UserFormErrorData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import IconHeader from '@/app/components/onboarding/IconHeader';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSignupFormProps {
   values: UserFormData;

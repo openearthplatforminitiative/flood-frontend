@@ -20,6 +20,7 @@ import React from 'react';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import IconHeader from '@/app/components/onboarding/IconHeader';
 import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSitesProps {
   dict: Dict;

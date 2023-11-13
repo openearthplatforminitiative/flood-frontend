@@ -18,6 +18,7 @@ import {
   SiteData,
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
+import { cropTypes, Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -27,20 +28,6 @@ interface OnboardingAddNewSiteProps {
   values: UserFormData;
   setValues: (values: UserFormData) => void;
 }
-
-const cropTypes: CropType[] = [
-  'avocado',
-  'beans',
-  'banana',
-  'coffee',
-  'maize',
-  'potato',
-  'rice',
-  'sugarcane',
-  'tea',
-  'wheat',
-  'other',
-];
 
 const AddNewSite = ({
   dict,

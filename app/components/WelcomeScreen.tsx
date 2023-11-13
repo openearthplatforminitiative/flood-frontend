@@ -10,6 +10,7 @@ import {
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 import Link from 'next/link';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface WelcomeProps {
   dict: Dict;

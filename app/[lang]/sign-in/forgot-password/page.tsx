@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { getDictionary } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionary, isLang } from '@/app/[lang]/dictionaries';
 import Title from '@/app/components/Title';
 
 const ForgotPassword = async ({
@@ -8,7 +8,7 @@ const ForgotPassword = async ({
 }: {
   params: { lang: string };
 }) => {
-  const dict = await getDictionary(lang as Lang);
+  const dict: Dict = getDictionary(isLang(lang) ? lang : 'en');
 
   if (!dict) {
     return null;

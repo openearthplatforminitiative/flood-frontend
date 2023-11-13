@@ -12,6 +12,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { locales } from '@/middleware';
+import { Dict, Lang } from '@/app/[lang]/dictionaries';
 
 interface LanguageModalProps {
   dict: Dict;

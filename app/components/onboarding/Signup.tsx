@@ -8,6 +8,7 @@ import {
 } from '@/app/components/onboarding/OnboardingDashboard';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import SignupForm from '@/app/components/onboarding/SignupForm';
+import { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSignupProps {
   dict: Dict;

@@ -4,12 +4,13 @@ import IntroScreen from '@/app/components/IntroScreen';
 
 import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
-import { getDictionary } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionary, isLang } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const dict = getDictionary(lang as Lang);
-  const router = useRouter();
+  const dict: Dict = getDictionary(isLang(lang) ? lang : 'en');
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
     if (getCookie('language')) {
