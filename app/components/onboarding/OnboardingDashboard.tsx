@@ -70,7 +70,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
         width: '100%',
       }}
     >
-      {onboardingStep === 0 && (
+      {onboardingStep === 4 && (
         <WelcomeScreen dict={dict} setOnboardingStep={setOnboardingStep} />
       )}
       {onboardingStep === 1 && (
@@ -97,7 +97,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           values={values}
         />
       )}
-      {onboardingStep === 4 && (
+      {onboardingStep === 0 && (
         <AddNewSite
           dict={dict}
           setOnboardingStep={setOnboardingStep}

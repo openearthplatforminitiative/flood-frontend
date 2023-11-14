@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import type { Dict } from '@/app/[lang]/dictionaries';
+import SiteMap from '@/app/components/onboarding/SiteMap';
 
 interface OnboardingAddNewSiteDialogProps {
   dict: Dict;
@@ -26,21 +27,24 @@ const AddNewSiteDialog = ({
   handleCancel,
   handleConfirm,
 }: OnboardingAddNewSiteDialogProps) => {
-  const [radius, setRadius] = useState(0);
+  const [radius, setRadius] = useState<number>(0);
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setRadius(newValue as number);
   };
+
   return (
     <Dialog open={isOpen} onClose={handleCancel}>
       <DialogTitle>Set location</DialogTitle>
       <DialogContent>
         <Box
+          id={'map'}
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
+          <SiteMap radius={radius} />
           <Typography>Area (radius)</Typography>
           {radius}
         </Box>
