@@ -8,7 +8,7 @@ import {
 } from '@/app/notifications/pushService';
 import { useEffect, useState } from 'react';
 import { registerServiceWorker } from '@/utils/serviceWorker';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface NotificationProps {
   dict: Dict;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -14,11 +14,12 @@ import { palettes } from '@/app/[lang]/theme/palettes';
 import { Add, ArrowBack, PlaceOutlined } from '@mui/icons-material';
 import AddNewSiteDialog from '@/app/components/onboarding/AddNewSiteDialog';
 import TitleBar from '@/app/components/onboarding/TitleBar';
-import {
+import type {
   SiteData,
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
-import { cropTypes, Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
+import { cropTypes } from '@/app/[lang]/dictionaries';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -54,7 +55,7 @@ const AddNewSite = ({
     setOnboardingStep(3);
   };
 
-  const validate = () => {
+  const validate = useCallback(() => {
     let tempErrors = { ...initialErrors };
 
     if (!siteValues.name) {
@@ -68,7 +69,7 @@ const AddNewSite = ({
     setErrors(tempErrors);
 
     return Object.values(tempErrors).every((x) => x === '');
-  };
+  }, [siteValues.name, siteValues.type]);
 
   const handleAddSite = () => {
     setSubmitAttempted(true);
@@ -83,7 +84,7 @@ const AddNewSite = ({
     if (submitAttempted) {
       validate();
     }
-  }, [siteValues, submitAttempted, validate]); //Does this trigger infinite re-renders?
+  }, [siteValues, submitAttempted, validate]);
 
   return (
     <Box

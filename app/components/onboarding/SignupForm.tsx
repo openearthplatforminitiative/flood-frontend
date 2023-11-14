@@ -13,12 +13,12 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
-import {
+import type {
   UserData,
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import IconHeader from '@/app/components/onboarding/IconHeader';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSignupFormProps {
   values: UserFormData;
@@ -83,7 +83,7 @@ const SignupForm = ({
           placeholder={dict.onBoarding.signUp.phone}
           margin="normal"
           helperText={
-            Boolean(errors.phoneNumber) ? (
+            errors.phoneNumber ? (
               errors.phoneNumber
             ) : (
               <Typography variant={'caption'} color={'black'}>

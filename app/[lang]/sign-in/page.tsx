@@ -1,5 +1,4 @@
 'use client';
-
 import {
   Box,
   Button,
@@ -12,9 +11,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import type { Dict } from '@/app/[lang]/dictionaries';
 import {
   defaultLocale,
-  Dict,
   getDictionary,
   isLang,
 } from '@/app/[lang]/dictionaries';

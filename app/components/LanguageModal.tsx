@@ -11,7 +11,8 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { Dict, isLang, Lang } from '@/app/[lang]/dictionaries';
+import type { Dict, Lang } from '@/app/[lang]/dictionaries';
+import { isLang } from '@/app/[lang]/dictionaries';
 
 interface LanguageModalProps {
   dict: Dict;

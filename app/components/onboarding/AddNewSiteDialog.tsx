@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingAddNewSiteDialogProps {
   dict: Dict;

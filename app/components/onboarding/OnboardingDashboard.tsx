@@ -8,7 +8,7 @@ import Signup from '@/app/components/onboarding/Signup';
 import Notification from '@/app/components/onboarding/Notification';
 import Sites from '@/app/components/onboarding/Sites';
 import AddNewSite from '@/app/components/onboarding/AddNewSite';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingProps {
   dict: Dict;

@@ -18,8 +18,8 @@ import {
 } from '@mui/icons-material';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import IconHeader from '@/app/components/onboarding/IconHeader';
-import { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { UserFormData } from '@/app/components/onboarding/OnboardingDashboard';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSitesProps {
   dict: Dict;

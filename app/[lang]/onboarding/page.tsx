@@ -1,6 +1,6 @@
+import type { Dict } from '@/app/[lang]/dictionaries';
 import {
   defaultLocale,
-  Dict,
   getDictionary,
   isLang,
 } from '@/app/[lang]/dictionaries';

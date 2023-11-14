@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import Title from '@/app/components/Title';
-import { ReactNode } from 'react';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { ReactNode } from 'react';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingTitlebarProps {
   dict: Dict;

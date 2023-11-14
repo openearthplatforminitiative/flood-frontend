@@ -1,17 +1,16 @@
 'use client';
 import { Box } from '@mui/material';
 import IntroScreen from '@/app/components/IntroScreen';
-
 import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
+import type { Dict } from '@/app/[lang]/dictionaries';
 import {
   defaultLocale,
-  Dict,
   getDictionary,
   isLang,
 } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
   const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);

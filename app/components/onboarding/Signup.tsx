@@ -2,13 +2,13 @@
 import { Box, Button } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { Close } from '@mui/icons-material';
-import {
+import type {
   UserData,
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import SignupForm from '@/app/components/onboarding/SignupForm';
-import { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface OnboardingSignupProps {
   dict: Dict;
