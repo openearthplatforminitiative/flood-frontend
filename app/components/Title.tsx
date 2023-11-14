@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
-import LargeLogo from '@/app/[lang]/assets/icons/LargeLogo';
-import Logo from '@/app/[lang]/assets/icons/Logo';
 import type { Dict } from '@/app/[lang]/dictionaries';
+import LargeLogo from '@/app/components/icons/LargeLogo';
+import Logo from '@/app/components/icons/Logo';
 
 interface TitleProps {
   dict: Dict;
