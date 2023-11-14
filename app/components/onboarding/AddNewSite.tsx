@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
@@ -72,6 +74,7 @@ const AddNewSite = ({
   }, [siteValues.name, siteValues.type]);
 
   const handleAddSite = () => {
+    //Her må jeg få tak i posisjonen til bruker og sende det med til SiteMap slik at posisjonen blir riktig fra start
     setSubmitAttempted(true);
 
     if (validate()) {
