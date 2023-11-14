@@ -1,3 +1,4 @@
+'use client';
 import {
   Box,
   Button,
@@ -8,12 +9,15 @@ import {
 } from '@mui/material';
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
+import Link from 'next/link';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface WelcomeProps {
   dict: Dict;
+  setOnboardingStep: (value: number) => void;
 }
 
-const OnboardingWelcome = ({ dict }: WelcomeProps) => {
+const WelcomeScreen = ({ dict, setOnboardingStep }: WelcomeProps) => {
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <Box
@@ -28,7 +32,7 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           height: '50%',
         }}
       >
-        <Title dict={dict} />
+        <Title dict={dict} large margin={'0 0 200px 0'} />
       </Box>
       <Box
         sx={{
@@ -39,7 +43,7 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           marginTop: '15px',
         }}
       >
-        <Typography variant={'subtitle2'}>
+        <Typography variant={'subtitle2'} component={'p'}>
           {dict.onBoarding.additionalInfo}
         </Typography>
         <List sx={{ listStyleType: 'disc' }}>
@@ -70,13 +74,20 @@ const OnboardingWelcome = ({ dict }: WelcomeProps) => {
           padding: '20px',
         }}
       >
-        <Button variant={'contained'}>{dict.onBoarding.createAccount}</Button>
-        <Button variant={'outlined'} sx={{ marginTop: '15px' }}>
-          {dict.onBoarding.logIn}
+        <Button onClick={() => setOnboardingStep(1)} variant={'contained'}>
+          {dict.onBoarding.buttons.createAccount}
+        </Button>
+        <Button
+          href={'/sign-in'}
+          LinkComponent={Link}
+          variant={'outlined'}
+          sx={{ marginTop: '15px' }}
+        >
+          {dict.onBoarding.buttons.logIn}
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default OnboardingWelcome;
+export default WelcomeScreen;

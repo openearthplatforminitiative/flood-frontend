@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Site {
+  id       String  @id @default(cuid())
+  name     String
+  type     String
+  location String
+  User     User?   @relation(fields: [userId], references: [id])
+  userId   String?
+}
+
+model User {
+  id                     String   @id @default(cuid())
+  name                   String
+  password               String
+  phone                  String
+  allowPushNotifications Boolean  @map(name: "allow_push_notifications")
+  sites                  Site[]
+  createdAt              DateTime @default(now()) @map(name: "created_at")
+  updatedAt              DateTime @updatedAt @map(name: "updated_at")
+}

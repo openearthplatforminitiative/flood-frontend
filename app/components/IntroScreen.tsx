@@ -5,8 +5,9 @@ import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
 import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { getCookie, setCookie } from 'cookies-next';
+import type { Dict } from '@/app/[lang]/dictionaries';
 
 interface IntroScreenProps {
   dict: Dict;
@@ -34,7 +35,7 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
           height: '100%',
         }}
       >
-        <Title dict={dict} />
+        <Title dict={dict} large margin={'0 0 200px 0'} />
         <LanguageModal
           dict={dict}
           open={isModalOpen}

@@ -1,13 +1,11 @@
 import { NextRequest } from 'next/server';
 import cookie from 'cookie';
-
-export const locales = ['en', 'fr', 'kw'];
-const defaultLocale = 'en';
+import { defaultLocale, languages } from '@/app/[lang]/dictionaries';
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
-  const pathnameHasLocale = locales.some(
+  const pathnameHasLocale = languages.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
@@ -18,7 +16,7 @@ export function middleware(request: NextRequest) {
   const locale = cookies.language || defaultLocale;
 
   // Redirect to the locale path
-  request.nextUrl.pathname = `/${locale}`;
+  request.nextUrl.pathname = `/${locale}/${pathname}`;
   return Response.redirect(request.nextUrl);
 }
 

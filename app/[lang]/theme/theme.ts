@@ -20,6 +20,19 @@ const theme = createTheme({
         },
       },
     },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          background: '#E1E3DE',
+          '&:hover': {
+            background: '#E1E3DE',
+          },
+          '&.Mui-focused': {
+            backgroundColor: '#E1E3DE',
+          },
+        },
+      },
+    },
   },
   typography: typography,
 });

@@ -1,32 +1,27 @@
 'use client';
 import { Box } from '@mui/material';
 import IntroScreen from '@/app/components/IntroScreen';
-
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getCookie } from 'cookies-next';
-import { getDictionary } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/app/[lang]/dictionaries';
+import {
+  defaultLocale,
+  getDictionary,
+  isLang,
+} from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [dict, setDict] = useState<Dict | undefined>();
-  const router = useRouter();
+  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
-    if (lang) {
-      getDictionary(lang as Lang).then((res) => {
-        if (res) {
-          setDict(res);
-        }
-      });
-    }
     if (getCookie('language')) {
       router.replace('/' + lang + '/onboarding');
     }
   }, [lang, router]);
 
-  if (!dict) {
-    return null;
-  }
   return (
     <Box
       width={'100%'}

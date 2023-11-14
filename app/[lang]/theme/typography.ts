@@ -58,7 +58,7 @@ export const typography = {
   body1: {
     fontFamily: 'Inter, Arial, sans-serif',
     fontWeight: 400,
-    fontSize: '12px',
+    fontSize: '14px',
     lineHeight: '16px',
     letterSpacing: '0.4px',
   },
