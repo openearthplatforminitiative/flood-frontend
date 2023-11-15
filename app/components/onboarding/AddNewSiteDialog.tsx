@@ -28,6 +28,7 @@ const AddNewSiteDialog = ({
   handleConfirm,
 }: OnboardingAddNewSiteDialogProps) => {
   const [radius, setRadius] = useState<number>(0);
+
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setRadius(newValue as number);
   };
@@ -45,10 +46,31 @@ const AddNewSiteDialog = ({
           }}
         >
           <SiteMap radius={radius} />
-          <Typography>Area (radius)</Typography>
-          {radius}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '0px 24px',
+              marginTop: '16px',
+              gap: '15px',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
+                Area (radius)
+              </Typography>
+              {radius}
+            </Box>
+            <Slider value={radius} onChange={handleSliderChange} />
+          </Box>
         </Box>
-        <Slider value={radius} onChange={handleSliderChange} />
       </DialogContent>
       <DialogActions>
         <Box>

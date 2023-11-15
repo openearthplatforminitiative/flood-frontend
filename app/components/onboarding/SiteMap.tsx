@@ -1,44 +1,42 @@
 'use client';
 
-import {
-  Circle,
-  MapContainer,
-  Marker,
-  TileLayer,
-  useMapEvents,
-} from 'react-leaflet';
-import { useState } from 'react';
+import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
+import { useEffect, useState } from 'react';
+import { LatLngExpression, LocationEvent } from 'leaflet';
 
 interface SiteMapProps {
   radius: number;
 }
 
 const SiteMap = ({ radius }: SiteMapProps) => {
-  const [position, setPosition] = useState(null);
+  const center: LatLngExpression = [51.505, -0.09];
   const LocationMarker = () => {
-    const map = useMapEvents({
-      click() {
-        map.locate();
-      },
-      locationfound(e: any) {
+    const [position, setPosition] = useState<LatLngExpression | undefined>(
+      undefined
+    );
+    const map = useMap();
+
+    useEffect(() => {
+      map.locate().on('locationfound', function (e: LocationEvent) {
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
-      },
-    });
+      });
+    }, [map]);
 
-    return position === null ? null : (
-      <Marker position={position}>
-        <Circle center={position} radius={radius} />
+    return position === undefined ? null : (
+      <Marker draggable position={position}>
+        <Circle center={position} radius={radius * 30} />
       </Marker>
     );
   };
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
+      center={center}
+      zoom={14}
       scrollWheelZoom={false}
       style={{ width: '312px', height: '320px', flexShrink: '0' }}
+      attributionControl={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

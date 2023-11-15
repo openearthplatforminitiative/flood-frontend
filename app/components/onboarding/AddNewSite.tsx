@@ -52,6 +52,7 @@ const AddNewSite = ({
   const [errors, setErrors] = useState<SiteData>(initialErrors);
   const [openAddSite, setOpenAddSite] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
+  const [position, setPosition] = useState(null);
 
   const handleGoBack = () => {
     setOnboardingStep(3);
@@ -72,6 +73,10 @@ const AddNewSite = ({
 
     return Object.values(tempErrors).every((x) => x === '');
   }, [siteValues.name, siteValues.type]);
+
+  const handleSetLocation = () => {
+    setOpenAddSite(true);
+  };
 
   const handleAddSite = () => {
     //Her må jeg få tak i posisjonen til bruker og sende det med til SiteMap slik at posisjonen blir riktig fra start
@@ -189,7 +194,7 @@ const AddNewSite = ({
           sx={{ marginTop: '24px' }}
           variant={'outlined'}
           startIcon={<PlaceOutlined />}
-          onClick={() => setOpenAddSite(true)}
+          onClick={handleSetLocation}
         >
           {dict.onBoarding.sites.setLocation}
         </Button>
