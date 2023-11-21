@@ -3,6 +3,7 @@
 import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { LatLngExpression, LocationEvent } from 'leaflet';
+import LocateControl from '@/app/components/onboarding/CustomLeafletControl';
 
 interface SiteMapProps {
   radius: number;
@@ -10,6 +11,7 @@ interface SiteMapProps {
 
 const SiteMap = ({ radius }: SiteMapProps) => {
   const center: LatLngExpression = [51.505, -0.09];
+
   const LocationMarker = () => {
     const [position, setPosition] = useState<LatLngExpression | undefined>(
       undefined
@@ -43,6 +45,7 @@ const SiteMap = ({ radius }: SiteMapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LocationMarker />
+      <LocateControl position={'topleft'} />
     </MapContainer>
   );
 };

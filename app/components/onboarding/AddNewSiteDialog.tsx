@@ -12,7 +12,12 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import SiteMap from '@/app/components/onboarding/SiteMap';
+import dynamic from 'next/dynamic';
+
+const DynamicSiteMap = dynamic(
+  () => import('@/app/components/onboarding/SiteMap'),
+  { ssr: false } // This will prevent server-side rendering for SiteMap component
+);
 
 interface OnboardingAddNewSiteDialogProps {
   dict: Dict;
@@ -45,7 +50,7 @@ const AddNewSiteDialog = ({
             justifyContent: 'space-between',
           }}
         >
-          <SiteMap radius={radius} />
+          <DynamicSiteMap radius={radius} />
           <Box
             sx={{
               display: 'flex',
