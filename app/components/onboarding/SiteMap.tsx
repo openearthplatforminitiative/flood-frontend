@@ -21,7 +21,7 @@ const SiteMap = ({ radius }: SiteMapProps) => {
     useEffect(() => {
       map.locate().on('locationfound', function (e: LocationEvent) {
         setPosition(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
+        map.setView(e.latlng, map.getZoom());
       });
     }, [map]);
 
