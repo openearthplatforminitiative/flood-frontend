@@ -1,33 +1,46 @@
 'use client';
 
 import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
-import { useEffect, useState } from 'react';
-import { LatLngExpression, LocationEvent } from 'leaflet';
-import LocateControl from '@/app/components/onboarding/CustomLeafletControl';
+import { useEffect } from 'react';
+import { DragEndEvent, LatLngExpression, LocationEvent } from 'leaflet';
+import LocateControl from '@/app/components/onboarding/LocateControl';
 
 interface SiteMapProps {
   radius: number;
+  position: LatLngExpression | null;
+  setPosition: (value: LatLngExpression) => void;
 }
 
-const SiteMap = ({ radius }: SiteMapProps) => {
+const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
   const center: LatLngExpression = [51.505, -0.09];
 
   const LocationMarker = () => {
-    const [position, setPosition] = useState<LatLngExpression | undefined>(
-      undefined
-    );
     const map = useMap();
 
     useEffect(() => {
-      map.locate().on('locationfound', function (e: LocationEvent) {
-        setPosition(e.latlng);
-        map.setView(e.latlng, map.getZoom());
-      });
+      if (position === null) {
+        map.locate().on('locationfound', function (e: LocationEvent) {
+          setPosition(e.latlng);
+          map.setView(e.latlng, map.getZoom());
+        });
+      } else {
+        map.setView(position, map.getZoom());
+      }
     }, [map]);
 
-    return position === undefined ? null : (
-      <Marker draggable position={position}>
-        <Circle center={position} radius={radius * 30} />
+    const handleDragEnd = (event: DragEndEvent) => {
+      setPosition(event.target.getLatLng());
+    };
+
+    return (
+      <Marker
+        draggable
+        position={position ?? center}
+        eventHandlers={{ dragend: handleDragEnd }}
+      >
+        {radius > 0 && (
+          <Circle center={position ?? center} radius={radius * 30} />
+        )}
       </Marker>
     );
   };
@@ -45,7 +58,7 @@ const SiteMap = ({ radius }: SiteMapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LocationMarker />
-      <LocateControl position={'topleft'} />
+      <LocateControl position={'topleft'} setPosition={setPosition} />
     </MapContainer>
   );
 };

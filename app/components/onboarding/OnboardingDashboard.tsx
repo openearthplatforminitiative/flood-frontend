@@ -7,8 +7,13 @@ import { useRouter } from 'next/navigation';
 import Signup from '@/app/components/onboarding/Signup';
 import Notification from '@/app/components/onboarding/Notification';
 import Sites from '@/app/components/onboarding/Sites';
-import AddNewSite from '@/app/components/onboarding/AddNewSite';
 import type { Dict } from '@/app/[lang]/dictionaries';
+import dynamic from 'next/dynamic';
+
+const AddNewSite = dynamic(
+  () => import('@/app/components/onboarding/AddNewSite'),
+  { ssr: false } // This will prevent server-side rendering for SiteMap component
+);
 
 interface OnboardingProps {
   dict: Dict;

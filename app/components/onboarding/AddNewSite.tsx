@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { palettes } from '@/app/[lang]/theme/palettes';
 import { Add, ArrowBack, PlaceOutlined } from '@mui/icons-material';
-import AddNewSiteDialog from '@/app/components/onboarding/AddNewSiteDialog';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import type {
   SiteData,
@@ -22,6 +21,13 @@ import type {
 } from '@/app/components/onboarding/OnboardingDashboard';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import { cropTypes } from '@/app/[lang]/dictionaries';
+import { LatLng, LatLngExpression } from 'leaflet';
+import dynamic from 'next/dynamic';
+
+const AddNewSiteDialog = dynamic(
+  () => import('@/app/components/onboarding/AddNewSiteDialog'),
+  { ssr: false }
+);
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -52,7 +58,7 @@ const AddNewSite = ({
   const [errors, setErrors] = useState<SiteData>(initialErrors);
   const [openAddSite, setOpenAddSite] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
-  const [position, setPosition] = useState(null);
+  const [position, setPosition] = useState<LatLngExpression | null>(null);
 
   const handleGoBack = () => {
     setOnboardingStep(3);
@@ -74,12 +80,18 @@ const AddNewSite = ({
     return Object.values(tempErrors).every((x) => x === '');
   }, [siteValues.name, siteValues.type]);
 
-  const handleSetLocation = () => {
-    setOpenAddSite(true);
+  const handleSetPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setPosition(
+          new LatLng(position.coords.latitude, position.coords.longitude)
+        );
+        setOpenAddSite(true);
+      });
+    }
   };
 
   const handleAddSite = () => {
-    //Her må jeg få tak i posisjonen til bruker og sende det med til SiteMap slik at posisjonen blir riktig fra start
     setSubmitAttempted(true);
 
     if (validate()) {
@@ -112,6 +124,8 @@ const AddNewSite = ({
         isOpen={openAddSite}
         handleCancel={() => setOpenAddSite(false)}
         handleConfirm={() => setOpenAddSite(false)}
+        position={position}
+        setPosition={setPosition}
       />
       <TitleBar
         dict={dict}
@@ -194,7 +208,7 @@ const AddNewSite = ({
           sx={{ marginTop: '24px' }}
           variant={'outlined'}
           startIcon={<PlaceOutlined />}
-          onClick={handleSetLocation}
+          onClick={handleSetPosition}
         >
           {dict.onBoarding.sites.setLocation}
         </Button>

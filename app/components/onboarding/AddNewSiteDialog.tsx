@@ -13,8 +13,9 @@ import {
 import { useState } from 'react';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
+import { LatLngExpression } from 'leaflet';
 
-const DynamicSiteMap = dynamic(
+const SiteMap = dynamic(
   () => import('@/app/components/onboarding/SiteMap'),
   { ssr: false } // This will prevent server-side rendering for SiteMap component
 );
@@ -24,6 +25,8 @@ interface OnboardingAddNewSiteDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   handleConfirm: () => void;
+  position: LatLngExpression | null;
+  setPosition: (value: LatLngExpression) => void;
 }
 
 const AddNewSiteDialog = ({
@@ -31,6 +34,8 @@ const AddNewSiteDialog = ({
   isOpen,
   handleCancel,
   handleConfirm,
+  position,
+  setPosition,
 }: OnboardingAddNewSiteDialogProps) => {
   const [radius, setRadius] = useState<number>(0);
 
@@ -50,7 +55,11 @@ const AddNewSiteDialog = ({
             justifyContent: 'space-between',
           }}
         >
-          <DynamicSiteMap radius={radius} />
+          <SiteMap
+            radius={radius}
+            position={position}
+            setPosition={setPosition}
+          />
           <Box
             sx={{
               display: 'flex',

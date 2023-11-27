@@ -1,5 +1,11 @@
 import { createControlComponent } from '@react-leaflet/core';
-import L, { Control as LeafletControl, ControlPosition, Map } from 'leaflet';
+import L, {
+  Control as LeafletControl,
+  ControlPosition,
+  LatLngExpression,
+  LocationEvent,
+  Map,
+} from 'leaflet';
 import React, { MutableRefObject, useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import ReactDOM from 'react-dom/client';
@@ -43,9 +49,12 @@ const createLeafletElement = (props: MyCustomControlProps): LeafletControl => {
 
 const MyCustomControl = createControlComponent(createLeafletElement);
 
-const LocateControl: React.FC<{ position: ControlPosition }> = ({
-  position,
-}) => {
+interface LocateControlProps {
+  position: ControlPosition;
+  setPosition: (value: LatLngExpression) => void;
+}
+
+const LocateControl = ({ position, setPosition }: LocateControlProps) => {
   const map = useMap();
   const controlRef: MutableRefObject<LeafletControl | null> = useRef(null);
 
@@ -55,21 +64,31 @@ const LocateControl: React.FC<{ position: ControlPosition }> = ({
       return;
     }
 
+    const handleClick = () => {
+      map.locate();
+    };
+
+    map.on('locationfound', function (e: LocationEvent) {
+      setPosition(e.latlng);
+      map.setView(e.latlng, map.getZoom());
+    });
+
     const container = control.getContainer();
     if (container) {
       const button = container.querySelector('button');
       if (button) {
-        L.DomEvent.on(button, 'click', () => {
-          map.locate();
-        });
-
-        return () => {
-          if (button) {
-            L.DomEvent.off(button, 'click', () => {});
-          }
-        };
+        L.DomEvent.on(button, 'click', handleClick);
       }
     }
+
+    return () => {
+      if (container) {
+        const button = container.querySelector('button');
+        if (button) {
+          L.DomEvent.off(button, 'click', handleClick);
+        }
+      }
+    };
   }, [map]);
 
   return <MyCustomControl ref={controlRef} position={position} map={map} />;
