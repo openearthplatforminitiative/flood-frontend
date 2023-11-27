@@ -81,11 +81,18 @@ const AddNewSite = ({
   }, [siteValues.name, siteValues.type]);
 
   const handleSetPosition = () => {
-    if (navigator.geolocation) {
+    const cachedPosition = localStorage.getItem('userLocation');
+    if (cachedPosition) {
+      setPosition(JSON.parse(cachedPosition));
+      setOpenAddSite(true);
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setPosition(
-          new LatLng(position.coords.latitude, position.coords.longitude)
+        const userPosition = new LatLng(
+          position.coords.latitude,
+          position.coords.longitude
         );
+        setPosition(userPosition);
+        localStorage.setItem('userLocation', JSON.stringify(userPosition)); // Save position to localStorage
         setOpenAddSite(true);
       });
     }
