@@ -34,7 +34,8 @@ export interface UserFormData extends UserData {
 export interface SiteData {
   name: string;
   type: string;
-  location: string; //Don't know exactly what type this needs to be. Might need to be both lan and lat
+  position: string;
+  radius: string;
 }
 
 const initialValues: UserFormData = {

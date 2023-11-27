@@ -3,7 +3,8 @@ CREATE TABLE "Site" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
+    "position" TEXT NOT NULL,
+    "radius" TEXT NOT NULL,
     "userId" TEXT,
 
     CONSTRAINT "Site_pkey" PRIMARY KEY ("id")

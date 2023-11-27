@@ -39,13 +39,15 @@ interface OnboardingAddNewSiteProps {
 const initialValues: SiteData = {
   name: '',
   type: '',
-  location: '',
+  position: '',
+  radius: '0',
 };
 
 const initialErrors: SiteData = {
   name: '',
   type: '',
-  location: '',
+  position: '',
+  radius: '',
 };
 
 const AddNewSite = ({
@@ -59,6 +61,11 @@ const AddNewSite = ({
   const [openAddSite, setOpenAddSite] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [position, setPosition] = useState<LatLngExpression | null>(null);
+  const [radius, setRadius] = useState<number>(0);
+
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setRadius(newValue as number);
+  };
 
   const handleGoBack = () => {
     setOnboardingStep(3);
@@ -75,10 +82,14 @@ const AddNewSite = ({
       tempErrors.type = 'Crop type is required.';
     }
 
+    if (!siteValues.position) {
+      tempErrors.position = 'Position is required.';
+    }
+
     setErrors(tempErrors);
 
     return Object.values(tempErrors).every((x) => x === '');
-  }, [siteValues.name, siteValues.type]);
+  }, [siteValues.name, siteValues.position, siteValues.type]);
 
   const handleSetPosition = () => {
     const cachedPosition = localStorage.getItem('userLocation');
@@ -103,7 +114,18 @@ const AddNewSite = ({
 
     if (validate()) {
       setOnboardingStep(3);
-      setValues({ ...values, sites: [...values.sites, siteValues] });
+      setValues({
+        ...values,
+        sites: [
+          ...values.sites,
+          {
+            name: siteValues.name,
+            type: siteValues.type,
+            radius: siteValues.radius,
+            position: siteValues.position,
+          },
+        ],
+      });
     }
   };
 
@@ -112,6 +134,15 @@ const AddNewSite = ({
       validate();
     }
   }, [siteValues, submitAttempted, validate]);
+
+  const handleConfirm = () => {
+    setSiteValues({
+      ...siteValues,
+      position: JSON.stringify(position) ?? '',
+      radius: radius.toString(),
+    });
+    setOpenAddSite(false);
+  };
 
   return (
     <Box
@@ -130,9 +161,11 @@ const AddNewSite = ({
         dict={dict}
         isOpen={openAddSite}
         handleCancel={() => setOpenAddSite(false)}
-        handleConfirm={() => setOpenAddSite(false)}
+        handleConfirm={handleConfirm}
         position={position}
         setPosition={setPosition}
+        radius={radius}
+        handleSliderChange={handleSliderChange}
       />
       <TitleBar
         dict={dict}
@@ -211,14 +244,18 @@ const AddNewSite = ({
           </Select>
           <FormHelperText error>{errors.type}</FormHelperText>
         </FormControl>
-        <Button
-          sx={{ marginTop: '24px' }}
-          variant={'outlined'}
-          startIcon={<PlaceOutlined />}
-          onClick={handleSetPosition}
-        >
-          {dict.onBoarding.sites.setLocation}
-        </Button>
+        <FormControl>
+          <Button
+            sx={{ marginTop: '24px' }}
+            color={errors.position !== '' ? 'error' : 'primary'}
+            variant={'outlined'}
+            startIcon={<PlaceOutlined />}
+            onClick={handleSetPosition}
+          >
+            {dict.onBoarding.sites.setLocation}
+          </Button>
+          <FormHelperText error>{errors.position}</FormHelperText>
+        </FormControl>
       </Box>
       <Button variant={'contained'} startIcon={<Add />} onClick={handleAddSite}>
         {dict.onBoarding.sites.addSite}

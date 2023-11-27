@@ -10,7 +10,6 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
 import { LatLngExpression } from 'leaflet';
@@ -27,6 +26,8 @@ interface OnboardingAddNewSiteDialogProps {
   handleConfirm: () => void;
   position: LatLngExpression | null;
   setPosition: (value: LatLngExpression) => void;
+  radius: number;
+  handleSliderChange: (event: Event, newValue: number | number[]) => void;
 }
 
 const AddNewSiteDialog = ({
@@ -36,13 +37,9 @@ const AddNewSiteDialog = ({
   handleConfirm,
   position,
   setPosition,
+  radius,
+  handleSliderChange,
 }: OnboardingAddNewSiteDialogProps) => {
-  const [radius, setRadius] = useState<number>(0);
-
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setRadius(newValue as number);
-  };
-
   return (
     <Dialog open={isOpen} onClose={handleCancel}>
       <DialogTitle>Set location</DialogTitle>
