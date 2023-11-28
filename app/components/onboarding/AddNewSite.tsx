@@ -66,6 +66,7 @@ const AddNewSite = ({
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [radius, setRadius] = useState<number>(0);
   const [openAddSite, setOpenAddSite] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
 
   useEffect(() => {
     if (siteToView !== -1) {
@@ -73,6 +74,31 @@ const AddNewSite = ({
       setRadius(Number(values.sites[siteToView].radius));
     }
   }, [siteToView, values.sites]);
+
+  useEffect(() => {
+    if (position !== null) {
+      const getLocation = async () => {
+        const response = await fetch(
+          `/api/geocoding/reverse?lat=${
+            JSON.parse(siteValues.position).lat
+          }&lon=${JSON.parse(siteValues.position).lng}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const data = await response
+          .json()
+          .then((res) => res.data.features[0].properties);
+
+        setSelectedLocation(data.city + ', ' + data.country);
+      };
+
+      getLocation();
+    }
+  }, [position, siteValues.position]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setRadius(newValue as number);
@@ -161,10 +187,14 @@ const AddNewSite = ({
     setOpenAddSite(false);
   };
 
-  const handleCancel = () => {
+  const handleCancelEdit = () => {
     setOnboardingStep(3);
     setOpenAddSite(false);
     setSiteToView(-1);
+  };
+
+  const handleCancelSetLocation = () => {
+    setOpenAddSite(false);
   };
 
   const handleDeleteSite = () => {
@@ -199,7 +229,7 @@ const AddNewSite = ({
       <AddNewSitePosition
         dict={dict}
         isOpen={openAddSite}
-        handleCancel={handleCancel}
+        handleCancel={handleCancelSetLocation}
         handleConfirm={handleConfirmLocation}
         position={position}
         setPosition={setPosition}
@@ -286,7 +316,9 @@ const AddNewSite = ({
         </FormControl>
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.position ? `Location set near: <insert location>` : ''}
+            {siteValues.position
+              ? `Location set near: ${selectedLocation}`
+              : ''}
           </FormHelperText>
           <Button
             color={errors.position !== '' ? 'error' : 'primary'}
@@ -305,7 +337,7 @@ const AddNewSite = ({
             <Button variant={'contained'} onClick={handleAddSite}>
               Save changes
             </Button>
-            <Button variant={'outlined'} onClick={handleCancel}>
+            <Button variant={'outlined'} onClick={handleCancelEdit}>
               Cancel
             </Button>
             <Button
