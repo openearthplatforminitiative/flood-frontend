@@ -36,8 +36,6 @@ interface OnboardingAddNewSiteProps {
   setValues: (values: UserFormData) => void;
   siteToView: number;
   setSiteToView: (value: number) => void;
-  openAddSite: boolean;
-  setOpenAddSite: (value: boolean) => void;
 }
 
 const initialValues: SiteData = {
@@ -61,14 +59,13 @@ const AddNewSite = ({
   setValues,
   siteToView,
   setSiteToView,
-  openAddSite,
-  setOpenAddSite,
 }: OnboardingAddNewSiteProps) => {
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [radius, setRadius] = useState<number>(0);
+  const [openAddSite, setOpenAddSite] = useState(false);
 
   useEffect(() => {
     if (siteToView !== -1) {
@@ -162,7 +159,6 @@ const AddNewSite = ({
       radius: radius.toString(),
     });
     setOpenAddSite(false);
-    setSiteToView(-1);
   };
 
   const handleCancel = () => {

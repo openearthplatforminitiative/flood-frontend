@@ -50,7 +50,6 @@ const initialValues: UserFormData = {
 const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
-  const [openAddSite, setOpenAddSite] = useState(false);
   const [siteToView, setSiteToView] = useState<number>(-1);
   const router = useRouter();
 
@@ -114,8 +113,6 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           setValues={setValues}
           siteToView={siteToView}
           setSiteToView={setSiteToView}
-          openAddSite={openAddSite}
-          setOpenAddSite={setOpenAddSite}
         />
       )}
     </Box>
