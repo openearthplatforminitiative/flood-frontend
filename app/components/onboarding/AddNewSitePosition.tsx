@@ -30,7 +30,7 @@ interface OnboardingAddNewSiteDialogProps {
   handleSliderChange: (event: Event, newValue: number | number[]) => void;
 }
 
-const AddNewSiteDialog = ({
+const AddNewSitePosition = ({
   dict,
   isOpen,
   handleCancel,
@@ -93,4 +93,4 @@ const AddNewSiteDialog = ({
   );
 };
 
-export default AddNewSiteDialog;
+export default AddNewSitePosition;

@@ -24,8 +24,8 @@ import { cropTypes } from '@/app/[lang]/dictionaries';
 import { LatLng, LatLngExpression } from 'leaflet';
 import dynamic from 'next/dynamic';
 
-const AddNewSiteDialog = dynamic(
-  () => import('@/app/components/onboarding/AddNewSiteDialog'),
+const AddNewSitePosition = dynamic(
+  () => import('@/app/components/onboarding/AddNewSitePosition'),
   { ssr: false }
 );
 
@@ -34,6 +34,10 @@ interface OnboardingAddNewSiteProps {
   setOnboardingStep: (value: number) => void;
   values: UserFormData;
   setValues: (values: UserFormData) => void;
+  siteToView: number;
+  setSiteToView: (value: number) => void;
+  openAddSite: boolean;
+  setOpenAddSite: (value: boolean) => void;
 }
 
 const initialValues: SiteData = {
@@ -55,13 +59,23 @@ const AddNewSite = ({
   setOnboardingStep,
   values,
   setValues,
+  siteToView,
+  setSiteToView,
+  openAddSite,
+  setOpenAddSite,
 }: OnboardingAddNewSiteProps) => {
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState<SiteData>(initialErrors);
-  const [openAddSite, setOpenAddSite] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [radius, setRadius] = useState<number>(0);
+
+  useEffect(() => {
+    if (siteToView !== -1) {
+      setSiteValues(values.sites[siteToView]);
+      setRadius(Number(values.sites[siteToView].radius));
+    }
+  }, [siteToView, values.sites]);
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setRadius(newValue as number);
@@ -69,6 +83,7 @@ const AddNewSite = ({
 
   const handleGoBack = () => {
     setOnboardingStep(3);
+    setSiteToView(-1);
   };
 
   const validate = useCallback(() => {
@@ -114,19 +129,56 @@ const AddNewSite = ({
 
     if (validate()) {
       setOnboardingStep(3);
-      setValues({
-        ...values,
-        sites: [
-          ...values.sites,
-          {
-            name: siteValues.name,
-            type: siteValues.type,
-            radius: siteValues.radius,
-            position: siteValues.position,
-          },
-        ],
-      });
+      if (siteToView !== -1) {
+        setValues({
+          ...values,
+          sites: values.sites.map((site, index) =>
+            index === siteToView ? siteValues : site
+          ),
+        });
+      } else {
+        setValues({
+          ...values,
+          sites: [
+            ...values.sites,
+            {
+              name: siteValues.name,
+              type: siteValues.type,
+              radius: siteValues.radius,
+              position: siteValues.position,
+            },
+          ],
+        });
+      }
+      setOpenAddSite(false);
+      setSiteToView(-1);
     }
+  };
+
+  const handleConfirmLocation = () => {
+    setSiteValues({
+      ...siteValues,
+      position: JSON.stringify(position) ?? '',
+      radius: radius.toString(),
+    });
+    setOpenAddSite(false);
+    setSiteToView(-1);
+  };
+
+  const handleCancel = () => {
+    setOnboardingStep(3);
+    setOpenAddSite(false);
+    setSiteToView(-1);
+  };
+
+  const handleDeleteSite = () => {
+    setValues({
+      ...values,
+      sites: values.sites.filter((_, i) => i !== siteToView),
+    });
+    setOnboardingStep(3);
+    setOpenAddSite(false);
+    setSiteToView(-1);
   };
 
   useEffect(() => {
@@ -134,15 +186,6 @@ const AddNewSite = ({
       validate();
     }
   }, [siteValues, submitAttempted, validate]);
-
-  const handleConfirm = () => {
-    setSiteValues({
-      ...siteValues,
-      position: JSON.stringify(position) ?? '',
-      radius: radius.toString(),
-    });
-    setOpenAddSite(false);
-  };
 
   return (
     <Box
@@ -157,11 +200,11 @@ const AddNewSite = ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <AddNewSiteDialog
+      <AddNewSitePosition
         dict={dict}
         isOpen={openAddSite}
-        handleCancel={() => setOpenAddSite(false)}
-        handleConfirm={handleConfirm}
+        handleCancel={handleCancel}
+        handleConfirm={handleConfirmLocation}
         position={position}
         setPosition={setPosition}
         radius={radius}
@@ -175,15 +218,16 @@ const AddNewSite = ({
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Typography variant={'h5'} sx={{ margin: '57px 0 25px 0' }}>
-          {dict.onBoarding.sites.addNewSite}
+          {siteToView >= 0 ? siteValues.name : dict.onBoarding.sites.addNewSite}
         </Typography>
         <Typography variant={'subtitle2'} component={'p'}>
-          {dict.onBoarding.sites.additionalInfo}
+          {siteToView >= 0 ? '' : dict.onBoarding.sites.additionalInfo}
         </Typography>
         <TextField
           label={dict.onBoarding.sites.name}
           variant={'filled'}
           placeholder={dict.onBoarding.sites.name}
+          value={siteValues.name}
           margin={'none'}
           onChange={(e) =>
             setSiteValues({ ...siteValues, name: e.target.value })
@@ -244,9 +288,11 @@ const AddNewSite = ({
           </Select>
           <FormHelperText error>{errors.type}</FormHelperText>
         </FormControl>
-        <FormControl>
+        <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
+          <FormHelperText>
+            {siteValues.position ? `Location set near: <insert location>` : ''}
+          </FormHelperText>
           <Button
-            sx={{ marginTop: '24px' }}
             color={errors.position !== '' ? 'error' : 'primary'}
             variant={'outlined'}
             startIcon={<PlaceOutlined />}
@@ -257,9 +303,34 @@ const AddNewSite = ({
           <FormHelperText error>{errors.position}</FormHelperText>
         </FormControl>
       </Box>
-      <Button variant={'contained'} startIcon={<Add />} onClick={handleAddSite}>
-        {dict.onBoarding.sites.addSite}
-      </Button>
+      <Box>
+        {siteToView >= 0 ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <Button variant={'contained'} onClick={handleAddSite}>
+              Save changes
+            </Button>
+            <Button variant={'outlined'} onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button
+              variant={'text'}
+              sx={{ textDecoration: 'underline' }}
+              onClick={handleDeleteSite}
+            >
+              Delete site
+            </Button>
+          </Box>
+        ) : (
+          <Button
+            variant={'contained'}
+            startIcon={<Add />}
+            onClick={handleAddSite}
+            sx={{ width: '100%' }}
+          >
+            {dict.onBoarding.sites.addSite}
+          </Button>
+        )}
+      </Box>
     </Box>
   );
 };

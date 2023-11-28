@@ -26,6 +26,7 @@ interface OnboardingSitesProps {
   setOnboardingStep: (value: number) => void;
   handleSubmit: () => void;
   values: UserFormData;
+  setSiteToView: (value: number) => void;
 }
 
 const Sites = ({
@@ -33,6 +34,7 @@ const Sites = ({
   setOnboardingStep,
   handleSubmit,
   values,
+  setSiteToView,
 }: OnboardingSitesProps) => {
   const handleAddSite = () => {
     setOnboardingStep(4);
@@ -40,6 +42,11 @@ const Sites = ({
 
   const handleGoBack = () => {
     setOnboardingStep(2);
+  };
+
+  const handleSiteClick = (index: number) => {
+    setSiteToView(index);
+    setOnboardingStep(4);
   };
 
   return (
@@ -73,7 +80,11 @@ const Sites = ({
           <List>
             {(values || []).sites.map((site, index) => {
               return (
-                <ListItem disablePadding key={index}>
+                <ListItem
+                  disablePadding
+                  key={index}
+                  onClick={() => handleSiteClick(index)}
+                >
                   <ListItemButton>
                     <ListItemIcon>
                       <Place />

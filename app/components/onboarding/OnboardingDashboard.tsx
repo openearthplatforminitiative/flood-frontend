@@ -50,6 +50,8 @@ const initialValues: UserFormData = {
 const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
+  const [openAddSite, setOpenAddSite] = useState(false);
+  const [siteToView, setSiteToView] = useState<number>(-1);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -76,7 +78,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
         width: '100%',
       }}
     >
-      {onboardingStep === 4 && (
+      {onboardingStep === 0 && (
         <WelcomeScreen dict={dict} setOnboardingStep={setOnboardingStep} />
       )}
       {onboardingStep === 1 && (
@@ -101,14 +103,19 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           setOnboardingStep={setOnboardingStep}
           handleSubmit={handleSubmit}
           values={values}
+          setSiteToView={setSiteToView}
         />
       )}
-      {onboardingStep === 0 && (
+      {onboardingStep === 4 && (
         <AddNewSite
           dict={dict}
           setOnboardingStep={setOnboardingStep}
           values={values}
           setValues={setValues}
+          siteToView={siteToView}
+          setSiteToView={setSiteToView}
+          openAddSite={openAddSite}
+          setOpenAddSite={setOpenAddSite}
         />
       )}
     </Box>

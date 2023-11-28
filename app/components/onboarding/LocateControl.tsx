@@ -89,7 +89,7 @@ const LocateControl = ({ position, setPosition }: LocateControlProps) => {
         }
       }
     };
-  }, [map]);
+  }, [map, setPosition]);
 
   return <MyCustomControl ref={controlRef} position={position} map={map} />;
 };
