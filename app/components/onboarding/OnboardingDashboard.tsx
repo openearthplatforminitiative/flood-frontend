@@ -35,6 +35,7 @@ export interface SiteData {
   name: string;
   type: string;
   position: string;
+  positionInfo?: string;
   radius: string;
 }
 

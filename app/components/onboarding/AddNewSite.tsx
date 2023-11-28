@@ -66,7 +66,7 @@ const AddNewSite = ({
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [radius, setRadius] = useState<number>(0);
   const [openAddSite, setOpenAddSite] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [positionInfo, setPositionInfo] = useState('');
 
   useEffect(() => {
     if (siteToView !== -1) {
@@ -76,7 +76,7 @@ const AddNewSite = ({
   }, [siteToView, values.sites]);
 
   useEffect(() => {
-    if (position !== null) {
+    if (siteValues.position) {
       const getLocation = async () => {
         const response = await fetch(
           `/api/geocoding/reverse?lat=${
@@ -93,7 +93,7 @@ const AddNewSite = ({
           .json()
           .then((res) => res.data.features[0].properties);
 
-        setSelectedLocation(data.city + ', ' + data.country);
+        setPositionInfo(data.city + ', ' + data.country);
       };
 
       getLocation();
@@ -169,6 +169,7 @@ const AddNewSite = ({
               type: siteValues.type,
               radius: siteValues.radius,
               position: siteValues.position,
+              positionInfo: positionInfo,
             },
           ],
         });
@@ -183,6 +184,7 @@ const AddNewSite = ({
       ...siteValues,
       position: JSON.stringify(position) ?? '',
       radius: radius.toString(),
+      positionInfo: positionInfo,
     });
     setOpenAddSite(false);
   };
@@ -316,9 +318,7 @@ const AddNewSite = ({
         </FormControl>
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.position
-              ? `Location set near: ${selectedLocation}`
-              : ''}
+            {siteValues.position ? `Location set near: ${positionInfo}` : ''}
           </FormHelperText>
           <Button
             color={errors.position !== '' ? 'error' : 'primary'}

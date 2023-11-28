@@ -4,6 +4,7 @@ CREATE TABLE "Site" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "position" TEXT NOT NULL,
+    "positionInfo" TEXT NOT NULL,
     "radius" TEXT NOT NULL,
     "userId" TEXT,
 
