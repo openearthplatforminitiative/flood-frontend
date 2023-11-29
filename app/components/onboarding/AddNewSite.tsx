@@ -40,14 +40,14 @@ interface OnboardingAddNewSiteProps {
 
 const initialValues: SiteData = {
   name: '',
-  type: '',
+  types: [],
   position: '',
   radius: '0',
 };
 
-const initialErrors: SiteData = {
+const initialErrors = {
   name: '',
-  type: '',
+  types: '',
   position: '',
   radius: '',
 };
@@ -61,7 +61,7 @@ const AddNewSite = ({
   setSiteToView,
 }: OnboardingAddNewSiteProps) => {
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
-  const [errors, setErrors] = useState<SiteData>(initialErrors);
+  const [errors, setErrors] = useState(initialErrors);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [position, setPosition] = useState<LatLngExpression | null>(null);
   const [radius, setRadius] = useState<number>(0);
@@ -116,8 +116,8 @@ const AddNewSite = ({
       tempErrors.name = 'Name is required.';
     }
 
-    if (!siteValues.type) {
-      tempErrors.type = 'Crop type is required.';
+    if (siteValues.types.length === 0) {
+      tempErrors.types = 'Crop type is required.';
     }
 
     if (!siteValues.position) {
@@ -127,7 +127,7 @@ const AddNewSite = ({
     setErrors(tempErrors);
 
     return Object.values(tempErrors).every((x) => x === '');
-  }, [siteValues.name, siteValues.position, siteValues.type]);
+  }, [siteValues.name, siteValues.position, siteValues.types]);
 
   const handleSetPosition = () => {
     const cachedPosition = localStorage.getItem('userLocation');
@@ -166,7 +166,7 @@ const AddNewSite = ({
             ...values.sites,
             {
               name: siteValues.name,
-              type: siteValues.type,
+              types: siteValues.types,
               radius: siteValues.radius,
               position: siteValues.position,
               positionInfo: positionInfo,
@@ -279,18 +279,21 @@ const AddNewSite = ({
           }}
         />
         <FormControl variant="filled" sx={{ marginTop: '16px' }}>
-          <InputLabel id="demo-simple-select-standard-label">
+          <InputLabel id="select-crops">
             {dict.onBoarding.sites.cropType}
           </InputLabel>
           <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={siteValues.type}
+            labelId="select-crops"
+            multiple
+            value={siteValues.types}
             onChange={(e) =>
-              setSiteValues({ ...siteValues, type: e.target.value })
+              setSiteValues({
+                ...siteValues,
+                types: e.target.value as string[],
+              })
             }
             label={dict.onBoarding.sites.type}
-            error={Boolean(errors.type)}
+            error={Boolean(errors.types)}
             sx={{
               background: 'white',
               width: '100%',
@@ -314,8 +317,8 @@ const AddNewSite = ({
               );
             })}
           </Select>
-          <FormHelperText error>{errors.type}</FormHelperText>
-        </FormControl>
+          <FormHelperText error>{errors.types}</FormHelperText>
+        </FormControl>{' '}
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
             {siteValues.position ? `Location set near: ${positionInfo}` : ''}

@@ -33,7 +33,7 @@ export interface UserFormData extends UserData {
 
 export interface SiteData {
   name: string;
-  type: string;
+  types: string[];
   position: string;
   positionInfo?: string;
   radius: string;
