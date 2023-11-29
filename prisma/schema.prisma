@@ -24,6 +24,7 @@ model User {
   password               String
   phone                  String
   allowPushNotifications Boolean  @map(name: "allow_push_notifications")
+  allowSMSNotifications  Boolean  @map(name: "allow_sms_notifications")
   sites                  Site[]
   createdAt              DateTime @default(now()) @map(name: "created_at")
   updatedAt              DateTime @updatedAt @map(name: "updated_at")
