@@ -44,6 +44,7 @@ export type Dict = {
       additionalInfo: string;
       type: string;
       cropTypes: CropTypeDict;
+      liveStocks: LiveStockDict;
     };
     signUp: {
       signupHeader: string;
@@ -60,6 +61,28 @@ export type Dict = {
     sendNotification: string;
   };
 };
+
+export type LiveStockDict = {
+  poultry: string;
+  goats: string;
+  cattle: string;
+  pigs: string;
+  sheep: string;
+  rabbits: string;
+  other: string;
+};
+
+type LiveStock = keyof LiveStockDict;
+
+export const liveStocks: LiveStock[] = [
+  'poultry',
+  'goats',
+  'cattle',
+  'pigs',
+  'sheep',
+  'rabbits',
+  'other',
+];
 
 export type CropTypeDict = {
   avocado: string;

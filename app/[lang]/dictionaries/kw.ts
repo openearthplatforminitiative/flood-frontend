@@ -49,6 +49,15 @@ export const kw: Dict = {
         wheat: 'Ingano',
         other: 'Ibindi',
       },
+      liveStocks: {
+        poultry: 'Inkoko',
+        goats: 'Ihene',
+        cattle: 'Inka',
+        pigs: 'Ingurube',
+        sheep: 'Intama',
+        rabbits: 'Inkwavu',
+        other: 'Ibindi',
+      },
     },
   },
   languageSelection: {

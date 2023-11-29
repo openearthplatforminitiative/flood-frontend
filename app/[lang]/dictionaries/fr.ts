@@ -52,6 +52,15 @@ export const fr: Dict = {
         wheat: 'Blé',
         other: 'Autre',
       },
+      liveStocks: {
+        poultry: 'La volaille',
+        goats: 'Chèvres',
+        cattle: 'Bétail',
+        pigs: 'Les cochons',
+        sheep: 'Brebis',
+        rabbits: 'Lapins',
+        other: 'Autre',
+      },
     },
   },
   languageSelection: {
