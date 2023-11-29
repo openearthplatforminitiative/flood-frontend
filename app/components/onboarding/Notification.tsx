@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormControlLabel,
   List,
   ListItem,
   ListItemText,
@@ -102,70 +101,72 @@ const Notification = ({
           </Box>
         </Box>
         <FormControl>
-          <FormControlLabel
+          <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row-reverse',
+              flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
             }}
-            control={
-              <Switch
-                checked={
-                  values.allowPushNotifications && values.allowSMSNotifications
-                }
-                onClick={() => {
-                  const newNotificationValue = !(
-                    values.allowPushNotifications ||
-                    values.allowSMSNotifications
-                  );
-                  setValues({
-                    ...values,
-                    allowPushNotifications: newNotificationValue,
-                    allowSMSNotifications: newNotificationValue,
-                  });
-                }}
-              />
-            }
-            label={dict.onBoarding.allowNotifications}
-          />
-          <FormControlLabel
+          >
+            {dict.onBoarding.allowNotifications}
+            <Switch
+              checked={
+                values.allowPushNotifications && values.allowSMSNotifications
+              }
+              onClick={() => {
+                const newNotificationValue = !(
+                  values.allowPushNotifications || values.allowSMSNotifications
+                );
+                setValues({
+                  ...values,
+                  allowPushNotifications: newNotificationValue,
+                  allowSMSNotifications: newNotificationValue,
+                });
+              }}
+            />
+          </Box>
+          <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row-reverse',
+              flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: '15px',
             }}
-            control={
-              <Switch
-                checked={values.allowPushNotifications}
-                onClick={() =>
-                  setValues({
-                    ...values,
-                    allowPushNotifications: !values.allowPushNotifications,
-                  })
-                }
-              />
-            }
-            label={dict.onBoarding.allowPushNotifications}
-          />
-          <FormControlLabel
+          >
+            {dict.onBoarding.allowPushNotifications}
+
+            <Switch
+              checked={values.allowPushNotifications}
+              onClick={() =>
+                setValues({
+                  ...values,
+                  allowPushNotifications: !values.allowPushNotifications,
+                })
+              }
+            />
+          </Box>
+          <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row-reverse',
+              flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: '15px',
             }}
-            control={
-              <Switch
-                checked={values.allowSMSNotifications}
-                onClick={() =>
-                  setValues({
-                    ...values,
-                    allowSMSNotifications: !values.allowSMSNotifications,
-                  })
-                }
-              />
-            }
-            label={dict.onBoarding.allowSMSNotifications}
-          />
+          >
+            {dict.onBoarding.allowSMSNotifications}
+            <Switch
+              checked={values.allowSMSNotifications}
+              onClick={() =>
+                setValues({
+                  ...values,
+                  allowSMSNotifications: !values.allowSMSNotifications,
+                })
+              }
+            />
+          </Box>
         </FormControl>
       </Box>
       <Button

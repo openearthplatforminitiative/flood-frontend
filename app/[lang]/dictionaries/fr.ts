@@ -8,7 +8,9 @@ export const fr: Dict = {
     receiveFloodWarnings: "Recevez des alertes d'inondation",
     secondOnboardingPoint: 'Un autre point',
     thirdOnboardingPoint: 'Et une dernière bonne chose',
-    allowNotifications: 'Emera imenyesha',
+    allowNotifications: 'Autoriser les notifications',
+    allowPushNotifications: 'Notifications push',
+    allowSMSNotifications: 'Notifications SMS',
     buttons: {
       createAccount: 'Créer un compte',
       logIn: 'Se connecter',

@@ -8,13 +8,15 @@ export const kw: Dict = {
     secondOnboardingPoint: 'Indi ngingo',
     thirdOnboardingPoint: 'Kandi ikintu cyiza cya nyuma',
     allowNotifications: 'Emera imenyesha',
+    allowPushNotifications: 'Shyira amatangazo',
+    allowSMSNotifications: 'Amatangazo ya SMS',
     buttons: {
       createAccount: 'Kora konti',
       logIn: 'Injira',
       nextStep: 'Intambwe ikurikira',
       backStep: 'Inyuma',
       cancelStep: 'Kureka',
-      confirm: 'Confirmer',
+      confirm: 'Emeza',
     },
     signUp: {
       signupHeader: 'Ibisobanuro byihariye',
