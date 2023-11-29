@@ -2,6 +2,7 @@
 import {
   Box,
   Button,
+  FormControl,
   FormControlLabel,
   List,
   ListItem,
@@ -100,26 +101,72 @@ const Notification = ({
             </List>
           </Box>
         </Box>
-
-        <FormControlLabel
-          sx={{
-            display: 'flex',
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-          }}
-          control={
-            <Switch
-              checked={values.allowPushNotifications}
-              onClick={() =>
-                setValues({
-                  ...values,
-                  allowPushNotifications: !values.allowPushNotifications,
-                })
-              }
-            />
-          }
-          label={dict.onBoarding.allowNotifications}
-        />
+        <FormControl>
+          <FormControlLabel
+            sx={{
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              justifyContent: 'space-between',
+            }}
+            control={
+              <Switch
+                checked={
+                  values.allowPushNotifications && values.allowSMSNotifications
+                }
+                onClick={() => {
+                  const newNotificationValue = !(
+                    values.allowPushNotifications ||
+                    values.allowSMSNotifications
+                  );
+                  setValues({
+                    ...values,
+                    allowPushNotifications: newNotificationValue,
+                    allowSMSNotifications: newNotificationValue,
+                  });
+                }}
+              />
+            }
+            label={dict.onBoarding.allowNotifications}
+          />
+          <FormControlLabel
+            sx={{
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              justifyContent: 'space-between',
+            }}
+            control={
+              <Switch
+                checked={values.allowPushNotifications}
+                onClick={() =>
+                  setValues({
+                    ...values,
+                    allowPushNotifications: !values.allowPushNotifications,
+                  })
+                }
+              />
+            }
+            label={dict.onBoarding.allowPushNotifications}
+          />
+          <FormControlLabel
+            sx={{
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              justifyContent: 'space-between',
+            }}
+            control={
+              <Switch
+                checked={values.allowSMSNotifications}
+                onClick={() =>
+                  setValues({
+                    ...values,
+                    allowSMSNotifications: !values.allowSMSNotifications,
+                  })
+                }
+              />
+            }
+            label={dict.onBoarding.allowSMSNotifications}
+          />
+        </FormControl>
       </Box>
       <Button
         disabled={false}

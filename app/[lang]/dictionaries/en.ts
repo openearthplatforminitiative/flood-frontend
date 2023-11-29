@@ -9,6 +9,8 @@ export const en: Dict = {
     secondOnboardingPoint: 'Some other point',
     thirdOnboardingPoint: 'And one final nice thing',
     allowNotifications: 'Allow notifications',
+    allowPushNotifications: 'Push notifications',
+    allowSMSNotifications: 'SMS notifications',
     buttons: {
       createAccount: 'Create account',
       logIn: 'Log in',

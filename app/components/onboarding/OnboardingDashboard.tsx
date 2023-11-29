@@ -28,6 +28,7 @@ export type UserData = {
 
 export interface UserFormData extends UserData {
   allowPushNotifications: boolean;
+  allowSMSNotifications: boolean;
   sites: SiteData[];
 }
 
@@ -45,6 +46,7 @@ const initialValues: UserFormData = {
   password: '',
   confirmPassword: '',
   allowPushNotifications: false,
+  allowSMSNotifications: false,
   sites: [],
 };
 

@@ -24,6 +24,8 @@ export type Dict = {
     secondOnboardingPoint: string;
     thirdOnboardingPoint: string;
     allowNotifications: string;
+    allowPushNotifications: string;
+    allowSMSNotifications: string;
     buttons: {
       logIn: string;
       nextStep: string;
