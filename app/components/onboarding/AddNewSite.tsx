@@ -6,9 +6,6 @@ import {
   Button,
   FormControl,
   FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,9 +17,9 @@ import type {
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import { cropTypes } from '@/app/[lang]/dictionaries';
 import { LatLng } from 'leaflet';
 import AddNewSitePosition from '@/app/components/onboarding/AddNewSitePosition';
+import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -63,10 +60,6 @@ const AddNewSite = ({
       setSiteValues(values.sites[siteToView]);
     }
   }, [siteToView, values.sites]);
-
-  useEffect(() => {
-    console.log('Site values: ', siteValues);
-  }, [siteValues]);
 
   const updateSiteValues = useCallback(() => {
     if (siteValues.position) {
@@ -276,47 +269,12 @@ const AddNewSite = ({
             },
           }}
         />
-        <FormControl variant="filled" sx={{ marginTop: '16px' }}>
-          <InputLabel id="select-crops">
-            {dict.onBoarding.sites.cropType}
-          </InputLabel>
-          <Select
-            labelId="select-crops"
-            multiple
-            value={siteValues.types}
-            onChange={(e) =>
-              setSiteValues({
-                ...siteValues,
-                types: e.target.value as string[],
-              })
-            }
-            label={dict.onBoarding.sites.type}
-            error={Boolean(errors.types)}
-            sx={{
-              background: 'white',
-              width: '100%',
-              '&:hover': {
-                backgroundColor: 'white',
-              },
-              '&.Mui-focused': {
-                backgroundColor: 'white',
-              },
-              '& .MuiSelect-select.MuiInputBase-input.MuiFilledInput-input:focus':
-                {
-                  backgroundColor: 'white',
-                },
-            }}
-          >
-            {cropTypes.map((crop) => {
-              return (
-                <MenuItem key={crop} value={crop}>
-                  {dict.onBoarding.sites.cropTypes[crop]}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <FormHelperText error>{errors.types}</FormHelperText>
-        </FormControl>{' '}
+        <MultipleTypeSelect
+          dict={dict}
+          siteValues={siteValues}
+          setSiteValues={setSiteValues}
+          errorString={errors.types}
+        />
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
             {siteValues.position
