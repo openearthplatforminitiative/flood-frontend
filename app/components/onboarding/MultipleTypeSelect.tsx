@@ -14,7 +14,7 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import { cropTypes, Dict } from '@/app/[lang]/dictionaries';
+import { cropTypes, Dict, liveStocks } from '@/app/[lang]/dictionaries';
 import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
@@ -31,7 +31,8 @@ const MultipleTypeSelect = ({
   setSiteValues,
   errorString,
 }: DropdownProps) => {
-  const [submenuOpen, setSubmenuOpen] = useState<boolean>(false);
+  const [cropMenuOpen, setCropMenuOpen] = useState<boolean>(false);
+  const [livestockMenuOpen, setLivestockMenuOpen] = useState<boolean>(false);
 
   const handleMenuItemClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value as string;
@@ -49,8 +50,12 @@ const MultipleTypeSelect = ({
     }
   };
 
-  const handleSubmenuOpen = () => {
-    setSubmenuOpen(!submenuOpen);
+  const handleCropMenuOpen = () => {
+    setCropMenuOpen(!cropMenuOpen);
+  };
+
+  const handleLivestockMenuOpen = () => {
+    setLivestockMenuOpen(!livestockMenuOpen);
   };
 
   return (
@@ -82,13 +87,13 @@ const MultipleTypeSelect = ({
         <ListItem sx={{ width: '100%' }}>
           <List component="div" disablePadding>
             <ListItemButton
-              onClick={handleSubmenuOpen}
+              onClick={handleCropMenuOpen}
               sx={{ justifyContent: 'space-between' }}
             >
               Crops and produce
-              {submenuOpen ? <ExpandLess /> : <ExpandMore />}
+              {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={submenuOpen} timeout="auto" unmountOnExit>
+            <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {cropTypes.map((crop) => {
                   const cropName = dict.onBoarding.sites.cropTypes[crop];
@@ -103,6 +108,38 @@ const MultipleTypeSelect = ({
                           />
                         }
                         label={cropName}
+                      />
+                    </MenuItem>
+                  );
+                })}
+              </List>
+            </Collapse>
+          </List>
+        </ListItem>
+        <ListItem sx={{ width: '100%' }}>
+          <List component="div" disablePadding>
+            <ListItemButton
+              onClick={handleLivestockMenuOpen}
+              sx={{ justifyContent: 'space-between' }}
+            >
+              Livestock
+              {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {liveStocks.map((liveStock) => {
+                  const cropName = dict.onBoarding.sites.liveStocks[liveStock];
+                  return (
+                    <MenuItem key={liveStock} value={liveStock}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={handleMenuItemClick}
+                            checked={siteValues.types.includes(liveStock)}
+                            value={liveStock}
+                          />
+                        }
+                        label={liveStock}
                       />
                     </MenuItem>
                   );
