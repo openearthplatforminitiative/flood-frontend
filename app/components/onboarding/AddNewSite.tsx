@@ -65,10 +65,6 @@ const AddNewSite = ({
     }
   }, [siteToView, values.sites]);
 
-  useEffect(() => {
-    console.log('Site values: ', siteValues);
-  }, [siteValues]);
-
   const updateSiteValues = useCallback(() => {
     if (siteValues.position) {
       const lat = siteValues.position.lat;
