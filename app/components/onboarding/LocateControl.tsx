@@ -2,7 +2,7 @@ import { createControlComponent } from '@react-leaflet/core';
 import L, {
   Control as LeafletControl,
   ControlPosition,
-  LatLngExpression,
+  LatLng,
   LocationEvent,
   Map,
 } from 'leaflet';
@@ -51,7 +51,7 @@ const MyCustomControl = createControlComponent(createLeafletElement);
 
 interface LocateControlProps {
   position: ControlPosition;
-  setPosition: (value: LatLngExpression) => void;
+  setPosition: (value: LatLng) => void;
 }
 
 const LocateControl = ({ position, setPosition }: LocateControlProps) => {

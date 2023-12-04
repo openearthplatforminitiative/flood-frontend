@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
+import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +16,15 @@ export async function POST(request: NextRequest) {
       data: {
         ...newUser,
         sites: {
-          create: newUser.sites,
+          create: newUser.sites.map((site: SiteData) => ({
+            ...site,
+            position: {
+              connectOrCreate: {
+                where: { id: randomUUID() },
+                create: site.position,
+              },
+            },
+          })),
         },
       },
     });

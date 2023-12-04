@@ -21,35 +21,28 @@ import type {
 } from '@/app/components/onboarding/OnboardingDashboard';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import { cropTypes } from '@/app/[lang]/dictionaries';
-import { LatLng, LatLngExpression } from 'leaflet';
-import dynamic from 'next/dynamic';
-
-const AddNewSitePosition = dynamic(
-  () => import('@/app/components/onboarding/AddNewSitePosition'),
-  { ssr: false }
-);
+import { LatLng } from 'leaflet';
+import AddNewSitePosition from '@/app/components/onboarding/AddNewSitePosition';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
   setOnboardingStep: (value: number) => void;
   values: UserFormData;
   setValues: (values: UserFormData) => void;
-  siteToView: number;
-  setSiteToView: (value: number) => void;
+  siteToView: number | undefined;
+  setSiteToView: (value: number | undefined) => void;
 }
 
 const initialValues: SiteData = {
   name: '',
   type: '',
-  position: '',
-  radius: '0',
+  radius: 0,
 };
 
-const initialErrors: SiteData = {
+const initialErrors = {
   name: '',
   type: '',
   position: '',
-  radius: '',
 };
 
 const AddNewSite = ({
@@ -61,27 +54,28 @@ const AddNewSite = ({
   setSiteToView,
 }: OnboardingAddNewSiteProps) => {
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
-  const [errors, setErrors] = useState<SiteData>(initialErrors);
+  const [errors, setErrors] = useState(initialErrors);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
-  const [position, setPosition] = useState<LatLngExpression | null>(null);
-  const [radius, setRadius] = useState<number>(0);
+  const [position, setPosition] = useState<LatLng | null>(null);
   const [openAddSite, setOpenAddSite] = useState(false);
-  const [positionInfo, setPositionInfo] = useState('');
 
   useEffect(() => {
-    if (siteToView !== -1) {
+    if (siteToView !== undefined) {
       setSiteValues(values.sites[siteToView]);
-      setRadius(Number(values.sites[siteToView].radius));
     }
   }, [siteToView, values.sites]);
 
   useEffect(() => {
+    console.log('Site values: ', siteValues);
+  }, [siteValues]);
+
+  const updateSiteValues = useCallback(() => {
     if (siteValues.position) {
+      const lat = siteValues.position.lat;
+      const lng = siteValues.position.lng;
       const getLocation = async () => {
         const response = await fetch(
-          `/api/geocoding/reverse?lat=${
-            JSON.parse(siteValues.position).lat
-          }&lon=${JSON.parse(siteValues.position).lng}`,
+          `/api/geocoding/reverse?lat=${lat}&lon=${lng}`,
           {
             method: 'GET',
             headers: {
@@ -93,20 +87,24 @@ const AddNewSite = ({
           .json()
           .then((res) => res.data.features[0].properties);
 
-        setPositionInfo(data.city + ', ' + data.country);
+        setSiteValues((prevSiteValues) => ({
+          ...prevSiteValues,
+          city: data.city,
+          country: data.country,
+        }));
       };
-
       getLocation();
     }
-  }, [position, siteValues.position]);
+  }, [siteValues.position]);
 
+  useEffect(updateSiteValues, [updateSiteValues]);
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setRadius(newValue as number);
+    setSiteValues({ ...siteValues, radius: newValue as number });
   };
 
   const handleGoBack = () => {
     setOnboardingStep(3);
-    setSiteToView(-1);
+    setSiteToView(undefined);
   };
 
   const validate = useCallback(() => {
@@ -152,11 +150,11 @@ const AddNewSite = ({
 
     if (validate()) {
       setOnboardingStep(3);
-      if (siteToView !== -1) {
+      if (siteToView !== undefined) {
         setValues({
           ...values,
           sites: values.sites.map((site, index) =>
-            index === siteToView ? siteValues : site
+            (index === siteToView) !== undefined ? siteValues : site
           ),
         });
       } else {
@@ -169,22 +167,21 @@ const AddNewSite = ({
               type: siteValues.type,
               radius: siteValues.radius,
               position: siteValues.position,
-              positionInfo: positionInfo,
+              city: siteValues.city,
+              country: siteValues.country,
             },
           ],
         });
       }
       setOpenAddSite(false);
-      setSiteToView(-1);
+      setSiteToView(undefined);
     }
   };
 
   const handleConfirmLocation = () => {
     setSiteValues({
       ...siteValues,
-      position: JSON.stringify(position) ?? '',
-      radius: radius.toString(),
-      positionInfo: positionInfo,
+      position: position ?? new LatLng(0, 0),
     });
     setOpenAddSite(false);
   };
@@ -192,7 +189,7 @@ const AddNewSite = ({
   const handleCancelEdit = () => {
     setOnboardingStep(3);
     setOpenAddSite(false);
-    setSiteToView(-1);
+    setSiteToView(undefined);
   };
 
   const handleCancelSetLocation = () => {
@@ -206,7 +203,7 @@ const AddNewSite = ({
     });
     setOnboardingStep(3);
     setOpenAddSite(false);
-    setSiteToView(-1);
+    setSiteToView(undefined);
   };
 
   useEffect(() => {
@@ -235,7 +232,7 @@ const AddNewSite = ({
         handleConfirm={handleConfirmLocation}
         position={position}
         setPosition={setPosition}
-        radius={radius}
+        radius={siteValues.radius ?? 0}
         handleSliderChange={handleSliderChange}
       />
       <TitleBar
@@ -246,10 +243,12 @@ const AddNewSite = ({
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Typography variant={'h5'} sx={{ margin: '57px 0 25px 0' }}>
-          {siteToView >= 0 ? siteValues.name : dict.onBoarding.sites.addNewSite}
+          {siteToView !== undefined
+            ? siteValues.name
+            : dict.onBoarding.sites.addNewSite}
         </Typography>
         <Typography variant={'subtitle2'} component={'p'}>
-          {siteToView >= 0 ? '' : dict.onBoarding.sites.additionalInfo}
+          {siteToView !== undefined ? '' : dict.onBoarding.sites.additionalInfo}
         </Typography>
         <TextField
           label={dict.onBoarding.sites.name}
@@ -318,7 +317,9 @@ const AddNewSite = ({
         </FormControl>
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.position ? `Location set near: ${positionInfo}` : ''}
+            {siteValues.position
+              ? `Location set near: ${siteValues.city}, ${siteValues.country}`
+              : ''}
           </FormHelperText>
           <Button
             color={errors.position !== '' ? 'error' : 'primary'}
@@ -332,7 +333,7 @@ const AddNewSite = ({
         </FormControl>
       </Box>
       <Box>
-        {siteToView >= 0 ? (
+        {siteToView !== undefined ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Button variant={'contained'} onClick={handleAddSite}>
               Save changes

@@ -9,6 +9,7 @@ import Notification from '@/app/components/onboarding/Notification';
 import Sites from '@/app/components/onboarding/Sites';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
+import { LatLng } from 'leaflet';
 
 const AddNewSite = dynamic(
   () => import('@/app/components/onboarding/AddNewSite'),
@@ -34,9 +35,10 @@ export interface UserFormData extends UserData {
 export interface SiteData {
   name: string;
   type: string;
-  position: string;
-  positionInfo?: string;
-  radius: string;
+  position?: LatLng;
+  city?: string;
+  country?: string;
+  radius?: number;
 }
 
 const initialValues: UserFormData = {
@@ -51,7 +53,7 @@ const initialValues: UserFormData = {
 const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
-  const [siteToView, setSiteToView] = useState<number>(-1);
+  const [siteToView, setSiteToView] = useState<number | undefined>(undefined);
   const router = useRouter();
 
   const handleSubmit = async () => {
