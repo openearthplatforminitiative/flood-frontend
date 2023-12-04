@@ -2,17 +2,17 @@
 
 import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect } from 'react';
-import { DragEndEvent, LatLngExpression, LocationEvent } from 'leaflet';
+import { DragEndEvent, LatLng, LocationEvent } from 'leaflet';
 import LocateControl from '@/app/components/onboarding/LocateControl';
 
 interface SiteMapProps {
   radius: number;
-  position: LatLngExpression | null;
-  setPosition: (value: LatLngExpression) => void;
+  position: LatLng | null;
+  setPosition: (value: LatLng) => void;
 }
 
 const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
-  const center: LatLngExpression = [51.505, -0.09];
+  const placeholderPosition: LatLng = new LatLng(51.505, -0.09);
 
   const LocationMarker = () => {
     const map = useMap();
@@ -35,11 +35,14 @@ const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
     return (
       <Marker
         draggable
-        position={position ?? center}
+        position={position ?? placeholderPosition}
         eventHandlers={{ dragend: handleDragEnd }}
       >
         {radius > 0 && (
-          <Circle center={position ?? center} radius={radius * 30} />
+          <Circle
+            center={position ?? placeholderPosition}
+            radius={radius * 30}
+          />
         )}
       </Marker>
     );
@@ -47,7 +50,7 @@ const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
 
   return (
     <MapContainer
-      center={center}
+      center={placeholderPosition}
       zoom={14}
       scrollWheelZoom={false}
       style={{ width: '312px', height: '320px', flexShrink: '0' }}

@@ -7,13 +7,11 @@ export async function GET(request: NextRequest) {
     const lon = searchParams.get('lon');
 
     const response = await fetch(
-      `https://api-test.openepi.io/geocoding/reverse?lat=${lat}&lon=${lon}`
+      `${process.env.API_URL}/geocoding/reverse?lat=${lat}&lon=${lon}`
     );
     const product = await response.json();
 
     return NextResponse.json({
-      message: 'Location retrieved successfully',
-      status: 200,
       data: product,
     });
   } catch (error) {
