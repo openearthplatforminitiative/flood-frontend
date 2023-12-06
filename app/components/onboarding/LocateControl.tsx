@@ -2,7 +2,6 @@ import { createControlComponent } from '@react-leaflet/core';
 import L, {
   Control as LeafletControl,
   ControlPosition,
-  LatLng,
   LocationEvent,
   Map,
 } from 'leaflet';
@@ -10,6 +9,7 @@ import React, { MutableRefObject, useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import ReactDOM from 'react-dom/client';
 import { PlaceOutlined } from '@mui/icons-material';
+import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
 
 type MyCustomControlProps = {
   position: ControlPosition;
@@ -51,10 +51,15 @@ const MyCustomControl = createControlComponent(createLeafletElement);
 
 interface LocateControlProps {
   position: ControlPosition;
-  setPosition: (value: LatLng) => void;
+  setSiteValues: (value: SiteData) => void;
+  siteValues: SiteData;
 }
 
-const LocateControl = ({ position, setPosition }: LocateControlProps) => {
+const LocateControl = ({
+  position,
+  setSiteValues,
+  siteValues,
+}: LocateControlProps) => {
   const map = useMap();
   const controlRef: MutableRefObject<LeafletControl | null> = useRef(null);
 
@@ -69,7 +74,7 @@ const LocateControl = ({ position, setPosition }: LocateControlProps) => {
     };
 
     map.on('locationfound', function (e: LocationEvent) {
-      setPosition(e.latlng);
+      setSiteValues({ ...siteValues, lng: e.latlng.lng, lat: e.latlng.lat });
       map.setView(e.latlng, map.getZoom());
     });
 
@@ -89,7 +94,7 @@ const LocateControl = ({ position, setPosition }: LocateControlProps) => {
         }
       }
     };
-  }, [map, setPosition]);
+  }, [map, setSiteValues, siteValues]);
 
   return <MyCustomControl ref={controlRef} position={position} map={map} />;
 };

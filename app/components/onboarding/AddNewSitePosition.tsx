@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
-import { LatLng } from 'leaflet';
+import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
 
 const SiteMap = dynamic(
   () => import('@/app/components/onboarding/SiteMap'),
@@ -24,8 +24,8 @@ interface OnboardingAddNewSiteDialogProps {
   isOpen: boolean;
   handleCancel: () => void;
   handleConfirm: () => void;
-  position: LatLng | null;
-  setPosition: (value: LatLng) => void;
+  siteValues: SiteData;
+  setSiteValues: (value: SiteData) => void;
   radius: number;
   handleSliderChange: (event: Event, newValue: number | number[]) => void;
 }
@@ -35,8 +35,8 @@ const AddNewSitePosition = ({
   isOpen,
   handleCancel,
   handleConfirm,
-  position,
-  setPosition,
+  siteValues,
+  setSiteValues,
   radius,
   handleSliderChange,
 }: OnboardingAddNewSiteDialogProps) => {
@@ -54,8 +54,8 @@ const AddNewSitePosition = ({
         >
           <SiteMap
             radius={radius}
-            position={position}
-            setPosition={setPosition}
+            siteValues={siteValues}
+            setSiteValues={setSiteValues}
           />
           <Box
             sx={{

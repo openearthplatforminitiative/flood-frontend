@@ -7,24 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model LatLng {
-  id   String @id
-  lat  Float
-  lng  Float
-  Site Site[]
-}
-
 model Site {
-  id       String   @id @default(cuid())
-  name     String
-  types    String[]
-  position LatLng   @relation(fields: [latLngId], references: [id])
-  city     String
-  country  String
-  radius   Int
-  User     User?    @relation(fields: [userId], references: [id])
-  userId   String?
-  latLngId String
+  id      String   @id @default(cuid())
+  name    String
+  types   String[]
+  city    String
+  country String
+  radius  Int
+  User    User?    @relation(fields: [userId], references: [id])
+  userId  String?
+  lat     Float
+  lng     Float
 }
 
 model User {

@@ -55,7 +55,6 @@ const AddNewSite = ({
   const [siteValues, setSiteValues] = useState<SiteData>(initialValues);
   const [errors, setErrors] = useState(initialErrors);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
-  const [position, setPosition] = useState<LatLng | null>(null);
   const [openAddSite, setOpenAddSite] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -66,9 +65,9 @@ const AddNewSite = ({
   }, [siteToView, values.sites]);
 
   const updateSiteValues = useCallback(() => {
-    if (siteValues.position) {
-      const lat = siteValues.position.lat;
-      const lng = siteValues.position.lng;
+    if (siteValues.lat !== undefined && siteValues.lng !== undefined) {
+      const lat = siteValues.lat;
+      const lng = siteValues.lng;
       const getLocation = async () => {
         const response = await fetch(
           `/api/geocoding/reverse?lat=${lat}&lon=${lng}`,
@@ -83,6 +82,8 @@ const AddNewSite = ({
           .json()
           .then((res) => res.data.features[0].properties);
 
+        console.log('Data: ', data);
+
         setSiteValues((prevSiteValues) => ({
           ...prevSiteValues,
           city: data.city,
@@ -91,7 +92,7 @@ const AddNewSite = ({
       };
       getLocation();
     }
-  }, [siteValues.position]);
+  }, [siteValues.lat, siteValues.lng]);
 
   useEffect(updateSiteValues, [updateSiteValues]);
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -114,27 +115,35 @@ const AddNewSite = ({
       tempErrors.types = 'Crop type is required.';
     }
 
-    if (!siteValues.position) {
+    if (!siteValues.lat || !siteValues.lng) {
       tempErrors.position = 'Position is required.';
     }
 
     setErrors(tempErrors);
 
     return Object.values(tempErrors).every((x) => x === '');
-  }, [siteValues.name, siteValues.position, siteValues.types]);
+  }, [siteValues.lat, siteValues.lng, siteValues.name, siteValues.types]);
 
   const handleSetPosition = () => {
     const cachedPosition = localStorage.getItem('userLocation');
     if (cachedPosition) {
-      setPosition(JSON.parse(cachedPosition));
+      setSiteValues({
+        ...siteValues,
+        lat: JSON.parse(cachedPosition).lat,
+        lng: JSON.parse(cachedPosition).lng,
+      });
       setOpenAddSite(true);
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
+        setSiteValues({
+          ...siteValues,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
         const userPosition = new LatLng(
           position.coords.latitude,
           position.coords.longitude
         );
-        setPosition(userPosition);
         localStorage.setItem('userLocation', JSON.stringify(userPosition)); // Save position to localStorage
         setOpenAddSite(true);
       });
@@ -162,7 +171,8 @@ const AddNewSite = ({
               name: siteValues.name,
               types: siteValues.types,
               radius: siteValues.radius,
-              position: siteValues.position,
+              lat: siteValues.lat,
+              lng: siteValues.lng,
               city: siteValues.city,
               country: siteValues.country,
             },
@@ -177,7 +187,8 @@ const AddNewSite = ({
   const handleConfirmLocation = () => {
     setSiteValues({
       ...siteValues,
-      position: position ?? new LatLng(0, 0),
+      lat: siteValues.lat ?? 0,
+      lng: siteValues.lng ?? 0,
     });
     setOpenAddSite(false);
   };
@@ -227,8 +238,8 @@ const AddNewSite = ({
         isOpen={openAddSite}
         handleCancel={handleCancelSetLocation}
         handleConfirm={handleConfirmLocation}
-        position={position}
-        setPosition={setPosition}
+        siteValues={siteValues}
+        setSiteValues={setSiteValues}
         radius={siteValues.radius ?? 0}
         handleSliderChange={handleSliderChange}
       />
@@ -282,8 +293,8 @@ const AddNewSite = ({
         />
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.position
-              ? ` ${dict.onBoarding.sites.locationMessage} ${siteValues.city}, ${siteValues.country}`
+            {siteValues.lat && siteValues.lng
+              ? `Location set near: ${siteValues.city}, ${siteValues.country}`
               : ''}
           </FormHelperText>
           <Button

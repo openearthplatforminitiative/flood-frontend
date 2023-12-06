@@ -78,11 +78,10 @@ const Sites = ({
           </Typography>
 
           <List>
-            {(values || []).sites.map((site, index) => {
+            {(values.sites || []).map((site, index) => {
               const types = site.types
                 .map((type) => type.slice(0, 1).toUpperCase() + type.slice(1))
                 .join(', ');
-
               return (
                 <ListItem
                   disablePadding

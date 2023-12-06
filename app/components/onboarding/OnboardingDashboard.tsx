@@ -9,7 +9,6 @@ import Notification from '@/app/components/onboarding/Notification';
 import Sites from '@/app/components/onboarding/Sites';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
-import { LatLng } from 'leaflet';
 
 const AddNewSite = dynamic(
   () => import('@/app/components/onboarding/AddNewSite'),
@@ -36,7 +35,8 @@ export interface UserFormData extends UserData {
 export interface SiteData {
   name: string;
   types: string[];
-  position?: LatLng;
+  lat?: number;
+  lng?: number;
   city?: string;
   country?: string;
   radius?: number;
