@@ -326,11 +326,8 @@ const AddNewSite = ({
             <Dialog
               open={openDialog}
               onClose={() => setOpenDialog(false)}
-              sx={{
-                width: '312px',
-                minWidth: '280px',
-                maxWidth: '560px',
-              }}
+              scroll={'paper'}
+              maxWidth={'xs'}
             >
               <DialogTitle sx={{ fontSize: '24px', fontWeight: '400' }}>
                 {dict.onBoarding.sites.deleteConfirmMessage}

@@ -35,19 +35,18 @@ const MultipleTypeSelect = ({
   const [cropMenuOpen, setCropMenuOpen] = useState<boolean>(false);
   const [livestockMenuOpen, setLivestockMenuOpen] = useState<boolean>(false);
 
-  const handleMenuItemClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value as string;
-    const checked = siteValues.types.includes(value);
+  const handleMenuItemClick = (menuItem: string) => {
+    const checked = siteValues.types.includes(menuItem);
 
     if (checked) {
       // If the checkbox is checked, remove the value from the types array
       setSiteValues({
         ...siteValues,
-        types: siteValues.types.filter((item) => item !== value),
+        types: siteValues.types.filter((item) => item !== menuItem),
       });
     } else {
       // If the checkbox is unchecked, add the value to the types array
-      setSiteValues({ ...siteValues, types: [...siteValues.types, value] });
+      setSiteValues({ ...siteValues, types: [...siteValues.types, menuItem] });
     }
   };
 
@@ -61,11 +60,11 @@ const MultipleTypeSelect = ({
 
   return (
     <FormControl variant="filled" sx={{ marginTop: '16px', width: '100%' }}>
-      <InputLabel id="select-crops">
+      <InputLabel id="select-site-type">
         {dict.onBoarding.sites.siteType}
       </InputLabel>
       <Select
-        labelId="select-crops"
+        labelId="select-site-type"
         value={siteValues.types}
         multiple
         renderValue={(value) => (value as string[]).join(', ')}
@@ -84,39 +83,43 @@ const MultipleTypeSelect = ({
             backgroundColor: 'white',
           },
         }}
+        MenuProps={{
+          PaperProps: {
+            autoFocus: false,
+          },
+        }}
       >
         <ListItem sx={{ width: '100%' }}>
-          <List component="div" disablePadding sx={{ width: '100%' }}>
-            <ListItemButton
-              onClick={handleCropMenuOpen}
-              sx={{ justifyContent: 'space-between' }}
-            >
-              {dict.onBoarding.sites.cropsType}
-              {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {cropTypes.map((crop) => {
-                  const cropName = dict.onBoarding.sites.cropTypes[crop];
-                  return (
-                    <MenuItem key={crop} value={crop}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            onChange={handleMenuItemClick}
-                            checked={siteValues.types.includes(cropName)}
-                            value={cropName}
-                          />
-                        }
-                        label={cropName}
-                      />
-                    </MenuItem>
-                  );
-                })}
-              </List>
-            </Collapse>
-          </List>
+          <ListItemButton
+            onClick={handleCropMenuOpen}
+            sx={{ justifyContent: 'space-between' }}
+          >
+            {dict.onBoarding.sites.cropsType}
+            {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
         </ListItem>
+        <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {cropTypes.map((crop) => {
+              const cropName = dict.onBoarding.sites.cropTypes[crop];
+              return (
+                <MenuItem key={crop} value={crop}>
+                  <FormControlLabel
+                    sx={{ width: '100%' }}
+                    onChange={() => handleMenuItemClick(cropName)}
+                    control={
+                      <Checkbox
+                        checked={siteValues.types.includes(cropName)}
+                        value={cropName}
+                      />
+                    }
+                    label={cropName}
+                  />
+                </MenuItem>
+              );
+            })}
+          </List>
+        </Collapse>
         <ListItem sx={{ width: '100%' }}>
           <List component="div" disablePadding sx={{ width: '100%' }}>
             <ListItemButton
@@ -134,9 +137,10 @@ const MultipleTypeSelect = ({
                   return (
                     <MenuItem key={liveStock} value={liveStock}>
                       <FormControlLabel
+                        sx={{ width: '100%' }}
+                        onChange={() => handleMenuItemClick(liveStockName)}
                         control={
                           <Checkbox
-                            onChange={handleMenuItemClick}
                             checked={siteValues.types.includes(liveStockName)}
                             value={liveStockName}
                           />
@@ -153,10 +157,11 @@ const MultipleTypeSelect = ({
         <Divider />
         <MenuItem value="Storage">
           <FormControlLabel
+            sx={{ width: '100%' }}
+            onChange={() => handleMenuItemClick('Storage')}
             control={
               <Checkbox
                 checked={siteValues.types.includes('Storage')}
-                onChange={handleMenuItemClick}
                 value="Storage"
               />
             }
@@ -165,10 +170,11 @@ const MultipleTypeSelect = ({
         </MenuItem>
         <MenuItem value="Residential">
           <FormControlLabel
+            sx={{ width: '100%' }}
+            onChange={() => handleMenuItemClick('Residential')}
             control={
               <Checkbox
                 checked={siteValues.types.includes('Residential')}
-                onChange={handleMenuItemClick}
                 value="Residential"
               />
             }
@@ -177,10 +183,11 @@ const MultipleTypeSelect = ({
         </MenuItem>
         <MenuItem value="Industrial">
           <FormControlLabel
+            sx={{ width: '100%' }}
+            onChange={() => handleMenuItemClick('Industrial')}
             control={
               <Checkbox
                 checked={siteValues.types.includes('Industrial')}
-                onChange={handleMenuItemClick}
                 value="Industrial"
               />
             }
@@ -190,10 +197,11 @@ const MultipleTypeSelect = ({
         <Divider />
         <MenuItem value="Other">
           <FormControlLabel
+            sx={{ width: '100%' }}
+            onChange={() => handleMenuItemClick('Other')}
             control={
               <Checkbox
                 checked={siteValues.types.includes('Other')}
-                onChange={handleMenuItemClick}
                 value="Other"
               />
             }
