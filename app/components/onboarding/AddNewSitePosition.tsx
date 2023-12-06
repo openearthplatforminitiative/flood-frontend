@@ -42,7 +42,7 @@ const AddNewSitePosition = ({
 }: OnboardingAddNewSiteDialogProps) => {
   return (
     <Dialog open={isOpen} onClose={handleCancel}>
-      <DialogTitle>Set location</DialogTitle>
+      <DialogTitle>{dict.onBoarding.sites.setLocation}</DialogTitle>
       <DialogContent>
         <Box
           id={'map'}
@@ -75,7 +75,7 @@ const AddNewSitePosition = ({
               }}
             >
               <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
-                Area (radius)
+                {dict.onBoarding.sites.locationArea}
               </Typography>
               {radius}
             </Box>
@@ -85,8 +85,10 @@ const AddNewSitePosition = ({
       </DialogContent>
       <DialogActions>
         <Box>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleConfirm}>Confirm</Button>
+          <Button onClick={handleCancel}>{dict.onBoarding.sites.cancel}</Button>
+          <Button onClick={handleConfirm}>
+            {dict.onBoarding.sites.confirm}
+          </Button>
         </Box>
       </DialogActions>
     </Dialog>

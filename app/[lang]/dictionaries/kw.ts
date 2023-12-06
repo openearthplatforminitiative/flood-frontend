@@ -32,7 +32,7 @@ export const kw: Dict = {
       addSite: 'Ongeraho urubuga',
       addNewSite: 'Ongeraho urubuga rushya',
       setLocation: 'Shiraho ahantu',
-      cropType: 'Ubwoko bwibihingwa cyangwa umusaruro',
+      siteType: 'Ubwoko bwibihingwa cyangwa umusaruro',
       name: 'Izina',
       type: 'Andika',
       additionalInfo: 'Inyandiko zinyongera zisobanura hano, iyi ni umwanya.',

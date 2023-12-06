@@ -34,7 +34,7 @@ export const fr: Dict = {
       addSite: 'Ajouter un site',
       addNewSite: 'Ajouter un nouveau site',
       setLocation: "Définir l'emplacement",
-      cropType: 'Type de culture ou de produit',
+      siteType: 'Type de culture ou de produit',
       name: 'Nom',
       type: 'Taper',
       additionalInfo:

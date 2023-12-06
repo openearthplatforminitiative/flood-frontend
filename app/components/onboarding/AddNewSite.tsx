@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   FormControl,
   FormHelperText,
   TextField,
@@ -54,6 +57,7 @@ const AddNewSite = ({
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [position, setPosition] = useState<LatLng | null>(null);
   const [openAddSite, setOpenAddSite] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     if (siteToView !== undefined) {
@@ -196,6 +200,7 @@ const AddNewSite = ({
     setOnboardingStep(3);
     setOpenAddSite(false);
     setSiteToView(undefined);
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -278,7 +283,7 @@ const AddNewSite = ({
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
             {siteValues.position
-              ? `Location set near: ${siteValues.city}, ${siteValues.country}`
+              ? ` ${dict.onBoarding.sites.locationMessage} ${siteValues.city}, ${siteValues.country}`
               : ''}
           </FormHelperText>
           <Button
@@ -296,18 +301,40 @@ const AddNewSite = ({
         {siteToView !== undefined ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Button variant={'contained'} onClick={handleAddSite}>
-              Save changes
+              {dict.onBoarding.sites.saveChanges}
             </Button>
             <Button variant={'outlined'} onClick={handleCancelEdit}>
-              Cancel
+              {dict.onBoarding.sites.cancel}
             </Button>
             <Button
               variant={'text'}
+              color={'error'}
               sx={{ textDecoration: 'underline' }}
-              onClick={handleDeleteSite}
+              onClick={() => setOpenDialog(true)}
             >
-              Delete site
+              {dict.onBoarding.sites.deleteSite}
             </Button>
+            <Dialog
+              open={openDialog}
+              onClose={() => setOpenDialog(false)}
+              sx={{
+                width: '312px',
+                minWidth: '280px',
+                maxWidth: '560px',
+              }}
+            >
+              <DialogTitle sx={{ fontSize: '24px', fontWeight: '400' }}>
+                {dict.onBoarding.sites.deleteConfirmMessage}
+              </DialogTitle>
+              <DialogActions>
+                <Button onClick={handleDeleteSite}>
+                  {dict.onBoarding.sites.deleteYes}
+                </Button>
+                <Button onClick={() => setOpenDialog(false)}>
+                  {dict.onBoarding.sites.deleteNo}
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Box>
         ) : (
           <Button

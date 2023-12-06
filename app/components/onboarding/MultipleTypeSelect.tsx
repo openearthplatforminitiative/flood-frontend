@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import {
   Checkbox,
   Collapse,
+  Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -61,7 +62,7 @@ const MultipleTypeSelect = ({
   return (
     <FormControl variant="filled" sx={{ marginTop: '16px', width: '100%' }}>
       <InputLabel id="select-crops">
-        {dict.onBoarding.sites.cropType}
+        {dict.onBoarding.sites.siteType}
       </InputLabel>
       <Select
         labelId="select-crops"
@@ -85,12 +86,12 @@ const MultipleTypeSelect = ({
         }}
       >
         <ListItem sx={{ width: '100%' }}>
-          <List component="div" disablePadding>
+          <List component="div" disablePadding sx={{ width: '100%' }}>
             <ListItemButton
               onClick={handleCropMenuOpen}
               sx={{ justifyContent: 'space-between' }}
             >
-              Crops and produce
+              {dict.onBoarding.sites.cropsType}
               {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
@@ -117,29 +118,30 @@ const MultipleTypeSelect = ({
           </List>
         </ListItem>
         <ListItem sx={{ width: '100%' }}>
-          <List component="div" disablePadding>
+          <List component="div" disablePadding sx={{ width: '100%' }}>
             <ListItemButton
               onClick={handleLivestockMenuOpen}
               sx={{ justifyContent: 'space-between' }}
             >
-              Livestock
+              {dict.onBoarding.sites.livestockType}
               {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {liveStocks.map((liveStock) => {
-                  const cropName = dict.onBoarding.sites.liveStocks[liveStock];
+                  const liveStockName =
+                    dict.onBoarding.sites.liveStocks[liveStock];
                   return (
                     <MenuItem key={liveStock} value={liveStock}>
                       <FormControlLabel
                         control={
                           <Checkbox
                             onChange={handleMenuItemClick}
-                            checked={siteValues.types.includes(liveStock)}
-                            value={liveStock}
+                            checked={siteValues.types.includes(liveStockName)}
+                            value={liveStockName}
                           />
                         }
-                        label={liveStock}
+                        label={liveStockName}
                       />
                     </MenuItem>
                   );
@@ -148,7 +150,7 @@ const MultipleTypeSelect = ({
             </Collapse>
           </List>
         </ListItem>
-
+        <Divider />
         <MenuItem value="Storage">
           <FormControlLabel
             control={
@@ -158,7 +160,7 @@ const MultipleTypeSelect = ({
                 value="Storage"
               />
             }
-            label="Storage"
+            label={dict.onBoarding.sites.storageType}
           />
         </MenuItem>
         <MenuItem value="Residential">
@@ -170,7 +172,7 @@ const MultipleTypeSelect = ({
                 value="Residential"
               />
             }
-            label="Residential"
+            label={dict.onBoarding.sites.residentialType}
           />
         </MenuItem>
         <MenuItem value="Industrial">
@@ -182,7 +184,20 @@ const MultipleTypeSelect = ({
                 value="Industrial"
               />
             }
-            label="Industrial"
+            label={dict.onBoarding.sites.industrialType}
+          />
+        </MenuItem>
+        <Divider />
+        <MenuItem value="Other">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={siteValues.types.includes('Other')}
+                onChange={handleMenuItemClick}
+                value="Other"
+              />
+            }
+            label={dict.onBoarding.sites.otherType}
           />
         </MenuItem>
       </Select>

@@ -69,6 +69,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
         phone: values.phoneNumber,
         password: values.password,
         allowPushNotifications: values.allowPushNotifications,
+        allowSMSNotifications: values.allowSMSNotifications,
         sites: values.sites,
       }),
     });
