@@ -1,22 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { GeocoderClient } from 'openepi-client';
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const lat = Number(searchParams.get('lat'));
+  const lon = Number(searchParams.get('lon'));
+  const client = new GeocoderClient();
+
   try {
-    const { searchParams } = new URL(request.url);
-    const lat = searchParams.get('lat');
-    const lon = searchParams.get('lon');
-
-    const response = await fetch(
-      `${process.env.API_URL}/geocoding/reverse?lat=${lat}&lon=${lon}`
-    );
-    const product = await response.json();
-
+    const result = await client.getReverseGeocoding(lon, lat);
+    const { data } = result;
     return NextResponse.json({
-      data: product,
+      data: data,
     });
   } catch (error) {
     console.error(error);
-    throw NextResponse.json(
+    return NextResponse.json(
       { error: 'Internal server error ' },
       { status: 500 }
     );

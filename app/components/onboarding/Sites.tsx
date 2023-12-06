@@ -78,7 +78,7 @@ const Sites = ({
           </Typography>
 
           <List>
-            {(values || []).sites.map((site, index) => {
+            {(values.sites || []).map((site, index) => {
               return (
                 <ListItem
                   disablePadding

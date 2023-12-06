@@ -4,43 +4,58 @@ import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 import { DragEndEvent, LatLng, LocationEvent } from 'leaflet';
 import LocateControl from '@/app/components/onboarding/LocateControl';
+import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
 
 interface SiteMapProps {
   radius: number;
-  position: LatLng | null;
-  setPosition: (value: LatLng) => void;
+  siteValues: SiteData;
+  setSiteValues: (value: SiteData) => void;
 }
 
-const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
+const SiteMap = ({ radius, siteValues, setSiteValues }: SiteMapProps) => {
   const placeholderPosition: LatLng = new LatLng(51.505, -0.09);
 
   const LocationMarker = () => {
     const map = useMap();
 
     useEffect(() => {
-      if (position === null) {
+      if (siteValues.lng === undefined || siteValues.lat === undefined) {
         map.locate().on('locationfound', function (e: LocationEvent) {
-          setPosition(e.latlng);
+          setSiteValues({
+            ...siteValues,
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+          });
           map.setView(e.latlng, map.getZoom());
         });
       } else {
+        const position = new LatLng(siteValues.lat, siteValues.lng);
         map.setView(position, map.getZoom());
       }
     }, [map]);
 
     const handleDragEnd = (event: DragEndEvent) => {
-      setPosition(event.target.getLatLng());
+      const position: LatLng = event.target.getLatLng();
+      setSiteValues({ ...siteValues, lat: position.lat, lng: position.lng });
     };
 
     return (
       <Marker
         draggable
-        position={position ?? placeholderPosition}
+        position={
+          siteValues.lng && siteValues.lat
+            ? new LatLng(siteValues.lat, siteValues.lng)
+            : placeholderPosition
+        }
         eventHandlers={{ dragend: handleDragEnd }}
       >
         {radius > 0 && (
           <Circle
-            center={position ?? placeholderPosition}
+            center={
+              siteValues.lng && siteValues.lat
+                ? new LatLng(siteValues.lat, siteValues.lng)
+                : placeholderPosition
+            }
             radius={radius * 30}
           />
         )}
@@ -61,7 +76,11 @@ const SiteMap = ({ radius, position, setPosition }: SiteMapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LocationMarker />
-      <LocateControl position={'topleft'} setPosition={setPosition} />
+      <LocateControl
+        position={'topleft'}
+        siteValues={siteValues}
+        setSiteValues={setSiteValues}
+      />
     </MapContainer>
   );
 };
