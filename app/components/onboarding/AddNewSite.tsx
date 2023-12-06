@@ -36,6 +36,7 @@ interface OnboardingAddNewSiteProps {
 const initialValues: SiteData = {
   name: '',
   types: [],
+  radius: 0,
 };
 
 const initialErrors = {
@@ -81,8 +82,6 @@ const AddNewSite = ({
         const data = await response
           .json()
           .then((res) => res.data.features[0].properties);
-
-        console.log('Data: ', data);
 
         setSiteValues((prevSiteValues) => ({
           ...prevSiteValues,
@@ -293,7 +292,7 @@ const AddNewSite = ({
         />
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.lat && siteValues.lng
+            {siteValues.city !== undefined && siteValues.country !== undefined
               ? `Location set near: ${siteValues.city}, ${siteValues.country}`
               : ''}
           </FormHelperText>
