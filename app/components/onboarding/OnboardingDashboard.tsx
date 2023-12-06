@@ -39,7 +39,7 @@ export interface SiteData {
   lng?: number;
   city?: string;
   country?: string;
-  radius?: number;
+  radius: number;
 }
 
 const initialValues: UserFormData = {

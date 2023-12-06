@@ -26,7 +26,6 @@ interface OnboardingAddNewSiteDialogProps {
   handleConfirm: () => void;
   siteValues: SiteData;
   setSiteValues: (value: SiteData) => void;
-  radius: number;
   handleSliderChange: (event: Event, newValue: number | number[]) => void;
 }
 
@@ -37,7 +36,6 @@ const AddNewSitePosition = ({
   handleConfirm,
   siteValues,
   setSiteValues,
-  radius,
   handleSliderChange,
 }: OnboardingAddNewSiteDialogProps) => {
   return (
@@ -53,7 +51,7 @@ const AddNewSitePosition = ({
           }}
         >
           <SiteMap
-            radius={radius}
+            radius={siteValues.radius}
             siteValues={siteValues}
             setSiteValues={setSiteValues}
           />
@@ -77,9 +75,9 @@ const AddNewSitePosition = ({
               <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
                 {dict.onBoarding.sites.locationArea}
               </Typography>
-              {radius}
+              {siteValues.radius}
             </Box>
-            <Slider value={radius} onChange={handleSliderChange} />
+            <Slider value={siteValues.radius} onChange={handleSliderChange} />
           </Box>
         </Box>
       </DialogContent>

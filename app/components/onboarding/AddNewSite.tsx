@@ -239,7 +239,6 @@ const AddNewSite = ({
         handleConfirm={handleConfirmLocation}
         siteValues={siteValues}
         setSiteValues={setSiteValues}
-        radius={siteValues.radius ?? 0}
         handleSliderChange={handleSliderChange}
       />
       <TitleBar
