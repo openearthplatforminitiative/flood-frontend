@@ -10,8 +10,6 @@ import {
   FormHelperText,
   InputLabel,
   List,
-  ListItem,
-  ListItemButton,
   MenuItem,
   Select,
 } from '@mui/material';
@@ -85,21 +83,27 @@ const MultipleTypeSelect = ({
         }}
         MenuProps={{
           PaperProps: {
+            style: {
+              maxHeight: 400,
+              width: 250,
+            },
             autoFocus: false,
           },
         }}
       >
-        <ListItem sx={{ width: '100%' }}>
-          <ListItemButton
-            onClick={handleCropMenuOpen}
-            sx={{ justifyContent: 'space-between' }}
-          >
-            {dict.onBoarding.sites.cropsType}
-            {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-        </ListItem>
+        <MenuItem
+          sx={{
+            width: '100%',
+            justifyContent: 'space-between',
+            padding: '15px',
+          }}
+          onClick={handleCropMenuOpen}
+        >
+          {dict.onBoarding.sites.cropsType}
+          {cropMenuOpen ? <ExpandLess /> : <ExpandMore />}
+        </MenuItem>
         <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List>
             {cropTypes.map((crop) => {
               const cropName = dict.onBoarding.sites.cropTypes[crop];
               return (
@@ -120,17 +124,19 @@ const MultipleTypeSelect = ({
             })}
           </List>
         </Collapse>
-        <ListItem sx={{ width: '100%' }}>
-          <ListItemButton
-            onClick={handleLivestockMenuOpen}
-            sx={{ justifyContent: 'space-between' }}
-          >
-            {dict.onBoarding.sites.livestockType}
-            {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-        </ListItem>
+        <MenuItem
+          sx={{
+            width: '100%',
+            justifyContent: 'space-between',
+            padding: '15px',
+          }}
+          onClick={handleLivestockMenuOpen}
+        >
+          {dict.onBoarding.sites.livestockType}
+          {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
+        </MenuItem>
         <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List>
             {liveStocks.map((liveStock) => {
               const liveStockName = dict.onBoarding.sites.liveStocks[liveStock];
               return (
