@@ -121,39 +121,36 @@ const MultipleTypeSelect = ({
           </List>
         </Collapse>
         <ListItem sx={{ width: '100%' }}>
-          <List component="div" disablePadding sx={{ width: '100%' }}>
-            <ListItemButton
-              onClick={handleLivestockMenuOpen}
-              sx={{ justifyContent: 'space-between' }}
-            >
-              {dict.onBoarding.sites.livestockType}
-              {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {liveStocks.map((liveStock) => {
-                  const liveStockName =
-                    dict.onBoarding.sites.liveStocks[liveStock];
-                  return (
-                    <MenuItem key={liveStock} value={liveStock}>
-                      <FormControlLabel
-                        sx={{ width: '100%' }}
-                        onChange={() => handleMenuItemClick(liveStockName)}
-                        control={
-                          <Checkbox
-                            checked={siteValues.types.includes(liveStockName)}
-                            value={liveStockName}
-                          />
-                        }
-                        label={liveStockName}
-                      />
-                    </MenuItem>
-                  );
-                })}
-              </List>
-            </Collapse>
-          </List>
+          <ListItemButton
+            onClick={handleLivestockMenuOpen}
+            sx={{ justifyContent: 'space-between' }}
+          >
+            {dict.onBoarding.sites.livestockType}
+            {livestockMenuOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
         </ListItem>
+        <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {liveStocks.map((liveStock) => {
+              const liveStockName = dict.onBoarding.sites.liveStocks[liveStock];
+              return (
+                <MenuItem key={liveStock} value={liveStock}>
+                  <FormControlLabel
+                    sx={{ width: '100%' }}
+                    onChange={() => handleMenuItemClick(liveStockName)}
+                    control={
+                      <Checkbox
+                        checked={siteValues.types.includes(liveStockName)}
+                        value={liveStockName}
+                      />
+                    }
+                    label={liveStockName}
+                  />
+                </MenuItem>
+              );
+            })}
+          </List>
+        </Collapse>
         <Divider />
         <MenuItem value="Storage">
           <FormControlLabel
