@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 const inter = Inter({
+  weight: ['400', '500', '600'],
   subsets: ['latin'],
   display: 'swap',
 });
@@ -24,6 +25,12 @@ export default function RootLayout({
     <html lang={lang} className={inter.className}>
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossOrigin="anonymous"
+        />
         <meta name="theme-color" content="#90cdf4" />
         <title>FloodSafe</title>
       </head>

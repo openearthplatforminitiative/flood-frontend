@@ -7,8 +7,13 @@ import { useRouter } from 'next/navigation';
 import Signup from '@/app/components/onboarding/Signup';
 import Notification from '@/app/components/onboarding/Notification';
 import Sites from '@/app/components/onboarding/Sites';
-import AddNewSite from '@/app/components/onboarding/AddNewSite';
 import type { Dict } from '@/app/[lang]/dictionaries';
+import dynamic from 'next/dynamic';
+
+const AddNewSite = dynamic(
+  () => import('@/app/components/onboarding/AddNewSite'),
+  { ssr: false } // This will prevent server-side rendering for SiteMap component
+);
 
 interface OnboardingProps {
   dict: Dict;
@@ -29,7 +34,11 @@ export interface UserFormData extends UserData {
 export interface SiteData {
   name: string;
   type: string;
-  location: string; //Don't know exactly what type this needs to be. Might need to be both lan and lat
+  lat?: number;
+  lng?: number;
+  city?: string;
+  country?: string;
+  radius?: number;
 }
 
 const initialValues: UserFormData = {
@@ -44,6 +53,7 @@ const initialValues: UserFormData = {
 const OnboardingDashboard = ({ dict }: OnboardingProps) => {
   const [onboardingStep, setOnboardingStep] = useState<number>(0);
   const [values, setValues] = useState<UserFormData>(initialValues);
+  const [siteToView, setSiteToView] = useState<number | undefined>(undefined);
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -95,6 +105,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           setOnboardingStep={setOnboardingStep}
           handleSubmit={handleSubmit}
           values={values}
+          setSiteToView={setSiteToView}
         />
       )}
       {onboardingStep === 4 && (
@@ -103,6 +114,8 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
           setOnboardingStep={setOnboardingStep}
           values={values}
           setValues={setValues}
+          siteToView={siteToView}
+          setSiteToView={setSiteToView}
         />
       )}
     </Box>
