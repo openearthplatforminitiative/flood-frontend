@@ -28,6 +28,7 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "allow_push_notifications" BOOLEAN NOT NULL,
+    "allow_sms_notifications" BOOLEAN NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

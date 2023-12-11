@@ -2,7 +2,7 @@
 import {
   Box,
   Button,
-  FormControlLabel,
+  FormControl,
   List,
   ListItem,
   ListItemText,
@@ -100,14 +100,43 @@ const Notification = ({
             </List>
           </Box>
         </Box>
+        <FormControl>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            {dict.onBoarding.allowNotifications}
+            <Switch
+              checked={
+                values.allowPushNotifications || values.allowSMSNotifications
+              }
+              onClick={() => {
+                const newNotificationValue = !(
+                  values.allowPushNotifications || values.allowSMSNotifications
+                );
+                setValues({
+                  ...values,
+                  allowPushNotifications: newNotificationValue,
+                  allowSMSNotifications: newNotificationValue,
+                });
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: '15px',
+            }}
+          >
+            {dict.onBoarding.allowPushNotifications}
 
-        <FormControlLabel
-          sx={{
-            display: 'flex',
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-          }}
-          control={
             <Switch
               checked={values.allowPushNotifications}
               onClick={() =>
@@ -117,9 +146,28 @@ const Notification = ({
                 })
               }
             />
-          }
-          label={dict.onBoarding.allowNotifications}
-        />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: '15px',
+            }}
+          >
+            {dict.onBoarding.allowSMSNotifications}
+            <Switch
+              checked={values.allowSMSNotifications}
+              onClick={() =>
+                setValues({
+                  ...values,
+                  allowSMSNotifications: !values.allowSMSNotifications,
+                })
+              }
+            />
+          </Box>
+        </FormControl>
       </Box>
       <Button
         disabled={false}
