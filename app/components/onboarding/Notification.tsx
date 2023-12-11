@@ -112,7 +112,7 @@ const Notification = ({
             {dict.onBoarding.allowNotifications}
             <Switch
               checked={
-                values.allowPushNotifications && values.allowSMSNotifications
+                values.allowPushNotifications || values.allowSMSNotifications
               }
               onClick={() => {
                 const newNotificationValue = !(
