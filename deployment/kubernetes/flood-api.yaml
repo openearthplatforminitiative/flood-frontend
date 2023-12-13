@@ -23,6 +23,25 @@ spec:
           env:
             - name: VERSION
               value: 0.0.1
+            - name: DB_NAME
+              value: flood_frontend_db
+            - name: DB_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: endpoint
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
 ---
 apiVersion: v1
 kind: Service
@@ -49,3 +68,36 @@ spec:
       backends:
         - serviceName: flood-frontend
           servicePort: 80
+---
+apiVersion: rds.aws.upbound.io/v1beta1
+kind: Instance
+metadata:
+  name: flood-frontend-db
+  namespace: apps
+spec:
+  initProvider:
+    # These fields are only used on creation, but will not be used when updating the resource.
+    engineVersion: '15.4'
+    allocatedStorage: 16
+  forProvider:
+    engine: postgres
+    instanceClass: db.t4g.micro
+    region: eu-central-1
+    maxAllocatedStorage: 64
+    storageEncrypted: true
+    storageType: gp2
+    publiclyAccessible: false
+    dbName: flood_frontend_db
+    username: postgres
+    autoGeneratePassword: true
+    passwordSecretRef:
+      name: db-password
+      namespace: apps
+      key: password
+    finalSnapshotIdentifier: flood-frontend-db-final-snapshot
+  managementPolicies: ["*"]
+  writeConnectionSecretToRef:
+    namespace: apps
+    name: flood-frontend-connection-secrets
+  providerConfigRef:
+    name: default

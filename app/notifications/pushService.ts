@@ -19,7 +19,7 @@ export const registerPushNotifications = async () => {
   const serviceWorker = await getReadyServiceWorker();
   const subscription = await serviceWorker.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: process.env.NEXT_PUBLIC_NOTIFICATION_PUBLIC_KEY,
+    applicationServerKey: process.env.NOTIFICATION_PUBLIC_KEY,
   });
 
   await sendPushSubscriptionToServer(subscription);
