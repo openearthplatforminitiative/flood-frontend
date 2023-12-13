@@ -28,17 +28,18 @@ export type UserData = {
 
 export interface UserFormData extends UserData {
   allowPushNotifications: boolean;
+  allowSMSNotifications: boolean;
   sites: SiteData[];
 }
 
 export interface SiteData {
   name: string;
-  type: string;
+  types: string[];
   lat?: number;
   lng?: number;
   city?: string;
   country?: string;
-  radius?: number;
+  radius: number;
 }
 
 const initialValues: UserFormData = {
@@ -47,6 +48,7 @@ const initialValues: UserFormData = {
   password: '',
   confirmPassword: '',
   allowPushNotifications: false,
+  allowSMSNotifications: false,
   sites: [],
 };
 
@@ -67,6 +69,7 @@ const OnboardingDashboard = ({ dict }: OnboardingProps) => {
         phone: values.phoneNumber,
         password: values.password,
         allowPushNotifications: values.allowPushNotifications,
+        allowSMSNotifications: values.allowSMSNotifications,
         sites: values.sites,
       }),
     });

@@ -79,6 +79,9 @@ const Sites = ({
 
           <List>
             {(values.sites || []).map((site, index) => {
+              const types = site.types
+                .map((type) => type.slice(0, 1).toUpperCase() + type.slice(1))
+                .join(', ');
               return (
                 <ListItem
                   disablePadding
@@ -89,7 +92,7 @@ const Sites = ({
                     <ListItemIcon>
                       <Place />
                     </ListItemIcon>
-                    <ListItemText primary={site.name} secondary={site.type} />
+                    <ListItemText primary={site.name} secondary={types} />
                     <ListItemIcon>
                       <ArrowRight />
                     </ListItemIcon>

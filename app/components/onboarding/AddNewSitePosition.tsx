@@ -26,7 +26,6 @@ interface OnboardingAddNewSiteDialogProps {
   handleConfirm: () => void;
   siteValues: SiteData;
   setSiteValues: (value: SiteData) => void;
-  radius: number;
   handleSliderChange: (event: Event, newValue: number | number[]) => void;
 }
 
@@ -37,12 +36,11 @@ const AddNewSitePosition = ({
   handleConfirm,
   siteValues,
   setSiteValues,
-  radius,
   handleSliderChange,
 }: OnboardingAddNewSiteDialogProps) => {
   return (
     <Dialog open={isOpen} onClose={handleCancel}>
-      <DialogTitle>Set location</DialogTitle>
+      <DialogTitle>{dict.onBoarding.sites.setLocation}</DialogTitle>
       <DialogContent>
         <Box
           id={'map'}
@@ -53,7 +51,7 @@ const AddNewSitePosition = ({
           }}
         >
           <SiteMap
-            radius={radius}
+            radius={siteValues.radius}
             siteValues={siteValues}
             setSiteValues={setSiteValues}
           />
@@ -75,18 +73,20 @@ const AddNewSitePosition = ({
               }}
             >
               <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
-                Area (radius)
+                {dict.onBoarding.sites.locationArea}
               </Typography>
-              {radius}
+              {siteValues.radius}
             </Box>
-            <Slider value={radius} onChange={handleSliderChange} />
+            <Slider value={siteValues.radius} onChange={handleSliderChange} />
           </Box>
         </Box>
       </DialogContent>
       <DialogActions>
         <Box>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleConfirm}>Confirm</Button>
+          <Button onClick={handleCancel}>{dict.onBoarding.sites.cancel}</Button>
+          <Button onClick={handleConfirm}>
+            {dict.onBoarding.sites.confirm}
+          </Button>
         </Box>
       </DialogActions>
     </Dialog>

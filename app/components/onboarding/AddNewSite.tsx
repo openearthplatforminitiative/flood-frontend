@@ -4,11 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   FormControl,
   FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,9 +20,9 @@ import type {
   UserFormData,
 } from '@/app/components/onboarding/OnboardingDashboard';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import { cropTypes } from '@/app/[lang]/dictionaries';
 import { LatLng } from 'leaflet';
 import AddNewSitePosition from '@/app/components/onboarding/AddNewSitePosition';
+import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 
 interface OnboardingAddNewSiteProps {
   dict: Dict;
@@ -35,13 +35,13 @@ interface OnboardingAddNewSiteProps {
 
 const initialValues: SiteData = {
   name: '',
-  type: '',
+  types: [],
   radius: 0,
 };
 
 const initialErrors = {
   name: '',
-  type: '',
+  types: '',
   position: '',
 };
 
@@ -57,6 +57,7 @@ const AddNewSite = ({
   const [errors, setErrors] = useState(initialErrors);
   const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
   const [openAddSite, setOpenAddSite] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     if (siteToView !== undefined) {
@@ -81,8 +82,6 @@ const AddNewSite = ({
         const data = await response
           .json()
           .then((res) => res.data.features[0].properties);
-
-        console.log('Data: ', data);
 
         setSiteValues((prevSiteValues) => ({
           ...prevSiteValues,
@@ -111,8 +110,8 @@ const AddNewSite = ({
       tempErrors.name = 'Name is required.';
     }
 
-    if (!siteValues.type) {
-      tempErrors.type = 'Crop type is required.';
+    if (siteValues.types.length === 0) {
+      tempErrors.types = 'Crop type is required.';
     }
 
     if (!siteValues.lat || !siteValues.lng) {
@@ -122,7 +121,7 @@ const AddNewSite = ({
     setErrors(tempErrors);
 
     return Object.values(tempErrors).every((x) => x === '');
-  }, [siteValues.lat, siteValues.lng, siteValues.name, siteValues.type]);
+  }, [siteValues.lat, siteValues.lng, siteValues.name, siteValues.types]);
 
   const handleSetPosition = () => {
     const cachedPosition = localStorage.getItem('userLocation');
@@ -169,7 +168,7 @@ const AddNewSite = ({
             ...values.sites,
             {
               name: siteValues.name,
-              type: siteValues.type,
+              types: siteValues.types,
               radius: siteValues.radius,
               lat: siteValues.lat,
               lng: siteValues.lng,
@@ -211,6 +210,7 @@ const AddNewSite = ({
     setOnboardingStep(3);
     setOpenAddSite(false);
     setSiteToView(undefined);
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -239,7 +239,6 @@ const AddNewSite = ({
         handleConfirm={handleConfirmLocation}
         siteValues={siteValues}
         setSiteValues={setSiteValues}
-        radius={siteValues.radius ?? 0}
         handleSliderChange={handleSliderChange}
       />
       <TitleBar
@@ -284,47 +283,15 @@ const AddNewSite = ({
             },
           }}
         />
-        <FormControl variant="filled" sx={{ marginTop: '16px' }}>
-          <InputLabel id="demo-simple-select-standard-label">
-            {dict.onBoarding.sites.cropType}
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={siteValues.type}
-            onChange={(e) =>
-              setSiteValues({ ...siteValues, type: e.target.value })
-            }
-            label={dict.onBoarding.sites.type}
-            error={Boolean(errors.type)}
-            sx={{
-              background: 'white',
-              width: '100%',
-              '&:hover': {
-                backgroundColor: 'white',
-              },
-              '&.Mui-focused': {
-                backgroundColor: 'white',
-              },
-              '& .MuiSelect-select.MuiInputBase-input.MuiFilledInput-input:focus':
-                {
-                  backgroundColor: 'white',
-                },
-            }}
-          >
-            {cropTypes.map((crop) => {
-              return (
-                <MenuItem key={crop} value={crop}>
-                  {dict.onBoarding.sites.cropTypes[crop]}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <FormHelperText error>{errors.type}</FormHelperText>
-        </FormControl>
+        <MultipleTypeSelect
+          dict={dict}
+          siteValues={siteValues}
+          setSiteValues={setSiteValues}
+          errorString={errors.types}
+        />
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
-            {siteValues.lat && siteValues.lng
+            {siteValues.city !== undefined && siteValues.country !== undefined
               ? `Location set near: ${siteValues.city}, ${siteValues.country}`
               : ''}
           </FormHelperText>
@@ -343,18 +310,37 @@ const AddNewSite = ({
         {siteToView !== undefined ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Button variant={'contained'} onClick={handleAddSite}>
-              Save changes
+              {dict.onBoarding.sites.saveChanges}
             </Button>
             <Button variant={'outlined'} onClick={handleCancelEdit}>
-              Cancel
+              {dict.onBoarding.sites.cancel}
             </Button>
             <Button
               variant={'text'}
+              color={'error'}
               sx={{ textDecoration: 'underline' }}
-              onClick={handleDeleteSite}
+              onClick={() => setOpenDialog(true)}
             >
-              Delete site
+              {dict.onBoarding.sites.deleteSite}
             </Button>
+            <Dialog
+              open={openDialog}
+              onClose={() => setOpenDialog(false)}
+              scroll={'paper'}
+              maxWidth={'xs'}
+            >
+              <DialogTitle sx={{ fontSize: '24px', fontWeight: '400' }}>
+                {dict.onBoarding.sites.deleteConfirmMessage}
+              </DialogTitle>
+              <DialogActions>
+                <Button onClick={handleDeleteSite}>
+                  {dict.onBoarding.sites.deleteYes}
+                </Button>
+                <Button onClick={() => setOpenDialog(false)}>
+                  {dict.onBoarding.sites.deleteNo}
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Box>
         ) : (
           <Button

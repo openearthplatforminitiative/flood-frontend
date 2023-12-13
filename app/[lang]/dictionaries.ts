@@ -24,6 +24,8 @@ export type Dict = {
     secondOnboardingPoint: string;
     thirdOnboardingPoint: string;
     allowNotifications: string;
+    allowPushNotifications: string;
+    allowSMSNotifications: string;
     buttons: {
       logIn: string;
       nextStep: string;
@@ -37,11 +39,27 @@ export type Dict = {
       addSite: string;
       addNewSite: string;
       setLocation: string;
-      cropType: string;
+      locationMessage: string;
+      locationArea: string;
+      saveChanges: string;
+      cancel: string;
+      confirm: string;
+      deleteSite: string;
+      deleteConfirmMessage: string;
+      deleteYes: string;
+      deleteNo: string;
+      siteType: string;
+      cropsType: string;
+      livestockType: string;
+      storageType: string;
+      residentialType: string;
+      industrialType: string;
+      otherType: string;
       name: string;
       additionalInfo: string;
       type: string;
       cropTypes: CropTypeDict;
+      liveStocks: LiveStockDict;
     };
     signUp: {
       signupHeader: string;
@@ -58,6 +76,28 @@ export type Dict = {
     sendNotification: string;
   };
 };
+
+export type LiveStockDict = {
+  poultry: string;
+  goats: string;
+  cattle: string;
+  pigs: string;
+  sheep: string;
+  rabbits: string;
+  other: string;
+};
+
+type LiveStock = keyof LiveStockDict;
+
+export const liveStocks: LiveStock[] = [
+  'poultry',
+  'goats',
+  'cattle',
+  'pigs',
+  'sheep',
+  'rabbits',
+  'other',
+];
 
 export type CropTypeDict = {
   avocado: string;
