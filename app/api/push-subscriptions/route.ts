@@ -5,14 +5,14 @@ import {
 import { NextRequest, NextResponse } from 'next/server';
 import webPush, { PushSubscription } from 'web-push';
 
-webPush.setVapidDetails(
-  'mailto:test@example.com',
-  process.env.NEXT_PUBLIC_NOTIFICATION_PUBLIC_KEY ?? '',
-  process.env.NOTIFICATION_PRIVATE_KEY ?? ''
-);
-
 export async function POST(request: NextRequest) {
   try {
+    webPush.setVapidDetails(
+      'mailto:test@example.com',
+      process.env.NOTIFICATION_PUBLIC_KEY ?? '',
+      process.env.NOTIFICATION_PRIVATE_KEY ?? ''
+    );
+
     const newSubscription: PushSubscription | undefined = await request.json();
     if (!newSubscription) {
       throw NextResponse.json({
@@ -40,6 +40,12 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    webPush.setVapidDetails(
+      'mailto:test@example.com',
+      process.env.NOTIFICATION_PUBLIC_KEY ?? '',
+      process.env.NOTIFICATION_PRIVATE_KEY ?? ''
+    );
+
     const subscriptionToDelete: PushSubscription | undefined =
       await request.json();
     if (!subscriptionToDelete) {
