@@ -116,7 +116,7 @@ spec:
     username: postgres
     autoGeneratePassword: true
     passwordSecretRef:
-      name: db-password
+      name: flood-frontend-db-password
       namespace: apps
       key: password
     finalSnapshotIdentifier: flood-frontend-db-final-snapshot
