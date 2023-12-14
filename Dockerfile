@@ -13,7 +13,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -24,6 +23,10 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
+
+FROM deps AS migrator
+COPY ./prisma ./prisma
+CMD ["npm", "run", "migrate"]
 
 # Production image, copy all the files and run next
 FROM base AS runner

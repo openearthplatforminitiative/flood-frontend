@@ -9,7 +9,8 @@
     "lint": "next lint",
     "ngrok": "ngrok http 3000",
     "prettier": "npx prettier . --write",
-    "check-prettier": "npx prettier . --check"
+    "check-prettier": "npx prettier . --check",
+    "migrate": "prisma migrate deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
