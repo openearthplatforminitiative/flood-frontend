@@ -87,7 +87,7 @@ spec:
     - name: flood-frontend
       match:
         hosts:
-          - flood*.openepi.io
+          - flood-dev2.openepi.io
       backends:
         - serviceName: flood-frontend
           servicePort: 80

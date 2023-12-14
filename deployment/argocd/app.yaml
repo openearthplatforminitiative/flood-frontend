@@ -12,7 +12,7 @@ spec:
   project: apps
   source:
     repoURL: https://github.com/openearthplatforminitiative/flood-frontend
-    targetRevision: HEAD
+    targetRevision: test/apisix-route
     path: deployment/kubernetes/
   syncPolicy:
     automated:
