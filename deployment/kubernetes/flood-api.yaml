@@ -86,8 +86,13 @@ spec:
   http:
     - name: flood-frontend
       match:
+        paths:
+          - /*
         hosts:
-          - flood*.openepi.io
+          - flood-dev1.openepi.io
+          - flood-dev2.openepi.io
+          - flood-test.openepi.io
+          - flood.openepi.io
       backends:
         - serviceName: flood-frontend
           servicePort: 80
@@ -114,7 +119,7 @@ spec:
     username: postgres
     autoGeneratePassword: true
     passwordSecretRef:
-      name: db-password
+      name: flood-frontend-db-password
       namespace: apps
       key: password
     finalSnapshotIdentifier: flood-frontend-db-final-snapshot
