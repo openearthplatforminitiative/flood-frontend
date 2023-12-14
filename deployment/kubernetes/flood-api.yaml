@@ -89,7 +89,10 @@ spec:
         paths:
           - /*
         hosts:
+          - flood-dev1.openepi.io
           - flood-dev2.openepi.io
+          - flood-test.openepi.io
+          - flood.openepi.io
       backends:
         - serviceName: flood-frontend
           servicePort: 80
