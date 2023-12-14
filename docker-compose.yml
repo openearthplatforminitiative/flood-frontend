@@ -1,12 +1,17 @@
 version: '3.9'
+
+volumes:
+  postgres_data:
+    driver: local
+
 services:
   postgres:
-    container_name: flood-frontend-db
+    container_name: db
     image: postgres:15.5
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Henrik123
-      POSTGRES_DB: flood-frontend-db
+      POSTGRES_DB: keycloak
     networks:
       - local
     ports:
@@ -16,20 +21,20 @@ services:
 
   keycloak:
     container_name: keycloak
-    image: quay.io/keycloak/keycloak:23.0.1
+    image: quay.io/keycloak/keycloak:22.0.0
     command: start-dev
-    build:
-      context: .
-      dockerfile: Dockerfile
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-      - DB=postgres
-      - DB_URL=jdbc:postgresql://postgres/flood-frontend-db
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=Henrik123
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=Henrik123
+      - KC_HOSTNAME=localhost
     ports:
       - 8080:8080
+    networks:
+      - local
     depends_on:
       - postgres
 
@@ -37,6 +42,3 @@ networks:
   local:
     name: local
     driver: bridge
-
-volumes:
-  postgres_data:
