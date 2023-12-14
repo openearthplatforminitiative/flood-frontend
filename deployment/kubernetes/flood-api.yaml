@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flood-frontend
+  namespace: apps
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: flood-frontend
+  template:
+    metadata:
+      namespace: apps
+      labels:
+        app: flood-frontend
+    spec:
+      initContainers:
+        - name: flood-frontend-migrator
+          image: ghcr.io/openearthplatforminitiative/flood-frontend-migrator:0.0.1
+          env:
+            - name: DB_NAME
+              value: flood_frontend_db
+            - name: DB_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: endpoint
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
+      containers:
+        - image: ghcr.io/openearthplatforminitiative/flood-frontend:0.0.1
+          name: flood-frontend
+          ports:
+            - containerPort: 3000
+          env:
+            - name: VERSION
+              value: 0.0.1
+            - name: DB_NAME
+              value: flood_frontend_db
+            - name: DB_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: endpoint
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flood-frontend
+  namespace: apps
+spec:
+  ports:
+    - port: 80
+      targetPort: 3000
+  selector:
+    app: flood-frontend
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: flood-frontend
+spec:
+  http:
+    - name: flood-frontend
+      match:
+        hosts:
+          - flood*.openepi.io
+      backends:
+        - serviceName: flood-frontend
+          servicePort: 80
+---
+apiVersion: rds.aws.upbound.io/v1beta1
+kind: Instance
+metadata:
+  name: flood-frontend-db
+  namespace: apps
+spec:
+  initProvider:
+    # These fields are only used on creation, but will not be used when updating the resource.
+    engineVersion: '15.4'
+    allocatedStorage: 16
+  forProvider:
+    engine: postgres
+    instanceClass: db.t4g.micro
+    region: eu-central-1
+    maxAllocatedStorage: 64
+    storageEncrypted: true
+    storageType: gp2
+    publiclyAccessible: false
+    dbName: flood_frontend_db
+    username: postgres
+    autoGeneratePassword: true
+    passwordSecretRef:
+      name: db-password
+      namespace: apps
+      key: password
+    finalSnapshotIdentifier: flood-frontend-db-final-snapshot
+  managementPolicies: ["*"]
+  writeConnectionSecretToRef:
+    namespace: apps
+    name: flood-frontend-connection-secrets
+  providerConfigRef:
+    name: default
