@@ -87,7 +87,7 @@ spec:
     - name: flood-frontend
       match:
         paths:
-          - *
+          - /*
         hosts:
           - flood-dev2.openepi.io
       backends:
