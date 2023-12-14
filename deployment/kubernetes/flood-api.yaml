@@ -15,6 +15,29 @@ spec:
       labels:
         app: flood-frontend
     spec:
+      initContainers:
+        - name: flood-frontend-migrator
+          image: ghcr.io/openearthplatforminitiative/flood-frontend-migrator:0.0.1
+          env:
+            - name: DB_NAME
+              value: flood_frontend_db
+            - name: DB_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: endpoint
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flood-frontend-connection-secrets
+                  key: password
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_ENDPOINT)/$(DB_NAME)
       containers:
         - image: ghcr.io/openearthplatforminitiative/flood-frontend:0.0.1
           name: flood-frontend
