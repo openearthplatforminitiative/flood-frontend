@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import theme from '@/app/[lang]/theme/theme';
+import { SessionProvider } from 'next-auth/react';
 
 interface ThemeRegistryProps {
   options: { key: string };
@@ -61,7 +62,7 @@ export default function ThemeRegistry({
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </ThemeProvider>
     </CacheProvider>
   );
