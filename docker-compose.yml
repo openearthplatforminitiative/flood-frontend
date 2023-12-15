@@ -22,6 +22,9 @@ services:
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:22.0.0
+    build:
+      context: .
+      dockerfile: ./docker/keycloak/Dockerfile
     command: start-dev
     environment:
       - KEYCLOAK_ADMIN=admin
@@ -31,6 +34,7 @@ services:
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=Henrik123
       - KC_HOSTNAME=localhost
+      - KC_SPI_THEME_DEFAULT=custom-keycloak-theme
     ports:
       - 8080:8080
     networks:
