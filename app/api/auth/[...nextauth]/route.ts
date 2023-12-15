@@ -18,7 +18,7 @@ const MyAdapter: Adapter = {
   },
 };
 
-export const authOptions = {
+const handler = NextAuth({
   adapter: MyAdapter,
   providers: [
     KeycloakProvider({
@@ -27,7 +27,6 @@ export const authOptions = {
       issuer: process.env.KEYCLOAK_ISSUER,
     }),
   ],
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
