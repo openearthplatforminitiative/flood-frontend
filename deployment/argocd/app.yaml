@@ -12,7 +12,7 @@ spec:
   project: apps
   source:
     repoURL: https://github.com/openearthplatforminitiative/flood-frontend
-    targetRevision: HEAD
+    targetRevision: feature/add-keycloak-infrastructure
     path: deployment/kubernetes/
   syncPolicy:
     automated:
