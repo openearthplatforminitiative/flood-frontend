@@ -122,7 +122,8 @@ spec:
       name: flood-frontend-db-password
       namespace: apps
       key: password
-    finalSnapshotIdentifier: flood-frontend-db-final-snapshot
+    applyModificationsImmediately: true # this was added
+    skipFinalSnapshotBeforeDeletion: true # this was added
   managementPolicies: ["*"]
   writeConnectionSecretToRef:
     namespace: apps
