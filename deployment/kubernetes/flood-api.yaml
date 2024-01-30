@@ -78,24 +78,20 @@ spec:
   selector:
     app: flood-frontend
 ---
-apiVersion: apisix.apache.org/v2
-kind: ApisixRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: flood-frontend
 spec:
-  http:
-    - name: flood-frontend
-      match:
-        paths:
-          - /*
-        hosts:
-          - flood-dev1.openepi.io
-          - flood-dev2.openepi.io
-          - flood-test.openepi.io
-          - flood.openepi.io
-      backends:
-        - serviceName: flood-frontend
-          servicePort: 80
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: HostRegexp(`flood-{env:[a-zA-Z0-9-]+}.openepi.io`) || Host(`flood.openepi.io`)
+    services:
+    - kind: Service
+      name: flood-frontend
+      port: 80
 ---
 apiVersion: rds.aws.upbound.io/v1beta1
 kind: Instance
