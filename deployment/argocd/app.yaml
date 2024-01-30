@@ -2,14 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: flood-frontend
-  namespace: apps
+  namespace: flood-frontend
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: apps
+    namespace: flood-frontend
     server: https://kubernetes.default.svc
-  project: apps
+  project: flood-frontend
   source:
     repoURL: https://github.com/openearthplatforminitiative/flood-frontend
     targetRevision: HEAD
