@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flood-frontend
-  namespace: apps
+  namespace: flood-frontend
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -11,7 +11,7 @@ spec:
       app: flood-frontend
   template:
     metadata:
-      namespace: apps
+      namespace: flood-frontend
       labels:
         app: flood-frontend
     spec:
@@ -70,7 +70,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: flood-frontend
-  namespace: apps
+  namespace: flood-frontend
 spec:
   ports:
     - port: 80
@@ -101,7 +101,7 @@ apiVersion: rds.aws.upbound.io/v1beta1
 kind: Instance
 metadata:
   name: flood-frontend-db
-  namespace: apps
+  namespace: flood-frontend
 spec:
   initProvider:
     # These fields are only used on creation, but will not be used when updating the resource.
@@ -120,12 +120,12 @@ spec:
     autoGeneratePassword: true
     passwordSecretRef:
       name: flood-frontend-db-password
-      namespace: apps
+      namespace: flood-frontend
       key: password
     finalSnapshotIdentifier: flood-frontend-db-final-snapshot
   managementPolicies: ["*"]
   writeConnectionSecretToRef:
-    namespace: apps
+    namespace: flood-frontend
     name: flood-frontend-connection-secrets
   providerConfigRef:
     name: default
