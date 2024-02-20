@@ -5,12 +5,9 @@
   - A unique constraint covering the columns `[email]` on the table `User` will be added. If there are existing duplicate values, this will fail.
 
 */
--- AlterTable
-ALTER TABLE "Site" DROP COLUMN "type",
-ADD COLUMN     "types" TEXT[];
 
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "allow_sms_notifications" BOOLEAN,
+ALTER TABLE "User"
 ADD COLUMN     "email" TEXT,
 ADD COLUMN     "emailVerified" TIMESTAMP(3),
 ADD COLUMN     "image" TEXT,
