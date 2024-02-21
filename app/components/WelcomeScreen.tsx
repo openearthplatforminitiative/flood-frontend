@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import background from '@/public/assets/images/start-screen-image.png';
 import Title from '@/app/components/Title';
-import Link from 'next/link';
 import type { Dict } from '@/app/[lang]/dictionaries';
+import { signIn } from 'next-auth/react';
 
 interface WelcomeProps {
   dict: Dict;
@@ -78,10 +78,9 @@ const WelcomeScreen = ({ dict, setOnboardingStep }: WelcomeProps) => {
           {dict.onBoarding.buttons.createAccount}
         </Button>
         <Button
-          href={'/sign-in'}
-          LinkComponent={Link}
           variant={'outlined'}
           sx={{ marginTop: '15px' }}
+          onClick={() => signIn('keycloak')}
         >
           {dict.onBoarding.buttons.logIn}
         </Button>

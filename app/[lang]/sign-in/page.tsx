@@ -19,6 +19,7 @@ import {
 } from '@/app/[lang]/dictionaries';
 import Title from '@/app/components/Title';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 interface LoginData {
   phone: string;
@@ -105,7 +106,9 @@ const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
         </Link>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <Button variant={'contained'}>Log in</Button>
+        <Button variant={'contained'} onClick={() => signIn('keycloak')}>
+          Log in
+        </Button>
         <Button
           sx={{ marginTop: '16px' }}
           variant={'outlined'}

@@ -24,12 +24,10 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
       (status === 'unauthenticated' || session === undefined)
     ) {
       router.replace('/' + lang + '/onboarding');
+    } else {
+      router.replace('/' + lang + '/sites');
     }
   }, [lang, router, session, status]);
-
-  useEffect(() => {
-    console.log('Session: ', session);
-  }, [session]);
 
   return (
     <Box

@@ -19,7 +19,7 @@ const MyAdapter: Adapter = {
 };
 
 const handler = NextAuth({
-  adapter: MyAdapter,
+  //adapter: MyAdapter,
   providers: [
     KeycloakProvider({
       clientId: process.env.KEYCLOAK_ID ?? '',
