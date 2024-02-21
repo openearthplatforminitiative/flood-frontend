@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import cookie from 'cookie';
-import { defaultLocale, languages } from '@/app/[lang]/dictionaries';
+import { languages } from '@/app/[lang]/dictionaries';
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
 
   // Get the language from the cookies
   const cookies = cookie.parse(request.headers.get('cookie') || '');
-  const locale = cookies.language || defaultLocale;
+  const locale = cookies.language || '';
 
   // Redirect to the locale path
   request.nextUrl.pathname = `/${locale}/${pathname}`;
