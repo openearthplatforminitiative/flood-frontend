@@ -24,7 +24,8 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
       (status === 'unauthenticated' || session === undefined)
     ) {
       router.replace('/' + lang + '/onboarding');
-    } else {
+    }
+    if (getCookie('language') && (status === 'authenticated' || session)) {
       router.replace('/' + lang + '/sites');
     }
   }, [lang, router, session, status]);
