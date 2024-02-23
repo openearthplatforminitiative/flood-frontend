@@ -16,12 +16,6 @@ export async function POST(request: NextRequest) {
         sites: {
           create: newUser.sites,
         },
-        accounts: {
-          create: newUser.accounts,
-        },
-        sessions: {
-          create: newUser.sessions,
-        },
       },
     });
 
