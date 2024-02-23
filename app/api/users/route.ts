@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { createKeycloakUser, fetchAccessToken } from '@/utils/user-utils';
 
 export async function POST(request: NextRequest) {
   try {
+    const accessToken = await fetchAccessToken()
+      .then((res) => res.json())
+      .then((res) => res.access_token);
     const newUser = await request.json();
     if (!newUser) {
       throw NextResponse.json({
@@ -10,6 +14,10 @@ export async function POST(request: NextRequest) {
         status: 400,
       });
     }
+
+    console.log('User: ', newUser);
+    await createKeycloakUser(accessToken, newUser);
+
     const result = await prisma.user.create({
       data: {
         ...newUser,
