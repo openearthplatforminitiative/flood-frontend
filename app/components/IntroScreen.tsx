@@ -15,7 +15,9 @@ interface IntroScreenProps {
 }
 
 const IntroScreen = ({ dict, router }: IntroScreenProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(!getCookie('language'));
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(
+    !getCookie('language')
+  );
 
   const handleChangeLanguage = (localeString: string) => {
     setCookie('language', localeString);

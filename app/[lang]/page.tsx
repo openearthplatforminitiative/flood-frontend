@@ -11,16 +11,24 @@ import {
 } from '@/app/[lang]/dictionaries';
 import { useRouter } from 'next/navigation';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useSession } from 'next-auth/react';
 
 const Home = ({ params: { lang } }: { params: { lang: string } }) => {
   const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
   const router: AppRouterInstance = useRouter();
+  const { data: session, status, update } = useSession();
 
   useEffect(() => {
-    if (getCookie('language')) {
+    if (
+      getCookie('language') &&
+      (status === 'unauthenticated' || session === undefined)
+    ) {
       router.replace('/' + lang + '/onboarding');
     }
-  }, [lang, router]);
+    if (getCookie('language') && (status === 'authenticated' || session)) {
+      router.replace('/' + lang + '/sites');
+    }
+  }, [lang, router, session, status]);
 
   return (
     <Box
@@ -31,7 +39,11 @@ const Home = ({ params: { lang } }: { params: { lang: string } }) => {
         justifyContent: 'center',
       }}
     >
-      <IntroScreen dict={dict} router={router} />
+      {session !== undefined && status === 'authenticated' ? (
+        <Box>Authenticated user logged in: {session?.user?.name}</Box>
+      ) : (
+        <IntroScreen dict={dict} router={router} />
+      )}
     </Box>
   );
 };
