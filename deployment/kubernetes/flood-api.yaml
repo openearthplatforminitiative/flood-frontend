@@ -84,7 +84,7 @@ metadata:
   name: flood-frontend
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
   - kind: Rule
     match: HostRegexp(`flood-{env:[a-zA-Z0-9-]+}.openepi.io`) || Host(`flood.openepi.io`)
