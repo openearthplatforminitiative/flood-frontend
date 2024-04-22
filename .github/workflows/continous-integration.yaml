@@ -18,14 +18,14 @@ jobs:
       - name: Build Docker Image (migrator)
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: frontend
           target: migrator
           push: false
 
       - name: Build Docker Image (runner)
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: frontend
           target: runner
           push: false
   lint:
@@ -40,7 +40,9 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: frontend
         run: npm ci
 
       - name: Check linting
+        working-directory: frontend
         run: npm run lint

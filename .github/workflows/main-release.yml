@@ -39,7 +39,7 @@ jobs:
       - name: Build and push migrator Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: frontend
           target: migrator
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-migrator:${{ steps.tag_version.outputs.new_version }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-migrator:latest
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push runner Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: frontend
           target: runner
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_version }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
