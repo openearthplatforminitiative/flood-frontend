@@ -1,4 +1,4 @@
-name: Main Release flood-frontend
+name: Main Release flood-frontend Keycloak-image
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}-keycloak
 
 jobs:
   release:
@@ -39,7 +39,7 @@ jobs:
       - name: Build and push runner Docker image
         uses: docker/build-push-action@v5
         with:
-          context: frontend
+          context: keycloak
           target: runner
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_version }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
