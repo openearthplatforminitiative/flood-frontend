@@ -26,10 +26,7 @@ services:
       context: .
       dockerfile: ./docker/keycloak/Dockerfile
     command:
-      - start-dev
-      - --spi-theme-static-max-age=-1
-      - --spi-theme-cache-themes=false
-      - --spi-theme-cache-templates=false
+      - start
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
@@ -38,6 +35,9 @@ services:
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=Henrik123
       - KC_HOSTNAME=localhost
+      - KC_PROXY=edge
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_HEALTH_ENABLED=true
     ports:
       - 8080:8080
     networks:
