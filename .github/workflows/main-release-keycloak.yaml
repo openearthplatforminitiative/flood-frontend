@@ -1,5 +1,6 @@
 name: Main Release flood-frontend Keycloak-image
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -36,17 +37,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push runner Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: keycloak
-          target: runner
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_version }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}

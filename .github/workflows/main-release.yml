@@ -1,9 +1,10 @@
 name: Main Release flood-frontend
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'keycloak/**'
+      - 'frontend/**'
 
 env:
   REGISTRY: ghcr.io
@@ -40,7 +41,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: frontend
-          target: runner
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag_version.outputs.new_version }} , ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
