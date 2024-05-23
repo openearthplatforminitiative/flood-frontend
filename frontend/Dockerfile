@@ -7,7 +7,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
   else echo "Lockfile not found." && exit 1; \
@@ -23,10 +23,6 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
-
-FROM deps AS migrator
-COPY ./prisma ./prisma
-CMD ["npm", "run", "migrate"]
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -50,6 +46,12 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Files needed to migrate DB
+COPY prisma prisma
+COPY --from=deps /app/node_modules/@prisma node_modules/@prisma
+COPY --from=deps /app/node_modules/.bin node_modules/.bin
+COPY --from=deps /app/node_modules/prisma node_modules/prisma
 
 USER nextjs
 
