@@ -44,10 +44,12 @@ const keycloakService = new KeycloakService("keycloak-service", {
 })
 export const url = keycloakService.url
 
-// new FloodFrontendService("flood-frontend-service", {
-// 	ecsClusterArn: ecsCluster.arn,
-// 	hostedZoneId: hostedZone.id,
-// 	authUrl: keycloakService.url,
-// })
+new FloodFrontendService("flood-frontend-service", {
+	ecsClusterArn: ecsCluster.arn,
+	hostedZoneId: hostedZone.id,
+	authUrl: keycloakService.url,
+	authClientId: keycloakService.clientId,
+	authClientSecretArn: keycloakService.clientSecretArn,
+})
 
 export const nameServers = hostedZone.nameServers
