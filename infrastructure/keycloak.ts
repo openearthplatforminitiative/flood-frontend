@@ -12,6 +12,9 @@ export default class KeycloakService extends pulumi.ComponentResource {
 	readonly ecsClusterArn: pulumi.Input<string>
 	readonly hostedZoneId: pulumi.Input<string>
 
+	readonly clientId = "web"
+	readonly clientSecretArn: pulumi.Output<string>
+
 	readonly url: pulumi.Output<string>
 
 	constructor(
@@ -82,9 +85,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
 
 		const keycloakAdminPassword = new random.RandomPassword(
 			"keycloak-admin-password",
-			{
-				length: 128,
-			},
+			{ length: 128 },
 			childOptions
 		)
 
@@ -128,9 +129,6 @@ export default class KeycloakService extends pulumi.ComponentResource {
 					protocol: "HTTP",
 					deregistrationDelay: 30,
 					healthCheck: {
-						matcher: "200",
-						interval: 30,
-						unhealthyThreshold: 10,
 						path: "/health/ready",
 					},
 				},
@@ -156,7 +154,25 @@ export default class KeycloakService extends pulumi.ComponentResource {
 
 		const defaultVpc = new awsx.ec2.DefaultVpc("default-vpc", {}, childOptions)
 
-		new awsx.ecs.FargateService(
+		const keycloakClientSecret = new random.RandomPassword(
+			"keycloak-client-secret",
+			{ length: 128 },
+			childOptions
+		)
+
+		const keycloakClientSecretParameter = new aws.ssm.Parameter(
+			"keycloak-client-secret-parameter",
+			{
+				type: aws.ssm.ParameterType.SecureString,
+				name: "/flood-frontend/keycloak/client-secret",
+				value: keycloakClientSecret.result,
+			},
+			childOptions
+		)
+
+		this.clientSecretArn = keycloakClientSecretParameter.arn
+
+		const service = new awsx.ecs.FargateService(
 			"fargate-service",
 			{
 				name: "flood-frontend-keycloak",
@@ -171,10 +187,11 @@ export default class KeycloakService extends pulumi.ComponentResource {
 					container: {
 						name: "keycloak",
 						essential: true,
-						cpu: 256,
-						memory: 512,
-						image: "keycloak/keycloak:24.0",
-						command: ["start"],
+						cpu: 1024,
+						memory: 2048,
+						image:
+							"ghcr.io/openearthplatforminitiative/flood-frontend-keycloak:latest",
+						command: ["start", "--optimized", "--import-realm"],
 						portMappings: [
 							{
 								containerPort: 8080,
@@ -192,10 +209,6 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								value: certificate.domainName,
 							},
 							{
-								name: "KC_DB",
-								value: "postgres",
-							},
-							{
 								name: "KC_DB_USERNAME",
 								value: database.username,
 							},
@@ -209,12 +222,12 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								),
 							},
 							{
-								name: "KC_PROXY",
-								value: "edge",
+								name: "FLOOD_FRONTEND_CLIENT_ID",
+								value: this.clientId,
 							},
 							{
-								name: "KC_HEALTH_ENABLED",
-								value: "true",
+								name: "FLOOD_FRONTEND_DOMAIN",
+								value: floodFrontendConfig.require("domainName"),
 							},
 						],
 						secrets: [
@@ -226,6 +239,10 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								name: "KEYCLOAK_ADMIN_PASSWORD",
 								valueFrom: keycloakAdminParameter.arn,
 							},
+							{
+							  name: "FLOOD_FRONTEND_CLIENT_SECRET",
+                valueFrom: keycloakClientSecretParameter.arn,
+							}
 						],
 					},
 					executionRole: {
@@ -243,6 +260,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
 												Resource: [
 													databasePasswordParameter.arn,
 													keycloakAdminParameter.arn,
+													keycloakClientSecretParameter.arn,
 												],
 											},
 										],
@@ -315,21 +333,6 @@ export default class KeycloakService extends pulumi.ComponentResource {
 			},
 			childOptions
 		)
-
-		// new aws.ec2.SecurityGroupRule(
-		// 	"fargate-service-ingress-rule",
-		// 	{
-		// 		securityGroupId: fargateServiceSecurityGroup.id,
-		// 		type: "ingress",
-		// 		description: "Allow all incoming traffic to the Fargate service",
-		// 		cidrBlocks: ["0.0.0.0/0"],
-		// 		ipv6CidrBlocks: ["::/0"],
-		// 		fromPort: 0,
-		// 		toPort: 0,
-		// 		protocol: "-1",
-		// 	},
-		// 	childOptions
-		// )
 
 		new aws.ec2.SecurityGroupRule(
 			"database-ingress-rule",

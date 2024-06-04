@@ -7,11 +7,16 @@ interface FloodFrontendServiceArgs {
 	ecsClusterArn: pulumi.Input<string>
 	hostedZoneId: pulumi.Input<string>
 	authUrl: pulumi.Input<string>
+	authClientId: pulumi.Input<string>
+	authClientSecretArn: pulumi.Input<string>
 }
 
 export default class FloodFrontendService extends pulumi.ComponentResource {
 	readonly ecsClusterArn: pulumi.Input<string>
 	readonly hostedZoneId: pulumi.Input<string>
+	readonly authUrl: pulumi.Input<string>
+	readonly authClientId: pulumi.Input<string>
+	readonly authClientSecretArn: pulumi.Input<string>
 
 	constructor(
 		name: string,
@@ -22,6 +27,9 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 
 		this.ecsClusterArn = args.ecsClusterArn
 		this.hostedZoneId = args.hostedZoneId
+		this.authUrl = args.authUrl
+		this.authClientId = args.authClientId
+		this.authClientSecretArn = args.authClientSecretArn
 
 		const floodFrontendConfig = new pulumi.Config("flood-frontend")
 		const childOptions = pulumi.mergeOptions(opts, { parent: this })
@@ -79,6 +87,7 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 			childOptions
 		)
 
+		const databaseUsername = "floodfrontend"
 		const databasePassword = new random.RandomPassword(
 			"database-password",
 			{
@@ -88,16 +97,26 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 			childOptions
 		)
 
-		new aws.rds.Instance(
+		const database = new aws.rds.Instance(
 			"database",
 			{
 				identifierPrefix: "flood-frontend-",
 				engine: "postgres",
 				instanceClass: "db.t4g.micro",
 				allocatedStorage: 5,
-				username: "floodfrontend",
+				username: databaseUsername,
 				password: databasePassword.result,
 				skipFinalSnapshot: true,
+			},
+			childOptions
+		)
+
+		const databaseConnectionStringParameter = new aws.ssm.Parameter(
+			"database-connection-string-parameter",
+			{
+				type: aws.ssm.ParameterType.SecureString,
+				name: "/flood-frontend/web/database-connection-string",
+				value: pulumi.interpolate`postgresql://${databaseUsername}:${databasePassword.result}@${database.endpoint}`,
 			},
 			childOptions
 		)
@@ -137,10 +156,32 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 								targetGroup: loadBalancer.defaultTargetGroup,
 							},
 						],
+						environment: [
+							{
+								name: "NEXTAUTH_URL",
+								value: `https://${floodFrontendConfig.require("domainName")}`,
+							},
+							{
+								name: "KEYCLOAK_ID",
+								value: this.authClientId,
+							},
+							{
+								name: "KEYCLOAK_ISSUER",
+								value: pulumi.interpolate`${this.authUrl}/realms/flood-frontend`,
+							},
+						],
 						secrets: [
+							{
+								name: "DATABASE_URL",
+								valueFrom: databaseConnectionStringParameter.arn,
+							},
 							{
 								name: "NEXTAUTH_SECRET",
 								valueFrom: nextAuthSecretParameter.arn,
+							},
+							{
+								name: "KEYCLOAK_SECRET",
+								valueFrom: this.authClientSecretArn,
 							},
 						],
 					},
@@ -156,7 +197,11 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 											{
 												Effect: "Allow",
 												Action: "ssm:GetParameters",
-												Resource: nextAuthSecretParameter.arn,
+												Resource: [
+													databaseConnectionStringParameter.arn,
+													nextAuthSecretParameter.arn,
+													this.authClientSecretArn,
+												],
 											},
 										],
 									}),
