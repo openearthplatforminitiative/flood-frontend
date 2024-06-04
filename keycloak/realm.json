@@ -406,10 +406,11 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "${FLOOD_FRONTEND_CLIENT_SECRET}",
       "redirectUris": [
-        "/*"
+        "http://localhost:3000/*",  // For local development
+        "https://${FLOOD_FRONTEND_DOMAIN}/*"
       ],
       "webOrigins": [
-        "/*"
+        "https://${FLOOD_FRONTEND_DOMAIN}"
       ],
       "notBefore": 0,
       "bearerOnly": false,

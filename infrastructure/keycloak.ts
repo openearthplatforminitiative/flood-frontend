@@ -226,11 +226,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								value: this.clientId,
 							},
 							{
-								name: "FLOOD_FRONTEND_CLIENT_SECRET",
-								value: keycloakClientSecret.result,
-							},
-							{
-								name: "ALLOWED_REDIRECT_DOMAIN",
+								name: "FLOOD_FRONTEND_DOMAIN",
 								value: floodFrontendConfig.require("domainName"),
 							},
 						],
@@ -243,6 +239,10 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								name: "KEYCLOAK_ADMIN_PASSWORD",
 								valueFrom: keycloakAdminParameter.arn,
 							},
+							{
+							  name: "FLOOD_FRONTEND_CLIENT_SECRET",
+                valueFrom: keycloakClientSecretParameter.arn,
+							}
 						],
 					},
 					executionRole: {
@@ -260,6 +260,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
 												Resource: [
 													databasePasswordParameter.arn,
 													keycloakAdminParameter.arn,
+													keycloakClientSecretParameter.arn,
 												],
 											},
 										],
