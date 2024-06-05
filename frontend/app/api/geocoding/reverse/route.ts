@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const client = new GeocoderClient();
 
   try {
-    const result = await client.getReverseGeocoding(lon, lat);
+    const result = await client.getReverseGeocoding({ lon, lat });
     const { data } = result;
     return NextResponse.json({
       data: data,
