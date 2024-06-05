@@ -240,9 +240,9 @@ export default class KeycloakService extends pulumi.ComponentResource {
 								valueFrom: keycloakAdminParameter.arn,
 							},
 							{
-							  name: "FLOOD_FRONTEND_CLIENT_SECRET",
-                valueFrom: keycloakClientSecretParameter.arn,
-							}
+								name: "FLOOD_FRONTEND_CLIENT_SECRET",
+								valueFrom: keycloakClientSecretParameter.arn,
+							},
 						],
 					},
 					executionRole: {
