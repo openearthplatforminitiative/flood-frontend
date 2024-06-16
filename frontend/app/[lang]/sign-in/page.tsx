@@ -1,124 +1,55 @@
-'use client';
-import {
-  Box,
-  Button,
-  FilledInput,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { useState } from 'react';
-import type { Dict } from '@/app/[lang]/dictionaries';
-import {
-  defaultLocale,
-  getDictionary,
-  isLang,
-} from '@/app/[lang]/dictionaries';
+import { defaultLocale, getDictionary, isLang } from '../dictionaries';
+import { Box } from '@mui/material';
 import Title from '@/app/components/Title';
-import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import background from '@/public/assets/images/start-screen-image.png';
+import SignInButton from '@/app/components/buttons/SignInButton';
 
-interface LoginData {
-  phone: string;
-  password: string;
+interface SignInPageProps {
+  params: { lang: string };
 }
 
-const initialValues: LoginData = {
-  phone: '',
-  password: '',
-};
-
-const initialErrors: LoginData = {
-  phone: '',
-  password: '',
-};
-
-const SignIn = ({ params: { lang } }: { params: { lang: string } }) => {
-  const [values, setValues] = useState<LoginData>(initialValues);
-  const [errors, setErrors] = useState<LoginData>(initialErrors);
-  const router = useRouter();
-  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
-
-  const handleResetPassword = () => {
-    router.push('/sign-in/forgot-password');
-  };
-
-  const handleCancel = () => {
-    router.push('/onboarding');
-  };
-
+const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
+  const dict = getDictionary(isLang(lang) ? lang : defaultLocale);
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '100%',
-        border: '2px solid black',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '32px 32px 40px 32px',
-      }}
-    >
-      <Title dict={dict} large={false} />
+    <Box sx={{ height: '100%', width: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          backgroundImage: `url(${background.src})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '50%',
+        }}
+      >
+        <Title dict={dict} large margin={'0 0 200px 0'} />
+      </Box>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          width: '100%',
-          textAlignLast: 'left',
+          backgroundColor: 'white',
+          padding: '20px',
+          marginTop: '15px',
         }}
       >
-        <Typography variant={'h5'} component={'h1'}>
-          Log in
-        </Typography>
-        <TextField
-          label={'Phone number'}
-          variant={'filled'}
-          placeholder={'Phone number'}
-          margin={'none'}
-          onChange={(e) => setValues({ ...values, phone: e.target.value })}
-          error={Boolean(errors.phone)}
-          helperText={errors.phone}
-          sx={{ marginTop: '31px' }}
-        />
-        <FormControl variant="filled" margin="normal">
-          <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-          <FilledInput
-            id="filled-adornment-password"
-            type={'password'}
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
-            error={Boolean(errors.password)}
-          />
-          {errors.password && (
-            <FormHelperText error>{errors.password}</FormHelperText>
-          )}
-        </FormControl>
-        <Link
-          component={'button'}
-          variant="subtitle1"
-          onClick={handleResetPassword}
-          sx={{ marginTop: '32px' }}
-        >
-          Forgot your password?
-        </Link>
+        {dict.signInPage.description}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <Button variant={'contained'} onClick={() => signIn('keycloak')}>
-          Log in
-        </Button>
-        <Button
-          sx={{ marginTop: '16px' }}
-          variant={'outlined'}
-          onClick={handleCancel}
-        >
-          Cancel
-        </Button>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '20px',
+        }}
+      >
+        <SignInButton callbackUrl="/">
+          {dict.signIn} / {dict.onBoarding.buttons.createAccount}
+        </SignInButton>
       </Box>
     </Box>
   );
 };
 
-export default SignIn;
+export default SignInPage;

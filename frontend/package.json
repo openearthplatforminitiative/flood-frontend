@@ -9,7 +9,8 @@
     "lint": "next lint",
     "format": "npx prettier . --write",
     "check-format": "npx prettier . --check",
-    "migrate": "prisma migrate deploy"
+    "migrate": "prisma migrate deploy",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

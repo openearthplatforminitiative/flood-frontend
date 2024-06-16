@@ -1,0 +1,18 @@
+'use client';
+
+import { Button } from '@mui/material';
+import { signOut } from 'next-auth/react';
+import React from 'react';
+
+interface SignOutButton {
+  children: React.ReactNode;
+  callbackUrl?: string;
+}
+
+const SignOutButton = ({ children, callbackUrl }: SignOutButton) => (
+  <Button variant="contained" onClick={() => signOut({ callbackUrl })}>
+    {children}
+  </Button>
+);
+
+export default SignOutButton;

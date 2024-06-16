@@ -7,21 +7,23 @@ import LanguageModal from '@/app/components/LanguageModal';
 import { useState } from 'react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { getCookie, setCookie } from 'cookies-next';
-import type { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict, Lang } from '@/app/[lang]/dictionaries';
+import { useRouter } from 'next/navigation';
 
-interface IntroScreenProps {
+interface LanguageSelectionScreenProps {
   dict: Dict;
-  router: AppRouterInstance;
 }
 
-const IntroScreen = ({ dict, router }: IntroScreenProps) => {
+const LanguageSelectionScreen = ({ dict }: LanguageSelectionScreenProps) => {
+  const router: AppRouterInstance = useRouter();
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(
     !getCookie('language')
   );
 
-  const handleChangeLanguage = (localeString: string) => {
-    setCookie('language', localeString);
-    router.replace('/' + localeString + '/onboarding');
+  const handleChangeLanguage = (lang: Lang) => {
+    setCookie('language', lang);
+    router.replace(`/${lang}/`);
   };
 
   return (
@@ -49,4 +51,4 @@ const IntroScreen = ({ dict, router }: IntroScreenProps) => {
   );
 };
 
-export default IntroScreen;
+export default LanguageSelectionScreen;

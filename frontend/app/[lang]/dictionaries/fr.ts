@@ -1,48 +1,43 @@
 import { Dict } from '@/app/[lang]/dictionaries';
 
 export const fr: Dict = {
+  yes: 'Oui',
+  no: 'Non',
+  cancel: 'Annuler',
+  confirm: 'Confirmer',
   title: 'Floodsafe',
+  signIn: 'Se connecter',
+  signOut: 'Se déconnecter',
+  back: 'Retourner',
+  signInPage: {
+    description:
+      "Floodsafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
+  },
   onBoarding: {
-    additionalInfo:
-      'Un texte explicatif supplémentaire ici, ceci est un espace réservé.',
-    receiveFloodWarnings: "Recevez des alertes d'inondation",
-    secondOnboardingPoint: 'Un autre point',
-    thirdOnboardingPoint: 'Et une dernière bonne chose',
     allowNotifications: 'Autoriser les notifications',
     allowPushNotifications: 'Notifications push',
     allowSMSNotifications: 'Notifications SMS',
     buttons: {
       createAccount: 'Créer un compte',
-      logIn: 'Se connecter',
       nextStep: "L'étape suivante",
-      backStep: 'Back',
-      cancelStep: 'Annuler',
-      confirm: 'Confirmer',
-    },
-    signUp: {
-      signupHeader: 'Détails personnels',
-      name: 'Nom',
-      phone: 'Numéro de téléphone',
-      phoneHelper: 'Inclure le code du pays (+250, etc.)',
-      password: 'Mot de passe',
-      confirmPassword: 'Confirmez le mot de passe',
-      terms:
-        "J'accepte les termes et conditions d'utilisation de cette application.",
     },
     sites: {
       sitesHeader: 'Ajoutez vos sites',
+      sitesInfo:
+        'Ajoutez des sites pour lesquels vous souhaitez recevoir des mises à jour.',
       addSite: 'Ajouter un site',
       addNewSite: 'Ajouter un nouveau site',
+      addNewSiteInfo:
+        'Ajoutez un site pour lequel vous souhaitez recevoir des mises à jour.',
+      updateSite: 'Mettre à jour le site',
+      updateSiteInfo:
+        'Mettez à jour le site pour lequel vous souhaitez recevoir des mises à jour.',
       setLocation: "Définir l'emplacement",
       locationMessage: 'Localisation située à proximité de: ',
       locationArea: 'Superficie (rayon)',
       saveChanges: 'Sauvegarder les modifications',
-      cancel: 'Annuler',
-      confirm: 'Confirmer',
       deleteSite: 'Supprimer le site',
       deleteConfirmMessage: 'Êtes-vous sûr de vouloir supprimer ce site ?',
-      deleteYes: 'Oui',
-      deleteNo: 'Non',
       siteType: 'Type de site',
       cropsType: 'Cultures et produits',
       livestockType: 'Bétail',
@@ -52,8 +47,6 @@ export const fr: Dict = {
       otherType: 'Autre',
       name: 'Nom',
       type: 'Taper',
-      additionalInfo:
-        'Un texte explicatif supplémentaire ici, ceci est un espace réservé.',
       cropTypes: {
         avocado: 'Avocat',
         beans: 'Haricots',
@@ -76,10 +69,16 @@ export const fr: Dict = {
         rabbits: 'Lapins',
         other: 'Autre',
       },
+      errors: {
+        nameRequired: 'Le nom est requis',
+        typeRequired: 'Le type est requis',
+        locationRequired: "L'emplacement est requis",
+        locationInvalid:
+          "Le poste doit être dans un pays et à proximité d'une ville",
+      },
     },
   },
   languageSelection: {
-    confirm: 'Confirmer',
     chooseLanguage: 'Choisissez la langue',
   },
   notifications: {

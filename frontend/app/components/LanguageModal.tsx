@@ -18,7 +18,7 @@ interface LanguageModalProps {
   dict: Dict;
   open: boolean;
   onClose: () => void;
-  changeLanguage: (newLanguage: Lang) => void;
+  changeLanguage: (lang: Lang) => void;
 }
 
 const LanguageModal = ({
@@ -64,7 +64,7 @@ const LanguageModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleSaveLanguage} color="primary">
-          {dict.languageSelection.confirm}
+          {dict.confirm}
         </Button>
       </DialogActions>
     </Dialog>

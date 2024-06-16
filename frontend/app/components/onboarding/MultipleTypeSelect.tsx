@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Checkbox,
   Collapse,
@@ -13,38 +13,39 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import { cropTypes, Dict, liveStocks } from '@/app/[lang]/dictionaries';
-import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
+import {
+  CropType,
+  Dict,
+  cropTypes,
+  liveStocks,
+} from '@/app/[lang]/dictionaries';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 interface DropdownProps {
   dict: Dict;
-  siteValues: SiteData;
-  setSiteValues: (value: SiteData) => void;
+  types: string[];
+  setTypes: (value: string[]) => void;
   errorString: string;
 }
 
 const MultipleTypeSelect = ({
   dict,
-  siteValues,
-  setSiteValues,
+  types,
+  setTypes,
   errorString,
 }: DropdownProps) => {
   const [cropMenuOpen, setCropMenuOpen] = useState<boolean>(false);
   const [livestockMenuOpen, setLivestockMenuOpen] = useState<boolean>(false);
 
   const handleMenuItemClick = (menuItem: string) => {
-    const checked = siteValues.types.includes(menuItem);
+    const checked = types.includes(menuItem);
 
     if (checked) {
       // If the checkbox is checked, remove the value from the types array
-      setSiteValues({
-        ...siteValues,
-        types: siteValues.types.filter((item) => item !== menuItem),
-      });
+      setTypes(types.filter((item) => item !== menuItem));
     } else {
       // If the checkbox is unchecked, add the value to the types array
-      setSiteValues({ ...siteValues, types: [...siteValues.types, menuItem] });
+      setTypes([...types, menuItem]);
     }
   };
 
@@ -63,10 +64,10 @@ const MultipleTypeSelect = ({
       </InputLabel>
       <Select
         labelId="select-site-type"
-        value={siteValues.types}
+        value={types}
         multiple
         renderValue={(value) => (value as string[]).join(', ')}
-        error={Boolean(errorString)}
+        error={!!errorString}
         label={dict.onBoarding.sites.type}
         sx={{
           background: 'white',
@@ -104,20 +105,21 @@ const MultipleTypeSelect = ({
         </MenuItem>
         <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
           <List>
-            {cropTypes.map((crop) => {
-              const cropName = dict.onBoarding.sites.cropTypes[crop];
+            {cropTypes.map((cropType: string) => {
+              const cropTypeTranslated =
+                dict.onBoarding.sites.cropTypes[cropType as CropType];
               return (
-                <MenuItem key={crop} value={crop}>
+                <MenuItem key={cropType} value={cropType}>
                   <FormControlLabel
                     sx={{ width: '100%' }}
-                    onChange={() => handleMenuItemClick(cropName)}
+                    onChange={() => handleMenuItemClick(cropType)}
                     control={
                       <Checkbox
-                        checked={siteValues.types.includes(cropName)}
-                        value={cropName}
+                        checked={types.includes(cropType)}
+                        value={cropType}
                       />
                     }
-                    label={cropName}
+                    label={cropTypeTranslated}
                   />
                 </MenuItem>
               );
@@ -146,7 +148,7 @@ const MultipleTypeSelect = ({
                     onChange={() => handleMenuItemClick(liveStockName)}
                     control={
                       <Checkbox
-                        checked={siteValues.types.includes(liveStockName)}
+                        checked={types.includes(liveStockName)}
                         value={liveStockName}
                       />
                     }
@@ -163,10 +165,7 @@ const MultipleTypeSelect = ({
             sx={{ width: '100%' }}
             onChange={() => handleMenuItemClick('Storage')}
             control={
-              <Checkbox
-                checked={siteValues.types.includes('Storage')}
-                value="Storage"
-              />
+              <Checkbox checked={types.includes('Storage')} value="Storage" />
             }
             label={dict.onBoarding.sites.storageType}
           />
@@ -177,7 +176,7 @@ const MultipleTypeSelect = ({
             onChange={() => handleMenuItemClick('Residential')}
             control={
               <Checkbox
-                checked={siteValues.types.includes('Residential')}
+                checked={types.includes('Residential')}
                 value="Residential"
               />
             }
@@ -190,7 +189,7 @@ const MultipleTypeSelect = ({
             onChange={() => handleMenuItemClick('Industrial')}
             control={
               <Checkbox
-                checked={siteValues.types.includes('Industrial')}
+                checked={types.includes('Industrial')}
                 value="Industrial"
               />
             }
@@ -203,10 +202,7 @@ const MultipleTypeSelect = ({
             sx={{ width: '100%' }}
             onChange={() => handleMenuItemClick('Other')}
             control={
-              <Checkbox
-                checked={siteValues.types.includes('Other')}
-                value="Other"
-              />
+              <Checkbox checked={types.includes('Other')} value="Other" />
             }
             label={dict.onBoarding.sites.otherType}
           />

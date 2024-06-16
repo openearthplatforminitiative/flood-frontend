@@ -1,6 +1,6 @@
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { getServerSession, type NextAuthOptions } from 'next-auth';
-import type { DefaultSession } from 'next-auth';
+import type { DefaultSession, Session } from 'next-auth';
 
 declare module 'next-auth' {
   interface Session {
@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export function auth() {
-  return getServerSession(authOptions);
+export async function getUserId(): Promise<string | undefined> {
+  const session = await getServerSession(authOptions);
+  return session?.user.id;
 }
