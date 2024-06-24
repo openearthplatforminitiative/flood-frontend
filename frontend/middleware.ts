@@ -1,6 +1,15 @@
 import { NextRequest } from 'next/server';
-import cookie from 'cookie';
-import { defaultLocale, languages } from '@/app/[lang]/dictionaries';
+import { defaultLocale, isLang, languages } from '@/app/[lang]/dictionaries';
+import { match } from '@formatjs/intl-localematcher';
+import Negotiator from 'negotiator';
+
+function getBrowserLocale(request: NextRequest) {
+  const languageHeader = request.headers.get('accept-language');
+  if (!languageHeader) return defaultLocale;
+  const headers = { 'accept-language': languageHeader };
+  const browserlanguages = new Negotiator({ headers }).languages();
+  return match(browserlanguages, languages, defaultLocale);
+}
 
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
@@ -11,13 +20,17 @@ export function middleware(request: NextRequest) {
 
   if (pathnameHasLocale) return;
 
-  // Get the language from the cookies
-  const cookies = cookie.parse(request.headers.get('cookie') || '');
-  const locale = cookies.language || defaultLocale;
-
-  // Redirect to the locale path
-  request.nextUrl.pathname = `/${locale}/${pathname}`;
-  return Response.redirect(request.nextUrl);
+  const selectedLocale = request.cookies.get('language')?.value;
+  if (isLang(selectedLocale)) {
+    // If the user previously selected a language, redirect to that language
+    request.nextUrl.pathname = `/${selectedLocale}/`;
+    return Response.redirect(request.nextUrl);
+  } else {
+    // Redirect to the browser's preferred locale if supported, otherwise the default locale
+    const locale = getBrowserLocale(request);
+    request.nextUrl.pathname = `/${locale}/`;
+    return Response.redirect(request.nextUrl);
+  }
 }
 
 export const config = {

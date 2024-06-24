@@ -1,51 +1,58 @@
-'use client';
 import { Box } from '@mui/material';
-import IntroScreen from '@/app/components/IntroScreen';
-import { useEffect } from 'react';
-import { getCookie } from 'cookies-next';
+import background from '@/public/assets/images/start-screen-image.png';
+import { hasCookie } from 'cookies-next';
+import { cookies } from 'next/headers';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import {
-  defaultLocale,
-  getDictionary,
-  isLang,
-} from '@/app/[lang]/dictionaries';
-import { useRouter } from 'next/navigation';
-import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useSession } from 'next-auth/react';
+import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { redirect } from 'next/navigation';
+import { getUserId } from '@/lib/auth-utils';
+import { getOrCreateUser } from '@/lib/prisma';
+import Title from '../components/Title';
+import LanguageModal from '../components/LanguageModal';
 
-const Home = ({ params: { lang } }: { params: { lang: string } }) => {
-  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
-  const router: AppRouterInstance = useRouter();
-  const { data: session, status, update } = useSession();
+const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
+  const dict: Dict = getDictonaryWithDefault(lang);
 
-  useEffect(() => {
-    if (
-      getCookie('language') &&
-      (status === 'unauthenticated' || session === undefined)
-    ) {
-      router.replace('/' + lang + '/onboarding');
+  if (hasCookie('language', { cookies })) {
+    const userId = await getUserId();
+
+    if (userId) {
+      const user = await getOrCreateUser(userId);
+      if (user.completedOnboarding) {
+        redirect(`/${lang}/sites`);
+      } else {
+        if (
+          user.allowPushNotifications === null ||
+          user.allowSMSNotifications === null
+        ) {
+          redirect(`/${lang}/onboarding/notifications`);
+        } else {
+          redirect(`/${lang}/onboarding/sites`);
+        }
+      }
+    } else {
+      redirect(`/${lang}/sign-in`);
     }
-    if (getCookie('language') && (status === 'authenticated' || session)) {
-      router.replace('/' + lang + '/sites');
-    }
-  }, [lang, router, session, status]);
-
-  return (
-    <Box
-      width={'100%'}
-      height={'100%'}
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      {session !== undefined && status === 'authenticated' ? (
-        <Box>Authenticated user logged in: {session?.user?.name}</Box>
-      ) : (
-        <IntroScreen dict={dict} router={router} />
-      )}
-    </Box>
-  );
+  } else {
+    return (
+      <Box sx={{ height: '100%', width: '100%' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            backgroundImage: `url(${background.src})`,
+            backgroundRepeat: 'no-repeat',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Title dict={dict} large margin={'0 0 200px 0'} />
+          <LanguageModal dict={dict} />
+        </Box>
+      </Box>
+    );
+  }
 };
 
 export default Home;

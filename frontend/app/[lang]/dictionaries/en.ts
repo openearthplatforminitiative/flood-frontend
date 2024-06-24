@@ -1,47 +1,40 @@
 import { Dict } from '@/app/[lang]/dictionaries';
 
 export const en: Dict = {
+  yes: 'Yes',
+  no: 'No',
+  cancel: 'Cancel',
+  confirm: 'Confirm',
   title: 'Floodsafe',
+  signIn: 'Sign in',
+  signOut: 'Sign out',
+  back: 'Back',
+  signInPage: {
+    description:
+      'Floodsafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
+  },
   onBoarding: {
-    additionalInfo:
-      'Some additional explanatory text here, this is a placeholder.',
-    receiveFloodWarnings: 'Receive flood warnings',
-    secondOnboardingPoint: 'Some other point',
-    thirdOnboardingPoint: 'And one final nice thing',
     allowNotifications: 'Allow notifications',
     allowPushNotifications: 'Push notifications',
     allowSMSNotifications: 'SMS notifications',
     buttons: {
       createAccount: 'Create account',
-      logIn: 'Log in',
       nextStep: 'Next step',
-      backStep: 'Back',
-      cancelStep: 'Cancel',
-      confirm: 'Confirm',
-    },
-    signUp: {
-      signupHeader: 'Personal details',
-      name: 'Name',
-      phone: 'Phone number',
-      phoneHelper: 'Include country code (+250 etc)',
-      password: 'Password',
-      confirmPassword: 'Confirm password',
-      terms: 'I agree to the terms and conditions of using this application.',
     },
     sites: {
       sitesHeader: 'Add your sites',
+      sitesInfo: 'Add sites that you want to receive updates for.',
       addSite: 'Add site',
       addNewSite: 'Add new site',
+      addNewSiteInfo: 'Add a site that you want to receive updates for.',
+      updateSite: 'Update site',
+      updateSiteInfo: 'Update the site you want to receive updates for.',
       setLocation: 'Set location',
       locationMessage: 'Location set near: ',
       locationArea: 'Area (radius)',
       saveChanges: 'Save changes',
-      cancel: 'Cancel',
-      confirm: 'Confirm',
       deleteSite: 'Delete site',
       deleteConfirmMessage: 'Are you sure you want to delete this site?',
-      deleteYes: 'Yes',
-      deleteNo: 'No',
       siteType: 'Type of site',
       cropsType: 'Crops and produce',
       livestockType: 'Livestock',
@@ -51,8 +44,6 @@ export const en: Dict = {
       otherType: 'Other',
       name: 'Name',
       type: 'Type',
-      additionalInfo:
-        'Some additional explanatory text here, this is a placeholder.',
       cropTypes: {
         avocado: 'Avocado',
         beans: 'Beans',
@@ -75,10 +66,16 @@ export const en: Dict = {
         rabbits: 'Rabbits',
         other: 'Other',
       },
+      errors: {
+        nameRequired: 'Name is required',
+        typeRequired: 'Type is required',
+        locationRequired: 'Location is required',
+        locationInvalid:
+          'Position needs to be in a country, and close to a city',
+      },
     },
   },
   languageSelection: {
-    confirm: 'Confirm',
     chooseLanguage: 'Choose language',
   },
   notifications: {

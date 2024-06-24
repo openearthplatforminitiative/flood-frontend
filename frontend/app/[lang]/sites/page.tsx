@@ -6,15 +6,14 @@ import {
   isLang,
 } from '@/app/[lang]/dictionaries';
 import { getServerSession } from 'next-auth';
-import LogoutButton from '@/app/components/LogoutButton';
+import SignOutButton from '@/app/components/buttons/SignOutButton';
 import { redirect } from 'next/navigation';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
-  const callBackURL = `/${lang}/onboarding`;
   const session = await getServerSession();
 
-  if (!session) redirect(callBackURL);
+  if (!session) redirect('/');
 
   return (
     <Box
@@ -37,7 +36,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
         }}
       >
         <Typography variant={'h5'}>My sites</Typography>
-        <LogoutButton callBackURL={callBackURL} />
+        <SignOutButton callbackUrl="/">{dict.signOut}</SignOutButton>
       </Box>
       {session !== null ? (
         <Box>User logged in: {session?.user?.name}</Box>

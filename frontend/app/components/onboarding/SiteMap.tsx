@@ -4,68 +4,52 @@ import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 import { DragEndEvent, LatLng, LocationEvent } from 'leaflet';
 import LocateControl from '@/app/components/onboarding/LocateControl';
-import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
 
 interface SiteMapProps {
+  lat: number;
+  lng: number;
   radius: number;
-  siteValues: SiteData;
-  setSiteValues: (value: SiteData) => void;
+  setRadius: (value: number) => void;
+  setLat: (value: number) => void;
+  setLng: (value: number) => void;
 }
 
-const SiteMap = ({ radius, siteValues, setSiteValues }: SiteMapProps) => {
-  const placeholderPosition: LatLng = new LatLng(51.505, -0.09);
-
+const SiteMap = ({ lat, lng, radius, setLat, setLng }: SiteMapProps) => {
   const LocationMarker = () => {
     const map = useMap();
 
     useEffect(() => {
-      if (siteValues.lng === undefined || siteValues.lat === undefined) {
+      if (lat === undefined || lng === undefined) {
         map.locate().on('locationfound', function (e: LocationEvent) {
-          setSiteValues({
-            ...siteValues,
-            lat: e.latlng.lat,
-            lng: e.latlng.lng,
-          });
+          setLat(e.latlng.lat);
+          setLng(e.latlng.lng);
           map.setView(e.latlng, map.getZoom());
         });
       } else {
-        const position = new LatLng(siteValues.lat, siteValues.lng);
-        map.setView(position, map.getZoom());
+        map.setView({ lat, lng }, map.getZoom());
       }
     }, [map]);
 
     const handleDragEnd = (event: DragEndEvent) => {
-      const position: LatLng = event.target.getLatLng();
-      setSiteValues({ ...siteValues, lat: position.lat, lng: position.lng });
+      const nextPosition: LatLng = event.target.getLatLng();
+      setLat(nextPosition.lat);
+      setLng(nextPosition.lng);
     };
 
     return (
       <Marker
         draggable
-        position={
-          siteValues.lng && siteValues.lat
-            ? new LatLng(siteValues.lat, siteValues.lng)
-            : placeholderPosition
-        }
+        position={{ lat, lng }}
         eventHandlers={{ dragend: handleDragEnd }}
       >
-        {radius > 0 && (
-          <Circle
-            center={
-              siteValues.lng && siteValues.lat
-                ? new LatLng(siteValues.lat, siteValues.lng)
-                : placeholderPosition
-            }
-            radius={radius * 30}
-          />
-        )}
+        {radius > 0 && <Circle center={{ lat, lng }} radius={radius * 30} />}
       </Marker>
     );
   };
 
   return (
     <MapContainer
-      center={placeholderPosition}
+      center={{ lat: 51.505, lng: -0.09 }}
       zoom={14}
       scrollWheelZoom={false}
       style={{ width: '312px', height: '320px', flexShrink: '0' }}
@@ -77,9 +61,11 @@ const SiteMap = ({ radius, siteValues, setSiteValues }: SiteMapProps) => {
       />
       <LocationMarker />
       <LocateControl
-        position={'topleft'}
-        siteValues={siteValues}
-        setSiteValues={setSiteValues}
+        position="topleft"
+        lat={lat}
+        lng={lng}
+        setLat={setLat}
+        setLng={setLng}
       />
     </MapContainer>
   );

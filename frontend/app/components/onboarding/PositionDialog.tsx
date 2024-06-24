@@ -12,32 +12,34 @@ import {
 } from '@mui/material';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
-import { SiteData } from '@/app/components/onboarding/OnboardingDashboard';
+import { useState } from 'react';
 
 const SiteMap = dynamic(
   () => import('@/app/components/onboarding/SiteMap'),
   { ssr: false } // This will prevent server-side rendering for SiteMap component
 );
 
-interface OnboardingAddNewSiteDialogProps {
+interface PositionDialogProps {
   dict: Dict;
   isOpen: boolean;
   handleCancel: () => void;
-  handleConfirm: () => void;
-  siteValues: SiteData;
-  setSiteValues: (value: SiteData) => void;
-  handleSliderChange: (event: Event, newValue: number | number[]) => void;
+  handleConfirm: (lat: number, lng: number, radius: number) => void;
 }
 
-const AddNewSitePosition = ({
+const PositionDialog = ({
   dict,
   isOpen,
   handleCancel,
   handleConfirm,
-  siteValues,
-  setSiteValues,
-  handleSliderChange,
-}: OnboardingAddNewSiteDialogProps) => {
+}: PositionDialogProps) => {
+  const [lat, setLat] = useState(51.505);
+  const [lng, setLng] = useState(-0.09);
+  const [radius, setRadius] = useState(0);
+
+  const handleSliderChange = (_: any, newValue: number | number[]) => {
+    setRadius(newValue as number);
+  };
+
   return (
     <Dialog open={isOpen} onClose={handleCancel}>
       <DialogTitle>{dict.onBoarding.sites.setLocation}</DialogTitle>
@@ -51,9 +53,12 @@ const AddNewSitePosition = ({
           }}
         >
           <SiteMap
-            radius={siteValues.radius}
-            siteValues={siteValues}
-            setSiteValues={setSiteValues}
+            lat={lat}
+            lng={lng}
+            radius={radius}
+            setLat={setLat}
+            setLng={setLng}
+            setRadius={setRadius}
           />
           <Box
             sx={{
@@ -75,17 +80,17 @@ const AddNewSitePosition = ({
               <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
                 {dict.onBoarding.sites.locationArea}
               </Typography>
-              {siteValues.radius}
+              {radius}
             </Box>
-            <Slider value={siteValues.radius} onChange={handleSliderChange} />
+            <Slider value={radius} onChange={handleSliderChange} />
           </Box>
         </Box>
       </DialogContent>
       <DialogActions>
         <Box>
-          <Button onClick={handleCancel}>{dict.onBoarding.sites.cancel}</Button>
-          <Button onClick={handleConfirm}>
-            {dict.onBoarding.sites.confirm}
+          <Button onClick={handleCancel}>{dict.cancel}</Button>
+          <Button onClick={() => handleConfirm(lat, lng, radius)}>
+            {dict.confirm}
           </Button>
         </Box>
       </DialogActions>
@@ -93,4 +98,4 @@ const AddNewSitePosition = ({
   );
 };
 
-export default AddNewSitePosition;
+export default PositionDialog;

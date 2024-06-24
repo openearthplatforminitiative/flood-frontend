@@ -17,37 +17,39 @@ const dictionaries: LangDictionary = {
 export const defaultLocale = 'en';
 
 export type Dict = {
+  yes: string;
+  no: string;
+  cancel: string;
+  confirm: string;
   title: string;
+  signIn: string;
+  signOut: string;
+  back: string;
+  signInPage: {
+    description: string;
+  };
   onBoarding: {
-    additionalInfo: string;
-    receiveFloodWarnings: string;
-    secondOnboardingPoint: string;
-    thirdOnboardingPoint: string;
     allowNotifications: string;
     allowPushNotifications: string;
     allowSMSNotifications: string;
     buttons: {
-      logIn: string;
       nextStep: string;
-      confirm: string;
-      cancelStep: string;
-      backStep: string;
       createAccount: string;
     };
     sites: {
       sitesHeader: string;
+      sitesInfo: string;
       addSite: string;
       addNewSite: string;
+      addNewSiteInfo: string;
+      updateSite: string;
+      updateSiteInfo: string;
       setLocation: string;
       locationMessage: string;
       locationArea: string;
       saveChanges: string;
-      cancel: string;
-      confirm: string;
       deleteSite: string;
       deleteConfirmMessage: string;
-      deleteYes: string;
-      deleteNo: string;
       siteType: string;
       cropsType: string;
       livestockType: string;
@@ -56,22 +58,18 @@ export type Dict = {
       industrialType: string;
       otherType: string;
       name: string;
-      additionalInfo: string;
       type: string;
       cropTypes: CropTypeDict;
       liveStocks: LiveStockDict;
-    };
-    signUp: {
-      signupHeader: string;
-      name: string;
-      phone: string;
-      phoneHelper: string;
-      password: string;
-      confirmPassword: string;
-      terms: string;
+      errors: {
+        nameRequired: string;
+        typeRequired: string;
+        locationRequired: string;
+        locationInvalid: string;
+      };
     };
   };
-  languageSelection: { confirm: string; chooseLanguage: string };
+  languageSelection: { chooseLanguage: string };
   notifications: {
     sendNotification: string;
   };
@@ -113,7 +111,7 @@ export type CropTypeDict = {
   other: string;
 };
 
-type CropType = keyof CropTypeDict;
+export type CropType = keyof CropTypeDict;
 
 export const cropTypes: CropType[] = [
   'avocado',
@@ -135,4 +133,8 @@ export const isLang = (x: any): x is Lang => languages.includes(x);
 
 export const getDictionary = (lang: Lang) => {
   return dictionaries[lang];
+};
+
+export const getDictonaryWithDefault = (lang: string) => {
+  return isLang(lang) ? getDictionary(lang) : getDictionary(defaultLocale);
 };

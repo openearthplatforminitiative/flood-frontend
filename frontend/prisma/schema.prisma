@@ -16,18 +16,16 @@ model Site {
   city    String
   country String
   radius  Int
-  user    User?    @relation(fields: [userId], references: [id])
-  userId  String?
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
 }
 
 model User {
   id                     String   @id @default(cuid())
-  name                   String
-  password               String?
-  phone                  String?
   allowPushNotifications Boolean? @map(name: "allow_push_notifications")
   allowSMSNotifications  Boolean? @map(name: "allow_sms_notifications")
   sites                  Site[]
+  completedOnboarding    Boolean @map(name: "completed_onboarding") @default(false)
   createdAt              DateTime @default(now()) @map(name: "created_at")
   updatedAt              DateTime @updatedAt @map(name: "updated_at")
 }
