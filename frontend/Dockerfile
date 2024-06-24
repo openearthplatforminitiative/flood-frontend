@@ -52,6 +52,8 @@ COPY prisma prisma
 COPY --from=deps /app/node_modules/@prisma node_modules/@prisma
 COPY --from=deps /app/node_modules/.bin node_modules/.bin
 COPY --from=deps /app/node_modules/prisma node_modules/prisma
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
 
 USER nextjs
 
@@ -61,6 +63,4 @@ ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD ["node", "server.js"]
+CMD ["./entrypoint.sh"]
