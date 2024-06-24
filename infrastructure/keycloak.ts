@@ -280,7 +280,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
 				securityGroupId: loadBalancerSecurityGroup.id,
 				type: "egress",
 				description:
-					"Allow outgoing TCP-traffic on port 8080 to the Fargate service",
+					"Allow outgoing TCP-traffic to the Fargate service on port 8080",
 				sourceSecurityGroupId: fargateServiceSecurityGroup.id,
 				fromPort: 8080,
 				toPort: 8080,

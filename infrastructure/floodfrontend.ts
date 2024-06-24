@@ -18,6 +18,8 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 	readonly authClientId: pulumi.Input<string>
 	readonly authClientSecretArn: pulumi.Input<string>
 
+	readonly url: pulumi.Output<string>
+
 	constructor(
 		name: string,
 		args: FloodFrontendServiceArgs,
@@ -43,6 +45,8 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 			childOptions
 		)
 
+		this.url = pulumi.interpolate`https://${certificate.domainName}`
+
 		const validationOptions = certificate.domainValidationOptions[0]
 
 		const certificateValidationDomain = new aws.route53.Record(
@@ -66,22 +70,38 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 			childOptions
 		)
 
+		const [
+			loadBalancerSecurityGroup,
+			fargateServiceSecurityGroup,
+			databaseSecurityGroup,
+		] = ["load-balancer", "fargate-service", "database"].map(
+			(name) =>
+				new aws.ec2.SecurityGroup(
+					`${name}-security-group`,
+					{ namePrefix: `flood-frontend-${name}-` },
+					childOptions
+				)
+		)
+
 		const loadBalancer = new awsx.lb.ApplicationLoadBalancer(
 			"load-balancer",
 			{
+				namePrefix: "ff-lb-",
 				listener: {
 					port: 443,
 					protocol: "HTTPS",
 					sslPolicy: "ELBSecurityPolicy-2016-08",
 					certificateArn: certificateValidation.certificateArn,
 				},
+				securityGroups: [loadBalancerSecurityGroup.id],
 				defaultTargetGroup: {
 					port: 3000,
+					namePrefix: "ff-tg-",
 					protocol: "HTTP",
+					deregistrationDelay: 30,
 					healthCheck: {
 						matcher: "200,302",
 					},
-					deregistrationDelay: 30,
 				},
 			},
 			childOptions
@@ -100,6 +120,7 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 		const database = new aws.rds.Instance(
 			"database",
 			{
+				dbName: "floodfrontend",
 				identifierPrefix: "flood-frontend-",
 				engine: "postgres",
 				instanceClass: "db.t4g.micro",
@@ -107,6 +128,7 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 				username: databaseUsername,
 				password: databasePassword.result,
 				skipFinalSnapshot: true,
+				vpcSecurityGroupIds: [databaseSecurityGroup.id],
 			},
 			childOptions
 		)
@@ -137,18 +159,26 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 			childOptions
 		)
 
+		const defaultVpc = new awsx.ec2.DefaultVpc("default-vpc", {}, childOptions)
+
 		new awsx.ecs.FargateService(
 			"fargate-service",
 			{
 				name: "flood-frontend",
-				assignPublicIp: true,
 				cluster: this.ecsClusterArn,
+				networkConfiguration: {
+					assignPublicIp: true,
+					subnets: defaultVpc.publicSubnetIds,
+					securityGroups: [fargateServiceSecurityGroup.id],
+				},
 				taskDefinitionArgs: {
 					family: "flood-frontend",
 					container: {
 						name: "flood-frontend",
-						image: "ghcr.io/openearthplatforminitiative/flood-frontend:latest",
 						essential: true,
+						cpu: 256,
+						memory: 512,
+						image: "ghcr.io/openearthplatforminitiative/flood-frontend:latest",
 						portMappings: [
 							{
 								containerPort: 3000,
@@ -210,6 +240,80 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 						},
 					},
 				},
+			},
+			childOptions
+		)
+
+		new aws.ec2.SecurityGroupRule(
+			"load-balancer-egress-rule",
+			{
+				securityGroupId: loadBalancerSecurityGroup.id,
+				type: "egress",
+				description:
+					"Allow outgoing TCP-traffic to the Fargate service on port 3000",
+				sourceSecurityGroupId: fargateServiceSecurityGroup.id,
+				fromPort: 3000,
+				toPort: 3000,
+				protocol: "tcp",
+			},
+			childOptions
+		)
+
+		new aws.ec2.SecurityGroupRule(
+			"load-balancer-ingress-rule",
+			{
+				securityGroupId: loadBalancerSecurityGroup.id,
+				type: "ingress",
+				description: "Allow incoming TCP-traffic on port 443 from all sources",
+				cidrBlocks: ["0.0.0.0/0"],
+				ipv6CidrBlocks: ["::/0"],
+				fromPort: 443,
+				toPort: 443,
+				protocol: "tcp",
+			},
+			childOptions
+		)
+
+		new aws.ec2.SecurityGroupRule(
+			"fargate-service-egress-rule",
+			{
+				securityGroupId: fargateServiceSecurityGroup.id,
+				type: "egress",
+				description: "Allow all outgoing traffic from the Fargate service",
+				cidrBlocks: ["0.0.0.0/0"],
+				ipv6CidrBlocks: ["::/0"],
+				fromPort: 0,
+				toPort: 0,
+				protocol: "-1",
+			},
+			childOptions
+		)
+
+		new aws.ec2.SecurityGroupRule(
+			"fargate-service-ingress-rule",
+			{
+				securityGroupId: fargateServiceSecurityGroup.id,
+				type: "ingress",
+				description:
+					"Allow incoming TCP-traffic on port 3000 from the load balancer",
+				sourceSecurityGroupId: loadBalancerSecurityGroup.id,
+				fromPort: 3000,
+				toPort: 3000,
+				protocol: "tcp",
+			},
+			childOptions
+		)
+
+		new aws.ec2.SecurityGroupRule(
+			"database-ingress-rule",
+			{
+				securityGroupId: databaseSecurityGroup.id,
+				type: "ingress",
+				description: pulumi.interpolate`Allow incoming TCP-traffic from the Fargate service on port ${database.port}`,
+				sourceSecurityGroupId: fargateServiceSecurityGroup.id,
+				fromPort: database.port,
+				toPort: database.port,
+				protocol: "tcp",
 			},
 			childOptions
 		)
