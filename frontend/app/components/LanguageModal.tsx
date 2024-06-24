@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import {
   Button,
@@ -13,46 +14,43 @@ import {
 } from '@mui/material';
 import type { Dict, Lang } from '@/app/[lang]/dictionaries';
 import { isLang } from '@/app/[lang]/dictionaries';
+import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
 
 interface LanguageModalProps {
   dict: Dict;
-  open: boolean;
-  onClose: () => void;
-  changeLanguage: (lang: Lang) => void;
 }
 
-const LanguageModal = ({
-  dict,
-  open,
-  changeLanguage,
-  onClose,
-}: LanguageModalProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<Lang>('en');
+const LanguageModal = ({ dict }: LanguageModalProps) => {
+  const router = useRouter();
+
+  const [language, setLanguage] = useState<Lang>('en');
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isLang(event.target.value)) {
-      setSelectedLanguage(event.target.value);
+      setLanguage(event.target.value);
     }
   };
 
   const handleSaveLanguage = () => {
-    changeLanguage(selectedLanguage);
-    onClose();
+    setCookie('language', language);
+    router.replace(`/${language}/`);
+    router.refresh();
   };
 
   return (
-    <Dialog open={open} onClose={() => {}} maxWidth={'lg'}>
+    <Dialog open={true} maxWidth={'lg'}>
       <DialogTitle>{dict.languageSelection.chooseLanguage}</DialogTitle>
       <DialogContent>
         <RadioGroup
           aria-label="language"
           name="language"
-          value={selectedLanguage}
+          value={language}
           onChange={handleLanguageChange}
         >
           <FormControlLabel value="en" control={<Radio />} label="English" />
           <Divider />
-          <FormControlLabel value="fr" control={<Radio />} label="French" />
+          <FormControlLabel value="fr" control={<Radio />} label="Français" />
           <Divider />
           <FormControlLabel
             value="kw"

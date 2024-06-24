@@ -15,11 +15,13 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@formatjs/intl-localematcher": "^0.5.4",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
     "@prisma/client": "^5.7.0",
     "cookies-next": "^4.0.0",
     "leaflet": "^1.9.4",
+    "negotiator": "^0.6.3",
     "next": "^14.2.3",
     "next-auth": "^4.24.5",
     "openepi-client": "^1.0.0",
