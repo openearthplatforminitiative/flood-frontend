@@ -44,7 +44,7 @@ export const kw: Dict = {
       otherType: 'Ibindi',
       name: 'Izina',
       type: 'Andika',
-      cropTypes: {
+      siteTypes: {
         avocado: 'Avoka',
         beans: 'Ibishyimbo',
         banana: 'Umuneke',
@@ -55,15 +55,15 @@ export const kw: Dict = {
         sugarcane: 'Ibisheke',
         tea: 'Icyayi',
         wheat: 'Ingano',
-        other: 'Ibindi',
-      },
-      liveStocks: {
         poultry: 'Inkoko',
         goats: 'Ihene',
         cattle: 'Inka',
         pigs: 'Ingurube',
         sheep: 'Intama',
         rabbits: 'Inkwavu',
+        storage: 'Ububiko',
+        residential: 'Gutura',
+        industrial: 'Inganda',
         other: 'Ibindi',
       },
       errors: {

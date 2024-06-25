@@ -47,7 +47,7 @@ export const fr: Dict = {
       otherType: 'Autre',
       name: 'Nom',
       type: 'Taper',
-      cropTypes: {
+      siteTypes: {
         avocado: 'Avocat',
         beans: 'Haricots',
         banana: 'Banane',
@@ -58,15 +58,15 @@ export const fr: Dict = {
         sugarcane: 'Canne à sucre',
         tea: 'Thé',
         wheat: 'Blé',
-        other: 'Autre',
-      },
-      liveStocks: {
         poultry: 'La volaille',
         goats: 'Chèvres',
         cattle: 'Bétail',
         pigs: 'Les cochons',
         sheep: 'Brebis',
         rabbits: 'Lapins',
+        storage: 'Stockage',
+        residential: 'Résidentiel',
+        industrial: 'Industriel',
         other: 'Autre',
       },
       errors: {

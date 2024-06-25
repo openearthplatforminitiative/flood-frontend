@@ -44,7 +44,7 @@ export const en: Dict = {
       otherType: 'Other',
       name: 'Name',
       type: 'Type',
-      cropTypes: {
+      siteTypes: {
         avocado: 'Avocado',
         beans: 'Beans',
         banana: 'Banana',
@@ -55,15 +55,15 @@ export const en: Dict = {
         sugarcane: 'Sugarcane',
         tea: 'Tea',
         wheat: 'Wheat',
-        other: 'Other',
-      },
-      liveStocks: {
         poultry: 'Poultry',
         goats: 'Goats',
         cattle: 'Cattle',
         pigs: 'Pigs',
         sheep: 'Sheep',
         rabbits: 'Rabbits',
+        storage: 'Storage',
+        residential: 'Residential',
+        industrial: 'Industrial',
         other: 'Other',
       },
       errors: {

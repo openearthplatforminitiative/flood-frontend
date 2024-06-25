@@ -59,8 +59,7 @@ export type Dict = {
       otherType: string;
       name: string;
       type: string;
-      cropTypes: CropTypeDict;
-      liveStocks: LiveStockDict;
+      siteTypes: SiteTypeDict;
       errors: {
         nameRequired: string;
         typeRequired: string;
@@ -75,29 +74,13 @@ export type Dict = {
   };
 };
 
-export type LiveStockDict = {
+export type SiteTypeDict = {
   poultry: string;
   goats: string;
   cattle: string;
   pigs: string;
   sheep: string;
   rabbits: string;
-  other: string;
-};
-
-type LiveStock = keyof LiveStockDict;
-
-export const liveStocks: LiveStock[] = [
-  'poultry',
-  'goats',
-  'cattle',
-  'pigs',
-  'sheep',
-  'rabbits',
-  'other',
-];
-
-export type CropTypeDict = {
   avocado: string;
   beans: string;
   banana: string;
@@ -108,12 +91,24 @@ export type CropTypeDict = {
   sugarcane: string;
   tea: string;
   wheat: string;
+  storage: string;
+  residential: string;
+  industrial: string;
   other: string;
 };
 
-export type CropType = keyof CropTypeDict;
+export type SiteType = keyof SiteTypeDict;
 
-export const cropTypes: CropType[] = [
+export const livestockTypes: SiteType[] = [
+  'poultry',
+  'goats',
+  'cattle',
+  'pigs',
+  'sheep',
+  'rabbits',
+];
+
+export const cropTypes: SiteType[] = [
   'avocado',
   'beans',
   'banana',
@@ -124,7 +119,12 @@ export const cropTypes: CropType[] = [
   'sugarcane',
   'tea',
   'wheat',
-  'other',
+];
+
+export const propertyTypes: SiteType[] = [
+  'storage',
+  'residential',
+  'industrial',
 ];
 
 export type Lang = keyof LangDictionary;
