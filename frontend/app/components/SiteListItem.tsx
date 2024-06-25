@@ -1,0 +1,44 @@
+import { Place, ArrowRight } from '@mui/icons-material';
+import {
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
+import { Site } from '@prisma/client';
+import Link from 'next/link';
+import type { Dict } from '../[lang]/dictionaries';
+import { typesRenderer } from '@/lib/render-utils';
+
+interface SiteListItemProps {
+  dict: Dict;
+  href: string;
+  site: Site;
+}
+
+const SiteListItem = ({ dict, href, site }: SiteListItemProps) => {
+  const siteTypeNames = typesRenderer(site.types, dict);
+  return (
+    <Link
+      href={href}
+      key={site.id}
+      style={{ textDecoration: 'none', color: 'black' }}
+    >
+      <ListItem disablePadding>
+        <ListItemButton>
+          <ListItemIcon>
+            <Place />
+          </ListItemIcon>
+          <ListItemText primary={site.name} secondary={siteTypeNames} />
+          <ListItemIcon>
+            <ArrowRight />
+          </ListItemIcon>
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+    </Link>
+  );
+};
+
+export default SiteListItem;

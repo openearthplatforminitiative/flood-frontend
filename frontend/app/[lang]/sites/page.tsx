@@ -1,19 +1,19 @@
-import { Box, Typography } from '@mui/material';
-import {
-  defaultLocale,
-  Dict,
-  getDictionary,
-  isLang,
-} from '@/app/[lang]/dictionaries';
-import { getServerSession } from 'next-auth';
-import SignOutButton from '@/app/components/buttons/SignOutButton';
+import { Box, List, Typography } from '@mui/material';
+import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { redirect } from 'next/navigation';
+import Title from '@/app/components/Title';
+import { getUserId } from '@/lib/auth-utils';
+import { getUserIncludingSites } from '@/lib/prisma';
+import SiteListItem from '@/app/components/SiteListItem';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
-  const dict: Dict = getDictionary(isLang(lang) ? lang : defaultLocale);
-  const session = await getServerSession();
+  const dict = getDictonaryWithDefault(lang);
 
-  if (!session) redirect('/');
+  const userId = await getUserId();
+  if (!userId) redirect('/');
+
+  const user = await getUserIncludingSites(userId);
+  if (!user) redirect('/');
 
   return (
     <Box
@@ -23,26 +23,43 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
         border: '2px solid black',
         display: 'flex',
         flexDirection: 'column',
-        padding: '32px 32px 40px 32px',
+        padding: '2rem 2rem 2.5rem 2rem',
       }}
     >
-      <Box
+      <Title dict={dict} />
+      <Typography
+        variant={'h1'}
         sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          justifyContent: 'space-between',
-          margin: '57px 0 25px 0',
+          fontSize: '2rem',
+          marginTop: '3.5rem',
+          marginBottom: '2rem 1rem',
         }}
       >
-        <Typography variant={'h5'}>My sites</Typography>
-        <SignOutButton callbackUrl="/">{dict.signOut}</SignOutButton>
+        My sites
+      </Typography>
+      <Box
+        sx={{
+          backgroundColor: '#E7E9E4',
+          padding: '1rem',
+          borderRadius: '0.75rem',
+        }}
+      >
+        At the moment we are not receiving any flood warnings associated with
+        your sites.
       </Box>
-      {session !== null ? (
-        <Box>User logged in: {session?.user?.name}</Box>
-      ) : (
-        <Box>No user session active</Box>
-      )}
+
+      <List>
+        <List>
+          {user.sites.map((site) => (
+            <SiteListItem
+              key={site.id}
+              dict={dict}
+              href={`/${lang}/sites/${site.id}`}
+              site={site}
+            />
+          ))}
+        </List>
+      </List>
     </Box>
   );
 };
