@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { output: 'standalone' };
+const nextConfig = {
+  output: 'standalone',
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
 
-module.exports = nextConfig;
+    return config;
+  },
+};
+
+export default nextConfig;

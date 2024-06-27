@@ -1,5 +1,6 @@
 {
   "name": "flood-frontend",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -19,6 +20,7 @@
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
     "@prisma/client": "^5.7.0",
+    "@svgr/webpack": "^8.1.0",
     "cookies-next": "^4.0.0",
     "leaflet": "^1.9.4",
     "negotiator": "^0.6.3",
