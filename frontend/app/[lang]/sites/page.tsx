@@ -1,10 +1,12 @@
-import { Box, List, Typography } from '@mui/material';
+import { Box, Button, List, Typography } from '@mui/material';
 import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { redirect } from 'next/navigation';
 import Title from '@/app/components/Title';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import SiteListItem from '@/app/components/SiteListItem';
+import Link from 'next/link';
+import { Add } from '@mui/icons-material';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -37,29 +39,40 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
       >
         My sites
       </Typography>
-      <Box
-        sx={{
-          backgroundColor: '#E7E9E4',
-          padding: '1rem',
-          borderRadius: '0.75rem',
-        }}
-      >
-        At the moment we are not receiving any flood warnings associated with
-        your sites.
-      </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <Box
+          sx={{
+            backgroundColor: '#E7E9E4',
+            padding: '1rem',
+            borderRadius: '0.75rem',
+          }}
+        >
+          At the moment we are not receiving any flood warnings associated with
+          your sites.
+        </Box>
 
-      <List>
         <List>
-          {user.sites.map((site) => (
-            <SiteListItem
-              key={site.id}
-              dict={dict}
-              href={`/${lang}/sites/${site.id}`}
-              site={site}
-            />
-          ))}
+          <List>
+            {user.sites.map((site) => (
+              <SiteListItem
+                key={site.id}
+                dict={dict}
+                href={`/${lang}/sites/${site.id}`}
+                site={site}
+              />
+            ))}
+          </List>
         </List>
-      </List>
+      </Box>
+      <Link href={`/${lang}/sites/add`}>
+        <Button
+          variant={'outlined'}
+          sx={{ width: '100%', marginTop: '24px' }}
+          startIcon={<Add />}
+        >
+          {dict.onBoarding.sites.addNewSite}
+        </Button>
+      </Link>
     </Box>
   );
 };
