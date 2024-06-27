@@ -1,11 +1,12 @@
 import TitleBar from '@/app/components/onboarding/TitleBar';
-import { Box } from '@mui/material';
+import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, EditOutlined } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
-import { palettes } from '@/app/[lang]/theme/palettes';
-import SiteForm from '@/app/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';
+import { weatherClient } from '@/lib/openepi-clients';
+import WeatherIcon from '@/app/components/icons/WeatherIcon';
+import { typesRenderer } from '@/lib/render-utils';
 
 interface EditSitePageProps {
   params: {
@@ -17,6 +18,7 @@ interface EditSitePageProps {
 const EditSitePage = async ({
   params: { lang, siteId },
 }: EditSitePageProps) => {
+  const dict: Dict = getDictonaryWithDefault(lang);
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User not found');
@@ -25,7 +27,18 @@ const EditSitePage = async ({
   if (!site) {
     throw new Error('Site not found');
   }
-  const dict: Dict = getDictonaryWithDefault(lang);
+
+  const response = await weatherClient.getLocationForecast({
+    lat: site.lat,
+    lon: site.lng,
+  });
+
+  // Current weather does not hold all the information we need, so we need to look at the next hour as well
+  const currentWeather = response.data?.properties.timeseries[0].data.instant;
+  const nextHourWeather =
+    response.data?.properties.timeseries[0].data.next_1_hours;
+  const weatherSymbolCode = nextHourWeather?.summary.symbol_code;
+
   return (
     <Box
       sx={{
@@ -33,7 +46,6 @@ const EditSitePage = async ({
         width: '100%',
         border: '2px solid black',
         display: 'flex',
-        background: palettes['neutralVariant']['90'],
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: '32px 32px 40px 32px',
@@ -45,7 +57,91 @@ const EditSitePage = async ({
         text="Back"
         href={`/${lang}/sites`}
       />
-      <SiteForm dict={dict} site={site} redirectPath={`/${lang}/sites`} />
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="h1" sx={{ fontSize: '1.75rem' }}>
+          {site.name}
+        </Typography>
+        <Box sx={{ marginBottom: '1.5rem' }}>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: '#414942',
+              marginBottom: '0.25rem',
+            }}
+          >
+            Type of site
+          </Typography>
+          <Typography sx={{ fontSize: '1rem' }}>
+            {typesRenderer(site.types, dict)}
+          </Typography>
+        </Box>
+        <Divider />
+        {currentWeather && nextHourWeather && weatherSymbolCode && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: '5rem',
+              marginBottom: '0.75rem',
+            }}
+          >
+            <WeatherIcon iconType={weatherSymbolCode} />
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  color: '#414942',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                Temp.
+              </Typography>
+              <Typography sx={{ fontSize: '1rem' }}>
+                {currentWeather.details?.air_temperature}°C
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  color: '#414942',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                Percip.
+              </Typography>
+              <Typography sx={{ fontSize: '1rem' }}>
+                {nextHourWeather.details?.precipitation_amount} mm
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: '0.75rem',
+                  color: '#414942',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                Wind
+              </Typography>
+              <Typography sx={{ fontSize: '1rem' }}>
+                {currentWeather.details?.wind_speed} m/s
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        <Divider />
+      </Box>
+      <Link href={`/${lang}/sites/${site.id}/edit`}>
+        <Button
+          variant={'outlined'}
+          startIcon={<EditOutlined />}
+          sx={{ width: '100%' }}
+        >
+          Edit site
+        </Button>
+      </Link>
     </Box>
   );
 };
