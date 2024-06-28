@@ -10,14 +10,21 @@ import { Site } from '@prisma/client';
 import Link from 'next/link';
 import type { Dict } from '../[lang]/dictionaries';
 import { typesRenderer } from '@/lib/render-utils';
+import { ReactNode } from 'react';
 
 interface SiteListItemProps {
   dict: Dict;
   href: string;
   site: Site;
+  icon?: ReactNode;
 }
 
-const SiteListItem = ({ dict, href, site }: SiteListItemProps) => {
+const SiteListItem = ({
+  dict,
+  href,
+  site,
+  icon = <Place />,
+}: SiteListItemProps) => {
   const siteTypeNames = typesRenderer(site.types, dict);
   return (
     <Link
@@ -27,9 +34,7 @@ const SiteListItem = ({ dict, href, site }: SiteListItemProps) => {
     >
       <ListItem disablePadding>
         <ListItemButton>
-          <ListItemIcon>
-            <Place />
-          </ListItemIcon>
+          <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={site.name} secondary={siteTypeNames} />
           <ListItemIcon>
             <ArrowRight />

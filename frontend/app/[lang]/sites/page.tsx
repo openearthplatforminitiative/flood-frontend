@@ -6,7 +6,13 @@ import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import SiteListItem from '@/app/components/SiteListItem';
 import Link from 'next/link';
-import { Add } from '@mui/icons-material';
+import { Add, Warning } from '@mui/icons-material';
+import {
+  floodClient,
+  FloodIntensity,
+  FloodTiming,
+} from '@/lib/openepi-clients';
+import FloodWarningBox from '@/app/components/FloodWarningBox';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -16,6 +22,42 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
 
   const user = await getUserIncludingSites(userId);
   if (!user) redirect('/');
+
+  const floodSummaryReponses = await Promise.all(
+    user.sites.map(async (site) =>
+      floodClient.getSummaryForecast({
+        lat: site.lat,
+        lon: site.lng,
+      })
+    )
+  );
+
+  //const topPrediction = floodPredictions.reduce((a, b) => {
+  //  if (!a?.intensity && !b?.intensity) return undefined;
+  //  if (!a?.intensity) return a;
+  //  if (!b?.intensity) return b;
+  //  return FloodIntensity[a.intensity] > FloodIntensity[b.intensity] ? a : b;
+  //}, undefined);
+
+  const highestIntensities: FloodIntensity[] = [];
+
+  let topIntensity: FloodIntensity = FloodIntensity.G;
+  let topIntensityTiming: FloodTiming = FloodTiming.GB;
+  let topIntensitySiteName = '';
+  for (let i = 0; i < floodSummaryReponses.length; i++) {
+    const properties =
+      floodSummaryReponses[i].data?.queried_location.features[0]?.properties;
+    if (properties) {
+      highestIntensities.push(FloodIntensity[properties.intensity]);
+      if (FloodIntensity[properties.intensity] > topIntensity) {
+        topIntensity = FloodIntensity[properties.intensity];
+        topIntensityTiming = FloodTiming[properties.peak_timing];
+        topIntensitySiteName = user.sites[i].name;
+      }
+    } else {
+      highestIntensities.push(FloodIntensity.G);
+    }
+  }
 
   return (
     <Box
@@ -40,27 +82,29 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
         My sites
       </Typography>
       <Box sx={{ flexGrow: 1 }}>
-        <Box
-          sx={{
-            backgroundColor: '#E7E9E4',
-            padding: '1rem',
-            borderRadius: '0.75rem',
-          }}
-        >
-          At the moment we are not receiving any flood warnings associated with
-          your sites.
-        </Box>
+        <FloodWarningBox
+          dict={dict}
+          intensity={topIntensity}
+          timing={topIntensityTiming}
+          siteName={topIntensitySiteName}
+        />
 
         <List>
           <List>
-            {user.sites.map((site) => (
-              <SiteListItem
-                key={site.id}
-                dict={dict}
-                href={`/${lang}/sites/${site.id}`}
-                site={site}
-              />
-            ))}
+            {user.sites.map((site, index) => {
+              let icon;
+              if (highestIntensities[index] > FloodIntensity.G)
+                icon = <Warning />;
+              return (
+                <SiteListItem
+                  key={site.id}
+                  dict={dict}
+                  href={`/${lang}/sites/${site.id}`}
+                  site={site}
+                  icon={icon}
+                />
+              );
+            })}
           </List>
         </List>
       </Box>
