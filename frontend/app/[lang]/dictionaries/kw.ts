@@ -5,7 +5,7 @@ export const kw: Dict = {
   no: 'Oya',
   cancel: 'Kureka',
   confirm: 'Emeza',
-  title: 'Floodsafe',
+  title: 'ClimaSafe',
   signIn: 'Injira',
   signOut: 'Sohoka',
   back: 'Inyuma',

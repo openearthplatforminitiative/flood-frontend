@@ -13,8 +13,6 @@ model Site {
   types   String[]
   lat     Float
   lng     Float
-  city    String
-  country String
   radius  Int
   user    User    @relation(fields: [userId], references: [id])
   userId  String

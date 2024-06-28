@@ -13,6 +13,7 @@ import {
   FloodTiming,
 } from '@/lib/openepi-clients';
 import FloodWarningBox from '@/app/components/FloodWarningBox';
+import SignOutButton from '@/app/components/buttons/SignOutButton';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -71,23 +72,23 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
       }}
     >
       <Title dict={dict} />
-      <Typography
-        variant={'h1'}
-        sx={{
-          fontSize: '2rem',
-          marginTop: '3.5rem',
-          marginBottom: '2rem 1rem',
-        }}
-      >
-        My sites
-      </Typography>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
         <FloodWarningBox
           dict={dict}
           intensity={topIntensity}
           timing={topIntensityTiming}
           siteName={topIntensitySiteName}
         />
+        <Typography
+          variant={'h1'}
+          sx={{
+            fontSize: '2rem',
+            marginTop: '1rem',
+            marginBottom: '2rem 1rem',
+          }}
+        >
+          My sites
+        </Typography>
 
         <List>
           <List>
@@ -108,7 +109,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           </List>
         </List>
       </Box>
-      <Link href={`/${lang}/sites/add`}>
+      <Link href={`/${lang}/sites/add`} style={{ marginBottom: '0.5rem' }}>
         <Button
           variant={'outlined'}
           sx={{ width: '100%', marginTop: '24px' }}
@@ -117,6 +118,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           {dict.onBoarding.sites.addNewSite}
         </Button>
       </Link>
+      <SignOutButton>{dict.signOut}</SignOutButton>
     </Box>
   );
 };

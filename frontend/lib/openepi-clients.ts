@@ -1,15 +1,8 @@
-import { WeatherClient, FloodClient } from 'openepi-client';
+import { WeatherClient, FloodClient, GeocoderClient } from 'openepi-client';
 
 export const weatherClient = new WeatherClient();
 export const floodClient = new FloodClient();
-
-export type FloodSummaryResponse = Awaited<
-  ReturnType<typeof floodClient.getSummaryForecast>
->;
-
-export type FloodPrediction = NonNullable<
-  FloodSummaryResponse['data']
->['queried_location']['features'][0]['properties'];
+export const geocoderClient = new GeocoderClient();
 
 export enum FloodIntensity {
   G = 1, // Gray, no flood signal (2-year <30%).

@@ -32,7 +32,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <meta name="theme-color" content="#90cdf4" />
-        <title>FloodSafe</title>
+        <title>ClimaSafe</title>
       </head>
       <body
         style={{

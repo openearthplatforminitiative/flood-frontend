@@ -18,6 +18,7 @@ import PositionDialog from '@/app/components/onboarding/PositionDialog';
 import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
+import { geocoderClient } from '@/lib/openepi-clients';
 
 interface SiteFormProps {
   dict: Dict;
@@ -33,8 +34,8 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
   const [radius, setRadius] = useState<number>(site ? site.radius : 0);
   const [lat, setLat] = useState<number | undefined>(site?.lat);
   const [lng, setLng] = useState<number | undefined>(site?.lng);
-  const [city, setCity] = useState<string | undefined>(site?.city);
-  const [country, setCountry] = useState<string | undefined>(site?.country);
+  const [city, setCity] = useState<string>();
+  const [country, setCountry] = useState<string>();
 
   const [nameError, setNameError] = useState<string | undefined>();
   const [typesError, setTypesError] = useState<string | undefined>();
@@ -57,10 +58,10 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
         );
         const data = await response
           .json()
-          .then((res) => res.data.features[0].properties);
+          .then((res) => res?.data?.features[0]?.properties);
 
-        setCity(data.city);
-        setCountry(data.country);
+        setCity(data?.city ?? undefined);
+        setCountry(data?.country ?? undefined);
       };
       getLocation();
     }
@@ -89,17 +90,8 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
       setPositionError(undefined);
     }
 
-    if (!country || !city) {
-      setPositionError(
-        'Postition needs to be in a country, and close to a city.'
-      );
-      valid = false;
-    } else {
-      setPositionError(undefined);
-    }
-
     return valid;
-  }, [lat, lng, city, country, name, types]);
+  }, [lat, lng, name, types]);
 
   const handleSetPosition = () => {
     setOpenPositionDialog(true);
@@ -113,8 +105,6 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
         lat as number,
         lng as number,
         radius,
-        city as string,
-        country as string,
         redirectPath
       );
     } else {
@@ -131,8 +121,6 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
         lat as number,
         lng as number,
         radius,
-        city as string,
-        country as string,
         redirectPath
       );
     } else {

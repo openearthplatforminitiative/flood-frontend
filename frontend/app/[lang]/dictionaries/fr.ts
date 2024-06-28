@@ -5,13 +5,13 @@ export const fr: Dict = {
   no: 'Non',
   cancel: 'Annuler',
   confirm: 'Confirmer',
-  title: 'Floodsafe',
+  title: 'ClimaSafe',
   signIn: 'Se connecter',
   signOut: 'Se déconnecter',
   back: 'Retourner',
   signInPage: {
     description:
-      "Floodsafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
+      "ClimaSafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
   },
   onBoarding: {
     allowNotifications: 'Autoriser les notifications',

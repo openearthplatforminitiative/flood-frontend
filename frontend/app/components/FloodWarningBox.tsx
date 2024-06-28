@@ -19,12 +19,12 @@ function intensityToContent(intensity: FloodIntensity) {
     case FloodIntensity.Y:
       return {
         warningTitle: 'Yellow-level warning',
-        color: '#FFD700',
+        color: '#FDDF96',
       };
     case FloodIntensity.R:
       return {
         warningTitle: 'Red-level warning',
-        color: '#FF6347',
+        color: '#F9AB94',
       };
     case FloodIntensity.P:
       return {
@@ -58,14 +58,28 @@ const FloodWarningBox = ({
       'At the moment we are not receiving any flood warnings associated with your sites.'
     ) : (
       <>
-        <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '0.5rem',
+            alignItems: 'center',
+            paddingX: '1rem',
+          }}
+        >
           <Warning />
           <Typography variant="h2" sx={{ fontSize: '1.5rem' }}>
             {warningTitle}
           </Typography>
         </Box>
         <Divider />
-        <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '0.5rem',
+            alignItems: 'center',
+            paddingX: '1rem',
+          }}
+        >
           <AccessTime />
           <Box>
             <Typography
@@ -83,7 +97,14 @@ const FloodWarningBox = ({
           </Box>
         </Box>
         <Divider />
-        <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '0.5rem',
+            alignItems: 'center',
+            paddingX: '1rem',
+          }}
+        >
           <Place />
           <Box>
             <Typography
@@ -108,7 +129,7 @@ const FloodWarningBox = ({
         flexDirection: 'column',
         gap: '0.5rem',
         backgroundColor: color,
-        padding: '1rem',
+        padding: '0.5rem 0 1rem 0',
         borderRadius: '0.75rem',
       }}
     >

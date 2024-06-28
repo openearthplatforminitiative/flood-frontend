@@ -5,13 +5,13 @@ export const en: Dict = {
   no: 'No',
   cancel: 'Cancel',
   confirm: 'Confirm',
-  title: 'Floodsafe',
+  title: 'ClimaSafe',
   signIn: 'Sign in',
   signOut: 'Sign out',
   back: 'Back',
   signInPage: {
     description:
-      'Floodsafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
+      'ClimaSafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
   },
   onBoarding: {
     allowNotifications: 'Allow notifications',
