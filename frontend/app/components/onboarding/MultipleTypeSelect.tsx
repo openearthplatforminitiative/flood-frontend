@@ -146,7 +146,7 @@ const MultipleTypeSelect = ({
                     onChange={() => handleMenuItemClick(livestock)}
                     control={
                       <Checkbox
-                        checked={types.includes(livestockName)}
+                        checked={types.includes(livestock)}
                         value={livestock}
                       />
                     }
