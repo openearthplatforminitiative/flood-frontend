@@ -1,4 +1,8 @@
-import { defaultLocale, getDictionary, isLang } from '../dictionaries';
+import {
+  defaultLocale,
+  getDictonaryWithDefault,
+  isLang,
+} from '../dictionaries';
 import { Box } from '@mui/material';
 import Title from '@/app/components/Title';
 import background from '@/public/assets/images/start-screen-image.png';
@@ -9,7 +13,7 @@ interface SignInPageProps {
 }
 
 const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
-  const dict = getDictionary(isLang(lang) ? lang : defaultLocale);
+  const dict = getDictonaryWithDefault(lang);
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <Box
@@ -44,7 +48,10 @@ const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
           padding: '20px',
         }}
       >
-        <SignInButton callbackUrl="/">
+        <SignInButton
+          callbackUrl="/"
+          keycloakLocale={isLang(lang) ? lang : defaultLocale}
+        >
           {dict.signIn} / {dict.onBoarding.buttons.createAccount}
         </SignInButton>
       </Box>
