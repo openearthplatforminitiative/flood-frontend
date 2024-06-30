@@ -36,19 +36,12 @@ export default function RootLayout({
       <body
         style={{
           display: 'flex',
-          height: '100%',
+          minHeight: '100vh',
           width: '100%',
           margin: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
         }}
       >
-        <Box
-          sx={{
-            height: '800px',
-            width: '360px',
-          }}
-        >
+        <Box sx={{ flexGrow: 1 }}>
           <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
         </Box>
       </body>

@@ -30,7 +30,6 @@ const EditSitePage = async ({
       sx={{
         height: '100%',
         width: '100%',
-        border: '2px solid black',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

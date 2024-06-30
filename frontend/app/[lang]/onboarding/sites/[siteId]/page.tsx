@@ -31,7 +31,6 @@ const EditSitePage = async ({
       sx={{
         height: '100%',
         width: '100%',
-        border: '2px solid black',
         display: 'flex',
         background: palettes['neutralVariant']['90'],
         flexDirection: 'column',

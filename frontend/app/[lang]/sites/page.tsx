@@ -43,7 +43,6 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
       sx={{
         height: '100%',
         width: '100%',
-        border: '2px solid black',
         display: 'flex',
         flexDirection: 'column',
         padding: '2rem 2rem 2.5rem 2rem',
