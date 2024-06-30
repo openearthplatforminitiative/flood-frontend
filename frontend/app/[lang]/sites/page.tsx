@@ -10,6 +10,7 @@ import { Add, Warning } from '@mui/icons-material';
 import {
   floodClient,
   FloodIntensity,
+  floodIntensityRatingMap,
   FloodTiming,
 } from '@/lib/openepi-clients';
 import FloodWarningBox from '@/app/components/FloodWarningBox';
@@ -24,8 +25,8 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const user = await getUserIncludingSites(userId);
   if (!user) redirect('/');
 
-  const floodSummaryReponses = await Promise.all(
-    user.sites.map(async (site) =>
+  const floodSummaries = await Promise.all(
+    user.sites.map((site) =>
       floodClient.getSummaryForecast({
         lat: site.lat,
         lon: site.lng,
@@ -33,32 +34,9 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
     )
   );
 
-  //const topPrediction = floodPredictions.reduce((a, b) => {
-  //  if (!a?.intensity && !b?.intensity) return undefined;
-  //  if (!a?.intensity) return a;
-  //  if (!b?.intensity) return b;
-  //  return FloodIntensity[a.intensity] > FloodIntensity[b.intensity] ? a : b;
-  //}, undefined);
-
-  const highestIntensities: FloodIntensity[] = [];
-
-  let topIntensity: FloodIntensity = FloodIntensity.G;
-  let topIntensityTiming: FloodTiming = FloodTiming.GB;
-  let topIntensitySiteName = '';
-  for (let i = 0; i < floodSummaryReponses.length; i++) {
-    const properties =
-      floodSummaryReponses[i].data?.queried_location.features[0]?.properties;
-    if (properties) {
-      highestIntensities.push(FloodIntensity[properties.intensity]);
-      if (FloodIntensity[properties.intensity] > topIntensity) {
-        topIntensity = FloodIntensity[properties.intensity];
-        topIntensityTiming = FloodTiming[properties.peak_timing];
-        topIntensitySiteName = user.sites[i].name;
-      }
-    } else {
-      highestIntensities.push(FloodIntensity.G);
-    }
-  }
+  const floodProperties = floodSummaries.map((summary) => {
+    return summary.data?.queried_location.features[0]?.properties;
+  });
 
   return (
     <Box
@@ -73,12 +51,18 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
     >
       <Title dict={dict} />
       <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
-        <FloodWarningBox
-          dict={dict}
-          intensity={topIntensity}
-          timing={topIntensityTiming}
-          siteName={topIntensitySiteName}
-        />
+        {floodProperties.map((properties, index) => {
+          if (!properties) return null;
+          return (
+            <FloodWarningBox
+              key={user.sites[index].id}
+              dict={dict}
+              intensity={properties.intensity}
+              timing={properties.peak_timing}
+              siteName={user.sites[index].name}
+            />
+          );
+        })}
         <Typography
           variant={'h1'}
           sx={{
@@ -94,8 +78,14 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           <List>
             {user.sites.map((site, index) => {
               let icon;
-              if (highestIntensities[index] > FloodIntensity.G)
-                icon = <Warning />;
+              if (floodProperties) {
+                const intensity = floodProperties[index]?.intensity;
+                if (intensity) {
+                  const floodIntensityRating =
+                    floodIntensityRatingMap[intensity];
+                  if (floodIntensityRating > 0) icon = <Warning />;
+                }
+              }
               return (
                 <SiteListItem
                   key={site.id}

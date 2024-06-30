@@ -84,4 +84,17 @@ export const fr: Dict = {
   notifications: {
     sendNotification: 'Envoyez une notification',
   },
+  sites: {
+    warningTitle: {
+      G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
+      Y: 'Avertissement de niveau A',
+      R: 'Avertissement de niveau B',
+      P: 'Avertissement de niveau C',
+    },
+    urgency: {
+      BB: 'Dans 1 à 3 jours',
+      GB: 'Dans 3 à 10 jours',
+      GC: 'Dans plus de 10 jours',
+    },
+  },
 };

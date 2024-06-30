@@ -18,7 +18,6 @@ import PositionDialog from '@/app/components/onboarding/PositionDialog';
 import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
-import { geocoderClient } from '@/lib/openepi-clients';
 
 interface SiteFormProps {
   dict: Dict;

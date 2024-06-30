@@ -80,4 +80,17 @@ export const kw: Dict = {
   notifications: {
     sendNotification: 'Kohereza imenyesha',
   },
+  sites: {
+    warningTitle: {
+      G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
+      Y: 'Urwego A Kuburira',
+      R: 'Urwego B Kuburira',
+      P: 'Urwego C Kuburira',
+    },
+    urgency: {
+      BB: 'Mu minsi 1 kugeza kuri 3',
+      GB: 'Mu minsi 3 kugeza kuri 10',
+      GC: 'Mu minsi irenga 10',
+    },
+  },
 };

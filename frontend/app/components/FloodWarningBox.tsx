@@ -10,38 +10,16 @@ interface FloodWarningBoxProps {
   siteName: string;
 }
 
-function intensityToContent(intensity: FloodIntensity) {
+function intensityToColor(intensity: FloodIntensity) {
   switch (intensity) {
-    case FloodIntensity.G:
-      return {
-        color: '#E7E9E4',
-      };
-    case FloodIntensity.Y:
-      return {
-        warningTitle: 'Yellow-level warning',
-        color: '#FDDF96',
-      };
-    case FloodIntensity.R:
-      return {
-        warningTitle: 'Red-level warning',
-        color: '#F9AB94',
-      };
-    case FloodIntensity.P:
-      return {
-        warningTitle: 'Purple-level warning',
-        color: '#800080',
-      };
-  }
-}
-
-function timingToText(timing: FloodTiming) {
-  switch (timing) {
-    case FloodTiming.BB:
-      return 'Within 1 to 3 days';
-    case FloodTiming.GC:
-      return 'In more than 10 days';
-    case FloodTiming.GB:
-      return 'Between 3 to 10 days';
+    case 'G':
+      return '#E7E9E4';
+    case 'Y':
+      return '#D5DEAA';
+    case 'R':
+      return '#FDDF96';
+    case 'P':
+      return '#F9AB94';
   }
 }
 
@@ -51,11 +29,11 @@ const FloodWarningBox = ({
   timing,
   siteName,
 }: FloodWarningBoxProps) => {
-  const { warningTitle, color } = intensityToContent(intensity);
+  const color = intensityToColor(intensity);
 
   const content =
-    intensity == FloodIntensity.G ? (
-      'At the moment we are not receiving any flood warnings associated with your sites.'
+    intensity == 'G' ? (
+      dict.sites.warningTitle.G
     ) : (
       <>
         <Box
@@ -64,11 +42,15 @@ const FloodWarningBox = ({
             gap: '0.5rem',
             alignItems: 'center',
             paddingX: '1rem',
+            marginTop: '1rem',
           }}
         >
           <Warning />
-          <Typography variant="h2" sx={{ fontSize: '1.5rem' }}>
-            {warningTitle}
+          <Typography
+            variant="h2"
+            sx={{ fontSize: '1.5rem', lineHeight: '2rem' }}
+          >
+            {dict.sites.warningTitle[intensity]}
           </Typography>
         </Box>
         <Divider />
@@ -92,7 +74,7 @@ const FloodWarningBox = ({
               Urgency
             </Typography>
             <Typography sx={{ fontSize: '1rem' }}>
-              {timingToText(timing)}
+              {dict.sites.urgency[timing]}
             </Typography>
           </Box>
         </Box>
@@ -127,7 +109,7 @@ const FloodWarningBox = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.5rem',
+        gap: '1rem',
         backgroundColor: color,
         padding: '0.5rem 0 1rem 0',
         borderRadius: '0.75rem',

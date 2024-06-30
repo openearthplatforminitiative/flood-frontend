@@ -1,6 +1,7 @@
 import { en } from '@/app/[lang]/dictionaries/en';
 import { fr } from '@/app/[lang]/dictionaries/fr';
 import { kw } from '@/app/[lang]/dictionaries/kw';
+import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 
 interface LangDictionary {
   en: Dict;
@@ -71,6 +72,10 @@ export type Dict = {
   languageSelection: { chooseLanguage: string };
   notifications: {
     sendNotification: string;
+  };
+  sites: {
+    warningTitle: { [key in FloodIntensity]: string };
+    urgency: { [key in FloodTiming]: string };
   };
 };
 

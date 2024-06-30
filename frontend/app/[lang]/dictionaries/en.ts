@@ -81,4 +81,17 @@ export const en: Dict = {
   notifications: {
     sendNotification: 'Send notification',
   },
+  sites: {
+    warningTitle: {
+      G: 'Kuri ubu ntabwo turimo kuburira imyuzure ijyanye nurubuga rwawe.',
+      Y: 'A-level warning',
+      R: 'B-level warning',
+      P: 'C-level warning',
+    },
+    urgency: {
+      BB: 'In 1 to 3 days',
+      GB: 'In 3 to 10 days',
+      GC: 'In more than 10 days',
+    },
+  },
 };
