@@ -197,7 +197,7 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
         <FormControl sx={{ marginTop: '24px', gap: '8px' }}>
           <FormHelperText>
             {city !== undefined && country !== undefined
-              ? `Location set near: ${city}, ${country}`
+              ? `${dict.sites.locationSetNear}: ${city}, ${country}`
               : ''}
           </FormHelperText>
           <Button

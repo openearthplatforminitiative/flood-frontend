@@ -71,7 +71,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
             marginBottom: '2rem 1rem',
           }}
         >
-          My sites
+          {dict.sites.title}
         </Typography>
 
         <List>

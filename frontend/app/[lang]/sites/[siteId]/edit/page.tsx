@@ -40,7 +40,7 @@ const EditSitePage = async ({
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
-        text="Back"
+        text={dict.back}
         href={`/${lang}/sites/${site.id}`}
       />
       <SiteForm

@@ -21,12 +21,7 @@ const TitleBar = ({ dict, text, href, icon }: OnboardingTitlebarProps) => (
   >
     <Title dict={dict} large={false} />
     <Link href={href}>
-      <Button
-        variant={'outlined'}
-        size={'small'}
-        sx={{ width: '33%' }}
-        startIcon={icon}
-      >
+      <Button variant={'outlined'} size={'small'} startIcon={icon}>
         {text}
       </Button>
     </Link>

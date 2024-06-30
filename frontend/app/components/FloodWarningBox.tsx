@@ -71,10 +71,10 @@ const FloodWarningBox = ({
                 marginBottom: '0.25rem',
               }}
             >
-              Urgency
+              {dict.sites.urgency}
             </Typography>
             <Typography sx={{ fontSize: '1rem' }}>
-              {dict.sites.urgency[timing]}
+              {dict.sites.urgencyDescription[timing]}
             </Typography>
           </Box>
         </Box>
@@ -96,7 +96,7 @@ const FloodWarningBox = ({
                 marginBottom: '0.25rem',
               }}
             >
-              Affected site
+              {dict.sites.affectedSite}
             </Typography>
             <Typography sx={{ fontSize: '1rem' }}>{siteName}</Typography>
           </Box>

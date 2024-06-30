@@ -35,7 +35,7 @@ const SitesOnboardingPage = async ({
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
-        text="Back"
+        text={dict.back}
         href={`/${lang}/onboarding/notifications`}
       />
       <Box sx={{ height: '100%' }}>

@@ -33,12 +33,10 @@ export const fr: Dict = {
       updateSiteInfo:
         'Mettez à jour le site pour lequel vous souhaitez recevoir des mises à jour.',
       setLocation: "Définir l'emplacement",
-      locationMessage: 'Localisation située à proximité de: ',
       locationArea: 'Superficie (rayon)',
       saveChanges: 'Sauvegarder les modifications',
       deleteSite: 'Supprimer le site',
       deleteConfirmMessage: 'Êtes-vous sûr de vouloir supprimer ce site ?',
-      siteType: 'Type de site',
       cropsType: 'Cultures et produits',
       livestockType: 'Bétail',
       storageType: 'Stockage',
@@ -85,16 +83,27 @@ export const fr: Dict = {
     sendNotification: 'Envoyez une notification',
   },
   sites: {
+    title: 'Mes sites',
     warningTitle: {
       G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
       Y: 'Avertissement de niveau A',
       R: 'Avertissement de niveau B',
       P: 'Avertissement de niveau C',
     },
-    urgency: {
+    urgency: 'Urgence',
+    affectedSite: 'Site concerné',
+    urgencyDescription: {
       BB: 'Dans 1 à 3 jours',
       GB: 'Dans 3 à 10 jours',
       GC: 'Dans plus de 10 jours',
     },
+    typeOfSite: 'Type de site',
+    weather: {
+      temperature: 'Temp.',
+      precipitation: 'Précip.',
+      wind: 'Vent',
+    },
+    editSite: 'Modifier le site',
+    locationSetNear: 'Localisation située à proximité de',
   },
 };

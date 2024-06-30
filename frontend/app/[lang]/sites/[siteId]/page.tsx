@@ -54,7 +54,7 @@ const EditSitePage = async ({
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
-        text="Back"
+        text={dict.back}
         href={`/${lang}/sites`}
       />
       <Box sx={{ flexGrow: 1 }}>
@@ -69,7 +69,7 @@ const EditSitePage = async ({
               marginBottom: '0.25rem',
             }}
           >
-            Type of site
+            {dict.sites.typeOfSite}
           </Typography>
           <Typography sx={{ fontSize: '1rem' }}>
             {typesRenderer(site.types, dict)}
@@ -95,7 +95,7 @@ const EditSitePage = async ({
                   marginBottom: '0.5rem',
                 }}
               >
-                Temp.
+                {dict.sites.weather.temperature}
               </Typography>
               <Typography sx={{ fontSize: '1rem' }}>
                 {currentWeather.details?.air_temperature}°C
@@ -109,7 +109,7 @@ const EditSitePage = async ({
                   marginBottom: '0.5rem',
                 }}
               >
-                Percip.
+                {dict.sites.weather.precipitation}
               </Typography>
               <Typography sx={{ fontSize: '1rem' }}>
                 {nextHourWeather.details?.precipitation_amount} mm
@@ -123,7 +123,7 @@ const EditSitePage = async ({
                   marginBottom: '0.5rem',
                 }}
               >
-                Wind
+                {dict.sites.weather.wind}
               </Typography>
               <Typography sx={{ fontSize: '1rem' }}>
                 {currentWeather.details?.wind_speed} m/s
@@ -139,7 +139,7 @@ const EditSitePage = async ({
           startIcon={<EditOutlined />}
           sx={{ width: '100%' }}
         >
-          Edit site
+          {dict.sites.editSite}
         </Button>
       </Link>
     </Box>

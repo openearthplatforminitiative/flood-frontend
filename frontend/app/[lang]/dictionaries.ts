@@ -46,12 +46,10 @@ export type Dict = {
       updateSite: string;
       updateSiteInfo: string;
       setLocation: string;
-      locationMessage: string;
       locationArea: string;
       saveChanges: string;
       deleteSite: string;
       deleteConfirmMessage: string;
-      siteType: string;
       cropsType: string;
       livestockType: string;
       storageType: string;
@@ -74,8 +72,19 @@ export type Dict = {
     sendNotification: string;
   };
   sites: {
+    title: string;
     warningTitle: { [key in FloodIntensity]: string };
-    urgency: { [key in FloodTiming]: string };
+    urgency: string;
+    affectedSite: string;
+    urgencyDescription: { [key in FloodTiming]: string };
+    typeOfSite: string;
+    weather: {
+      temperature: string;
+      precipitation: string;
+      wind: string;
+    };
+    editSite: string;
+    locationSetNear: string;
   };
 };
 

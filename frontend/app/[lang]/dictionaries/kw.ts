@@ -30,12 +30,10 @@ export const kw: Dict = {
       updateSite: 'Kuvugurura urubuga',
       updateSiteInfo: 'Kuvugurura urubuga ushaka kwakira ibishya.',
       setLocation: 'Shiraho ikibanza',
-      locationMessage: 'Ahantu hashyizwe hafi: ',
       locationArea: 'Agace (radiyo)',
       saveChanges: 'Bika impinduka',
       deleteSite: 'Siba urubuga',
       deleteConfirmMessage: 'Uzi neza ko ushaka gusiba uru rubuga?',
-      siteType: 'Ubwoko bwurubuga',
       cropsType: 'Ibihingwa kandi bitanga umusaruro',
       livestockType: 'Amatungo',
       storageType: 'Ububiko',
@@ -81,16 +79,27 @@ export const kw: Dict = {
     sendNotification: 'Kohereza imenyesha',
   },
   sites: {
+    title: 'Imbuga zanjye',
     warningTitle: {
       G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
       Y: 'Urwego A Kuburira',
       R: 'Urwego B Kuburira',
       P: 'Urwego C Kuburira',
     },
-    urgency: {
+    urgency: 'Byihutirwa',
+    affectedSite: 'Byagize ingaruka',
+    urgencyDescription: {
       BB: 'Mu minsi 1 kugeza kuri 3',
       GB: 'Mu minsi 3 kugeza kuri 10',
       GC: 'Mu minsi irenga 10',
     },
+    typeOfSite: 'Ubwoko bwurubuga',
+    weather: {
+      temperature: 'Ubushyuhe',
+      precipitation: 'Imvura',
+      wind: 'Umuyaga',
+    },
+    editSite: 'Kuvugurura urubuga',
+    locationSetNear: 'Ahantu hashyizwe hafi',
   },
 };

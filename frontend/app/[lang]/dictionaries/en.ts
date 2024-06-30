@@ -30,12 +30,10 @@ export const en: Dict = {
       updateSite: 'Update site',
       updateSiteInfo: 'Update the site you want to receive updates for.',
       setLocation: 'Set location',
-      locationMessage: 'Location set near: ',
       locationArea: 'Area (radius)',
       saveChanges: 'Save changes',
       deleteSite: 'Delete site',
       deleteConfirmMessage: 'Are you sure you want to delete this site?',
-      siteType: 'Type of site',
       cropsType: 'Crops and produce',
       livestockType: 'Livestock',
       storageType: 'Storage',
@@ -82,16 +80,27 @@ export const en: Dict = {
     sendNotification: 'Send notification',
   },
   sites: {
+    title: 'My sites',
     warningTitle: {
       G: 'Kuri ubu ntabwo turimo kuburira imyuzure ijyanye nurubuga rwawe.',
       Y: 'A-level warning',
       R: 'B-level warning',
       P: 'C-level warning',
     },
-    urgency: {
+    urgency: 'Urgency',
+    affectedSite: 'Affected site',
+    urgencyDescription: {
       BB: 'In 1 to 3 days',
       GB: 'In 3 to 10 days',
       GC: 'In more than 10 days',
     },
+    typeOfSite: 'Type of site',
+    weather: {
+      temperature: 'Temp.',
+      precipitation: 'Precip.',
+      wind: 'Wind',
+    },
+    editSite: 'Edit site',
+    locationSetNear: 'Location set near',
   },
 };

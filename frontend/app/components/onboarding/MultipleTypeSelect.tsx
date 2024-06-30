@@ -60,9 +60,7 @@ const MultipleTypeSelect = ({
 
   return (
     <FormControl variant="filled" sx={{ marginTop: '16px', width: '100%' }}>
-      <InputLabel id="select-site-type">
-        {dict.onBoarding.sites.siteType}
-      </InputLabel>
+      <InputLabel id="select-site-type">{dict.sites.typeOfSite}</InputLabel>
       <Select
         labelId="select-site-type"
         value={types}
