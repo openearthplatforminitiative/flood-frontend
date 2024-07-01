@@ -33,7 +33,11 @@ const FloodWarningBox = ({
 
   const content =
     intensity == 'G' ? (
-      dict.sites.warningTitle.G
+      <Typography
+        sx={{ paddingX: '1rem', paddingTop: '0.5rem', fontSize: '1rem' }}
+      >
+        {dict.sites.warningTitle.G}
+      </Typography>
     ) : (
       <>
         <Box

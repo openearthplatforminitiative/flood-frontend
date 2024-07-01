@@ -33,6 +33,10 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
     return summary.data?.queried_location.features[0]?.properties;
   });
 
+  const noFloodWarnings = floodProperties.every(
+    (property) => property === undefined || property.intensity === 'G'
+  );
+
   return (
     <Box
       sx={{
@@ -52,6 +56,14 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
       >
         <Title dict={dict} />
         <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
+          {noFloodWarnings && (
+            <FloodWarningBox
+              dict={dict}
+              intensity="G"
+              timing="BB"
+              siteName=""
+            />
+          )}
           {floodProperties.map((properties, index) => {
             if (!properties) return null;
             return (
