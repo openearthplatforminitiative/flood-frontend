@@ -36,7 +36,7 @@ const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
             {dict.settings.title}
           </Typography>
         </Box>
-        <SignOutButton>{dict.signOut}</SignOutButton>
+        <SignOutButton callbackUrl={`/${lang}`}>{dict.signOut}</SignOutButton>
       </Box>
       <Navbar dict={dict} lang={lang} currentPath={`/${lang}/settings`} />
     </Box>
