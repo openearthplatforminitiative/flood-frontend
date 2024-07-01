@@ -35,21 +35,20 @@ const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
     }
   } else {
     return (
-      <Box sx={{ height: '100%', width: '100%' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            backgroundImage: `url(${background.src})`,
-            backgroundRepeat: 'no-repeat',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          <Title dict={dict} large margin={'0 0 200px 0'} />
-          <LanguageModal dict={dict} />
-        </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          backgroundImage: `url(${background.src})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Title dict={dict} large margin={'0 0 200px 0'} />
+        <LanguageModal dict={dict} />
       </Box>
     );
   }
