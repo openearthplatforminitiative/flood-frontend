@@ -81,7 +81,7 @@ export const kw: Dict = {
   sites: {
     title: 'Imbuga zanjye',
     warningTitle: {
-      G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
+      G: 'Kuri ubu ntabwo turimo kuburira imyuzure ijyanye nurubuga rwawe.',
       Y: 'Urwego A Kuburira',
       R: 'Urwego B Kuburira',
       P: 'Urwego C Kuburira',
