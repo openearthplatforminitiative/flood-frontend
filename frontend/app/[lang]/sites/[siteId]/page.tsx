@@ -39,6 +39,12 @@ const EditSitePage = async ({
     response.data?.properties.timeseries[0].data.next_1_hours;
   const weatherSymbolCode = nextHourWeather?.summary.symbol_code;
 
+  const labelStyle = {
+    fontSize: '0.75rem',
+    color: '#414942',
+    marginBottom: '0.5rem',
+  };
+
   return (
     <Box
       sx={{
@@ -62,15 +68,7 @@ const EditSitePage = async ({
           {site.name}
         </Typography>
         <Box sx={{ marginBottom: '1.5rem' }}>
-          <Typography
-            sx={{
-              fontSize: '0.75rem',
-              color: '#414942',
-              marginBottom: '0.25rem',
-            }}
-          >
-            {dict.sites.typeOfSite}
-          </Typography>
+          <Typography sx={labelStyle}>{dict.sites.typeOfSite}</Typography>
           <Typography sx={{ fontSize: '1rem' }}>
             {typesRenderer(site.types, dict)}
           </Typography>
@@ -88,13 +86,7 @@ const EditSitePage = async ({
           >
             <WeatherIcon iconType={weatherSymbolCode} />
             <Box>
-              <Typography
-                sx={{
-                  fontSize: '0.75rem',
-                  color: '#414942',
-                  marginBottom: '0.5rem',
-                }}
-              >
+              <Typography sx={labelStyle}>
                 {dict.sites.weather.temperature}
               </Typography>
               <Typography sx={{ fontSize: '1rem' }}>
@@ -102,13 +94,7 @@ const EditSitePage = async ({
               </Typography>
             </Box>
             <Box>
-              <Typography
-                sx={{
-                  fontSize: '0.75rem',
-                  color: '#414942',
-                  marginBottom: '0.5rem',
-                }}
-              >
+              <Typography sx={labelStyle}>
                 {dict.sites.weather.precipitation}
               </Typography>
               <Typography sx={{ fontSize: '1rem' }}>
@@ -116,15 +102,7 @@ const EditSitePage = async ({
               </Typography>
             </Box>
             <Box>
-              <Typography
-                sx={{
-                  fontSize: '0.75rem',
-                  color: '#414942',
-                  marginBottom: '0.5rem',
-                }}
-              >
-                {dict.sites.weather.wind}
-              </Typography>
+              <Typography sx={labelStyle}>{dict.sites.weather.wind}</Typography>
               <Typography sx={{ fontSize: '1rem' }}>
                 {currentWeather.details?.wind_speed} m/s
               </Typography>
