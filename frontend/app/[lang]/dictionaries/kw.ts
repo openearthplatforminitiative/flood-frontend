@@ -102,4 +102,11 @@ export const kw: Dict = {
     editSite: 'Kuvugurura urubuga',
     locationSetNear: 'Ahantu hashyizwe hafi',
   },
+  settings: {
+    title: 'Igenamiterere ryanjye',
+  },
+  navbar: {
+    sites: 'Imbuga',
+    settings: 'Igenamiterere',
+  },
 };

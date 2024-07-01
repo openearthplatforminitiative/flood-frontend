@@ -103,4 +103,11 @@ export const en: Dict = {
     editSite: 'Edit site',
     locationSetNear: 'Location set near',
   },
+  settings: {
+    title: 'Settings',
+  },
+  navbar: {
+    sites: 'Sites',
+    settings: 'Settings',
+  },
 };

@@ -7,14 +7,9 @@ import { getUserIncludingSites } from '@/lib/prisma';
 import SiteListItem from '@/app/components/SiteListItem';
 import Link from 'next/link';
 import { Add, Warning } from '@mui/icons-material';
-import {
-  floodClient,
-  FloodIntensity,
-  floodIntensityRatingMap,
-  FloodTiming,
-} from '@/lib/openepi-clients';
+import { floodClient, floodIntensityRatingMap } from '@/lib/openepi-clients';
 import FloodWarningBox from '@/app/components/FloodWarningBox';
-import SignOutButton from '@/app/components/buttons/SignOutButton';
+import Navbar from '@/app/components/Navbar';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -45,69 +40,77 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        padding: '2rem 2rem 2.5rem 2rem',
       }}
     >
-      <Title dict={dict} />
-      <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
-        {floodProperties.map((properties, index) => {
-          if (!properties) return null;
-          return (
-            <FloodWarningBox
-              key={user.sites[index].id}
-              dict={dict}
-              intensity={properties.intensity}
-              timing={properties.peak_timing}
-              siteName={user.sites[index].name}
-            />
-          );
-        })}
-        <Typography
-          variant={'h1'}
-          sx={{
-            fontSize: '2rem',
-            marginTop: '1rem',
-            marginBottom: '2rem 1rem',
-          }}
-        >
-          {dict.sites.title}
-        </Typography>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '2rem 2rem 2.5rem 2rem',
+        }}
+      >
+        <Title dict={dict} />
+        <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
+          {floodProperties.map((properties, index) => {
+            if (!properties) return null;
+            return (
+              <FloodWarningBox
+                key={user.sites[index].id}
+                dict={dict}
+                intensity={properties.intensity}
+                timing={properties.peak_timing}
+                siteName={user.sites[index].name}
+              />
+            );
+          })}
+          <Typography
+            variant={'h1'}
+            sx={{
+              fontSize: '2rem',
+              marginTop: '1rem',
+              marginBottom: '2rem 1rem',
+            }}
+          >
+            {dict.sites.title}
+          </Typography>
 
-        <List>
           <List>
-            {user.sites.map((site, index) => {
-              let icon;
-              if (floodProperties) {
-                const intensity = floodProperties[index]?.intensity;
-                if (intensity) {
-                  const floodIntensityRating =
-                    floodIntensityRatingMap[intensity];
-                  if (floodIntensityRating > 0) icon = <Warning />;
+            <List>
+              {user.sites.map((site, index) => {
+                let icon;
+                if (floodProperties) {
+                  const intensity = floodProperties[index]?.intensity;
+                  if (intensity) {
+                    const floodIntensityRating =
+                      floodIntensityRatingMap[intensity];
+                    if (floodIntensityRating > 0) icon = <Warning />;
+                  }
                 }
-              }
-              return (
-                <SiteListItem
-                  key={site.id}
-                  dict={dict}
-                  href={`/${lang}/sites/${site.id}`}
-                  site={site}
-                  icon={icon}
-                />
-              );
-            })}
+                return (
+                  <SiteListItem
+                    key={site.id}
+                    dict={dict}
+                    href={`/${lang}/sites/${site.id}`}
+                    site={site}
+                    icon={icon}
+                  />
+                );
+              })}
+            </List>
           </List>
-        </List>
+        </Box>
+        <Link href={`/${lang}/sites/add`} style={{ marginBottom: '0.5rem' }}>
+          <Button
+            variant={'outlined'}
+            sx={{ width: '100%', marginTop: '24px' }}
+            startIcon={<Add />}
+          >
+            {dict.onBoarding.sites.addNewSite}
+          </Button>
+        </Link>
       </Box>
-      <Link href={`/${lang}/sites/add`} style={{ marginBottom: '0.5rem' }}>
-        <Button
-          variant={'outlined'}
-          sx={{ width: '100%', marginTop: '24px' }}
-          startIcon={<Add />}
-        >
-          {dict.onBoarding.sites.addNewSite}
-        </Button>
-      </Link>
-      <SignOutButton>{dict.signOut}</SignOutButton>
+      <Navbar dict={dict} lang={lang} currentPath={`/${lang}/sites`} />
     </Box>
   );
 };
