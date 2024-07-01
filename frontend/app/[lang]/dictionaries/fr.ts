@@ -5,13 +5,13 @@ export const fr: Dict = {
   no: 'Non',
   cancel: 'Annuler',
   confirm: 'Confirmer',
-  title: 'Floodsafe',
+  title: 'ClimaSafe',
   signIn: 'Se connecter',
   signOut: 'Se déconnecter',
   back: 'Retourner',
   signInPage: {
     description:
-      "Floodsafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
+      "ClimaSafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
   },
   onBoarding: {
     allowNotifications: 'Autoriser les notifications',
@@ -33,12 +33,10 @@ export const fr: Dict = {
       updateSiteInfo:
         'Mettez à jour le site pour lequel vous souhaitez recevoir des mises à jour.',
       setLocation: "Définir l'emplacement",
-      locationMessage: 'Localisation située à proximité de: ',
       locationArea: 'Superficie (rayon)',
       saveChanges: 'Sauvegarder les modifications',
       deleteSite: 'Supprimer le site',
       deleteConfirmMessage: 'Êtes-vous sûr de vouloir supprimer ce site ?',
-      siteType: 'Type de site',
       cropsType: 'Cultures et produits',
       livestockType: 'Bétail',
       storageType: 'Stockage',
@@ -47,7 +45,7 @@ export const fr: Dict = {
       otherType: 'Autre',
       name: 'Nom',
       type: 'Taper',
-      cropTypes: {
+      siteTypes: {
         avocado: 'Avocat',
         beans: 'Haricots',
         banana: 'Banane',
@@ -58,15 +56,15 @@ export const fr: Dict = {
         sugarcane: 'Canne à sucre',
         tea: 'Thé',
         wheat: 'Blé',
-        other: 'Autre',
-      },
-      liveStocks: {
         poultry: 'La volaille',
         goats: 'Chèvres',
         cattle: 'Bétail',
         pigs: 'Les cochons',
         sheep: 'Brebis',
         rabbits: 'Lapins',
+        storage: 'Stockage',
+        residential: 'Résidentiel',
+        industrial: 'Industriel',
         other: 'Autre',
       },
       errors: {
@@ -83,5 +81,29 @@ export const fr: Dict = {
   },
   notifications: {
     sendNotification: 'Envoyez une notification',
+  },
+  sites: {
+    title: 'Mes sites',
+    warningTitle: {
+      G: 'Pour le moment, nous ne recevons aucune alerte d’inondation associée à vos sites.',
+      Y: 'Avertissement de niveau A',
+      R: 'Avertissement de niveau B',
+      P: 'Avertissement de niveau C',
+    },
+    urgency: 'Urgence',
+    affectedSite: 'Site concerné',
+    urgencyDescription: {
+      BB: 'Dans 1 à 3 jours',
+      GB: 'Dans 3 à 10 jours',
+      GC: 'Dans plus de 10 jours',
+    },
+    typeOfSite: 'Type de site',
+    weather: {
+      temperature: 'Temp.',
+      precipitation: 'Précip.',
+      wind: 'Vent',
+    },
+    editSite: 'Modifier le site',
+    locationSetNear: 'Localisation située à proximité de',
   },
 };

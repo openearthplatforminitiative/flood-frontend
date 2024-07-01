@@ -1,6 +1,7 @@
 import { en } from '@/app/[lang]/dictionaries/en';
 import { fr } from '@/app/[lang]/dictionaries/fr';
 import { kw } from '@/app/[lang]/dictionaries/kw';
+import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 
 interface LangDictionary {
   en: Dict;
@@ -45,12 +46,10 @@ export type Dict = {
       updateSite: string;
       updateSiteInfo: string;
       setLocation: string;
-      locationMessage: string;
       locationArea: string;
       saveChanges: string;
       deleteSite: string;
       deleteConfirmMessage: string;
-      siteType: string;
       cropsType: string;
       livestockType: string;
       storageType: string;
@@ -59,8 +58,7 @@ export type Dict = {
       otherType: string;
       name: string;
       type: string;
-      cropTypes: CropTypeDict;
-      liveStocks: LiveStockDict;
+      siteTypes: SiteTypeDict;
       errors: {
         nameRequired: string;
         typeRequired: string;
@@ -73,31 +71,30 @@ export type Dict = {
   notifications: {
     sendNotification: string;
   };
+  sites: {
+    title: string;
+    warningTitle: { [key in FloodIntensity]: string };
+    urgency: string;
+    affectedSite: string;
+    urgencyDescription: { [key in FloodTiming]: string };
+    typeOfSite: string;
+    weather: {
+      temperature: string;
+      precipitation: string;
+      wind: string;
+    };
+    editSite: string;
+    locationSetNear: string;
+  };
 };
 
-export type LiveStockDict = {
+export type SiteTypeDict = {
   poultry: string;
   goats: string;
   cattle: string;
   pigs: string;
   sheep: string;
   rabbits: string;
-  other: string;
-};
-
-type LiveStock = keyof LiveStockDict;
-
-export const liveStocks: LiveStock[] = [
-  'poultry',
-  'goats',
-  'cattle',
-  'pigs',
-  'sheep',
-  'rabbits',
-  'other',
-];
-
-export type CropTypeDict = {
   avocado: string;
   beans: string;
   banana: string;
@@ -108,12 +105,24 @@ export type CropTypeDict = {
   sugarcane: string;
   tea: string;
   wheat: string;
+  storage: string;
+  residential: string;
+  industrial: string;
   other: string;
 };
 
-export type CropType = keyof CropTypeDict;
+export type SiteType = keyof SiteTypeDict;
 
-export const cropTypes: CropType[] = [
+export const livestockTypes: SiteType[] = [
+  'poultry',
+  'goats',
+  'cattle',
+  'pigs',
+  'sheep',
+  'rabbits',
+];
+
+export const cropTypes: SiteType[] = [
   'avocado',
   'beans',
   'banana',
@@ -124,7 +133,12 @@ export const cropTypes: CropType[] = [
   'sugarcane',
   'tea',
   'wheat',
-  'other',
+];
+
+export const propertyTypes: SiteType[] = [
+  'storage',
+  'residential',
+  'industrial',
 ];
 
 export type Lang = keyof LangDictionary;

@@ -26,8 +26,6 @@ export async function createSite(
   lat: number,
   lng: number,
   radius: number,
-  city: string,
-  country: string,
   redirectPath?: string
 ) {
   const userId = await getUserId();
@@ -41,8 +39,6 @@ export async function createSite(
       lat,
       lng,
       radius,
-      city,
-      country,
       userId,
     },
   });
@@ -56,8 +52,6 @@ export async function updateSite(
   lat: number,
   lng: number,
   radius: number,
-  city: string,
-  country: string,
   redirectPath?: string
 ) {
   const userId = await getUserId();
@@ -66,7 +60,7 @@ export async function updateSite(
   }
   await prisma.site.update({
     where: { id: siteId, userId },
-    data: { name, types, lat, lng, radius, city, country },
+    data: { name, types, lat, lng, radius },
   });
   if (redirectPath) redirect(redirectPath);
 }

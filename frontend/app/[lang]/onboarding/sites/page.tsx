@@ -1,26 +1,12 @@
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import SiteListItem from '@/app/components/SiteListItem';
 import CompleteOnboardingButton from '@/app/components/buttons/CompleteOnboardingButton';
 import IconHeader from '@/app/components/onboarding/IconHeader';
 import TitleBar from '@/app/components/onboarding/TitleBar';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
-import {
-  Add,
-  AddLocationAltOutlined,
-  ArrowBack,
-  ArrowRight,
-  Place,
-} from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@mui/material';
+import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
+import { Box, Button, List, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const SitesOnboardingPage = async ({
@@ -49,7 +35,7 @@ const SitesOnboardingPage = async ({
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
-        text="Back"
+        text={dict.back}
         href={`/${lang}/onboarding/notifications`}
       />
       <Box sx={{ height: '100%' }}>
@@ -63,30 +49,14 @@ const SitesOnboardingPage = async ({
           </Typography>
 
           <List>
-            {(user.sites || []).map((site) => {
-              const types = site.types
-                .map((type) => type.slice(0, 1).toUpperCase() + type.slice(1))
-                .join(', ');
-              return (
-                <Link
-                  href={`/${lang}/onboarding/sites/${site.id}`}
-                  key={site.id}
-                  style={{ textDecoration: 'none', color: 'black' }}
-                >
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <Place />
-                      </ListItemIcon>
-                      <ListItemText primary={site.name} secondary={types} />
-                      <ListItemIcon>
-                        <ArrowRight />
-                      </ListItemIcon>
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              );
-            })}
+            {user.sites.map((site) => (
+              <SiteListItem
+                key={site.id}
+                dict={dict}
+                href={`/${lang}/onboarding/sites/${site.id}`}
+                site={site}
+              />
+            ))}
           </List>
 
           <Link href={`/${lang}/onboarding/sites/add`}>

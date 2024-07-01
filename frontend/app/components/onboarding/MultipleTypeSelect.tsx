@@ -14,12 +14,13 @@ import {
   Select,
 } from '@mui/material';
 import {
-  CropType,
   Dict,
   cropTypes,
-  liveStocks,
+  livestockTypes,
+  propertyTypes,
 } from '@/app/[lang]/dictionaries';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { typesRenderer } from '@/lib/render-utils';
 
 interface DropdownProps {
   dict: Dict;
@@ -59,14 +60,12 @@ const MultipleTypeSelect = ({
 
   return (
     <FormControl variant="filled" sx={{ marginTop: '16px', width: '100%' }}>
-      <InputLabel id="select-site-type">
-        {dict.onBoarding.sites.siteType}
-      </InputLabel>
+      <InputLabel id="select-site-type">{dict.sites.typeOfSite}</InputLabel>
       <Select
         labelId="select-site-type"
         value={types}
         multiple
-        renderValue={(value) => (value as string[]).join(', ')}
+        renderValue={(values) => typesRenderer(values, dict)}
         error={!!errorString}
         label={dict.onBoarding.sites.type}
         sx={{
@@ -105,9 +104,8 @@ const MultipleTypeSelect = ({
         </MenuItem>
         <Collapse in={cropMenuOpen} timeout="auto" unmountOnExit>
           <List>
-            {cropTypes.map((cropType: string) => {
-              const cropTypeTranslated =
-                dict.onBoarding.sites.cropTypes[cropType as CropType];
+            {cropTypes.map((cropType) => {
+              const cropTypeName = dict.onBoarding.sites.siteTypes[cropType];
               return (
                 <MenuItem key={cropType} value={cropType}>
                   <FormControlLabel
@@ -119,7 +117,7 @@ const MultipleTypeSelect = ({
                         value={cropType}
                       />
                     }
-                    label={cropTypeTranslated}
+                    label={cropTypeName}
                   />
                 </MenuItem>
               );
@@ -139,20 +137,20 @@ const MultipleTypeSelect = ({
         </MenuItem>
         <Collapse in={livestockMenuOpen} timeout="auto" unmountOnExit>
           <List>
-            {liveStocks.map((liveStock) => {
-              const liveStockName = dict.onBoarding.sites.liveStocks[liveStock];
+            {livestockTypes.map((livestock) => {
+              const livestockName = dict.onBoarding.sites.siteTypes[livestock];
               return (
-                <MenuItem key={liveStock} value={liveStock}>
+                <MenuItem key={livestock} value={livestock}>
                   <FormControlLabel
                     sx={{ width: '100%' }}
-                    onChange={() => handleMenuItemClick(liveStockName)}
+                    onChange={() => handleMenuItemClick(livestock)}
                     control={
                       <Checkbox
-                        checked={types.includes(liveStockName)}
-                        value={liveStockName}
+                        checked={types.includes(livestock)}
+                        value={livestock}
                       />
                     }
-                    label={liveStockName}
+                    label={livestockName}
                   />
                 </MenuItem>
               );
@@ -160,49 +158,30 @@ const MultipleTypeSelect = ({
           </List>
         </Collapse>
         <Divider />
-        <MenuItem value="Storage">
-          <FormControlLabel
-            sx={{ width: '100%' }}
-            onChange={() => handleMenuItemClick('Storage')}
-            control={
-              <Checkbox checked={types.includes('Storage')} value="Storage" />
-            }
-            label={dict.onBoarding.sites.storageType}
-          />
-        </MenuItem>
-        <MenuItem value="Residential">
-          <FormControlLabel
-            sx={{ width: '100%' }}
-            onChange={() => handleMenuItemClick('Residential')}
-            control={
-              <Checkbox
-                checked={types.includes('Residential')}
-                value="Residential"
+        {propertyTypes.map((propertyType) => {
+          return (
+            <MenuItem key={propertyType} value={propertyType}>
+              <FormControlLabel
+                sx={{ width: '100%' }}
+                onChange={() => handleMenuItemClick(propertyType)}
+                control={
+                  <Checkbox
+                    checked={types.includes(propertyType)}
+                    value={propertyType}
+                  />
+                }
+                label={dict.onBoarding.sites.siteTypes[propertyType]}
               />
-            }
-            label={dict.onBoarding.sites.residentialType}
-          />
-        </MenuItem>
-        <MenuItem value="Industrial">
-          <FormControlLabel
-            sx={{ width: '100%' }}
-            onChange={() => handleMenuItemClick('Industrial')}
-            control={
-              <Checkbox
-                checked={types.includes('Industrial')}
-                value="Industrial"
-              />
-            }
-            label={dict.onBoarding.sites.industrialType}
-          />
-        </MenuItem>
+            </MenuItem>
+          );
+        })}
         <Divider />
-        <MenuItem value="Other">
+        <MenuItem value="other">
           <FormControlLabel
             sx={{ width: '100%' }}
-            onChange={() => handleMenuItemClick('Other')}
+            onChange={() => handleMenuItemClick('other')}
             control={
-              <Checkbox checked={types.includes('Other')} value="Other" />
+              <Checkbox checked={types.includes('other')} value="other" />
             }
             label={dict.onBoarding.sites.otherType}
           />

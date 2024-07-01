@@ -5,13 +5,13 @@ export const en: Dict = {
   no: 'No',
   cancel: 'Cancel',
   confirm: 'Confirm',
-  title: 'Floodsafe',
+  title: 'ClimaSafe',
   signIn: 'Sign in',
   signOut: 'Sign out',
   back: 'Back',
   signInPage: {
     description:
-      'Floodsafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
+      'ClimaSafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
   },
   onBoarding: {
     allowNotifications: 'Allow notifications',
@@ -30,12 +30,10 @@ export const en: Dict = {
       updateSite: 'Update site',
       updateSiteInfo: 'Update the site you want to receive updates for.',
       setLocation: 'Set location',
-      locationMessage: 'Location set near: ',
       locationArea: 'Area (radius)',
       saveChanges: 'Save changes',
       deleteSite: 'Delete site',
       deleteConfirmMessage: 'Are you sure you want to delete this site?',
-      siteType: 'Type of site',
       cropsType: 'Crops and produce',
       livestockType: 'Livestock',
       storageType: 'Storage',
@@ -44,7 +42,7 @@ export const en: Dict = {
       otherType: 'Other',
       name: 'Name',
       type: 'Type',
-      cropTypes: {
+      siteTypes: {
         avocado: 'Avocado',
         beans: 'Beans',
         banana: 'Banana',
@@ -55,15 +53,15 @@ export const en: Dict = {
         sugarcane: 'Sugarcane',
         tea: 'Tea',
         wheat: 'Wheat',
-        other: 'Other',
-      },
-      liveStocks: {
         poultry: 'Poultry',
         goats: 'Goats',
         cattle: 'Cattle',
         pigs: 'Pigs',
         sheep: 'Sheep',
         rabbits: 'Rabbits',
+        storage: 'Storage',
+        residential: 'Residential',
+        industrial: 'Industrial',
         other: 'Other',
       },
       errors: {
@@ -80,5 +78,29 @@ export const en: Dict = {
   },
   notifications: {
     sendNotification: 'Send notification',
+  },
+  sites: {
+    title: 'My sites',
+    warningTitle: {
+      G: 'Kuri ubu ntabwo turimo kuburira imyuzure ijyanye nurubuga rwawe.',
+      Y: 'A-level warning',
+      R: 'B-level warning',
+      P: 'C-level warning',
+    },
+    urgency: 'Urgency',
+    affectedSite: 'Affected site',
+    urgencyDescription: {
+      BB: 'In 1 to 3 days',
+      GB: 'In 3 to 10 days',
+      GC: 'In more than 10 days',
+    },
+    typeOfSite: 'Type of site',
+    weather: {
+      temperature: 'Temp.',
+      precipitation: 'Precip.',
+      wind: 'Wind',
+    },
+    editSite: 'Edit site',
+    locationSetNear: 'Location set near',
   },
 };
