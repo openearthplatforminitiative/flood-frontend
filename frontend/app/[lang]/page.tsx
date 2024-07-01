@@ -39,7 +39,6 @@ const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
         sx={{
           display: 'flex',
           backgroundImage: `url(${background.src})`,
-          //backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           justifyContent: 'center',
