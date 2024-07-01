@@ -104,6 +104,7 @@ export const kw: Dict = {
   },
   settings: {
     title: 'Igenamiterere ryanjye',
+    selectedLanguage: 'Ururimi rwanditse',
   },
   navbar: {
     sites: 'Imbuga',

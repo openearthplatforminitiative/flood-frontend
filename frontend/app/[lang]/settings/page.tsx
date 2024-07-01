@@ -1,8 +1,13 @@
 import { Box, Button, List, Typography } from '@mui/material';
-import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import {
+  defaultLocale,
+  getDictonaryWithDefault,
+  isLang,
+} from '@/app/[lang]/dictionaries';
 import SignOutButton from '@/app/components/buttons/SignOutButton';
 import Navbar from '@/app/components/Navbar';
 import Title from '@/app/components/Title';
+import LanguageDropdown from '@/app/components/LanguageDropdown';
 
 const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -35,6 +40,10 @@ const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
           >
             {dict.settings.title}
           </Typography>
+          <LanguageDropdown
+            dict={dict}
+            lang={isLang(lang) ? lang : defaultLocale}
+          />
         </Box>
         <SignOutButton callbackUrl={`/${lang}`}>{dict.signOut}</SignOutButton>
       </Box>

@@ -105,6 +105,7 @@ export const en: Dict = {
   },
   settings: {
     title: 'Settings',
+    selectedLanguage: 'Selected language',
   },
   navbar: {
     sites: 'Sites',

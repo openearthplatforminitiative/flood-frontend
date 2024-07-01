@@ -88,6 +88,7 @@ export type Dict = {
   };
   settings: {
     title: string;
+    selectedLanguage: string;
   };
   navbar: {
     sites: string;

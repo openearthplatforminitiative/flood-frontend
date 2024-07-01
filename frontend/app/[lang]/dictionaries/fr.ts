@@ -108,6 +108,7 @@ export const fr: Dict = {
   },
   settings: {
     title: 'Mes paramètres',
+    selectedLanguage: 'Langue sélectionnée',
   },
   navbar: {
     sites: 'Des sites',
