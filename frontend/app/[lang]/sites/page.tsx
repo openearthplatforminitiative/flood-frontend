@@ -56,26 +56,22 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
       >
         <Title dict={dict} />
         <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
-          {noFloodWarnings && (
-            <FloodWarningBox
-              dict={dict}
-              intensity="G"
-              timing="BB"
-              siteName=""
-            />
+          {noFloodWarnings ? (
+            <FloodWarningBox dict={dict} intensity="G" />
+          ) : (
+            floodProperties.map((properties, index) => {
+              if (!properties) return null;
+              return (
+                <FloodWarningBox
+                  key={user.sites[index].id}
+                  dict={dict}
+                  intensity={properties.intensity}
+                  timing={properties.peak_timing}
+                  siteName={user.sites[index].name}
+                />
+              );
+            })
           )}
-          {floodProperties.map((properties, index) => {
-            if (!properties) return null;
-            return (
-              <FloodWarningBox
-                key={user.sites[index].id}
-                dict={dict}
-                intensity={properties.intensity}
-                timing={properties.peak_timing}
-                siteName={user.sites[index].name}
-              />
-            );
-          })}
           <Typography
             variant={'h1'}
             sx={{
