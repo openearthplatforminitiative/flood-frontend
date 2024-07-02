@@ -34,7 +34,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   });
 
   const noFloodWarnings = floodProperties.every(
-    (property) => property === undefined || property.intensity === 'G'
+    (properties) => properties === undefined || properties.intensity === 'G'
   );
 
   return (
@@ -60,7 +60,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
             <FloodWarningBox dict={dict} intensity="G" />
           ) : (
             floodProperties.map((properties, index) => {
-              if (!properties) return null;
+              if (!properties || properties.intensity === 'G') return null;
               return (
                 <FloodWarningBox
                   key={user.sites[index].id}
