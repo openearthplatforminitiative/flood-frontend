@@ -86,6 +86,14 @@ export type Dict = {
     editSite: string;
     locationSetNear: string;
   };
+  settings: {
+    title: string;
+    selectedLanguage: string;
+  };
+  navbar: {
+    sites: string;
+    settings: string;
+  };
 };
 
 export type SiteTypeDict = {

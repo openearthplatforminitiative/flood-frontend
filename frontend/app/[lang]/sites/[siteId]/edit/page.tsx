@@ -46,6 +46,7 @@ const EditSitePage = async ({
         dict={dict}
         site={site}
         redirectPath={`/${lang}/sites/${site.id}`}
+        deleteRedirectPath={`/${lang}/sites`}
       />
     </Box>
   );

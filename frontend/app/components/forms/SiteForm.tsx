@@ -22,10 +22,16 @@ import { Site } from '@prisma/client';
 interface SiteFormProps {
   dict: Dict;
   redirectPath: string;
+  deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
   site?: Site;
 }
 
-const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
+const SiteForm = ({
+  dict,
+  redirectPath,
+  deleteRedirectPath,
+  site,
+}: SiteFormProps) => {
   const siteId = site?.id;
 
   const [name, setName] = useState<string>(site ? site.name : '');
@@ -140,7 +146,7 @@ const SiteForm = ({ dict, redirectPath, site }: SiteFormProps) => {
 
   const handleDeleteSite = () => {
     if (site) {
-      deleteSite(site?.id, redirectPath);
+      deleteSite(site?.id, deleteRedirectPath ?? redirectPath);
     }
   };
 

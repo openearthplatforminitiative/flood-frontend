@@ -82,7 +82,7 @@ export const en: Dict = {
   sites: {
     title: 'My sites',
     warningTitle: {
-      G: 'Kuri ubu ntabwo turimo kuburira imyuzure ijyanye nurubuga rwawe.',
+      G: 'At the moment we are not receiving any flood warnings associated with your sites.',
       Y: 'A-level warning',
       R: 'B-level warning',
       P: 'C-level warning',
@@ -102,5 +102,13 @@ export const en: Dict = {
     },
     editSite: 'Edit site',
     locationSetNear: 'Location set near',
+  },
+  settings: {
+    title: 'Settings',
+    selectedLanguage: 'Selected language',
+  },
+  navbar: {
+    sites: 'Sites',
+    settings: 'Settings',
   },
 };

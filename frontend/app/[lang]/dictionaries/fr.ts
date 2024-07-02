@@ -106,4 +106,12 @@ export const fr: Dict = {
     editSite: 'Modifier le site',
     locationSetNear: 'Localisation située à proximité de',
   },
+  settings: {
+    title: 'Mes paramètres',
+    selectedLanguage: 'Langue sélectionnée',
+  },
+  navbar: {
+    sites: 'Des sites',
+    settings: 'Paramètres',
+  },
 };
