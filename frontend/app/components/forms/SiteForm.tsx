@@ -159,7 +159,14 @@ const SiteForm = ({
         handleConfirm={handleConfirmLocation}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Typography variant={'h5'} sx={{ margin: '57px 0 25px 0' }}>
+        <Typography
+          variant={'h1'}
+          sx={{
+            fontSize: '2rem',
+            marginTop: '1rem',
+            marginBottom: '2rem 1rem',
+          }}
+        >
           {site
             ? dict.onBoarding.sites.updateSite
             : dict.onBoarding.sites.addNewSite}
