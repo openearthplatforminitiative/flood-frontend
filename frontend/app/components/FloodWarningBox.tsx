@@ -2,13 +2,19 @@ import type { Dict } from '../[lang]/dictionaries';
 import { Box, Divider, Typography } from '@mui/material';
 import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 import { AccessTime, Place, Warning } from '@mui/icons-material';
+import { ReactElement } from 'react';
 
-interface FloodWarningBoxProps {
-  dict: Dict;
-  intensity: FloodIntensity;
-  timing: FloodTiming;
-  siteName: string;
-}
+type FloodWarningBoxProps =
+  | {
+      dict: Dict;
+      intensity: Exclude<FloodIntensity, 'G'>;
+      timing: FloodTiming;
+      siteName: string;
+    }
+  | {
+      dict: Dict;
+      intensity: Extract<FloodIntensity, 'G'>;
+    };
 
 function intensityToColor(intensity: FloodIntensity) {
   switch (intensity) {
@@ -23,18 +29,22 @@ function intensityToColor(intensity: FloodIntensity) {
   }
 }
 
-const FloodWarningBox = ({
-  dict,
-  intensity,
-  timing,
-  siteName,
-}: FloodWarningBoxProps) => {
+const FloodWarningBox = (props: FloodWarningBoxProps) => {
+  const { dict, intensity } = props;
   const color = intensityToColor(intensity);
 
-  const content =
-    intensity == 'G' ? (
-      dict.sites.warningTitle.G
-    ) : (
+  let content: ReactElement;
+  if (intensity === 'G') {
+    content = (
+      <Typography
+        sx={{ paddingX: '1rem', paddingTop: '0.5rem', fontSize: '1rem' }}
+      >
+        {dict.sites.warningTitle[intensity]}
+      </Typography>
+    );
+  } else {
+    const { timing, siteName } = props;
+    content = (
       <>
         <Box
           sx={{
@@ -103,6 +113,7 @@ const FloodWarningBox = ({
         </Box>
       </>
     );
+  }
 
   return (
     <Box

@@ -26,7 +26,7 @@ const NotificationForm = ({
   };
 
   return (
-    <div>
+    <Box>
       <Box
         sx={{
           display: 'flex',
@@ -79,7 +79,7 @@ const NotificationForm = ({
       >
         {dict.onBoarding.buttons.nextStep}
       </Button>
-    </div>
+    </Box>
   );
 };
 
