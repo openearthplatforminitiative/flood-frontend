@@ -85,7 +85,10 @@ export default class KeycloakService extends pulumi.ComponentResource {
 
     const keycloakAdminPassword = new random.RandomPassword(
       'keycloak-admin-password',
-      { length: 128 },
+      {
+        length: 128,
+        special: false,
+      },
       childOptions
     );
 
@@ -156,7 +159,10 @@ export default class KeycloakService extends pulumi.ComponentResource {
 
     const keycloakClientSecret = new random.RandomPassword(
       'keycloak-client-secret',
-      { length: 128 },
+      {
+        length: 128,
+        special: false,
+      },
       childOptions
     );
 
