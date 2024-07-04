@@ -46,26 +46,24 @@ const EditSitePage = async ({
   };
 
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '32px 32px 40px 32px',
-      }}
-    >
+    <>
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
         text={dict.back}
         href={`/${lang}/sites`}
       />
+      <Typography
+        variant={'h1'}
+        sx={{
+          fontSize: '2rem',
+          marginTop: '1rem',
+          marginBottom: '2rem 1rem',
+        }}
+      >
+        {site.name}
+      </Typography>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h1" sx={{ fontSize: '1.75rem' }}>
-          {site.name}
-        </Typography>
         <Box sx={{ marginBottom: '1.5rem' }}>
           <Typography sx={labelStyle}>{dict.sites.typeOfSite}</Typography>
           <Typography sx={{ fontSize: '1rem' }}>
@@ -119,7 +117,7 @@ const EditSitePage = async ({
           {dict.sites.editSite}
         </Button>
       </Link>
-    </Box>
+    </>
   );
 };
 

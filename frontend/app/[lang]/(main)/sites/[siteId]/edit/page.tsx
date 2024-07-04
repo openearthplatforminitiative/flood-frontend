@@ -1,5 +1,4 @@
 import TitleBar from '@/app/components/onboarding/TitleBar';
-import { Box } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { ArrowBack } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
@@ -26,16 +25,7 @@ const EditSitePage = async ({
   }
   const dict: Dict = getDictonaryWithDefault(lang);
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '32px 32px 40px 32px',
-      }}
-    >
+    <>
       <TitleBar
         dict={dict}
         icon={<ArrowBack fontSize="small" />}
@@ -48,7 +38,7 @@ const EditSitePage = async ({
         redirectPath={`/${lang}/sites/${site.id}`}
         deleteRedirectPath={`/${lang}/sites`}
       />
-    </Box>
+    </>
   );
 };
 

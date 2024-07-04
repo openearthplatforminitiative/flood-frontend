@@ -1,15 +1,18 @@
-import { Place, PlaceOutlined, SettingsOutlined } from '@mui/icons-material';
+'use client';
+
+import { PlaceOutlined, SettingsOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import { Dict } from '../[lang]/dictionaries';
+import { useSelectedLayoutSegment } from 'next/navigation';
 
 interface NavbarProps {
   dict: Dict;
   lang: string;
-  currentPath: string;
 }
 
-const Navbar = ({ dict, lang, currentPath }: NavbarProps) => {
+const Navbar = ({ dict, lang }: NavbarProps) => {
+  const segment = useSelectedLayoutSegment();
   return (
     <Box
       sx={{
@@ -31,8 +34,7 @@ const Navbar = ({ dict, lang, currentPath }: NavbarProps) => {
       >
         <Box
           sx={{
-            backgroundColor:
-              currentPath === `/${lang}/sites` ? '#D5E7D6' : undefined,
+            backgroundColor: segment === 'sites' ? '#D5E7D6' : undefined,
             display: 'flex',
             justifyContent: 'center',
             padding: '0.5rem 1rem',
@@ -55,8 +57,7 @@ const Navbar = ({ dict, lang, currentPath }: NavbarProps) => {
       >
         <Box
           sx={{
-            backgroundColor:
-              currentPath === `/${lang}/settings` ? '#D5E7D6' : undefined,
+            backgroundColor: segment === 'settings' ? '#D5E7D6' : undefined,
             display: 'flex',
             justifyContent: 'center',
             padding: '0.5rem 1rem',
