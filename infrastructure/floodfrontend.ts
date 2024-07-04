@@ -19,6 +19,7 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
   readonly authClientSecretArn: pulumi.Input<string>;
 
   readonly url: pulumi.Output<string>;
+  readonly arn: pulumi.Output<string>;
 
   constructor(
     name: string,
@@ -161,7 +162,7 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
 
     const defaultVpc = new awsx.ec2.DefaultVpc('default-vpc', {}, childOptions);
 
-    new awsx.ecs.FargateService(
+    const service = new awsx.ecs.FargateService(
       'fargate-service',
       {
         name: 'flood-frontend',
@@ -243,6 +244,8 @@ export default class FloodFrontendService extends pulumi.ComponentResource {
       },
       childOptions
     );
+
+    this.arn = service.service.id;
 
     new aws.ec2.SecurityGroupRule(
       'load-balancer-egress-rule',

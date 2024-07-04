@@ -16,6 +16,7 @@ export default class KeycloakService extends pulumi.ComponentResource {
   readonly clientSecretArn: pulumi.Output<string>;
 
   readonly url: pulumi.Output<string>;
+  readonly arn: pulumi.Output<string>;
 
   constructor(
     name: string,
@@ -279,6 +280,8 @@ export default class KeycloakService extends pulumi.ComponentResource {
       },
       childOptions
     );
+
+    this.arn = service.service.id;
 
     new aws.ec2.SecurityGroupRule(
       'load-balancer-egress-rule',
