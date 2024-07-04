@@ -82,7 +82,7 @@ new aws.iam.Role('github-actions', {
             },
             StringLike: {
               'token.actions.githubusercontent.com:sub':
-                'repo:openearthplatforminitiative/flood-frontend:environment/prod',
+                'repo:openearthplatforminitiative/flood-frontend:environment:prod',
             },
           },
         },
