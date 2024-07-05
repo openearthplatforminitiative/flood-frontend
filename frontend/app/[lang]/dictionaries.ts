@@ -23,6 +23,9 @@ export type Dict = {
   cancel: string;
   confirm: string;
   title: string;
+  metadata: {
+    description: string;
+  };
   signIn: string;
   signOut: string;
   back: string;
