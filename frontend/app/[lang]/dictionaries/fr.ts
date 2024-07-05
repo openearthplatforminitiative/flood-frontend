@@ -6,6 +6,10 @@ export const fr: Dict = {
   cancel: 'Annuler',
   confirm: 'Confirmer',
   title: 'ClimaSafe',
+  metadata: {
+    description:
+      "ClimaSafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt.",
+  },
   signIn: 'Se connecter',
   signOut: 'Se déconnecter',
   back: 'Retourner',

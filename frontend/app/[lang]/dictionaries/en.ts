@@ -6,6 +6,10 @@ export const en: Dict = {
   cancel: 'Cancel',
   confirm: 'Confirm',
   title: 'ClimaSafe',
+  metadata: {
+    description:
+      'ClimaSafe lets you receive updates about flood-risk in your areas of interest.',
+  },
   signIn: 'Sign in',
   signOut: 'Sign out',
   back: 'Back',

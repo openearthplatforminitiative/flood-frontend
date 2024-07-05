@@ -6,6 +6,10 @@ export const kw: Dict = {
   cancel: 'Kureka',
   confirm: 'Emeza',
   title: 'ClimaSafe',
+  metadata: {
+    description:
+      'ClimaSafe igufasha kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe.',
+  },
   signIn: 'Injira',
   signOut: 'Sohoka',
   back: 'Inyuma',

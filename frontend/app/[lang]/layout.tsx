@@ -3,10 +3,24 @@ import { ReactNode } from 'react';
 import ThemeRegistry from '@/app/components/ThemeRegistry';
 import { Box } from '@mui/material';
 import { Inter } from 'next/font/google';
+import { getDictonaryWithDefault, languages } from './dictionaries';
 
-export const metadata: Metadata = {
-  title: 'ClimaSafe',
-};
+export async function generateMetadata({
+  params: { lang },
+}: {
+  params: { lang: string };
+}): Promise<Metadata> {
+  const dict = getDictonaryWithDefault(lang);
+
+  return {
+    title: dict.title,
+    description: dict.metadata.description,
+  };
+}
+
+export function generateStaticParams() {
+  return languages.map((lang) => ({ lang }));
+}
 
 const inter = Inter({
   weight: ['400', '500', '600'],
@@ -20,6 +34,7 @@ export default function RootLayout({
   children: ReactNode;
   params: { lang: string };
 }) {
+  const dict = getDictonaryWithDefault(lang);
   return (
     <html lang={lang} className={inter.className}>
       <head>
@@ -31,7 +46,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <meta name="theme-color" content="#90cdf4" />
-        <title>ClimaSafe</title>
+        <title>{dict.title}</title>
       </head>
       <body
         style={{
