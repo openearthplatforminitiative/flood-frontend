@@ -3,7 +3,7 @@ import {
   getDictonaryWithDefault,
   isLang,
 } from '../dictionaries';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Title from '@/app/components/Title';
 import background from '@/public/assets/images/start-screen-image.png';
 import SignInButton from '@/app/components/buttons/SignInButton';
@@ -15,12 +15,19 @@ interface SignInPageProps {
 const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
   const dict = getDictonaryWithDefault(lang);
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
+    <Box
+      sx={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
           backgroundImage: `url(${background.src})`,
-          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
           backgroundPosition: 'center',
           justifyContent: 'center',
           alignItems: 'center',
@@ -32,22 +39,15 @@ const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
       </Box>
       <Box
         sx={{
+          flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: 'white',
-          padding: '20px',
-          marginTop: '15px',
+          padding: '2rem 2rem 2.5rem 2rem',
         }}
       >
-        {dict.signInPage.description}
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px',
-        }}
-      >
+        <Typography sx={{ flexGrow: 1 }}>
+          {dict.signInPage.description}
+        </Typography>
         <SignInButton
           callbackUrl="/"
           keycloakLocale={isLang(lang) ? lang : defaultLocale}
