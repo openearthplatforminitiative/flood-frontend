@@ -55,21 +55,21 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: release
-  #   environment: prod
+  deploy:
+    runs-on: ubuntu-latest
+    needs: release
+    environment: prod
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-  #         aws-region: ${{ vars.AWS_REGION }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
-  #     - name: Force new ECS deployment
-  #       run: |
-  #         aws ecs update-service --cluster ${{ vars.ECS_CLUSTER_ARN }} --service ${{ vars.FLOOD_FRONTEND_SERVICE_ARN }} --force-new-deployment
+      - name: Force new ECS deployment
+        run: |
+          aws ecs update-service --cluster ${{ vars.ECS_CLUSTER_ARN }} --service ${{ vars.FLOOD_FRONTEND_SERVICE_ARN }} --force-new-deployment
