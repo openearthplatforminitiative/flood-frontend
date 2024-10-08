@@ -1,8 +1,8 @@
 import { WeatherClient, FloodClient, GeocoderClient } from 'openepi-client';
 
-export const weatherClient = new WeatherClient();
-export const floodClient = new FloodClient();
-export const geocoderClient = new GeocoderClient();
+export const weatherClient = new WeatherClient('https://api.openepi.io/weather');
+export const floodClient = new FloodClient('https://api.openepi.io/flood');
+export const geocoderClient = new GeocoderClient('https://api.openepi.io/geocoding');
 
 type FloodSummaryProperties = NonNullable<
   Awaited<ReturnType<typeof floodClient.getSummaryForecast>>['data']
