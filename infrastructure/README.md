@@ -28,4 +28,4 @@ Use the AWS CLI to authenticate with AWS, and then run `pulumi up` to deploy the
 
 ## Tear down the infrastructure
 
-To tear down pulumi, use `pulumi destroy`.
+To tear down the infrastructure, use `pulumi destroy`.

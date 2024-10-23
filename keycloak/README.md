@@ -1,8 +1,7 @@
 # Keycloak
 
 Keycloak is used to authenticate users of the application.
-
-Found in the `keycloak` folder. The image is based on the official Keycloak image, but with additional build time configuration and a custom realm. The realm is defined in the `realm.json` file, and it contains several environment variables that are used to configure the realm on launch.
+The image is based on the official Keycloak image, but with additional build time configuration and a custom realm. The realm is defined in the `realm.json` file, and it contains several environment variables that are used to configure the realm on launch.
 
 - `FLOOD_FRONTEND_CLIENT_ID` - The client ID of the Keycloak client that flood-frontend will use
 - `FLOOD_FRONTEND_CLIENT_SECRET` - The client secret of the Keycloak client that flood-frontend will use
