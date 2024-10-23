@@ -1,0 +1,31 @@
+# Infrastructure
+The infrastructure is defined in the `infrastructure` folder using [Pulumi](https://www.pulumi.com/).
+Pulumi will build all the infrastructure you will need in AWS, including the setup for Keycloak.
+
+## Configuration
+
+To get started, create a `Pulumi.[stack-name].yml` file in the root of the `infrastructure` folder. The file requires some configs to create the infrastructure, and can be set using the pulumi cli, e.g.
+
+```bash
+pulumi config set aws:region eu-central-1
+```
+To set secrets, use the --secret flag.
+
+```bash
+pulumi config set cloudflase:apiToken --secret
+```
+
+The file should contain the following config:
+
+- `aws:region` - The AWS region to deploy to
+- `cloudflare:apiToken` - The API token used to authenticate with Cloudflare. The API token can be obtained from the Cloudflare dashboard. The token needs DNS edit access
+- `cloudflare:zoneId` - The zone ID of the Cloudflare zone to use
+- `flood-frontend:domainName` - The domain name to use for the flood-frontend application.
+
+## Deploying the infrastructure
+
+Use the AWS CLI to authenticate with AWS, and then run `pulumi up` to deploy the infrastructure.
+
+## Tear down the infrastructure
+
+To tear down pulumi, use `pulumi destroy`.
