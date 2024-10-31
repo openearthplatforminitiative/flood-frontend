@@ -15,7 +15,7 @@ export const fr: Dict = {
   back: 'Retourner',
   signInPage: {
     description:
-      "ClimaSafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt. Cliquez sur le bouton ci-dessous pour vous inscrire ou vous connecter à un utilisateur existant.",
+      "ClimaSafe vous permet de recevoir des mises à jour sur les risques d'inondation dans vos zones d'intérêt.",
   },
   onBoarding: {
     allowNotifications: 'Autoriser les notifications',
@@ -116,6 +116,7 @@ export const fr: Dict = {
   },
   navbar: {
     sites: 'Des sites',
+    cropHealth: 'Santé des cultures',
     settings: 'Paramètres',
   },
 };

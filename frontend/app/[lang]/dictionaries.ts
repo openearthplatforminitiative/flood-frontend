@@ -95,6 +95,7 @@ export type Dict = {
   };
   navbar: {
     sites: string;
+    cropHealth: string;
     settings: string;
   };
 };

@@ -15,7 +15,7 @@ export const kw: Dict = {
   back: 'Inyuma',
   signInPage: {
     description:
-      'Umwuzure uremerera kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe. Kanda buto munsi kugirango wiyandikishe cyangwa winjire kumukoresha uriho.',
+      'Umwuzure uremerera kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe.',
   },
   onBoarding: {
     allowNotifications: 'Emera imenyesha',
@@ -112,6 +112,7 @@ export const kw: Dict = {
   },
   navbar: {
     sites: 'Imbuga',
+    cropHealth: 'Umusaruro',
     settings: 'Igenamiterere',
   },
 };
