@@ -1,4 +1,4 @@
-import { Place, ArrowRight } from '@mui/icons-material';
+import { Place, ArrowRight, ArrowForward } from '@mui/icons-material';
 import {
   Divider,
   ListItem,
@@ -37,7 +37,7 @@ const SiteListItem = ({
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={site.name} secondary={siteTypeNames} />
           <ListItemIcon>
-            <ArrowRight />
+            <ArrowForward />
           </ListItemIcon>
         </ListItemButton>
       </ListItem>

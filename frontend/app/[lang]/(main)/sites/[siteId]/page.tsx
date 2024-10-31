@@ -1,4 +1,3 @@
-import TitleBar from '@/app/components/onboarding/TitleBar';
 import { Box, Button, Divider, Link, Typography } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { ArrowBack, EditOutlined } from '@mui/icons-material';
@@ -7,6 +6,7 @@ import { getSiteForUser } from '@/lib/prisma';
 import { weatherClient } from '@/lib/openepi-clients';
 import WeatherIcon from '@/app/components/icons/WeatherIcon';
 import { typesRenderer } from '@/lib/render-utils';
+import Header from '@/app/components/Header';
 
 interface EditSitePageProps {
   params: {
@@ -47,22 +47,7 @@ const EditSitePage = async ({
 
   return (
     <>
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text={dict.back}
-        href={`/${lang}/sites`}
-      />
-      <Typography
-        variant={'h1'}
-        sx={{
-          fontSize: '2rem',
-          marginTop: '1rem',
-          marginBottom: '2rem 1rem',
-        }}
-      >
-        {site.name}
-      </Typography>
+      <Header title={site.name} />
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={{ marginBottom: '1.5rem' }}>
           <Typography sx={labelStyle}>{dict.sites.typeOfSite}</Typography>

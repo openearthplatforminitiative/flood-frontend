@@ -2,7 +2,6 @@ import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import SiteListItem from '@/app/components/SiteListItem';
 import CompleteOnboardingButton from '@/app/components/buttons/CompleteOnboardingButton';
 import IconHeader from '@/app/components/onboarding/IconHeader';
-import TitleBar from '@/app/components/onboarding/TitleBar';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import { Add, AddLocationAltOutlined, ArrowBack } from '@mui/icons-material';
@@ -31,13 +30,14 @@ const SitesOnboardingPage = async ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text={dict.back}
-        href={`/${lang}/onboarding/notifications`}
-      />
-      <Box sx={{ height: '100%' }}>
+      <Box
+        sx={{
+          height: '100%',
+          maxWidth: '1300px',
+          width: '100%',
+          margin: 'auto',
+        }}
+      >
         <IconHeader
           icon={<AddLocationAltOutlined />}
           text={dict.onBoarding.sites.sitesHeader}
@@ -68,8 +68,8 @@ const SitesOnboardingPage = async ({
             </Button>
           </Link>
         </Box>
+        <CompleteOnboardingButton>{dict.confirm}</CompleteOnboardingButton>
       </Box>
-      <CompleteOnboardingButton>{dict.confirm}</CompleteOnboardingButton>
     </Box>
   );
 };
