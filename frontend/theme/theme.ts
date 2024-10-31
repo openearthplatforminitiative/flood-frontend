@@ -1,10 +1,15 @@
-import { createTheme } from '@mui/material/styles';
-import { palettes } from '@/app/[lang]/theme/palettes';
-import { typography } from '@/app/[lang]/theme/typography';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { palettes } from '@/theme/palettes';
+import { typography } from '@/theme/typography';
 
 const theme = createTheme({
   palette: palettes,
   components: {
+    MuiButtonBase: {
+			defaultProps: {
+				disableRipple: true,
+			},
+		},
     MuiButton: {
       styleOverrides: {
         root: {
@@ -19,6 +24,13 @@ const theme = createTheme({
           borderRadius: '20px',
         },
       },
+    },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+        },
+      }
     },
     MuiFilledInput: {
       styleOverrides: {
@@ -37,4 +49,4 @@ const theme = createTheme({
   typography: typography,
 });
 
-export default theme;
+export default responsiveFontSizes(theme);
