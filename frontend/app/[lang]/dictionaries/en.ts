@@ -15,7 +15,7 @@ export const en: Dict = {
   back: 'Back',
   signInPage: {
     description:
-      'ClimaSafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
+      'ClimaSafe lets you receive updates about flood-risk in your areas of interest.',
   },
   onBoarding: {
     allowNotifications: 'Allow notifications',
@@ -113,6 +113,7 @@ export const en: Dict = {
   },
   navbar: {
     sites: 'Sites',
+    cropHealth: 'Crop Health',
     settings: 'Settings',
   },
 };
