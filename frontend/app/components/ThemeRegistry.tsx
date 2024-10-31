@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
-import theme from '@/app/[lang]/theme/theme';
+import theme from '@/theme/theme';
 import { SessionProvider } from 'next-auth/react';
 
 interface ThemeRegistryProps {

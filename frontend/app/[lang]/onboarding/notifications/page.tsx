@@ -1,7 +1,6 @@
 import { getDictonaryWithDefault, type Dict } from '@/app/[lang]/dictionaries';
 import NotificationsForm from '@/app/components/forms/NotificationsForm';
 import IconHeader from '@/app/components/onboarding/IconHeader';
-import TitleBar from '@/app/components/onboarding/TitleBar';
 import { getUserId } from '@/lib/auth-utils';
 import { getUser } from '@/lib/prisma';
 import { ArrowBack, SpeakerPhone } from '@mui/icons-material';
@@ -32,12 +31,6 @@ const NotificationsPermissionsPage = async ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text="Back"
-        href={`/${lang}/sign-in`}
-      />
       <Box
         sx={{
           flexGrow: 1,

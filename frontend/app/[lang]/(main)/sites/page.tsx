@@ -1,7 +1,6 @@
 import { Box, Button, List, Typography } from '@mui/material';
 import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { redirect } from 'next/navigation';
-import Title from '@/app/components/Title';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import SiteListItem from '@/app/components/SiteListItem';
@@ -9,6 +8,8 @@ import Link from 'next/link';
 import { Add, Warning } from '@mui/icons-material';
 import { floodClient, floodIntensityRatingMap } from '@/lib/openepi-clients';
 import FloodWarningBox from '@/app/components/FloodWarningBox';
+import { intensityToColor } from '@/app/helpers/intensityToColor';
+import Header from '@/app/components/Header';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -38,33 +39,32 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
 
   return (
     <>
-      <Title dict={dict} />
-      <Typography
-        variant={'h1'}
+      <Header title={dict.sites.title} />
+      <Box
         sx={{
-          fontSize: '2rem',
-          marginTop: '1rem',
-          marginBottom: '2rem 1rem',
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
         }}
       >
-        {dict.sites.title}
-      </Typography>
-      <Box sx={{ flexGrow: 1 }}>
         {noFloodWarnings ? (
           <FloodWarningBox dict={dict} intensity="G" />
         ) : (
-          floodProperties.map((properties, index) => {
-            if (!properties || properties.intensity === 'G') return null;
-            return (
-              <FloodWarningBox
-                key={user.sites[index].id}
-                dict={dict}
-                intensity={properties.intensity}
-                timing={properties.peak_timing}
-                siteName={user.sites[index].name}
-              />
-            );
-          })
+          <div>
+            {floodProperties.map((properties, index) => {
+              if (!properties || properties.intensity === 'G') return null;
+              return (
+                <FloodWarningBox
+                  key={user.sites[index].id}
+                  dict={dict}
+                  intensity={properties.intensity}
+                  timing={properties.peak_timing}
+                  siteName={user.sites[index].name}
+                />
+              );
+            })}
+          </div>
         )}
 
         <List>
@@ -74,7 +74,12 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
               const intensity = floodProperties[index]?.intensity;
               if (intensity) {
                 const floodIntensityRating = floodIntensityRatingMap[intensity];
-                if (floodIntensityRating > 0) icon = <Warning />;
+                if (floodIntensityRating > 0)
+                  icon = (
+                    <Warning
+                      className={`text-${intensityToColor(intensity)}`}
+                    />
+                  );
               }
             }
             return (

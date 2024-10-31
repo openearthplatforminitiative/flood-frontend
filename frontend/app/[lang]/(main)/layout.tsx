@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import Navbar from '@/app/components/Navbar';
+import Header from '@/app/components/Header';
 
 interface MainLayoutProps {
   params: {
@@ -13,22 +14,8 @@ const MainLayout = async ({ params: { lang }, children }: MainLayoutProps) => {
   const dict = getDictonaryWithDefault(lang);
 
   return (
-    <Box
-      sx={{
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Box
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '2rem 2rem 2.5rem 2rem',
-        }}
-      >
+    <Box className="min-h-full h-full w-full flex flex-col lg:flex-row">
+      <Box className="p-4 lg:p-6 lg:pb-6 w-full flex flex-col lg:order-2 flex-grow">
         {children}
       </Box>
       <Navbar dict={dict} lang={lang} />
