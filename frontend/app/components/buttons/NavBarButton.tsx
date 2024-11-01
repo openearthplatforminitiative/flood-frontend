@@ -21,13 +21,13 @@ export const NavBarButton = ({ location, lang }: NavBarButtonProps) => {
       href={`/${lang}/${location.pathName}`}
       className={
         'flex items-center flex-col lg:flex-row lg:w-full lg:rounded-l-full lg:gap-1 lg:p-2 lg:pr-6' +
-        (active ? ' lg:bg-primary-10 lg:text-primary-90' : '')
+        (active ? ' lg:bg-primary-20 lg:text-primary-90' : '')
       }
     >
       <Box
         className={
           'flex items-center px-2 py-1 rounded-3xl' +
-          (active ? ' bg-primary-10 text-[#F9F7CD]' : '')
+          (active ? ' bg-primary-20 text-[#F9F7CD]' : '')
         }
       >
         {location.icon}

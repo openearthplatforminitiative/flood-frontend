@@ -1,27 +1,21 @@
 'use client';
 
-import { Box, Breadcrumbs, Typography, useMediaQuery } from '@mui/material';
-import type { Dict } from '@/app/[lang]/dictionaries';
+import { Box, Breadcrumbs } from '@mui/material';
 import Link from 'next/link';
-import { ArrowBack } from '@mui/icons-material';
 import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
-import LogoCopy from './icons/LogoCopy';
-import { mainLocations } from '../helpers/mainLocations';
-import path from 'path';
 
 type HeaderProps = {
   title: string;
 };
 
 const Header = ({ title }: HeaderProps) => {
-  const currentSegment = useSelectedLayoutSegment();
   const pathname = usePathname();
   const pathSegments = pathname.split('/').filter(Boolean); // Split and filter out empty segments
 
   const isNested = pathSegments.length > 2;
 
   return (
-    <Box className="sticky top-0 lg:static text-primary-20 mt-4 mb-12">
+    <Box className="sticky top-0 w-full lg:static text-primary-20 pt-4 bg-white lg:bg-transparent lg:pt-6 pb-4 lg:pb-12">
       <Breadcrumbs aria-label="breadcrumb">
         {isNested &&
           pathSegments.map((segment, index) => (
@@ -32,19 +26,8 @@ const Header = ({ title }: HeaderProps) => {
               {segment}
             </Link>
           ))}
-        {/* <Link underline="hover" color="inherit" href="/">
-          MUI
-        </Link>
-        <Link
-          className="hover:underline"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Core
-        </Link>
-        <Typography color="text.primary">Breadcrumb</Typography> */}
       </Breadcrumbs>
-      <Typography variant="h1">{title}</Typography>
+      <h1 className="text-center lg:text-left text-2xl lg:text-6xl">{title}</h1>
     </Box>
   );
 };
