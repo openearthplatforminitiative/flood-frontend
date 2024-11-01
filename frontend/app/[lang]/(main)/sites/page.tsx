@@ -1,45 +1,18 @@
-import { Box, Button, List, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { redirect } from 'next/navigation';
-import { getUserId } from '@/lib/auth-utils';
-import { getUserIncludingSites } from '@/lib/prisma';
-import SiteListItem from '@/app/components/SiteListItem';
 import Link from 'next/link';
-import { Add, Warning } from '@mui/icons-material';
-import { floodClient, floodIntensityRatingMap } from '@/lib/openepi-clients';
-import FloodWarningBox from '@/app/components/FloodWarningBox';
-import { intensityToColor } from '@/app/helpers/intensityToColor';
+import { Add } from '@mui/icons-material';
 import Header from '@/app/components/Header';
+import { Suspense } from 'react';
+import { FloodWarnings } from './FloodWarnings';
+import { SiteList, SiteListSkeleton } from './SiteList';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
 
-  const userId = await getUserId();
-  if (!userId) redirect('/');
-
-  const user = await getUserIncludingSites(userId);
-  if (!user) redirect('/');
-
-  const floodSummaries = await Promise.all(
-    user.sites.map((site) =>
-      floodClient.getSummaryForecast({
-        lat: site.lat,
-        lon: site.lng,
-      })
-    )
-  );
-
-  const floodProperties = floodSummaries.map((summary) => {
-    return summary.data?.queried_location.features[0]?.properties;
-  });
-
-  const noFloodWarnings = floodProperties.every(
-    (properties) => properties === undefined || properties.intensity === 'G'
-  );
-
   return (
     <>
-      <Header title={dict.sites.title} />
+      <Header title={dict.navbar.sites} />
       <Box
         sx={{
           flexGrow: 1,
@@ -48,61 +21,31 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           gap: '10px',
         }}
       >
-        {noFloodWarnings ? (
-          <FloodWarningBox dict={dict} intensity="G" />
-        ) : (
-          <div>
-            {floodProperties.map((properties, index) => {
-              if (!properties || properties.intensity === 'G') return null;
-              return (
-                <FloodWarningBox
-                  key={user.sites[index].id}
-                  dict={dict}
-                  intensity={properties.intensity}
-                  timing={properties.peak_timing}
-                  siteName={user.sites[index].name}
-                />
-              );
-            })}
-          </div>
-        )}
-
-        <List>
-          {user.sites.map((site, index) => {
-            let icon;
-            if (floodProperties) {
-              const intensity = floodProperties[index]?.intensity;
-              if (intensity) {
-                const floodIntensityRating = floodIntensityRatingMap[intensity];
-                if (floodIntensityRating > 0)
-                  icon = (
-                    <Warning
-                      className={`text-${intensityToColor(intensity)}`}
-                    />
-                  );
-              }
-            }
-            return (
-              <SiteListItem
-                key={site.id}
-                dict={dict}
-                href={`/${lang}/sites/${site.id}`}
-                site={site}
-                icon={icon}
-              />
-            );
-          })}
-        </List>
+        <Suspense>
+          <FloodWarnings dict={dict} />
+        </Suspense>
+        <Box className="relative mt-4 lg:mt-6 mb-2 lg:mb-4 flex flex-wrap justify-between items-center">
+          <h2 className="text-2xl lg:text-4xl text-primary-20">
+            {dict.sites.title}
+          </h2>
+          <Box className="order-last lg:order-none sticky bottom-[93px] w-full lg:w-auto z-50">
+            <Link href={'sites/add'}>
+              <Button
+                variant={'contained'}
+                sx={{ width: '100%' }}
+                startIcon={<Add />}
+              >
+                {dict.onBoarding.sites.addNewSite}
+              </Button>
+            </Link>
+          </Box>
+          <Box className="w-full">
+            <Suspense fallback={<SiteListSkeleton />}>
+              <SiteList dict={dict} />
+            </Suspense>
+          </Box>
+        </Box>
       </Box>
-      <Link href={`/${lang}/sites/add`}>
-        <Button
-          variant={'outlined'}
-          sx={{ width: '100%', marginTop: '24px' }}
-          startIcon={<Add />}
-        >
-          {dict.onBoarding.sites.addNewSite}
-        </Button>
-      </Link>
     </>
   );
 };
