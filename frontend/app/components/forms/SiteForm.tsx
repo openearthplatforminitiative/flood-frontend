@@ -155,6 +155,9 @@ const SiteForm = ({
       <PositionDialog
         dict={dict}
         isOpen={openPositionDialog}
+        radius={radius}
+        lat={lat}
+        lng={lng}
         handleCancel={handleCancelSetLocation}
         handleConfirm={handleConfirmLocation}
       />
