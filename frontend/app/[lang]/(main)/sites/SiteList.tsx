@@ -1,8 +1,5 @@
 import SiteListItem from '@/app/components/SiteListItem';
-import {
-  intensityToColor,
-  intensityToColors,
-} from '@/app/helpers/intensityToColor';
+import { intensityToColors } from '@/app/helpers/intensityToColors';
 import { getUserId } from '@/lib/auth-utils';
 import { floodClient, floodIntensityRatingMap } from '@/lib/openepi-clients';
 import { getUserIncludingSites } from '@/lib/prisma';

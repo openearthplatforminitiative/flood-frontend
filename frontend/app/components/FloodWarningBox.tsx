@@ -1,3 +1,5 @@
+'use client';
+
 import type { Dict } from '../[lang]/dictionaries';
 import {
   Accordion,
@@ -9,8 +11,8 @@ import {
 } from '@mui/material';
 import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 import { AccessTime, ArrowDownward, Place, Warning } from '@mui/icons-material';
-import { ReactElement } from 'react';
-import { intensityToColor } from '../helpers/intensityToColor';
+import { ReactElement, useState } from 'react';
+import { intensityToColors } from '../helpers/intensityToColors';
 
 type FloodWarningBoxProps =
   | {
@@ -26,7 +28,8 @@ type FloodWarningBoxProps =
 
 const FloodWarningBox = (props: FloodWarningBoxProps) => {
   const { dict, intensity } = props;
-  const color = intensityToColor(intensity);
+  const colors = intensityToColors(intensity);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   let content: ReactElement;
   if (intensity === 'G') {
@@ -36,7 +39,7 @@ const FloodWarningBox = (props: FloodWarningBoxProps) => {
           display: 'flex',
           flexDirection: 'column',
           gap: '1rem',
-          backgroundColor: color,
+          backgroundColor: colors.background,
           padding: '0.5rem 0 1rem 0',
           borderRadius: '0.75rem',
         }}
@@ -51,12 +54,30 @@ const FloodWarningBox = (props: FloodWarningBoxProps) => {
   } else {
     const { timing, siteName } = props;
     content = (
-      <Accordion>
+      <Accordion
+        disableGutters
+        className="mb-2 lg:mb-4"
+        expanded={expanded}
+        style={{ borderRadius: '0.75rem' }}
+        sx={{
+          overflow: 'hidden',
+          transition: 'border-radius 0.5s',
+        }}
+        onChange={() => setExpanded(!expanded)}
+      >
         <AccordionSummary
-          expandIcon={<ArrowDownward />}
+          expandIcon={
+            <ArrowDownward
+              className="text-xl lg:text-3xl"
+              sx={{ color: colors.text }}
+            />
+          }
           aria-controls={`${siteName}-content`}
           id={`${siteName}-header`}
-          sx={{ backgroundColor: color }}
+          sx={{
+            backgroundColor: colors.background,
+            color: colors.text,
+          }}
         >
           <Box
             sx={{
@@ -66,16 +87,18 @@ const FloodWarningBox = (props: FloodWarningBoxProps) => {
               paddingY: '0.5rem',
             }}
           >
-            <Warning />
-            <Typography
-              variant="h2"
-              sx={{ fontSize: '1.5rem', lineHeight: '2rem' }}
-            >
+            <h2 className="text-xl lg:text-3xl flex gap-2 items-center">
+              <Warning fontSize="inherit" />
               {dict.sites.warningTitle[intensity]}
-            </Typography>
+            </h2>
           </Box>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          sx={{
+            background: colors.minorBackground,
+            color: colors.text,
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
