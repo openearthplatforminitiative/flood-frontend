@@ -27,11 +27,7 @@ const SiteListItem = ({
 }: SiteListItemProps) => {
   const siteTypeNames = typesRenderer(site.types, dict);
   return (
-    <Link
-      href={href}
-      key={site.id}
-      style={{ textDecoration: 'none', color: 'black' }}
-    >
+    <Link href={href} key={site.id}>
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>{icon}</ListItemIcon>

@@ -20,7 +20,7 @@ const Navbar = ({ dict, lang }: NavbarProps) => {
   return (
     <Box
       className={
-        'flex bg-primary-80 lg:h-full flex-col sticky lg:static bottom-0 left-0 right-0 lg:justify-start text-primary-10'
+        'flex bg-primary-80 lg:h-full flex-col sticky lg:static bottom-0 left-0 right-0 lg:justify-start text-primary-20'
       }
     >
       <Box className="hidden lg:flex mt-10 mb-8 h-[77px] mx-6">
