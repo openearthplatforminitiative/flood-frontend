@@ -162,23 +162,6 @@ const SiteForm = ({
         handleConfirm={handleConfirmLocation}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Typography
-          variant={'h1'}
-          sx={{
-            fontSize: '2rem',
-            marginTop: '1rem',
-            marginBottom: '2rem 1rem',
-          }}
-        >
-          {site
-            ? dict.onBoarding.sites.updateSite
-            : dict.onBoarding.sites.addNewSite}
-        </Typography>
-        <Typography variant={'subtitle2'} component={'p'}>
-          {site
-            ? dict.onBoarding.sites.updateSiteInfo
-            : dict.onBoarding.sites.addNewSiteInfo}
-        </Typography>
         <TextField
           label={dict.onBoarding.sites.name}
           variant={'filled'}

@@ -4,6 +4,7 @@ import { getUserId } from '@/lib/auth-utils';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';
 import Header from '@/app/components/Header';
+import { ContentContainer } from '@/app/components/ContentContainer';
 
 interface EditSitePageProps {
   params: {
@@ -27,12 +28,14 @@ const EditSitePage = async ({
   return (
     <>
       <Header title={'Title'} />
-      <SiteForm
-        dict={dict}
-        site={site}
-        redirectPath={`/${lang}/sites/${site.id}`}
-        deleteRedirectPath={`/${lang}/sites`}
-      />
+      <ContentContainer>
+        <SiteForm
+          dict={dict}
+          site={site}
+          redirectPath={`/${lang}/sites/${site.id}`}
+          deleteRedirectPath={`/${lang}/sites`}
+        />
+      </ContentContainer>
     </>
   );
 };
