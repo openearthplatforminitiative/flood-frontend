@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentContainer } from '@/app/components/ContentContainer';
 import Header from '@/app/components/Header';
 import { cropHealthClient } from '@/lib/openepi-clients';
 import { Box, Button, Input, Typography } from '@mui/material';
@@ -82,65 +83,67 @@ const CropHealth = () => {
   return (
     <>
       <Header title="Crop Health" />
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        tabIndex={-1}
-      >
-        Upload file
-        <Input
-          sx={{ display: 'none' }}
-          type="file"
-          onChange={handleFileUpload}
-        />
-      </Button>
-      {data && (
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'start',
-            gap: 5,
-          }}
+      <ContentContainer>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
         >
-          {Object.keys(data).map((key) => {
-            return (
-              <Box
-                key={key}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'start',
-                  flex: 2,
-                  gap: 1,
-                }}
-              >
-                <Gauge
-                  sx={{ width: '100px', height: '100px', flex: 1 }}
-                  width={100}
-                  height={100}
-                  value={parseFloat((data[key] * 100).toFixed(2))}
-                />
-                <Typography flex={1}>
-                  {GetCropHealthTranslation(key as keyof CropHealthData)}
-                </Typography>
-              </Box>
-            );
-          })}
-        </Box>
-      )}
-      {image && (
-        <Box
-          sx={{
-            height: 'fit-content',
-            borderRadius: '2rem',
-            overflow: 'hidden',
-          }}
-        >
-          <img width="100%" id="preview" src={image} alt="upload-preview" />
-        </Box>
-      )}
+          Upload file
+          <Input
+            sx={{ display: 'none' }}
+            type="file"
+            onChange={handleFileUpload}
+          />
+        </Button>
+        {data && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'start',
+              gap: 5,
+            }}
+          >
+            {Object.keys(data).map((key) => {
+              return (
+                <Box
+                  key={key}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'start',
+                    flex: 2,
+                    gap: 1,
+                  }}
+                >
+                  <Gauge
+                    sx={{ width: '100px', height: '100px', flex: 1 }}
+                    width={100}
+                    height={100}
+                    value={parseFloat((data[key] * 100).toFixed(2))}
+                  />
+                  <Typography flex={1}>
+                    {GetCropHealthTranslation(key as keyof CropHealthData)}
+                  </Typography>
+                </Box>
+              );
+            })}
+          </Box>
+        )}
+        {image && (
+          <Box
+            sx={{
+              height: 'fit-content',
+              borderRadius: '2rem',
+              overflow: 'hidden',
+            }}
+          >
+            <img width="100%" id="preview" src={image} alt="upload-preview" />
+          </Box>
+        )}
+      </ContentContainer>
     </>
   );
 };

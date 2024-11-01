@@ -15,7 +15,7 @@ const Header = ({ title }: HeaderProps) => {
   const isNested = pathSegments.length > 2;
 
   return (
-    <Box className="sticky top-0 w-full lg:static text-primary-20 pt-4 bg-white lg:bg-transparent lg:pt-6 pb-4 lg:pb-12">
+    <Box className="sticky top-0 w-full lg:static text-primary-20 p-4 lg:p-6 lg:pt-12 lg:pb-16 bg-white lg:bg-transparent z-50 lg:z-0">
       <Breadcrumbs aria-label="breadcrumb">
         {isNested &&
           pathSegments.map((segment, index) => (
