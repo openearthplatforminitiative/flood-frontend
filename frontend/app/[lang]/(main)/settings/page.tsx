@@ -15,12 +15,10 @@ const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
     <>
       <Header title={dict.settings.title} />
       <ContentContainer>
-        <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
-          <LanguageDropdown
-            dict={dict}
-            lang={isLang(lang) ? lang : defaultLocale}
-          />
-        </Box>
+        <LanguageDropdown
+          dict={dict}
+          lang={isLang(lang) ? lang : defaultLocale}
+        />
         <SignOutButton callbackUrl={`/${lang}`}>{dict.signOut}</SignOutButton>
       </ContentContainer>
     </>

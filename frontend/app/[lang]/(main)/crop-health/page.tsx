@@ -97,52 +97,53 @@ const CropHealth = () => {
             onChange={handleFileUpload}
           />
         </Button>
-        {data && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'start',
-              gap: 5,
-            }}
-          >
-            {Object.keys(data).map((key) => {
-              return (
-                <Box
-                  key={key}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'start',
-                    flex: 2,
-                    gap: 1,
-                  }}
-                >
-                  <Gauge
-                    sx={{ width: '100px', height: '100px', flex: 1 }}
-                    width={100}
-                    height={100}
-                    value={parseFloat((data[key] * 100).toFixed(2))}
+        <Box className="mt-5 flex flex-col lg:flex-row gap-2 lg:gap-5 lg:flex-wrap">
+          {(image || data) && (
+            <>
+              <Box className="flex-1 h-fit rounded-3xl overflow-hidden">
+                {image && (
+                  <img
+                    width="100%"
+                    id="preview"
+                    src={image}
+                    alt="upload-preview"
                   />
-                  <Typography flex={1}>
-                    {GetCropHealthTranslation(key as keyof CropHealthData)}
-                  </Typography>
+                )}
+              </Box>
+              <Box className="flex-1 p-5 bg-neutral-90 rounded-3xl">
+                <h2 className="text-6xl mb-5">Data</h2>
+                <Box className="flex-1 flex justify-start items-start flex-wrap gap-5">
+                  {data ? (
+                    Object.keys(data).map((key) => {
+                      return (
+                        <Box
+                          key={key}
+                          className="flex-1 flex items-center gap-2"
+                        >
+                          <Box className="w-[100px] h-[100px]">
+                            <Gauge
+                              sx={{ width: '100px', height: '100px' }}
+                              width={100}
+                              height={100}
+                              value={parseFloat((data[key] * 100).toFixed(2))}
+                            />
+                          </Box>
+                          <Typography className="min-w-[100px] flex-grow">
+                            {GetCropHealthTranslation(
+                              key as keyof CropHealthData
+                            )}
+                          </Typography>
+                        </Box>
+                      );
+                    })
+                  ) : (
+                    <>Loading...</>
+                  )}
                 </Box>
-              );
-            })}
-          </Box>
-        )}
-        {image && (
-          <Box
-            sx={{
-              height: 'fit-content',
-              borderRadius: '2rem',
-              overflow: 'hidden',
-            }}
-          >
-            <img width="100%" id="preview" src={image} alt="upload-preview" />
-          </Box>
-        )}
+              </Box>
+            </>
+          )}
+        </Box>
       </ContentContainer>
     </>
   );

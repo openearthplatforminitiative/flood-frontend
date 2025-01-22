@@ -14,6 +14,7 @@ When running locally the application expects a `.env.local` file in the root of 
 - `DATABASE_URL` - The connection string to the database that Prisma should use. Example: `"postgresql://username:password@localhost:5432/flood_frontend"`
 
 ### Configure local database
+
 Uses Prisma for database access.
 To configure the database for local development, you can for example use docker
 
@@ -22,6 +23,7 @@ docker run --name flood-frontend -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5
 ```
 
 Then to migrate the database, use
+
 ```bash
 DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/flood_frontend" npx prisma migrate deploy
 ```
@@ -29,6 +31,7 @@ DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/flood_fronte
 ### Run the application
 
 First, build the development server:
+
 ```bash
 npm install
 ```

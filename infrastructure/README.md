@@ -1,4 +1,5 @@
 # Infrastructure
+
 The infrastructure is defined in the `infrastructure` folder using [Pulumi](https://www.pulumi.com/).
 Pulumi will build all the infrastructure you will need in AWS, including the setup for Keycloak.
 
@@ -9,6 +10,7 @@ To get started, create a `Pulumi.[stack-name].yml` file in the root of the `infr
 ```bash
 pulumi config set aws:region eu-central-1
 ```
+
 To set secrets, use the --secret flag.
 
 ```bash

@@ -48,8 +48,8 @@ export const typography: TypographyOptions = {
   },
   body2: {
     fontFamily: 'Inter, Arial, sans-serif',
-    fontWeight: 500,
-    fontSize: '16px',
+    fontWeight: 400,
+    fontSize: '14px',
   },
   button: {
     fontFamily: 'Inter, Arial, sans-serif',

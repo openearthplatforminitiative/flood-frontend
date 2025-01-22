@@ -5,6 +5,7 @@ import { Dict } from '../../dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
+import { Box } from '@mui/material';
 
 type FloodWarningsProps = {
   dict: Dict;
@@ -38,7 +39,7 @@ export const FloodWarnings = async ({ dict }: FloodWarningsProps) => {
     return <FloodWarningBox dict={dict} intensity="G" />;
   } else {
     return (
-      <div>
+      <Box className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:flex-wrap">
         {floodProperties.map((properties, index) => {
           if (!properties || properties.intensity === 'G') return null;
           return (
@@ -51,7 +52,7 @@ export const FloodWarnings = async ({ dict }: FloodWarningsProps) => {
             />
           );
         })}
-      </div>
+      </Box>
     );
   }
 };

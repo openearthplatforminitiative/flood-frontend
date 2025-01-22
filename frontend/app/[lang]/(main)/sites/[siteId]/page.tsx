@@ -20,6 +20,7 @@ import { SiteInformation } from './SiteInformation';
 import dynamic from 'next/dynamic';
 import { MapLoader } from './MapLoader';
 import { ContentContainer } from '@/app/components/ContentContainer';
+import { FloodWarning } from './FloodWarning';
 
 interface EditSitePageProps {
   params: {
@@ -54,7 +55,10 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
         <Box sx={{ flexGrow: 1 }}>
           <SiteInformation siteId={siteId} lang={lang} />
           <Divider />
-          <WeatherWidget siteId={siteId} lang={lang} />
+          <Box className="flex justify-start gap-5 items-center flex-wrap my-10">
+            <FloodWarning siteId={siteId} lang={lang} />
+            <WeatherWidget siteId={siteId} lang={lang} />
+          </Box>
           <Divider />
         </Box>
         <Link href={`/${lang}/sites/${siteId}/edit`}>
