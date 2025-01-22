@@ -1,23 +1,12 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Link,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, Link, Skeleton } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack, EditOutlined } from '@mui/icons-material';
+import { EditOutlined } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
-import { weatherClient } from '@/lib/openepi-clients';
-import WeatherIcon from '@/app/components/icons/WeatherIcon';
-import { typesRenderer } from '@/lib/render-utils';
 import Header from '@/app/components/Header';
 import { Suspense } from 'react';
 import { WeatherWidget } from './WeatherWidgetProps';
 import { SiteInformation } from './SiteInformation';
-import dynamic from 'next/dynamic';
 import { MapLoader } from './MapLoader';
 import { ContentContainer } from '@/app/components/ContentContainer';
 import { FloodWarning } from './FloodWarning';

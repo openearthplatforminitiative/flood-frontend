@@ -1,9 +1,12 @@
+'use client';
+
 import { Box } from '@mui/material';
 import { Dict } from '../[lang]/dictionaries';
 import { mainLocations } from '../helpers/mainLocations';
 import LogoCopy from './icons/LogoCopy';
 import { NavBarButton } from './buttons/NavBarButton';
 import { Logout } from '@mui/icons-material';
+import { signOut } from 'next-auth/react';
 
 interface NavbarProps {
   dict: Dict;
@@ -11,12 +14,6 @@ interface NavbarProps {
 }
 
 const Navbar = ({ dict, lang }: NavbarProps) => {
-  const logOutLocation = {
-    name: dict.signOut,
-    icon: <Logout />,
-    pathName: 'sign-out',
-  };
-
   return (
     <Box
       className={
@@ -34,7 +31,17 @@ const Navbar = ({ dict, lang }: NavbarProps) => {
           <NavBarButton key={location.name} location={location} lang={lang} />
         ))}
         <Box className="hidden lg:flex flex-grow flex-col justify-end">
-          <NavBarButton location={logOutLocation} lang={lang} />
+          <button
+            onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
+            className={
+              'flex items-center flex-col lg:flex-row lg:w-full lg:rounded-l-full lg:gap-1 lg:p-2 lg:pr-6'
+            }
+          >
+            <Box className={'flex items-center px-2 py-1 rounded-3xl'}>
+              {<Logout />}
+            </Box>
+            {dict.signOut}
+          </button>
         </Box>
       </Box>
     </Box>

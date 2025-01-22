@@ -8,6 +8,7 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import theme from '@/theme/theme';
 import { SessionProvider } from 'next-auth/react';
+import { AuthProvider } from './authProvider';
 
 interface ThemeRegistryProps {
   options: { key: string };
@@ -62,7 +63,9 @@ export default function ThemeRegistry({
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </SessionProvider>
       </ThemeProvider>
     </CacheProvider>
   );
