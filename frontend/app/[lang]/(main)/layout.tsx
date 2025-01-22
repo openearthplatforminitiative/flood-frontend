@@ -15,7 +15,7 @@ const MainLayout = async ({ params: { lang }, children }: MainLayoutProps) => {
 
   return (
     <Box className="min-h-full h-full w-full flex flex-col lg:flex-row">
-      <Box className="w-full flex flex-col lg:order-2 flex-grow">
+      <Box className="w-full flex flex-col lg:order-2 flex-grow overflow-y-scroll">
         {children}
       </Box>
       <Navbar dict={dict} lang={lang} />
