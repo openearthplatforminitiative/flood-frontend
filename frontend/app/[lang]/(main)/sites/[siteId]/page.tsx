@@ -55,7 +55,7 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
         <Box sx={{ flexGrow: 1 }}>
           <SiteInformation siteId={siteId} lang={lang} />
           <Divider />
-          <Box className="flex justify-start gap-5 items-center flex-wrap my-10">
+          <Box className="flex justify-start gap-5 items-start flex-wrap my-10">
             <FloodWarning siteId={siteId} lang={lang} />
             <WeatherWidget siteId={siteId} lang={lang} />
           </Box>
