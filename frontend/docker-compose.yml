@@ -45,7 +45,7 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:26.1.0
     volumes:
-      - /Users/kroglid/Documents/norad/flood-frontend/keycloak:/opt/keycloak/data/import
+      - ../keycloak:/opt/keycloak/data/import
     command: start-dev --import-realm
     env_file:
       - ./.env.docker
