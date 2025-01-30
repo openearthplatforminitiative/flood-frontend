@@ -76,6 +76,9 @@ export const kw: Dict = {
       },
     },
   },
+  tokenExpiredPage: {
+    description: 'Bisa nkaho wari kure igihe gito cyane! Twinjiye hanze kugirango ibintu bigire umutekano. Ongera usubire gufata aho wavuye.',
+  },
   languageSelection: {
     chooseLanguage: 'Hitamo ururimi',
   },

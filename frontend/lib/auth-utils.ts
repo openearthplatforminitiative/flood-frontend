@@ -105,7 +105,6 @@ export const authOptions: NextAuthOptions = {
 
 export async function getUserId(): Promise<string | undefined> {
   const session = await getServerSession(authOptions);
-  console.log(session?.user.id);
   return session?.user.id;
 }
 

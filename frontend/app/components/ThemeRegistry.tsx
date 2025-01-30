@@ -11,11 +11,13 @@ import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from './authProvider';
 
 interface ThemeRegistryProps {
+  lang: string;
   options: { key: string };
   children: ReactNode;
 }
 
 export default function ThemeRegistry({
+  lang,
   options,
   children,
 }: ThemeRegistryProps) {
@@ -64,7 +66,7 @@ export default function ThemeRegistry({
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <SessionProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider lang={lang}>{children}</AuthProvider>
         </SessionProvider>
       </ThemeProvider>
     </CacheProvider>

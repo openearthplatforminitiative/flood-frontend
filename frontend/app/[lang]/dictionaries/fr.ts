@@ -80,6 +80,9 @@ export const fr: Dict = {
       },
     },
   },
+  tokenExpiredPage: {
+    description: 'On dirait que vous avez été absent un peu trop longtemps ! Nous vous avons déconnecté pour assurer la sécurité des choses. Reconnectez-vous pour reprendre là où vous vous étiez arrêté.',
+  },
   languageSelection: {
     chooseLanguage: 'Choisissez la langue',
   },

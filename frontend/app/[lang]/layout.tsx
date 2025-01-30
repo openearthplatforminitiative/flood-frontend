@@ -51,7 +51,7 @@ export default function RootLayout({
       </head>
       <body className="flex w-full h-full m-0 bg-[#FBFDF8]">
         <Box sx={{ flexGrow: 1 }}>
-          <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+          <ThemeRegistry lang={lang} options={{ key: 'mui' }}>{children}</ThemeRegistry>
         </Box>
       </body>
     </html>

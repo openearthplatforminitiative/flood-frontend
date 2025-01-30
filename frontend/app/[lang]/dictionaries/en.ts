@@ -17,6 +17,9 @@ export const en: Dict = {
     description:
       'ClimaSafe lets you receive updates about flood-risk in your areas of interest.',
   },
+  tokenExpiredPage: {
+    description: 'Looks like you were away for a bit too long! We’ve logged you out to keep things secure. Log back in to pick up where you left off.',
+  },
   onBoarding: {
     allowNotifications: 'Allow notifications',
     allowPushNotifications: 'Push notifications',

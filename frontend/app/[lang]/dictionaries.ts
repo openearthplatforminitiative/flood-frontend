@@ -70,6 +70,9 @@ export type Dict = {
       };
     };
   };
+  tokenExpiredPage: {
+    description: string;
+  };
   languageSelection: { chooseLanguage: string };
   notifications: {
     sendNotification: string;
