@@ -40,14 +40,14 @@ import SignInButton from '@/app/components/buttons/SignInButton';
                 height={400}
                 style={{
                   width: '80%', // Makes it responsive
-                  maxWidth: '1000px', // Limits maximum size
+                  maxWidth: '600px', // Limits maximum size
                   height: 'auto', // Maintains aspect ratio
                 }}
                 alt="illustration of person"
                   src={person}
                 />
-            </Box>
-            <Box
+          </Box>
+          <Box
               sx={{
                 flex: 1,
                 display: 'flex',
@@ -60,12 +60,11 @@ import SignInButton from '@/app/components/buttons/SignInButton';
                 sx={{
                   display: 'flex',
                   alignItems: 'start',
-                  width: {xs: '80%', lg: '800px'},
+                  //width: {xs: '80%', lg: '800px'},
                   flexDirection: 'column',
                   gap: ['16px', '32px', '32px', '36px'],
                   marginX: ['20px', '20px', '20px', '40px'],
                   marginY: '40px',
-                  bgcolor: 'secondary.90'
                 }}
               >
                 <Typography
@@ -74,7 +73,7 @@ import SignInButton from '@/app/components/buttons/SignInButton';
                 >
                   Oops
                 </Typography>
-                <Typography variant="h2">{dict.tokenExpiredPage.description}</Typography>
+                <Typography variant="h4">{dict.tokenExpiredPage.description}</Typography>
                 <SignInButton
                 callbackUrl="/{lang}/sign-in"
                 keycloakLocale={isLang(lang) ? lang : defaultLocale}
