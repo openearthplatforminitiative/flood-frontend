@@ -13,12 +13,13 @@ export const en: Dict = {
   signIn: 'Sign in',
   signOut: 'Sign out',
   back: 'Back',
+  signBackIn: 'Sign back in',
   signInPage: {
     description:
       'ClimaSafe lets you receive updates about flood-risk in your areas of interest.',
   },
   tokenExpiredPage: {
-    description: 'Looks like you were away for a bit too long! We’ve logged you out to keep things secure. Log back in to pick up where you left off.',
+    description: 'Seems like you have been idle for too long. No worries, we have logged you out to keep things secure. Sign back in to get back to where you started',
   },
   onBoarding: {
     allowNotifications: 'Allow notifications',

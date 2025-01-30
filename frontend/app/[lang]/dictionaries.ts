@@ -29,6 +29,7 @@ export type Dict = {
   signIn: string;
   signOut: string;
   back: string;
+  signBackIn: string;
   signInPage: {
     description: string;
   };

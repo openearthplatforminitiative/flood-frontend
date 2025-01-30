@@ -12,6 +12,7 @@ export const fr: Dict = {
   },
   signIn: 'Se connecter',
   signOut: 'Se déconnecter',
+  signBackIn: 'Se reconnecter',
   back: 'Retourner',
   signInPage: {
     description:
@@ -81,7 +82,7 @@ export const fr: Dict = {
     },
   },
   tokenExpiredPage: {
-    description: 'On dirait que vous avez été absent un peu trop longtemps ! Nous vous avons déconnecté pour assurer la sécurité des choses. Reconnectez-vous pour reprendre là où vous vous étiez arrêté.',
+    description: 'Il semble que vous ayez été inactif trop longtemps. Ne vous inquiétez pas, nous vous avons déconnecté pour des raisons de sécurité. Reconnectez-vous pour revenir à votre point de départ',
   },
   languageSelection: {
     chooseLanguage: 'Choisissez la langue',

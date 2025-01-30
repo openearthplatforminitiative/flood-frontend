@@ -4,7 +4,7 @@ import {
     isLang,
   } from '../dictionaries';
   import { Box, Typography } from '@mui/material';
-  import person from '@/public/assets/images/person-transparent.png';
+  import person from '@/public/assets/images/person-green-transparent.svg';
   import Image from 'next/image';
 import SignInButton from '@/app/components/buttons/SignInButton';
   
@@ -29,57 +29,61 @@ import SignInButton from '@/app/components/buttons/SignInButton';
           sx={{
             flex: 1,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: {xs: 'end', lg: 'start'},
             flexDirection: {xs: 'column', lg: 'row'},
-            alignItems: 'center',
-            bgcolor: 'primary.98',
+            alignItems: {xs: 'center', lg: 'end'},
+            bgcolor: 'primary.70',
           }}>
-            <Box sx={{
-                display: 'flex',
-                alignItems: {xs: 'center' ,lg: 'end'},
-                flexDirection: 'column',
-                gap: ['16px', '32px', '32px', '36px'],
-              }}>
               <Image
                 width={400}
                 height={400}
                 style={{
                   width: '80%', // Makes it responsive
-                  maxWidth: '400px', // Limits maximum size
+                  maxWidth: '1000px', // Limits maximum size
                   height: 'auto', // Maintains aspect ratio
+                  //alignItems: 'end',
                 }}
                 alt="illustration of person"
                   src={person}
                 />
             </Box>
-
             <Box
               sx={{
+                flex: 1,
                 display: 'flex',
-                alignItems: 'start',
-                width: {xs: '80%', lg: '800px'},
+                justifyContent: 'center',
                 flexDirection: 'column',
-                gap: ['16px', '32px', '32px', '36px'],
-                marginX: ['20px', '20px', '20px', '40px'],
-                marginY: '40px',
-              }}
-            >
-              <Typography
-                variant="h1"
-                sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                alignItems: 'start',
+                bgcolor: 'secondary.90',
+              }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'start',
+                  width: {xs: '80%', lg: '800px'},
+                  flexDirection: 'column',
+                  gap: ['16px', '32px', '32px', '36px'],
+                  marginX: ['20px', '20px', '20px', '40px'],
+                  marginY: '40px',
+                  bgcolor: 'secondary.90'
+                }}
               >
-                Oops
-              </Typography>
-              <Typography variant="h2">{dict.tokenExpiredPage.description}</Typography>
-              <SignInButton
-              callbackUrl="/{lang}/sign-in"
-              keycloakLocale={isLang(lang) ? lang : defaultLocale}
-            >
-              {dict.signIn}
-            </SignInButton>
-            </Box>
+                <Typography
+                  variant="h1"
+                  sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                >
+                  Oops
+                </Typography>
+                <Typography variant="h2">{dict.tokenExpiredPage.description}</Typography>
+                <SignInButton
+                callbackUrl="/{lang}/sign-in"
+                keycloakLocale={isLang(lang) ? lang : defaultLocale}
+              >
+                {dict.signBackIn}
+              </SignInButton>
+              </Box>
+          </Box>
         </Box>
-     </Box>
     );
   };
   

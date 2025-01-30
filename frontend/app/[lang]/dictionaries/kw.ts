@@ -13,6 +13,7 @@ export const kw: Dict = {
   signIn: 'Injira',
   signOut: 'Sohoka',
   back: 'Inyuma',
+  signBackIn: 'Subira inyuma',
   signInPage: {
     description:
       'Umwuzure uremerera kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe.',
@@ -77,7 +78,7 @@ export const kw: Dict = {
     },
   },
   tokenExpiredPage: {
-    description: 'Bisa nkaho wari kure igihe gito cyane! Twinjiye hanze kugirango ibintu bigire umutekano. Ongera usubire gufata aho wavuye.',
+    description: 'Bisa nkaho umaze igihe kinini ukora ubusa. Nta mpungenge, twagusohotse kugirango ibintu bigire umutekano. Subira inyuma kugirango usubire aho watangiriye',
   },
   languageSelection: {
     chooseLanguage: 'Hitamo ururimi',
