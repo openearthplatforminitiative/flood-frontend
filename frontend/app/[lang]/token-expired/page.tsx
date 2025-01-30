@@ -32,6 +32,7 @@ import SignInButton from '@/app/components/buttons/SignInButton';
             justifyContent: {xs: 'end', lg: 'start'},
             flexDirection: {xs: 'column', lg: 'row'},
             alignItems: {xs: 'center', lg: 'end'},
+            marginLeft: {lg: '-5%'},
             bgcolor: 'primary.70',
           }}>
               <Image
@@ -41,7 +42,6 @@ import SignInButton from '@/app/components/buttons/SignInButton';
                   width: '80%', // Makes it responsive
                   maxWidth: '1000px', // Limits maximum size
                   height: 'auto', // Maintains aspect ratio
-                  //alignItems: 'end',
                 }}
                 alt="illustration of person"
                   src={person}
