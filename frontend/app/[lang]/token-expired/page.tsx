@@ -62,7 +62,7 @@ import SignInButton from '@/app/components/buttons/SignInButton';
                   alignItems: 'start',
                   //width: {xs: '80%', lg: '800px'},
                   flexDirection: 'column',
-                  gap: ['16px', '32px', '32px', '36px'],
+                  gap:['36px', '32px', '32px', '36px'],
                   marginX: ['20px', '20px', '20px', '40px'],
                   marginY: '40px',
                 }}
