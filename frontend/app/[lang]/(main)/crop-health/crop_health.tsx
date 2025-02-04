@@ -1,10 +1,8 @@
 'use client';
 
-import { palettes } from '@/theme/palettes';
 import { Button, Box, Typography, Input } from '@mui/material';
 import { Gauge } from '@mui/x-charts/Gauge';
 import { useState } from 'react';
-import Image from 'next/image';
 import { Yard } from '@mui/icons-material';
 
 type CropHealthData = {

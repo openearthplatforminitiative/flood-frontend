@@ -5,6 +5,7 @@ import WeatherIcon from '@/app/components/icons/WeatherIcon';
 import { getUserId } from '@/lib/auth-utils';
 import { weatherClient } from '@/lib/openepi-clients';
 import { getSiteForUser } from '@/lib/prisma';
+import { ArrowUpward } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -13,7 +14,10 @@ type WeatherWidgetProps = {
   lang: string;
 };
 
-export const WeatherWidget = async ({ siteId, lang }: WeatherWidgetProps) => {
+export const CurrentWeatherWidget = async ({
+  siteId,
+  lang,
+}: WeatherWidgetProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
 
   const userId = await getUserId();
@@ -49,17 +53,63 @@ export const WeatherWidget = async ({ siteId, lang }: WeatherWidgetProps) => {
 
   if (currentWeather && nextHourWeather && weatherSymbolCode)
     return (
-      <Box className="flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-2 lg:p-6 gap-4 lg:gap-6">
-        <h2 className="text-4xl">Weather</h2>
-        <Box className="w-full">
-          <Typography sx={labelStyle}>Current Weather</Typography>
+      <Box className="flex-1 flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-2 lg:p-6 gap-4 lg:gap-6">
+        <h2 className="text-4xl">Current Weather</h2>
+        <Box className="flex gap-4 items-center">
+          <Image
+            width={50}
+            height={50}
+            alt={weatherSymbolCode}
+            src={require(
+              `@/public/assets/images/weather-icons/${weatherSymbolCode}.svg`
+            )}
+          />
+          <Typography
+            variant="h2"
+            sx={{ fontSize: '5rem' }}
+            className="text-4xl text-red-700"
+          >
+            {currentWeather.details?.air_temperature}°C
+          </Typography>
+        </Box>
+        <Box className="flex gap-4">
+          <Box>
+            <Typography sx={labelStyle}>
+              {dict.sites.weather.precipitation}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: '5rem' }}
+              className="text-4xl text-purple-700"
+            >
+              {nextHourWeather.details.precipitation_amount
+                ? `${nextHourWeather.details.precipitation_amount}mm`
+                : '0.0mm'}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography sx={labelStyle}>
+              {dict.sites.weather.precipitation} (m/s)
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: '5rem' }}
+              className="text-4xl flex items-center"
+            >
+              {currentWeather.details?.wind_speed}
+              <ArrowUpward
+                sx={{
+                  rotate: `${currentWeather.details?.wind_from_direction}deg`,
+                }}
+              />
+            </Typography>
+          </Box>
+        </Box>
+        {/* <Typography sx={labelStyle}></Typography>
           <Box className="flex gap-2 w-full justify-end">
             <Box className="w-auto">
               <Typography sx={labelStyle}>
                 {dict.sites.weather.temperature}
-              </Typography>
-              <Typography sx={{ fontSize: '1rem' }}>
-                {currentWeather.details?.air_temperature}°C
               </Typography>
             </Box>
             <Box>
@@ -87,7 +137,7 @@ export const WeatherWidget = async ({ siteId, lang }: WeatherWidgetProps) => {
             <Typography sx={labelStyle}>Next Twelve Hours</Typography>
             <Weather dict={dict} weather={nextTwelveHoursWeather} />
           </Box>
-        )}
+        )} */}
       </Box>
     );
 };
@@ -110,14 +160,6 @@ const Weather = ({ weather, dict }: WeatherProps) => {
 
   return (
     <Box className="flex gap-4 lg:gap-6 items-center justify-between">
-      <Image
-        width={50}
-        height={50}
-        alt={weatherSymbolCode}
-        src={require(
-          `@/public/assets/images/weather-icons/${weatherSymbolCode}.svg`
-        )}
-      />
       <Box>
         <Typography sx={labelStyle}>
           {dict.sites.weather.temperature}

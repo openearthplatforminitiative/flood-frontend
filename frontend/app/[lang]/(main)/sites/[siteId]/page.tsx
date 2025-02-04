@@ -5,11 +5,13 @@ import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import Header from '@/app/components/Header';
 import { Suspense } from 'react';
-import { WeatherWidget } from './WeatherWidgetProps';
+import { WeatherWidget } from './WeatherWidget';
 import { SiteInformation } from './SiteInformation';
 import { MapLoader } from './MapLoader';
 import { ContentContainer } from '@/app/components/ContentContainer';
 import { FloodWarning } from './FloodWarning';
+import { CurrentWeatherWidget } from './CurrentWeatherWidget';
+import { SiteInfoWidget } from './SiteInfoWidget';
 
 interface EditSitePageProps {
   params: {
@@ -41,15 +43,12 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
       </Suspense>
       <MapLoader siteId={siteId} />
       <ContentContainer>
-        <Box sx={{ flexGrow: 1 }}>
-          <SiteInformation siteId={siteId} lang={lang} />
-          <Divider />
-          <Box className="flex justify-start gap-5 items-start flex-wrap my-10">
-            <FloodWarning siteId={siteId} lang={lang} />
-            <WeatherWidget siteId={siteId} lang={lang} />
-          </Box>
-          <Divider />
+        <Box className="flex justify-start gap-5 items-stretch flex-wrap my-10">
+          <SiteInfoWidget siteId={siteId} lang={lang} />
+          <FloodWarning siteId={siteId} lang={lang} />
+          <CurrentWeatherWidget siteId={siteId} lang={lang} />
         </Box>
+        <WeatherWidget siteId={siteId} lang={lang} />
         <Link href={`/${lang}/sites/${siteId}/edit`}>
           <Button
             variant={'outlined'}
