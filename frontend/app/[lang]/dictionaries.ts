@@ -102,6 +102,11 @@ export type Dict = {
     cropHealth: string;
     settings: string;
   };
+  cropHealth: {
+    helperText: string;
+    uploadImage: string;
+    uploadNewImage: string;
+  };
 };
 
 export type SiteTypeDict = {

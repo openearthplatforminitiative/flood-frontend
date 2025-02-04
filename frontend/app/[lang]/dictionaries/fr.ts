@@ -82,7 +82,8 @@ export const fr: Dict = {
     },
   },
   tokenExpiredPage: {
-    description: 'Il semble que vous ayez été inactif trop longtemps. Ne vous inquiétez pas, nous vous avons déconnecté pour des raisons de sécurité. Reconnectez-vous pour revenir à votre point de départ',
+    description:
+      'Il semble que vous ayez été inactif trop longtemps. Ne vous inquiétez pas, nous vous avons déconnecté pour des raisons de sécurité. Reconnectez-vous pour revenir à votre point de départ',
   },
   languageSelection: {
     chooseLanguage: 'Choisissez la langue',
@@ -122,5 +123,11 @@ export const fr: Dict = {
     sites: 'Des sites',
     cropHealth: 'Santé des cultures',
     settings: 'Paramètres',
+  },
+  cropHealth: {
+    helperText:
+      "Santé des cultures vous permet de télécharger une image d'une culture ou d'une plante et d'analyser la plante pour vous",
+    uploadImage: "Télécharger l'image",
+    uploadNewImage: 'Télécharger une nouvelle image',
   },
 };

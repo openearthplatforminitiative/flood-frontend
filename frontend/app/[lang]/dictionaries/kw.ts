@@ -78,7 +78,8 @@ export const kw: Dict = {
     },
   },
   tokenExpiredPage: {
-    description: 'Bisa nkaho umaze igihe kinini ukora ubusa. Nta mpungenge, twagusohotse kugirango ibintu bigire umutekano. Subira inyuma kugirango usubire aho watangiriye',
+    description:
+      'Bisa nkaho umaze igihe kinini ukora ubusa. Nta mpungenge, twagusohotse kugirango ibintu bigire umutekano. Subira inyuma kugirango usubire aho watangiriye',
   },
   languageSelection: {
     chooseLanguage: 'Hitamo ururimi',
@@ -118,5 +119,11 @@ export const kw: Dict = {
     sites: 'Imbuga',
     cropHealth: 'Umusaruro',
     settings: 'Igenamiterere',
+  },
+  cropHealth: {
+    helperText:
+      'Ibihingwa byubuzima bigufasha gushiraho ishusho yigihingwa cyangwa igihingwa hanyuma ugasesengura igihingwa kuri wewe',
+    uploadImage: 'Kuramo ishusho',
+    uploadNewImage: 'Kuramo ishusho nshya',
   },
 };
