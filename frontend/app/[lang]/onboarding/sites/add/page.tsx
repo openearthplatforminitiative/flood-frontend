@@ -1,8 +1,7 @@
-import TitleBar from '@/app/components/onboarding/TitleBar';
 import { Box } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { ArrowBack } from '@mui/icons-material';
-import { palettes } from '@/app/[lang]/theme/palettes';
+import { palettes } from '@/theme/palettes';
 import SiteForm from '@/app/components/forms/SiteForm';
 
 const AddSitePage = async ({
@@ -23,12 +22,6 @@ const AddSitePage = async ({
         padding: '32px 32px 40px 32px',
       }}
     >
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text={dict.back}
-        href={`/${lang}/onboarding/sites`}
-      />
       <SiteForm dict={dict} redirectPath={`/${lang}/onboarding/sites`} />
     </Box>
   );

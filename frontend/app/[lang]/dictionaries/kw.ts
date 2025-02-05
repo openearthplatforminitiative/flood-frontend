@@ -13,9 +13,10 @@ export const kw: Dict = {
   signIn: 'Injira',
   signOut: 'Sohoka',
   back: 'Inyuma',
+  signBackIn: 'Subira inyuma',
   signInPage: {
     description:
-      'Umwuzure uremerera kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe. Kanda buto munsi kugirango wiyandikishe cyangwa winjire kumukoresha uriho.',
+      'Umwuzure uremerera kwakira amakuru yerekeye ingaruka z’umwuzure mu turere ushimishijwe.',
   },
   onBoarding: {
     allowNotifications: 'Emera imenyesha',
@@ -76,6 +77,10 @@ export const kw: Dict = {
       },
     },
   },
+  tokenExpiredPage: {
+    description:
+      'Bisa nkaho umaze igihe kinini ukora ubusa. Nta mpungenge, twagusohotse kugirango ibintu bigire umutekano. Subira inyuma kugirango usubire aho watangiriye',
+  },
   languageSelection: {
     chooseLanguage: 'Hitamo ururimi',
   },
@@ -112,6 +117,13 @@ export const kw: Dict = {
   },
   navbar: {
     sites: 'Imbuga',
+    cropHealth: 'Umusaruro',
     settings: 'Igenamiterere',
+  },
+  cropHealth: {
+    helperText:
+      'Ibihingwa byubuzima bigufasha gushiraho ishusho yigihingwa cyangwa igihingwa hanyuma ugasesengura igihingwa kuri wewe',
+    uploadImage: 'Kuramo ishusho',
+    uploadNewImage: 'Kuramo ishusho nshya',
   },
 };

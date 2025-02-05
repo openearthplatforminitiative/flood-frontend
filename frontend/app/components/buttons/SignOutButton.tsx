@@ -10,7 +10,10 @@ interface SignOutButton {
 }
 
 const SignOutButton = ({ children, callbackUrl }: SignOutButton) => (
-  <Button variant="contained" onClick={() => signOut({ callbackUrl })}>
+  <Button
+    variant="contained"
+    onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
+  >
     {children}
   </Button>
 );

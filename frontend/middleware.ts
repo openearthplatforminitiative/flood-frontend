@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
   const pathnameHasLocale = languages.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
-
+  
   if (pathnameHasLocale) return;
 
   const selectedLocale = request.cookies.get('language')?.value;

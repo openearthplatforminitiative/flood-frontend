@@ -4,6 +4,7 @@ import ThemeRegistry from '@/app/components/ThemeRegistry';
 import { Box } from '@mui/material';
 import { Inter } from 'next/font/google';
 import { getDictonaryWithDefault, languages } from './dictionaries';
+import './global.css';
 
 export async function generateMetadata({
   params: { lang },
@@ -36,7 +37,7 @@ export default function RootLayout({
 }) {
   const dict = getDictonaryWithDefault(lang);
   return (
-    <html lang={lang} className={inter.className}>
+    <html lang={lang} className={inter.className + ' h-min-full h-full'}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link
@@ -45,19 +46,12 @@ export default function RootLayout({
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin="anonymous"
         />
-        <meta name="theme-color" content="#90cdf4" />
+        <meta name="theme-color" content="#E9FFED" />
         <title>{dict.title}</title>
       </head>
-      <body
-        style={{
-          display: 'flex',
-          minHeight: '100vh',
-          width: '100%',
-          margin: 0,
-        }}
-      >
+      <body className="flex w-full h-full m-0 bg-[#FBFDF8]">
         <Box sx={{ flexGrow: 1 }}>
-          <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+          <ThemeRegistry lang={lang} options={{ key: 'mui' }}>{children}</ThemeRegistry>
         </Box>
       </body>
     </html>

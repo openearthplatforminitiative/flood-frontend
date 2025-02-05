@@ -1,4 +1,4 @@
-import { Place, ArrowRight } from '@mui/icons-material';
+import { Place, ArrowRight, ArrowForward } from '@mui/icons-material';
 import {
   Divider,
   ListItem,
@@ -27,17 +27,13 @@ const SiteListItem = ({
 }: SiteListItemProps) => {
   const siteTypeNames = typesRenderer(site.types, dict);
   return (
-    <Link
-      href={href}
-      key={site.id}
-      style={{ textDecoration: 'none', color: 'black' }}
-    >
+    <Link href={href} key={site.id}>
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={site.name} secondary={siteTypeNames} />
           <ListItemIcon>
-            <ArrowRight />
+            <ArrowForward />
           </ListItemIcon>
         </ListItemButton>
       </ListItem>

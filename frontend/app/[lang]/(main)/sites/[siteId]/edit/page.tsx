@@ -1,9 +1,10 @@
-import TitleBar from '@/app/components/onboarding/TitleBar';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { ArrowBack } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';
+import Header from '@/app/components/Header';
+import { ContentContainer } from '@/app/components/ContentContainer';
 
 interface EditSitePageProps {
   params: {
@@ -26,18 +27,15 @@ const EditSitePage = async ({
   const dict: Dict = getDictonaryWithDefault(lang);
   return (
     <>
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text={dict.back}
-        href={`/${lang}/sites/${site.id}`}
-      />
-      <SiteForm
-        dict={dict}
-        site={site}
-        redirectPath={`/${lang}/sites/${site.id}`}
-        deleteRedirectPath={`/${lang}/sites`}
-      />
+      <Header title={'Title'} />
+      <ContentContainer>
+        <SiteForm
+          dict={dict}
+          site={site}
+          redirectPath={`/${lang}/sites/${site.id}`}
+          deleteRedirectPath={`/${lang}/sites`}
+        />
+      </ContentContainer>
     </>
   );
 };

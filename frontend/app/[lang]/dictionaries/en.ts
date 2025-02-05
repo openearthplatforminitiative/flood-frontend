@@ -13,9 +13,14 @@ export const en: Dict = {
   signIn: 'Sign in',
   signOut: 'Sign out',
   back: 'Back',
+  signBackIn: 'Sign back in',
   signInPage: {
     description:
-      'ClimaSafe lets you receive updates about flood-risk in your areas of interest. Click the button under to register or sign in to an existing user.',
+      'ClimaSafe lets you receive updates about flood-risk in your areas of interest.',
+  },
+  tokenExpiredPage: {
+    description:
+      'Seems like you have been idle for too long. No worries, we have logged you out to keep things secure. Sign back in to get back to where you started',
   },
   onBoarding: {
     allowNotifications: 'Allow notifications',
@@ -113,6 +118,13 @@ export const en: Dict = {
   },
   navbar: {
     sites: 'Sites',
+    cropHealth: 'Crop Health',
     settings: 'Settings',
+  },
+  cropHealth: {
+    helperText:
+      'Crop Health lets you upload an image of a crop or plant and analyze the plant for you',
+    uploadImage: 'Upload image',
+    uploadNewImage: 'Upload new image',
   },
 };

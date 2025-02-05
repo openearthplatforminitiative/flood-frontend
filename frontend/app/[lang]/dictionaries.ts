@@ -29,6 +29,7 @@ export type Dict = {
   signIn: string;
   signOut: string;
   back: string;
+  signBackIn: string;
   signInPage: {
     description: string;
   };
@@ -70,6 +71,9 @@ export type Dict = {
       };
     };
   };
+  tokenExpiredPage: {
+    description: string;
+  };
   languageSelection: { chooseLanguage: string };
   notifications: {
     sendNotification: string;
@@ -95,7 +99,13 @@ export type Dict = {
   };
   navbar: {
     sites: string;
+    cropHealth: string;
     settings: string;
+  };
+  cropHealth: {
+    helperText: string;
+    uploadImage: string;
+    uploadNewImage: string;
   };
 };
 

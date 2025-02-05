@@ -1,12 +1,17 @@
-import TitleBar from '@/app/components/onboarding/TitleBar';
-import { Box, Button, Divider, Link, Typography } from '@mui/material';
+import { Box, Button, Divider, Link, Skeleton } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack, EditOutlined } from '@mui/icons-material';
+import { EditOutlined } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
-import { weatherClient } from '@/lib/openepi-clients';
-import WeatherIcon from '@/app/components/icons/WeatherIcon';
-import { typesRenderer } from '@/lib/render-utils';
+import Header from '@/app/components/Header';
+import { Suspense } from 'react';
+import { WeatherWidget } from './WeatherWidget';
+import { SiteInformation } from './SiteInformation';
+import { MapLoader } from './MapLoader';
+import { ContentContainer } from '@/app/components/ContentContainer';
+import { FloodWarning } from './FloodWarning';
+import { CurrentWeatherWidget } from './CurrentWeatherWidget';
+import { SiteInfoWidget } from './SiteInfoWidget';
 
 interface EditSitePageProps {
   params: {
@@ -15,108 +20,45 @@ interface EditSitePageProps {
   };
 }
 
-const EditSitePage = async ({
-  params: { lang, siteId },
-}: EditSitePageProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+const HeaderLoader = async (props: { siteId: string }) => {
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User not found');
   }
-  const site = await getSiteForUser(userId, siteId);
+  const site = await getSiteForUser(userId, props.siteId);
   if (!site) {
     throw new Error('Site not found');
   }
 
-  const response = await weatherClient.getLocationForecast({
-    lat: site.lat,
-    lon: site.lng,
-  });
+  return <Header title={site.name} />;
+};
 
-  // Current weather does not hold all the information we need, so we need to look at the next hour as well
-  const currentWeather = response.data?.properties.timeseries[0].data.instant;
-  const nextHourWeather =
-    response.data?.properties.timeseries[0].data.next_1_hours;
-  const weatherSymbolCode = nextHourWeather?.summary.symbol_code;
-
-  const labelStyle = {
-    fontSize: '0.75rem',
-    color: '#414942',
-    marginBottom: '0.5rem',
-  };
+const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
+  const dict: Dict = getDictonaryWithDefault(lang);
 
   return (
     <>
-      <TitleBar
-        dict={dict}
-        icon={<ArrowBack fontSize="small" />}
-        text={dict.back}
-        href={`/${lang}/sites`}
-      />
-      <Typography
-        variant={'h1'}
-        sx={{
-          fontSize: '2rem',
-          marginTop: '1rem',
-          marginBottom: '2rem 1rem',
-        }}
-      >
-        {site.name}
-      </Typography>
-      <Box sx={{ flexGrow: 1 }}>
-        <Box sx={{ marginBottom: '1.5rem' }}>
-          <Typography sx={labelStyle}>{dict.sites.typeOfSite}</Typography>
-          <Typography sx={{ fontSize: '1rem' }}>
-            {typesRenderer(site.types, dict)}
-          </Typography>
+      <Suspense fallback={<Skeleton variant="text" />}>
+        <HeaderLoader siteId={siteId} />
+      </Suspense>
+      <MapLoader siteId={siteId} />
+      <ContentContainer>
+        <Box className="flex justify-start gap-5 items-stretch flex-wrap my-10">
+          <SiteInfoWidget siteId={siteId} lang={lang} />
+          <FloodWarning siteId={siteId} lang={lang} />
+          <CurrentWeatherWidget siteId={siteId} lang={lang} />
         </Box>
-        <Divider />
-        {currentWeather && nextHourWeather && weatherSymbolCode && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              height: '5rem',
-              marginBottom: '0.75rem',
-            }}
+        <WeatherWidget siteId={siteId} lang={lang} />
+        <Link href={`/${lang}/sites/${siteId}/edit`}>
+          <Button
+            variant={'outlined'}
+            startIcon={<EditOutlined />}
+            sx={{ width: '100%' }}
           >
-            <WeatherIcon iconType={weatherSymbolCode} />
-            <Box>
-              <Typography sx={labelStyle}>
-                {dict.sites.weather.temperature}
-              </Typography>
-              <Typography sx={{ fontSize: '1rem' }}>
-                {currentWeather.details?.air_temperature}°C
-              </Typography>
-            </Box>
-            <Box>
-              <Typography sx={labelStyle}>
-                {dict.sites.weather.precipitation}
-              </Typography>
-              <Typography sx={{ fontSize: '1rem' }}>
-                {nextHourWeather.details?.precipitation_amount} mm
-              </Typography>
-            </Box>
-            <Box>
-              <Typography sx={labelStyle}>{dict.sites.weather.wind}</Typography>
-              <Typography sx={{ fontSize: '1rem' }}>
-                {currentWeather.details?.wind_speed} m/s
-              </Typography>
-            </Box>
-          </Box>
-        )}
-        <Divider />
-      </Box>
-      <Link href={`/${lang}/sites/${site.id}/edit`}>
-        <Button
-          variant={'outlined'}
-          startIcon={<EditOutlined />}
-          sx={{ width: '100%' }}
-        >
-          {dict.sites.editSite}
-        </Button>
-      </Link>
+            {dict.sites.editSite}
+          </Button>
+        </Link>
+      </ContentContainer>
     </>
   );
 };

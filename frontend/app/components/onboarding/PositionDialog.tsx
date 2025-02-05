@@ -22,6 +22,9 @@ const SiteMap = dynamic(
 interface PositionDialogProps {
   dict: Dict;
   isOpen: boolean;
+  radius?: number;
+  lat?: number;
+  lng?: number;
   handleCancel: () => void;
   handleConfirm: (lat: number, lng: number, radius: number) => void;
 }
@@ -29,12 +32,15 @@ interface PositionDialogProps {
 const PositionDialog = ({
   dict,
   isOpen,
+  radius: prevRadius,
+  lat: prevLat,
+  lng: prevLng,
   handleCancel,
   handleConfirm,
 }: PositionDialogProps) => {
-  const [lat, setLat] = useState(51.505);
-  const [lng, setLng] = useState(-0.09);
-  const [radius, setRadius] = useState(0);
+  const [lat, setLat] = useState(prevLat);
+  const [lng, setLng] = useState(prevLng);
+  const [radius, setRadius] = useState(prevRadius);
 
   const handleSliderChange = (_: any, newValue: number | number[]) => {
     setRadius(newValue as number);
@@ -89,9 +95,13 @@ const PositionDialog = ({
       <DialogActions>
         <Box>
           <Button onClick={handleCancel}>{dict.cancel}</Button>
-          <Button onClick={() => handleConfirm(lat, lng, radius)}>
-            {dict.confirm}
-          </Button>
+          {lat && lng ? (
+            <Button onClick={() => handleConfirm(lat, lng, 0)}>
+              {dict.confirm}
+            </Button>
+          ) : (
+            <Button disabled>{dict.confirm}</Button>
+          )}
         </Box>
       </DialogActions>
     </Dialog>

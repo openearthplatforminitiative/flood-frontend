@@ -5,31 +5,22 @@ import {
   isLang,
 } from '@/app/[lang]/dictionaries';
 import SignOutButton from '@/app/components/buttons/SignOutButton';
-import Title from '@/app/components/Title';
+import Header from '@/app/components/Header';
 import LanguageDropdown from '@/app/components/LanguageDropdown';
+import { ContentContainer } from '@/app/components/ContentContainer';
 
 const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
   return (
     <>
-      <Title dict={dict} />
-      <Typography
-        variant={'h1'}
-        sx={{
-          fontSize: '2rem',
-          marginTop: '1rem',
-          marginBottom: '2rem 1rem',
-        }}
-      >
-        {dict.settings.title}
-      </Typography>
-      <Box sx={{ flexGrow: 1, marginTop: '2rem' }}>
+      <Header title={dict.settings.title} />
+      <ContentContainer>
         <LanguageDropdown
           dict={dict}
           lang={isLang(lang) ? lang : defaultLocale}
         />
-      </Box>
-      <SignOutButton callbackUrl={`/${lang}`}>{dict.signOut}</SignOutButton>
+        <SignOutButton callbackUrl={`/${lang}`}>{dict.signOut}</SignOutButton>
+      </ContentContainer>
     </>
   );
 };
