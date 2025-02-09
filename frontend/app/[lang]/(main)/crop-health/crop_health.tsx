@@ -132,7 +132,13 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
             <Box className="flex-1 p-5 rounded-3xl">
               <Box className="flex-1 flex flex-wrap gap-5">
                 {data ? (
-                  Object.keys(data).map((key) => {
+                  Object.keys(data)
+                  .sort((a, b) => {
+                    if (a === 'HLT') return -1; // Always put HLT first
+                    if (b === 'HLT') return 1;
+                    return data[b] - data[a]; 
+                  })
+                  .map((key) => {
                     if (data[key]*100 < 2) return null; 
                     
                     const gaugeColor = (keyData: number) => {
