@@ -49,6 +49,8 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
   const [image, setImage] = useState<string | null>(null);
   const [data, setData] = useState<any | null>(null);
 
+  const [expanded, setExpanded] = useState(false);
+
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -129,7 +131,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                 />
               )}
             </Box>
-            <Box className="flex-1 p-5 rounded-3xl">
+            <Box className="flex-1 p-5 rounded-3xl" onClick={() => setExpanded(!expanded)}>
               <Box className="flex-1 flex flex-wrap gap-5">
                 {data ? (
                   Object.keys(data)
@@ -154,9 +156,8 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                       else return highColor;
                     };
 
-      
                     return (
-                      <Box key={key} className="flex-1 flex-col items-start gap-2 rounded-lg"
+                     <Box key={key} className="flex-1 flex-col items-start gap-2 rounded-lg cursor-pointer"
                       sx={{
                         backgroundColor: 
                           key === 'HLT' ? '#D1E8D5' :  // Light Green 
@@ -164,7 +165,8 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                           data[key] * 100 > 30 ? '#FFD9D9' :  // Light Red
                           '#FFF7E1',  // Light Yellow
                         padding: '10px', 
-                      }}>
+                      }}
+                      >
                         <Box className="flex-1 flex items-center">
                           <Gauge
                             cornerRadius="50%"
@@ -191,7 +193,9 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                             </linearGradient>
                           </Gauge>
                         </Box>
-                        <Typography className="min-w-[100px] flex-grow text-center line-clamp-2">
+                        <Typography className={`min-w-[100px] flex-grow text-center ${
+                          expanded ? 'line-clamp-none' : 'line-clamp-2'
+                          }`}>
                           {GetCropHealthTranslation(
                             key as keyof CropHealthData
                           )}
