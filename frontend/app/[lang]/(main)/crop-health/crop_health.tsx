@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, Box, Typography, Input } from '@mui/material';
-import { Gauge } from '@mui/x-charts/Gauge';
+import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { useState } from 'react';
-import { Yard } from '@mui/icons-material';
+import { Grass, Yard } from '@mui/icons-material';
 
 type CropHealthData = {
   ALS: number;
@@ -129,21 +129,63 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                 />
               )}
             </Box>
-            <Box className="flex-1 p-5 bg-neutral-90 rounded-3xl">
-              <Box className="flex-1 flex justify-start items-start flex-wrap gap-5">
+            <Box className="flex-1 p-5 rounded-3xl">
+              <Box className="flex-1 flex flex-wrap gap-5">
                 {data ? (
                   Object.keys(data).map((key) => {
-                    return data[key] * 100 < 2 ? undefined : (
-                      <Box key={key} className="flex-1 flex items-center gap-2">
-                        <Box className="w-[100px] h-[100px]">
+                    if (data[key]*100 < 2) return null; 
+                    
+                    const gaugeColor = (keyData: number) => {
+                      const lowColor = ['#FFDF8C', '#F9CB54']; 
+                      const mediumColor = ['#FC9090', '#E34848'];  
+                      const highColor = ['#4A06A2', '#692CB7']; 
+                      const healthyColor = ['#1C8855', '#3EA26D'];
+                    
+                      if (key === 'HLT') return healthyColor;
+                    
+                      if (keyData * 100 > 2 && keyData * 100 < 30) return lowColor;
+                      if (keyData * 100 >= 30 && keyData * 100 < 90) return mediumColor;
+                      else return highColor;
+                    };
+
+      
+                    return (
+                      <Box key={key} className="flex-1 flex-col items-start gap-2 rounded-lg"
+                      sx={{
+                        backgroundColor: 
+                          key === 'HLT' ? '#D1E8D5' :  // Light Green 
+                          data[key] * 100 > 90 ? '#F9D6FF' :  // Light Purple
+                          data[key] * 100 > 30 ? '#FFD9D9' :  // Light Red
+                          '#FFF7E1',  // Light Yellow
+                        padding: '10px', 
+                      }}>
+                        <Box className="flex-1 flex items-center">
                           <Gauge
-                            sx={{ width: '100px', height: '100px' }}
+                            cornerRadius="50%"
+                            innerRadius='80%'
+                            outerRadius='100%'
+                            sx={{
+                              [`& .${gaugeClasses.valueArc}`]: {
+                              fill: `url(#Gradient${key})`
+                            },
+                            [`& .${gaugeClasses.valueText}`]: {
+                              fontSize: '1.5rem',
+                            },
+                          }}
                             width={100}
                             height={100}
-                            value={parseFloat((data[key] * 100).toFixed(2))}
-                          />
+                            value={parseFloat((data[key] * 100).toFixed(0))}
+                            text={
+                              ({ value }) => `${value}%`
+                           }
+                          >
+                            <linearGradient id={'Gradient' + key} x1="0%" y1="100%" x2="0%" y2="0%">
+                              <stop offset="0%" stopColor={gaugeColor(data[key])[0]} />
+                              <stop offset="100%" stopColor={gaugeColor(data[key])[1]} />
+                            </linearGradient>
+                          </Gauge>
                         </Box>
-                        <Typography className="min-w-[100px] flex-grow">
+                        <Typography className="min-w-[100px] flex-grow text-center line-clamp-2">
                           {GetCropHealthTranslation(
                             key as keyof CropHealthData
                           )}
