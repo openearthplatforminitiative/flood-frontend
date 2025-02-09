@@ -193,7 +193,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                             </linearGradient>
                           </Gauge>
                         </Box>
-                        <Typography className={`min-w-[100px] flex-grow text-center ${
+                        <Typography className={`min-w-[100px] flex-grow text-center lg:hover:line-clamp-none ${
                           expanded ? 'line-clamp-none' : 'line-clamp-2'
                           }`}>
                           {GetCropHealthTranslation(
