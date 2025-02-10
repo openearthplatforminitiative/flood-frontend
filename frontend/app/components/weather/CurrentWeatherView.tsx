@@ -69,10 +69,10 @@ export const CurrentWeatherView = ({
           </span>
         </div>
         <div className="flex gap-4">
-          <div>
+          <div className="lg:hidden">
             <Typography
               variant="body1"
-              className={`lg:hidden ${temperature > 0 ? 'text-red-800' : 'text-blue-800'}`}
+              className={temperature > 0 ? 'text-red-800' : 'text-blue-800'}
             >
               {temperature}°C
             </Typography>
