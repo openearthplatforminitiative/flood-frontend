@@ -38,13 +38,17 @@ export const WeatherWidgetView = ({
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell>{dict.sites.weather.night}</TableCell>
-              <TableCell>{dict.sites.weather.day}</TableCell>
-              <TableCell>{dict.sites.weather.noon}</TableCell>
-              <TableCell>{dict.sites.weather.evening}</TableCell>
-              <TableCell>{dict.sites.weather.temperatureMaxMin}</TableCell>
-              <TableCell>{dict.sites.weather.precipitation}</TableCell>
-              <TableCell>{dict.sites.weather.wind}</TableCell>
+              <TableCell align="center">{dict.sites.weather.night}</TableCell>
+              <TableCell align="center">{dict.sites.weather.day}</TableCell>
+              <TableCell align="center">{dict.sites.weather.noon}</TableCell>
+              <TableCell align="center">{dict.sites.weather.evening}</TableCell>
+              <TableCell align="right">
+                {dict.sites.weather.temperatureMaxMin}
+              </TableCell>
+              <TableCell align="right">
+                {dict.sites.weather.precipitation}
+              </TableCell>
+              <TableCell align="right">{dict.sites.weather.wind}</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>

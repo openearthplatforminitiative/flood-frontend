@@ -110,7 +110,7 @@ export const WeatherWidget = async ({
           : getMetDate(timezoneDiffHours, localDay);
 
     const getDatesTo = locationForecastIndexed![
-      new Date(new Date(localDay).setHours(19)).toISOString()
+      new Date(new Date(localDay).setHours(20)).toISOString()
     ]
       ? new Date(new Date(localDay).setHours(24))
       : getMetDate(

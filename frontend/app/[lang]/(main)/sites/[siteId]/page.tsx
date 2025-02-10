@@ -72,27 +72,28 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
 
   return (
     <div className="relative">
-      <div className="fixed top-0 left-0 w-full h-96 -z-50">
-        <MapLoader siteId={siteId} />
+      <div className="absolute top-0 w-full h-full">
+        <div className="sticky top-0 w-full h-96 -z-50">
+          <MapLoader siteId={siteId} />
+        </div>
       </div>
-      <div>
-        <Suspense fallback={<SiteHeader title="" />}>
-          <HeaderLoader
-            siteId={siteId}
-            actions={
-              <Link href={`/${lang}/sites/${siteId}/edit`}>
-                <Tooltip title={dict.sites.editSite}>
-                  <IconButton>
-                    <Settings />
-                  </IconButton>
-                </Tooltip>
-              </Link>
-            }
-          />
-        </Suspense>
-      </div>
-      <div className="relative px-4 pb-4 lg:px-6 lg:pb-6 mt-80">
-        <div className="flex flex-col lg:flex-row justify-start gap-5 items-stretch flex-wrap mb-5">
+      <Suspense fallback={<SiteHeader title="" />}>
+        <HeaderLoader
+          siteId={siteId}
+          actions={
+            <Link href={`/${lang}/sites/${siteId}/edit`}>
+              <Tooltip title={dict.sites.editSite}>
+                <IconButton>
+                  <Settings />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          }
+        />
+      </Suspense>
+      <div className="relative px-4 pb-4 lg:px-6 lg:pb-6 mt-96 bg-neutralVariant-99">
+        {/* <div className="absolute bottom-0 left-0 w-full top-16"></div> */}
+        <div className="relative flex flex-col lg:flex-row justify-start gap-5 items-stretch flex-wrap -top-16 -mb-11">
           <Suspense
             fallback={
               <Skeleton
@@ -143,7 +144,6 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
             locationForecastPromise={locationForecast}
           />
         </Suspense>
-        <div className="absolute bottom-0 left-0 w-full top-16 bg-neutralVariant-99 -z-10"></div>
       </div>
     </div>
   );
