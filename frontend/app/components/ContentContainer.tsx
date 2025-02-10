@@ -6,5 +6,5 @@ type ContentContainerProps = {
 };
 
 export const ContentContainer = (props: ContentContainerProps) => {
-  return <Box className="p-4 lg:p-6">{props.children}</Box>;
+  return <Box className="relative p-4 lg:p-6">{props.children}</Box>;
 };

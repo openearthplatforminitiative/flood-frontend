@@ -78,6 +78,18 @@ export type Dict = {
   notifications: {
     sendNotification: string;
   };
+  time: {
+    today: string;
+    monday: string;
+    tuesday: string;
+    wednesday: string;
+    thursday: string;
+    friday: string;
+    saturday: string;
+    sunday: string;
+    previousDay: string;
+    nextDay: string;
+  };
   sites: {
     title: string;
     warningTitle: { [key in FloodIntensity]: string };
@@ -86,7 +98,14 @@ export type Dict = {
     urgencyDescription: { [key in FloodTiming]: string };
     typeOfSite: string;
     weather: {
+      currentWeather: string;
+      weatherForecast: string;
       temperature: string;
+      temperatureMaxMin: string;
+      night: string;
+      day: string;
+      noon: string;
+      evening: string;
       precipitation: string;
       wind: string;
     };

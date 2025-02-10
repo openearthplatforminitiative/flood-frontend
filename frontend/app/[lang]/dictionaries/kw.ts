@@ -87,6 +87,18 @@ export const kw: Dict = {
   notifications: {
     sendNotification: 'Kohereza imenyesha',
   },
+  time: {
+    today: 'Uyu munsi',
+    monday: 'Kuwa mbere',
+    tuesday: 'Kuwa kabiri ',
+    wednesday: 'Kuwa gatatu',
+    thursday: 'Kuwa kane',
+    friday: 'Kuwa gatanu',
+    saturday: 'Kuwa gatandatu',
+    sunday: 'Ku cyumweru',
+    previousDay: 'Umunsi ukurikiraho',
+    nextDay: 'Umunsi ukurikiraho',
+  },
   sites: {
     title: 'Imbuga zanjye',
     warningTitle: {
@@ -104,7 +116,14 @@ export const kw: Dict = {
     },
     typeOfSite: 'Ubwoko bwurubuga',
     weather: {
+      currentWeather: 'Imiterere yikirere kiriho',
+      weatherForecast: 'Iteganyagihe',
       temperature: 'Ubushyuhe',
+      temperatureMaxMin: 'Ubushyuhe (Max/Min)',
+      night: 'Ijoro',
+      day: 'Joro',
+      noon: 'Igicamunsi',
+      evening: 'Nimugoroba',
       precipitation: 'Imvura',
       wind: 'Umuyaga',
     },

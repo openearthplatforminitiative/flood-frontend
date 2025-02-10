@@ -49,9 +49,11 @@ export default function RootLayout({
         <meta name="theme-color" content="#E9FFED" />
         <title>{dict.title}</title>
       </head>
-      <body className="flex w-full h-full m-0 bg-[#FBFDF8]">
+      <body className="flex w-full h-full m-0 bg-neutralVariant-99">
         <Box sx={{ flexGrow: 1 }}>
-          <ThemeRegistry lang={lang} options={{ key: 'mui' }}>{children}</ThemeRegistry>
+          <ThemeRegistry lang={lang} options={{ key: 'mui' }}>
+            {children}
+          </ThemeRegistry>
         </Box>
       </body>
     </html>

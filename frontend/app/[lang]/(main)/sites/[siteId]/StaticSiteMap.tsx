@@ -13,6 +13,8 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
   lng ??= -0.09;
   radius ??= 100;
 
+  console.log(radius);
+
   return (
     <MapContainer
       center={{ lat: lat, lng: lng }}
@@ -20,18 +22,16 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
       dragging={false}
       zoomControl={false}
       scrollWheelZoom={false}
-      className="w-full h-[25vh] z-0"
+      className="w-full h-full z-0"
       attributionControl={false}
+      doubleClickZoom={false}
+      touchZoom={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={{ lat: lat, lng: lng }}>
-        {radius > 0 && (
-          <Circle center={{ lat: lat, lng: lng }} radius={radius * 30} />
-        )}
-      </Marker>
+      <Circle center={{ lat: lat, lng: lng }} radius={radius * 30} />
     </MapContainer>
   );
 };

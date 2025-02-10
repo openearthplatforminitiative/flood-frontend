@@ -88,6 +88,18 @@ export const en: Dict = {
   notifications: {
     sendNotification: 'Send notification',
   },
+  time: {
+    today: 'Today',
+    monday: 'Monday',
+    tuesday: 'Tuesday',
+    wednesday: 'Wednesday',
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday',
+    sunday: 'Sunday',
+    previousDay: 'Previous day',
+    nextDay: 'Next day',
+  },
   sites: {
     title: 'My sites',
     warningTitle: {
@@ -105,7 +117,14 @@ export const en: Dict = {
     },
     typeOfSite: 'Type of site',
     weather: {
+      currentWeather: 'Current weather',
+      weatherForecast: 'Weather forecast',
       temperature: 'Temp.',
+      temperatureMaxMin: 'Temp. max/min',
+      night: 'Night',
+      day: 'Day',
+      noon: 'Noon',
+      evening: 'Evening',
       precipitation: 'Precip.',
       wind: 'Wind',
     },

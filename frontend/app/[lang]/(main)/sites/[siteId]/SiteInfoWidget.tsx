@@ -21,7 +21,7 @@ export const SiteInfoWidget = async ({ siteId, lang }: SiteInfoWidgetProps) => {
   }
 
   return (
-    <Box className="flex-1 flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-2 lg:p-6 gap-4 lg:gap-6">
+    <Box className="flex-1 flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-4 md:p-6 gap-4 lg:gap-6">
       <Typography variant="h2">{site.name}</Typography>
       <Box>
         <Typography
