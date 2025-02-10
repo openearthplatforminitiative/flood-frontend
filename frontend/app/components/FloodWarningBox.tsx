@@ -27,7 +27,7 @@ type FloodWarningBoxProps =
 const FloodWarningBox = (props: FloodWarningBoxProps) => {
   const { dict, intensity } = props;
   const colors = intensityToColors(intensity);
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(false);
 
   const handleAccordionChange = () => {
     setExpanded(!expanded);

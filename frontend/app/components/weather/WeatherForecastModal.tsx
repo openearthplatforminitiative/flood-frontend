@@ -63,40 +63,46 @@ export const WeatherForecastModal = ({
     <Modal open={open} onClose={handleClose}>
       <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
         <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full bg-neutralVariant-98 p-4 md:p-6 md:rounded-xl ">
-          <Typography variant="h4">
-            {dateFormatted(selectedDay.date)}
-          </Typography>
-          <div className="absolute top-2 right-2">
-            <IconButton onClick={handleClose}>
-              <Close />
-            </IconButton>
-          </div>
-          <div className="w-full flex flex-row justify-between items-center">
-            <Button
-              variant="outlined"
-              disabled={dayIndex === 0}
-              onClick={() => handleNext(dayIndex - 1)}
-            >
-              <ArrowBack />
-              {dict.time.previousDay}
-            </Button>
-            <Button
-              variant="outlined"
-              disabled={dayIndex === weatherDays.length - 1}
-              onClick={() => handleNext(dayIndex + 1)}
-            >
-              {dict.time.nextDay}
-              <ArrowForward />
-            </Button>
+          <div className="static top-0 w-full">
+            <Typography variant="h4">
+              {dateFormatted(selectedDay.date)}
+            </Typography>
+            <div className="absolute top-2 right-2">
+              <IconButton onClick={handleClose}>
+                <Close />
+              </IconButton>
+            </div>
+            <div className="w-full flex flex-row justify-between items-center">
+              <Button
+                variant="outlined"
+                disabled={dayIndex === 0}
+                onClick={() => handleNext(dayIndex - 1)}
+              >
+                <ArrowBack />
+                {dict.time.previousDay}
+              </Button>
+              <Button
+                variant="outlined"
+                disabled={dayIndex === weatherDays.length - 1}
+                onClick={() => handleNext(dayIndex + 1)}
+              >
+                {dict.time.nextDay}
+                <ArrowForward />
+              </Button>
+            </div>
           </div>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
-                <TableCell>{dict.sites.weather.temperature}</TableCell>
-                <TableCell>{dict.sites.weather.precipitation}</TableCell>
-                <TableCell>{dict.sites.weather.wind}</TableCell>
+                <TableCell align="right">
+                  {dict.sites.weather.temperature}
+                </TableCell>
+                <TableCell align="right">
+                  {dict.sites.weather.precipitation}
+                </TableCell>
+                <TableCell align="right">{dict.sites.weather.wind}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
