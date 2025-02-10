@@ -29,7 +29,7 @@ export const WeatherWidgetView = ({
 
   return (
     <>
-      <div className="hidden md:flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-4 md:p-6 gap-4 lg:gap-6">
+      <div className="hidden lg:flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-4 md:p-6 gap-4 lg:gap-6">
         <h2 className="text-4xl">{dict.sites.weather.weatherForecast}</h2>
         <Table
           className="-mx-4 md:-mx-6 w-inherit"
@@ -38,18 +38,10 @@ export const WeatherWidgetView = ({
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell className="!hidden lg:!table-cell">
-                {dict.sites.weather.night}
-              </TableCell>
-              <TableCell className="!hidden lg:!table-cell">
-                {dict.sites.weather.day}
-              </TableCell>
-              <TableCell className="!hidden lg:!table-cell">
-                {dict.sites.weather.noon}
-              </TableCell>
-              <TableCell className="!hidden lg:!table-cell">
-                {dict.sites.weather.evening}
-              </TableCell>
+              <TableCell>{dict.sites.weather.night}</TableCell>
+              <TableCell>{dict.sites.weather.day}</TableCell>
+              <TableCell>{dict.sites.weather.noon}</TableCell>
+              <TableCell>{dict.sites.weather.evening}</TableCell>
               <TableCell>{dict.sites.weather.temperatureMaxMin}</TableCell>
               <TableCell>{dict.sites.weather.precipitation}</TableCell>
               <TableCell>{dict.sites.weather.wind}</TableCell>
@@ -79,7 +71,7 @@ export const WeatherWidgetView = ({
           </TableBody>
         </Table>
       </div>
-      <div className="flex md:hidden flex-col">
+      <div className="flex lg:hidden flex-col">
         <h2 className="text-3xl">{dict.sites.weather.weatherForecast}</h2>
         {weatherDays && (
           <div className="flex flex-col gap-4 mt-4">

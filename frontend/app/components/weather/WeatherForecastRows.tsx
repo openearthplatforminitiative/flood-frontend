@@ -31,7 +31,7 @@ export const WeatherForecast = ({ weather, dayIndex, lang }: WeatherProps) => {
       <TableCell>
         <Typography>{dateFormatted(weather.date)}</Typography>
       </TableCell>
-      <TableCell className="!hidden lg:!table-cell">
+      <TableCell>
         {weather.night && (
           <Image
             width={50}
@@ -43,7 +43,7 @@ export const WeatherForecast = ({ weather, dayIndex, lang }: WeatherProps) => {
           />
         )}
       </TableCell>
-      <TableCell className="!hidden lg:!table-cell">
+      <TableCell>
         {weather.day && (
           <Image
             width={50}
@@ -55,7 +55,7 @@ export const WeatherForecast = ({ weather, dayIndex, lang }: WeatherProps) => {
           />
         )}
       </TableCell>
-      <TableCell className="!hidden lg:!table-cell">
+      <TableCell>
         {weather.noon && (
           <Image
             width={50}
@@ -67,7 +67,7 @@ export const WeatherForecast = ({ weather, dayIndex, lang }: WeatherProps) => {
           />
         )}
       </TableCell>
-      <TableCell className="!hidden lg:!table-cell">
+      <TableCell>
         {weather.evening && (
           <Image
             width={50}

@@ -11,9 +11,9 @@ export const getLocalTime = (
   const localDate = new Date(
     utcDate.toLocaleString('en-US', { timeZone: timeZone })
   );
-  if (localDate.getMinutes() > 0) {
-    localDate.setMinutes(0);
-  }
+  localDate.setMinutes(0);
+  localDate.setSeconds(0);
+  localDate.setMilliseconds(0);
   return localDate;
 };
 
