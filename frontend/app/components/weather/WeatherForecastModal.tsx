@@ -19,7 +19,6 @@ import {
 } from '@mui/icons-material';
 import { WeatherDay } from './WeatherWidget';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { getDayOfWeek } from '@/app/helpers/timestampToLocalDate';
 

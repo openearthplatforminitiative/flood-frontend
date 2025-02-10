@@ -18,7 +18,7 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
   return (
     <MapContainer
       center={{ lat: lat, lng: lng }}
-      zoom={12}
+      zoom={15}
       dragging={false}
       zoomControl={false}
       scrollWheelZoom={false}
@@ -29,7 +29,7 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=yKbUfk8FeU9lYSvB92QQ"
       />
       <Circle center={{ lat: lat, lng: lng }} radius={radius * 30} />
     </MapContainer>

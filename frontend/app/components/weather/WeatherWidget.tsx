@@ -53,19 +53,14 @@ export const WeatherWidget = async ({
   }
 
   const locationForecast = await locationForecastPromise;
+  locationForecast.data?.properties.timeseries.pop();
 
   const timezoneDiffHours = getTimezoneDifferenceInHours([site.lat, site.lng]);
 
   const currentTimeUTC = new Date();
   const currentTimeLocal = getLocalTime(currentTimeUTC, [site.lat, site.lng]);
 
-  const firstTimeseriesDateUTC = new Date(
-    locationForecast.data?.properties.timeseries[0].time!
-  );
-  const firstTimeseriesDateLocal = getLocalTime(firstTimeseriesDateUTC, [
-    site.lat,
-    site.lng,
-  ]);
+  const currentLocalTime = getLocalTime(new Date(), [site.lat, site.lng]);
 
   const symbolHours = {
     night: {
@@ -103,24 +98,29 @@ export const WeatherWidget = async ({
   const days = 10;
   for (let i = 0; i < days; i++) {
     const localDay = new Date(
-      new Date(firstTimeseriesDateLocal).setDate(
-        firstTimeseriesDateLocal.getDate() + i
-      )
+      new Date(currentLocalTime).setDate(currentLocalTime.getDate() + i)
     );
     localDay.setHours(1);
 
     const getDatesFrom =
       i === 0
-        ? new Date(firstTimeseriesDateLocal)
+        ? new Date(currentLocalTime)
         : locationForecastIndexed![localDay.toISOString()]
-          ? localDay.toISOString()
+          ? new Date(localDay)
           : getMetDate(timezoneDiffHours, localDay);
 
     const getDatesTo = locationForecastIndexed![
-      new Date(localDay.setHours(19)).toISOString()
+      new Date(new Date(localDay).setHours(19)).toISOString()
     ]
       ? new Date(new Date(localDay).setHours(24))
-      : getMetDate(timezoneDiffHours, new Date(localDay.setHours(24)));
+      : getMetDate(
+          timezoneDiffHours,
+          new Date(new Date(localDay).setHours(24))
+        );
+
+    if (!locationForecastIndexed![getDatesFrom.toISOString()]) {
+      continue;
+    }
 
     let temperatureMax = -100,
       temperatureMin = 100,
@@ -154,7 +154,9 @@ export const WeatherWidget = async ({
           ? Math.round(forecast.data.instant.details?.air_temperature)
           : undefined,
         precipitation:
-          forecast.data.next_1_hours?.details?.precipitation_amount ?? 0,
+          forecast.data.next_1_hours?.details?.precipitation_amount ??
+          forecast.data.next_6_hours?.details?.precipitation_amount ??
+          0,
         wind: forecast.data.instant.details?.wind_speed
           ? Math.round(forecast.data.instant.details?.wind_speed)
           : undefined,
@@ -170,10 +172,12 @@ export const WeatherWidget = async ({
         temperatureMin,
         forecast.data.instant.details?.air_temperature ?? 1000
       );
-      if (forecast.data.next_1_hours?.details?.precipitation_amount)
+      if (
+        forecast.data.next_1_hours?.details?.precipitation_amount != undefined
+      )
         precipitation +=
-          forecast.data.next_1_hours?.details?.precipitation_amount;
-      else if (hour.getHours() < 18)
+          forecast.data.next_1_hours.details.precipitation_amount;
+      else
         precipitation +=
           forecast.data.next_6_hours?.details?.precipitation_amount ?? 0;
       if (forecast.data.instant.details?.wind_speed) {
@@ -196,9 +200,8 @@ export const WeatherWidget = async ({
         // use floor on hours to get either 1, 7, 13, 19
         const floorHour = Math.floor(firstTimestampHour / 6) * 6 + 1;
         if (symbolHours.accurate == floorHour) {
-          return locationForecastIndexed![
-            firstTimeseriesDateLocal.toISOString()
-          ].data.next_1_hours?.summary.symbol_code;
+          return locationForecastIndexed![currentLocalTime.toISOString()].data
+            .next_1_hours?.summary.symbol_code;
         }
       }
       const nearestSymbolDate = new Date(localDay);
@@ -212,7 +215,7 @@ export const WeatherWidget = async ({
       day: getSymbols(symbolHours.day),
       noon: getSymbols(symbolHours.noon),
       evening: getSymbols(symbolHours.evening),
-      date: localDay,
+      date: new Date(localDay),
       temperatureMax: Math.round(temperatureMax),
       temperatureMin: Math.round(temperatureMin),
       precipitation: Math.ceil(precipitation * 10) / 10,

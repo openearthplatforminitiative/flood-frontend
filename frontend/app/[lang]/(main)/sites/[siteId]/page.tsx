@@ -143,7 +143,7 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
             locationForecastPromise={locationForecast}
           />
         </Suspense>
-        <div className="absolute bottom-0 left-0 w-full top-16 bg-neutralVariant-99 -z-10 shadow-md"></div>
+        <div className="absolute bottom-0 left-0 w-full top-16 bg-neutralVariant-99 -z-10"></div>
       </div>
     </div>
   );
