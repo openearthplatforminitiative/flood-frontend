@@ -91,6 +91,18 @@ export const fr: Dict = {
   notifications: {
     sendNotification: 'Envoyez une notification',
   },
+  time: {
+    today: 'Aujourd’hui',
+    monday: 'Lundi',
+    tuesday: 'Mardi',
+    wednesday: 'Mercredi',
+    thursday: 'Jeudi',
+    friday: 'Vendredi',
+    saturday: 'Samedi',
+    sunday: 'Dimanche',
+    previousDay: 'Jour précédent',
+    nextDay: 'Jour suivant',
+  },
   sites: {
     title: 'Mes sites',
     warningTitle: {
@@ -108,7 +120,14 @@ export const fr: Dict = {
     },
     typeOfSite: 'Type de site',
     weather: {
+      currentWeather: 'Temps actuel',
+      weatherForecast: 'Prévisions météorologiques',
       temperature: 'Temp.',
+      temperatureMaxMin: 'Temp. Max/Min',
+      night: 'La nuit',
+      day: 'Le matin',
+      noon: 'L’après-midi',
+      evening: 'Le soir',
       precipitation: 'Précip.',
       wind: 'Vent',
     },

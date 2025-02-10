@@ -39,7 +39,7 @@ export const FloodWarnings = async ({ dict }: FloodWarningsProps) => {
     return <FloodWarningBox dict={dict} intensity="G" />;
   } else {
     return (
-      <Box className="flex flex-col lg:flex-row gap-2 lg:gap-4 lg:flex-wrap">
+      <Box className="w-full md:w-fit flex flex-col lg:flex-row gap-2 lg:gap-4 lg:flex-wrap">
         {floodProperties.map((properties, index) => {
           if (!properties || properties.intensity === 'G') return null;
           return (
