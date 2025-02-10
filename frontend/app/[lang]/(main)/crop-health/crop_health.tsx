@@ -131,7 +131,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                 />
               )}
             </Box>
-            <Box className="flex-1 p-5 rounded-3xl">
+            <Box className="flex-1 xs:p-0 lg:p-5 rounded-3xl">
               <Box className="flex-1 flex flex-wrap gap-5" onClick={() => setExpanded(!expanded)}>
                 {data ? (
                   Object.keys(data)
