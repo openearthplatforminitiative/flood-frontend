@@ -39,7 +39,7 @@ const LanguageDropdown = ({ dict, lang }: LanguageDropdownProps) => {
       >
         <MenuItem value={'en'}>English</MenuItem>
         <MenuItem value={'fr'}>Français</MenuItem>
-        <MenuItem value={'kw'}>Kinyarwanda</MenuItem>
+        <MenuItem value={'rw'}>Kinyarwanda</MenuItem>
       </Select>
     </FormControl>
   );
