@@ -63,8 +63,6 @@ export const WeatherWidget = async ({
   });
   const currentTimeLocal = getLocalTime(currentTimeUTC, [site.lat, site.lng]);
 
-  console.log('currentTimeLocal', currentTimeLocal);
-
   const symbolHours = {
     night: {
       accurate: 0,
@@ -109,18 +107,12 @@ export const WeatherWidget = async ({
       })
       .plus({ days: i });
 
-    console.log('localDay', localDay.toISO());
-    console.log('localDayHours', localDay.hour);
-
     const fromDateTime =
       i === 0
         ? currentTimeLocal
         : locationForecastIndexed![localDay.toISO()!]
           ? localDay
           : getMetDate(localDay);
-
-    console.log('from', fromDateTime.toISO());
-    console.log('fromHours', fromDateTime.hour);
 
     if (!locationForecastIndexed![fromDateTime.toISO()!]) {
       continue;
@@ -132,9 +124,6 @@ export const WeatherWidget = async ({
         : locationForecastIndexed![localDay.set({ hour: 19 }).toISO()!]
           ? localDay.set({ hour: 23 })
           : getMetDate(localDay.set({ hour: 18 }));
-
-    console.log('to', toDateTime.toISO());
-    console.log('toHours', toDateTime.hour);
 
     let temperatureMax = -1000,
       temperatureMin = 1000,
@@ -221,9 +210,7 @@ export const WeatherWidget = async ({
     };
 
     const dateTimeFormatted = (date: DateTime) => {
-      console.log('date', date);
       const localeDate = date.setLocale(lang);
-      console.log('localeDate', localeDate);
       if (i === 0) {
         return dict.time.today + ' ' + localeDate.toFormat('dd LLLL');
       } else {
