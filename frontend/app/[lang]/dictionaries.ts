@@ -1,18 +1,18 @@
 import { en } from '@/app/[lang]/dictionaries/en';
 import { fr } from '@/app/[lang]/dictionaries/fr';
-import { kw } from '@/app/[lang]/dictionaries/kw';
+import { rw } from '@/app/[lang]/dictionaries/rw';
 import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 
 interface LangDictionary {
   en: Dict;
   fr: Dict;
-  kw: Dict;
+  rw: Dict;
 }
 
 const dictionaries: LangDictionary = {
   en: en,
   fr: fr,
-  kw: kw,
+  rw: rw,
 };
 
 export const defaultLocale = 'en';
@@ -182,7 +182,7 @@ export const propertyTypes: SiteType[] = [
 ];
 
 export type Lang = keyof LangDictionary;
-export const languages: Lang[] = ['en', 'fr', 'kw'];
+export const languages: Lang[] = ['en', 'fr', 'rw'];
 export const isLang = (x: any): x is Lang => languages.includes(x);
 
 export const getDictionary = (lang: Lang) => {

@@ -1,6 +1,6 @@
 import { Dict } from '@/app/[lang]/dictionaries';
 
-export const kw: Dict = {
+export const rw: Dict = {
   yes: 'Yego',
   no: 'Oya',
   cancel: 'Kureka',

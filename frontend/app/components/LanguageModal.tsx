@@ -53,7 +53,7 @@ const LanguageModal = ({ dict }: LanguageModalProps) => {
           <FormControlLabel value="fr" control={<Radio />} label="Français" />
           <Divider />
           <FormControlLabel
-            value="kw"
+            value="rw"
             control={<Radio />}
             label="Kinyarwanda"
           />
