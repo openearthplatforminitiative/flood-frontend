@@ -1,3 +1,5 @@
+'use server';
+
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
@@ -21,28 +23,40 @@ export const SiteInfoWidget = async ({ siteId, lang }: SiteInfoWidgetProps) => {
   }
 
   return (
-    <Box className="flex-1 flex flex-col justify-start items-start bg-neutral-95 rounded-xl p-4 md:p-6 gap-4 lg:gap-6">
-      <Typography variant="h2">{site.name}</Typography>
-      <Box>
-        <Typography
-          sx={{ fontSize: '0.75rem', color: '#414942', marginBottom: '0.5rem' }}
-        >
-          {dict.sites.typeOfSite}
-        </Typography>
-        <Typography variant="body1">
-          {typesRenderer(site.types, dict)}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography
-          sx={{ fontSize: '0.75rem', color: '#414942', marginBottom: '0.5rem' }}
-        >
-          Coordinates
-        </Typography>
-        <Typography variant="body1">
-          {site.lat} {site.lng}
-        </Typography>
-      </Box>
+    <Box className="flex-1 overflow-hidden bg-neutral-95 rounded-xl lg:gap-6">
+      <div className="bg-primary-40 text-white p-4 md:p-6 w-full">
+        <Typography variant="h2">{site.name}</Typography>
+      </div>
+      <div className="flex flex-col justify-start items-start p-4 md:p-6 gap-4">
+        <Box>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: '#414942',
+              marginBottom: '0.5rem',
+            }}
+          >
+            {dict.sites.typeOfSite}
+          </Typography>
+          <Typography variant="body1">
+            {typesRenderer(site.types, dict)}
+          </Typography>
+        </Box>
+        <Box>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: '#414942',
+              marginBottom: '0.5rem',
+            }}
+          >
+            Coordinates
+          </Typography>
+          <Typography variant="body1">
+            {site.lat} {site.lng}
+          </Typography>
+        </Box>
+      </div>
     </Box>
   );
 };
