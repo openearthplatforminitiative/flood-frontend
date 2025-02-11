@@ -1,14 +1,14 @@
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { weatherClient } from '@/lib/openepi-clients';
 import {
   getLocalTime,
   getMetDate,
   getMETHour,
-  getTimezoneDifferenceInHours,
 } from '@/app/helpers/timestampToLocalDate';
 import { getSiteForUser } from '@/lib/prisma';
 import { WeatherForecast } from './WeatherForecastRows';
 import { WeatherWidgetView } from './WeatherWidgetView';
+import { DateTime } from 'luxon';
+import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 
 type WeatherWidgetProps = {
   sitePromise: ReturnType<typeof getSiteForUser>;
@@ -18,6 +18,7 @@ type WeatherWidgetProps = {
 
 export type WeatherDay = {
   date: Date;
+  formatted: string;
   night?: string;
   day?: string;
   noon?: string;
@@ -30,8 +31,9 @@ export type WeatherDay = {
 };
 
 export type WeatherForecast = {
-  from: Date;
-  to?: Date;
+  from: string;
+  formatted: string;
+  to?: string;
   symbol?: string;
   temperature?: number;
   precipitation: number;
@@ -45,7 +47,6 @@ export const WeatherWidget = async ({
   locationForecastPromise,
 }: WeatherWidgetProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
-
   const site = await sitePromise;
 
   if (!site) {
@@ -55,29 +56,31 @@ export const WeatherWidget = async ({
   const locationForecast = await locationForecastPromise;
   locationForecast.data?.properties.timeseries.pop();
 
-  const timezoneDiffHours = getTimezoneDifferenceInHours([site.lat, site.lng]);
-
-  const currentTimeUTC = new Date();
+  const currentTimeUTC = DateTime.utc().set({
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
   const currentTimeLocal = getLocalTime(currentTimeUTC, [site.lat, site.lng]);
 
-  const currentLocalTime = getLocalTime(new Date(), [site.lat, site.lng]);
+  console.log('currentTimeLocal', currentTimeLocal);
 
   const symbolHours = {
     night: {
-      accurate: 1,
-      nearest: getMETHour(timezoneDiffHours, 1),
+      accurate: 0,
+      nearest: getMETHour(currentTimeLocal, 0),
     },
     day: {
-      accurate: 7,
-      nearest: getMETHour(timezoneDiffHours, 7),
+      accurate: 6,
+      nearest: getMETHour(currentTimeLocal, 6),
     },
     noon: {
-      accurate: 13,
-      nearest: getMETHour(timezoneDiffHours, 13),
+      accurate: 12,
+      nearest: getMETHour(currentTimeLocal, 12),
     },
     evening: {
-      accurate: 19,
-      nearest: getMETHour(timezoneDiffHours, 19),
+      accurate: 18,
+      nearest: getMETHour(currentTimeLocal, 18),
     },
   };
 
@@ -87,9 +90,12 @@ export const WeatherWidget = async ({
     >((acc, curr) => {
       const newCurr = {
         ...curr,
-        localDate: getLocalTime(curr.time, [site.lat, site.lng]),
+        localDate: getLocalTime(DateTime.fromISO(curr.time), [
+          site.lat,
+          site.lng,
+        ]),
       };
-      acc[newCurr.localDate.toISOString()] = newCurr;
+      acc[newCurr.localDate.toISO()!] = newCurr;
       return acc;
     }, {});
 
@@ -97,55 +103,64 @@ export const WeatherWidget = async ({
 
   const days = 10;
   for (let i = 0; i < days; i++) {
-    const localDay = new Date(
-      new Date(currentLocalTime).setDate(currentLocalTime.getDate() + i)
-    );
-    localDay.setHours(1);
+    const localDay = currentTimeLocal
+      .set({
+        hour: 0,
+      })
+      .plus({ days: i });
 
-    const getDatesFrom =
+    console.log('localDay', localDay.toISO());
+    console.log('localDayHours', localDay.hour);
+
+    const fromDateTime =
       i === 0
-        ? new Date(currentLocalTime)
-        : locationForecastIndexed![localDay.toISOString()]
-          ? new Date(localDay)
-          : getMetDate(timezoneDiffHours, localDay);
+        ? currentTimeLocal
+        : locationForecastIndexed![localDay.toISO()!]
+          ? localDay
+          : getMetDate(localDay);
 
-    const getDatesTo = locationForecastIndexed![
-      new Date(new Date(localDay).setHours(20)).toISOString()
-    ]
-      ? new Date(new Date(localDay).setHours(24))
-      : getMetDate(
-          timezoneDiffHours,
-          new Date(new Date(localDay).setHours(24))
-        );
+    console.log('from', fromDateTime.toISO());
+    console.log('fromHours', fromDateTime.hour);
 
-    if (!locationForecastIndexed![getDatesFrom.toISOString()]) {
+    if (!locationForecastIndexed![fromDateTime.toISO()!]) {
       continue;
     }
 
-    let temperatureMax = -100,
-      temperatureMin = 100,
+    const toDateTime =
+      i === 0
+        ? currentTimeLocal.set({ hour: 23 })
+        : locationForecastIndexed![localDay.set({ hour: 19 }).toISO()!]
+          ? localDay.set({ hour: 23 })
+          : getMetDate(localDay.set({ hour: 18 }));
+
+    console.log('to', toDateTime.toISO());
+    console.log('toHours', toDateTime.hour);
+
+    let temperatureMax = -1000,
+      temperatureMin = 1000,
       precipitation = 0,
-      wind = 0,
-      numberOfWindMeasurements = 0;
+      wind = 0;
 
     let weatherHours: WeatherForecast[] = [];
 
     // for each hour form getDatesFrom to getDatesTo, access the locationForecastIndexed[date] to get the weather data
-    for (
-      let hour = new Date(getDatesFrom);
-      hour <= getDatesTo;
-      new Date(hour.setHours(hour.getHours() + 1))
-    ) {
-      const forecast = locationForecastIndexed![hour.toISOString()];
+    for (let i = 0; localDay.plus({ hour: i }) <= toDateTime; i++) {
+      const hour = fromDateTime.plus({ hour: i });
+
+      const forecast = locationForecastIndexed![hour.toISO()!];
       if (!forecast) continue;
 
       weatherHours.push({
-        from: new Date(hour),
-        to: locationForecastIndexed![
-          new Date(new Date(hour).setHours(hour.getHours() + 1)).toISOString()
-        ]
+        from: hour.toFormat('HH'),
+        formatted:
+          hour.toFormat('HH') +
+          (!locationForecastIndexed![hour.plus({ hour: 1 }).toISO()!]
+            ? '-' + hour.plus({ hour: 6 }).toFormat('HH')
+            : ''),
+        to: locationForecastIndexed![hour.plus({ hour: 1 }).toISO()!]
           ? undefined
-          : new Date(new Date(hour).setHours(hour.getHours() + 6)),
+          : hour.plus({ hour: 6 }).toISO()!,
+
         symbol:
           forecast.data.next_1_hours?.summary.symbol_code ??
           forecast.data.next_6_hours?.summary.symbol_code ??
@@ -180,34 +195,40 @@ export const WeatherWidget = async ({
       else
         precipitation +=
           forecast.data.next_6_hours?.details?.precipitation_amount ?? 0;
-      if (forecast.data.instant.details?.wind_speed) {
-        wind += forecast.data.instant.details?.wind_speed;
-        numberOfWindMeasurements = numberOfWindMeasurements + 1;
-      }
+      wind = Math.max(wind, forecast.data.instant.details?.wind_speed ?? 0);
     }
 
     const getSymbols = (symbolHours: { accurate: number; nearest: number }) => {
-      const symbolDate = new Date(localDay);
-      symbolDate.setHours(symbolHours.accurate);
+      const symbolDate = localDay.set({ hour: symbolHours.accurate });
 
       const symbol =
-        locationForecastIndexed![symbolDate.toISOString()]?.data.next_6_hours
+        locationForecastIndexed![symbolDate.toISO()!]?.data.next_6_hours
           ?.summary.symbol_code;
       if (symbol) return symbol;
 
       if (i === 0) {
-        const firstTimestampHour = currentTimeLocal.getHours();
+        const firstTimestampHour = currentTimeLocal.hour;
         // use floor on hours to get either 1, 7, 13, 19
-        const floorHour = Math.floor(firstTimestampHour / 6) * 6 + 1;
+        const floorHour = Math.floor(firstTimestampHour / 6) * 6;
         if (symbolHours.accurate == floorHour) {
-          return locationForecastIndexed![currentLocalTime.toISOString()].data
+          return locationForecastIndexed![currentTimeLocal.toISO()!].data
             .next_1_hours?.summary.symbol_code;
         }
       }
-      const nearestSymbolDate = new Date(localDay);
-      nearestSymbolDate.setHours(symbolHours.nearest);
-      return locationForecastIndexed![nearestSymbolDate.toISOString()]?.data
+      const nearestSymbolDate = localDay.set({ hour: symbolHours.nearest });
+      return locationForecastIndexed![nearestSymbolDate.toISO()!]?.data
         .next_6_hours?.summary.symbol_code;
+    };
+
+    const dateTimeFormatted = (date: DateTime) => {
+      console.log('date', date);
+      const localeDate = date.setLocale(lang);
+      console.log('localeDate', localeDate);
+      if (i === 0) {
+        return dict.time.today + ' ' + localeDate.toFormat('dd LLLL');
+      } else {
+        return localeDate.toFormat('cccc dd LLLL');
+      }
     };
 
     weatherDays.push({
@@ -215,11 +236,12 @@ export const WeatherWidget = async ({
       day: getSymbols(symbolHours.day),
       noon: getSymbols(symbolHours.noon),
       evening: getSymbols(symbolHours.evening),
-      date: new Date(localDay),
+      date: localDay.toJSDate(),
+      formatted: dateTimeFormatted(localDay),
       temperatureMax: Math.round(temperatureMax),
       temperatureMin: Math.round(temperatureMin),
       precipitation: Math.ceil(precipitation * 10) / 10,
-      wind: wind / numberOfWindMeasurements,
+      wind: Math.round(wind),
       weatherHours: weatherHours,
     });
   }

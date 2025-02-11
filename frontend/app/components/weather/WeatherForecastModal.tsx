@@ -20,7 +20,6 @@ import {
 import { WeatherDay } from './WeatherWidget';
 import Image from 'next/image';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { getDayOfWeek } from '@/app/helpers/timestampToLocalDate';
 
 type WeatherForecastModalProps = {
   lang: string;
@@ -41,32 +40,13 @@ export const WeatherForecastModal = ({
 }: WeatherForecastModalProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
   const selectedDay = weatherDays[dayIndex];
-  const displayHour = (date: Date) => {
-    let hour = date.getHours();
-    // if length is 1, add a 0 in front
-
-    if (hour === 0) hour = 23;
-    else hour -= 1;
-    if (hour < 10) return '0' + hour;
-    return hour;
-  };
-
-  const dateFormatted = (date: Date) => {
-    if (dayIndex === 0) {
-      return dict.time.today + ' ' + date.toLocaleDateString();
-    } else {
-      return getDayOfWeek(date, lang) + ' ' + date.toLocaleDateString();
-    }
-  };
 
   return (
     <Modal open={open} onClose={handleClose}>
       <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
         <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full bg-neutralVariant-98 p-4 md:p-6 md:rounded-xl ">
           <div className="static top-0 w-full">
-            <Typography variant="h4">
-              {dateFormatted(selectedDay.date)}
-            </Typography>
+            <Typography variant="h4">{selectedDay.formatted}</Typography>
             <div className="absolute top-2 right-2">
               <IconButton onClick={handleClose}>
                 <Close />
@@ -109,10 +89,7 @@ export const WeatherForecastModal = ({
               {selectedDay.weatherHours.map((weather, index) => (
                 <TableRow key={index}>
                   <TableCell>
-                    <Typography>
-                      {displayHour(weather.from)}
-                      {weather.to && '-' + displayHour(weather.to)}
-                    </Typography>
+                    <Typography>{weather.formatted}</Typography>
                   </TableCell>
                   <TableCell>
                     {weather.symbol && (

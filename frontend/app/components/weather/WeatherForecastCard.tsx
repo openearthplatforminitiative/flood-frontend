@@ -4,32 +4,13 @@ import { ArrowForward } from '@mui/icons-material';
 import Image from 'next/image';
 import { WeatherDay } from './WeatherWidget';
 import { Typography } from '@mui/material';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { getDayOfWeek } from '@/app/helpers/timestampToLocalDate';
 
 export type WeatherProps = {
   weather: WeatherDay;
-  dayIndex: number;
-  lang: string;
   onClick: () => void;
 };
 
-export const WeatherForecastCard = ({
-  weather,
-  onClick,
-  dayIndex,
-  lang,
-}: WeatherProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
-
-  const dateFormatted = (date: Date) => {
-    if (dayIndex === 0) {
-      return dict.time.today + ' ' + date.toLocaleDateString();
-    } else {
-      return getDayOfWeek(date, lang) + ' ' + date.toLocaleDateString();
-    }
-  };
-
+export const WeatherForecastCard = ({ weather, onClick }: WeatherProps) => {
   const availableSymbol =
     weather.noon || weather.day || weather.night || weather.evening;
   return (
@@ -38,7 +19,7 @@ export const WeatherForecastCard = ({
       onClick={onClick}
     >
       <div className="flex flex-col gap-4">
-        <h2 className="text-xl">{dateFormatted(weather.date)}</h2>
+        <h2 className="text-xl">{weather.formatted}</h2>
         <div className="flex gap-4 items-center">
           <div className=" hidden lg:flex gap-4 items-center">
             {availableSymbol && (

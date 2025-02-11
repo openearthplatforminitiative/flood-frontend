@@ -64,12 +64,7 @@ export const WeatherWidgetView = ({
                     setOpen(true);
                   }}
                 >
-                  <WeatherForecast
-                    key={index}
-                    lang={lang}
-                    dayIndex={index}
-                    weather={Weather}
-                  />
+                  <WeatherForecast key={index} weather={Weather} />
                 </TableRow>
               ))}
           </TableBody>
@@ -82,8 +77,6 @@ export const WeatherWidgetView = ({
             {weatherDays.map((weather, index) => (
               <WeatherForecastCard
                 key={index}
-                lang={lang}
-                dayIndex={index}
                 weather={weather}
                 onClick={() => {
                   setSelectedDate(index);

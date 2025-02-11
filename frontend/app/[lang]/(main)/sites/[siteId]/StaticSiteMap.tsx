@@ -1,6 +1,6 @@
 'use client';
 
-import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 type StaticSiteMapProps = {
   lat?: number;
@@ -12,8 +12,6 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
   lat ??= 51.505;
   lng ??= -0.09;
   radius ??= 100;
-
-  console.log(radius);
 
   return (
     <MapContainer

@@ -1,35 +1,19 @@
 'use client';
 
 import { ArrowForward } from '@mui/icons-material';
-import { TableRow, TableCell, Typography } from '@mui/material';
+import { TableCell, Typography } from '@mui/material';
 import Image from 'next/image';
 import { WeatherDay } from './WeatherWidget';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { getDayOfWeek } from '@/app/helpers/timestampToLocalDate';
 
 export type WeatherProps = {
   weather: WeatherDay;
-  lang: string;
-  dayIndex: number;
 };
 
-export const WeatherForecast = ({ weather, dayIndex, lang }: WeatherProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
-
-  const dateFormatted = (date: Date) => {
-    if (dayIndex === 0) {
-      return dict.time.today + ' ' + date.toLocaleDateString();
-    } else {
-      return getDayOfWeek(date, lang) + ' ' + date.toLocaleDateString();
-    }
-  };
-
-  const availableSymbol =
-    weather.noon || weather.day || weather.night || weather.evening;
+export const WeatherForecast = ({ weather }: WeatherProps) => {
   return (
     <>
       <TableCell>
-        <Typography>{dateFormatted(weather.date)}</Typography>
+        <Typography>{weather.formatted}</Typography>
       </TableCell>
       <TableCell>
         {weather.night && (
