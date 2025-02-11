@@ -31,7 +31,6 @@ const StaticSiteMap = ({ lat, lng, radius }: StaticSiteMapProps) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=yKbUfk8FeU9lYSvB92QQ"
       />
-      {/* <Circle center={{ lat: lat, lng: lng }} radius={radius * 30} /> */}
     </MapContainer>
   );
 };

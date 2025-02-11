@@ -40,7 +40,7 @@ const PositionDialog = ({
 }: PositionDialogProps) => {
   const [lat, setLat] = useState(prevLat);
   const [lng, setLng] = useState(prevLng);
-  const [radius, setRadius] = useState(prevRadius);
+  const [radius, setRadius] = useState<number>(prevRadius ?? 0);
 
   const handleSliderChange = (_: any, newValue: number | number[]) => {
     setRadius(newValue as number);
@@ -96,7 +96,7 @@ const PositionDialog = ({
         <Box>
           <Button onClick={handleCancel}>{dict.cancel}</Button>
           {lat && lng ? (
-            <Button onClick={() => handleConfirm(lat, lng, 0)}>
+            <Button onClick={() => handleConfirm(lat, lng, radius)}>
               {dict.confirm}
             </Button>
           ) : (
