@@ -106,11 +106,12 @@ export const getMutadedWeatherForecast = async (
       continue;
     }
 
-    const toDateTime = locationForecastIndexed.get(
-      localDay.set({ hour: 19 }).toISO()!
-    )
-      ? localDay.set({ hour: 23 })
-      : getMetDate(localDay.set({ hour: 18 }));
+    const toDateTime =
+      localDay == currentTimeLocal
+        ? localDay.set({ hour: 23 })
+        : locationForecastIndexed.get(localDay.set({ hour: 19 }).toISO()!)
+          ? localDay.set({ hour: 23 })
+          : getMetDate(localDay.set({ hour: 18 }));
 
     let temperatureMax = -Infinity,
       temperatureMin = Infinity,
