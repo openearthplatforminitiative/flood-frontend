@@ -7,22 +7,22 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { WeatherForecast } from './WeatherForecastRows';
+import { WeatherForecastRows } from './WeatherForecastRows';
 import { useState } from 'react';
 import { WeatherForecastModal } from './WeatherForecastModal';
-import { WeatherDay } from './WeatherWidget';
-import { WeatherForecastCard } from './WeatherForecastCard';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { WeatherDayForecast } from './WeatherForecastActions';
+import { WeatherForecastCard } from './WeatherForecastCard';
 
-type WeatherWidgetProps = {
+type WeatherWidgetViewProps = {
   lang: string;
-  weatherDays: WeatherDay[];
+  weatherDaysForecast: WeatherDayForecast[];
 };
 
 export const WeatherWidgetView = ({
   lang,
-  weatherDays,
-}: WeatherWidgetProps) => {
+  weatherDaysForecast: weatherDays,
+}: WeatherWidgetViewProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<number>(0);
@@ -64,7 +64,7 @@ export const WeatherWidgetView = ({
                     setOpen(true);
                   }}
                 >
-                  <WeatherForecast key={index} weather={Weather} />
+                  <WeatherForecastRows key={index} weatherDay={Weather} />
                 </TableRow>
               ))}
           </TableBody>
@@ -77,7 +77,7 @@ export const WeatherWidgetView = ({
             {weatherDays.map((weather, index) => (
               <WeatherForecastCard
                 key={index}
-                weather={weather}
+                weatherDay={weather}
                 onClick={() => {
                   setSelectedDate(index);
                   setOpen(true);
@@ -92,7 +92,7 @@ export const WeatherWidgetView = ({
         open={open}
         dayIndex={selectedDate}
         handleClose={() => setOpen(!open)}
-        weatherDays={weatherDays}
+        weatherDaysForecast={weatherDays}
         handleNext={(index) => setSelectedDate(index)}
       />
     </>

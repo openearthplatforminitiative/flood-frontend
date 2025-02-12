@@ -2,24 +2,27 @@
 
 import { ArrowForward } from '@mui/icons-material';
 import Image from 'next/image';
-import { WeatherDay } from './WeatherWidget';
 import { Typography } from '@mui/material';
+import { WeatherDayForecast } from './WeatherForecastActions';
 
-export type WeatherProps = {
-  weather: WeatherDay;
+export type WeatherForecastCardProps = {
+  weatherDay: WeatherDayForecast;
   onClick: () => void;
 };
 
-export const WeatherForecastCard = ({ weather, onClick }: WeatherProps) => {
+export const WeatherForecastCard = ({
+  weatherDay,
+  onClick,
+}: WeatherForecastCardProps) => {
   const availableSymbol =
-    weather.noon || weather.day || weather.night || weather.evening;
+    weatherDay.noon || weatherDay.day || weatherDay.night || weatherDay.evening;
   return (
     <div
       className="flex flex-row justify-between items-center bg-neutral-95 rounded-xl p-4 peer"
       onClick={onClick}
     >
       <div className="flex flex-col gap-4">
-        <h2 className="text-xl">{weather.formatted}</h2>
+        <h2 className="text-xl">{weatherDay.formatted}</h2>
         <div className="flex gap-4 items-center">
           <div className=" hidden lg:flex gap-4 items-center">
             {availableSymbol && (
@@ -37,27 +40,29 @@ export const WeatherForecastCard = ({ weather, onClick }: WeatherProps) => {
             <Typography
               variant="body1"
               className={
-                weather.temperatureMax > 0 ? 'text-red-800' : 'text-blue-800'
+                weatherDay.temperatureMax > 0 ? 'text-red-800' : 'text-blue-800'
               }
             >
-              {weather.temperatureMax}°C
+              {weatherDay.temperatureMax}°C
             </Typography>
             /
             <Typography
               variant="body1"
               className={
-                weather.temperatureMin > 0 ? 'text-red-800' : 'text-blue-800'
+                weatherDay.temperatureMin > 0 ? 'text-red-800' : 'text-blue-800'
               }
             >
-              {weather.temperatureMin}°C
+              {weatherDay.temperatureMin}°C
             </Typography>
           </span>
-          {weather.precipitation > 0 && (
+          {weatherDay.precipitation > 0 && (
             <Typography variant="body1" className="text-blue-800">
-              {weather.precipitation}mm
+              {weatherDay.precipitation}mm
             </Typography>
           )}
-          <Typography variant="body1">{Math.round(weather.wind)}m/s</Typography>
+          <Typography variant="body1">
+            {Math.round(weatherDay.wind)}m/s
+          </Typography>
         </div>
       </div>
       <span className="peer-hover:translate-x-2 transform transition-transform">
