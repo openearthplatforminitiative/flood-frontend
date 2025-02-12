@@ -47,7 +47,6 @@ const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
           height: '100%',
         }}
       >
-        <Header dict={dict} margin={'0 0 200px 0'} lang={lang} />
         <LanguageModal dict={dict} />
       </Box>
     );
