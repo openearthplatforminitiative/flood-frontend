@@ -17,15 +17,15 @@ import {
   ArrowForward,
   Close,
 } from '@mui/icons-material';
-import { WeatherDay } from './WeatherWidget';
 import Image from 'next/image';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { WeatherDayForecast } from './WeatherForecastActions';
 
 type WeatherForecastModalProps = {
   lang: string;
   open: boolean;
   dayIndex: number;
-  weatherDays: WeatherDay[];
+  weatherDaysForecast: WeatherDayForecast[];
   handleClose: () => void;
   handleNext: (index: number) => void;
 };
@@ -34,18 +34,18 @@ export const WeatherForecastModal = ({
   lang,
   open,
   dayIndex,
-  weatherDays,
+  weatherDaysForecast,
   handleClose,
   handleNext,
 }: WeatherForecastModalProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
-  const selectedDay = weatherDays[dayIndex];
+  const selectedDay = weatherDaysForecast[dayIndex];
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
-        <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full bg-neutralVariant-98 p-4 md:p-6 md:rounded-xl ">
-          <div className="static top-0 w-full">
+      <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4 pointer-events-none">
+        <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full pointer-events-auto bg-neutralVariant-98 md:rounded-xl ">
+          <div className="sticky flex flex-col gap-4 top-0 w-full bg-neutralVariant-98 p-4 md:p-6 z-20">
             <Typography variant="h4">{selectedDay.formatted}</Typography>
             <div className="absolute top-2 right-2">
               <IconButton onClick={handleClose}>
@@ -63,7 +63,7 @@ export const WeatherForecastModal = ({
               </Button>
               <Button
                 variant="outlined"
-                disabled={dayIndex === weatherDays.length - 1}
+                disabled={dayIndex === weatherDaysForecast.length - 1}
                 onClick={() => handleNext(dayIndex + 1)}
               >
                 {dict.time.nextDay}

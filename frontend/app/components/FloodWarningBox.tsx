@@ -67,85 +67,34 @@ const FloodWarningBox = (props: FloodWarningBoxProps) => {
           </div>
         </div>
         <div
-          className="max-h-0 md:max-h-96 transition-all data-[open=true]:max-h-96 md:h-auto"
+          className="max-h-0 md:max-h-96 h-full transition-all data-[open=true]:max-h-96 md:h-auto"
           data-open={expanded}
         >
           <div
-            className="p-4 md:p-6 flex flex-col gap-4"
+            className="p-4 md:p-6 flex flex-col justify-between h-full gap-4"
             style={{ color: colors.text }}
           >
             <div className="flex gap-4 items-center">
               <AccessTime fontSize="large" />
               <div>
-                <span className="text-sm">{dict.sites.urgency}</span>
-                <p className="text-xl">
+                <Typography variant="body2">{dict.sites.urgency}</Typography>
+                <Typography variant="body1">
                   {dict.sites.urgencyDescription[timing]}
-                </p>
+                </Typography>
               </div>
             </div>
             <div className="flex gap-4 items-center">
               <PlaceOutlined fontSize="large" />
               <div>
-                <span className="className">{dict.sites.affectedSite}</span>
-                <p className="text-xl">{siteName}</p>
+                <Typography variant="body2">
+                  {dict.sites.affectedSite}
+                </Typography>
+                <Typography variant="body1">{siteName}</Typography>
               </div>
             </div>
           </div>
         </div>
       </div>
-      // <Accordion
-      //   disableGutters
-      //   expanded={expanded}
-      //   style={{ borderRadius: '0.75rem' }}
-      //   sx={{
-      //     overflow: 'hidden',
-      //     transition: 'border-radius 0.5s',
-      //   }}
-      //   onChange={handleAccordionChange}
-      // >
-      //   <AccordionSummary
-      //     expandIcon={expandIcon}
-      //     aria-controls={`${siteName}-content`}
-      //     id={`${siteName}-header`}
-      //     className="lg:cursor-default"
-      //     style={!something ? { cursor: 'default' } : {}}
-      //     sx={{
-      //       backgroundColor: colors.background,
-      //       color: colors.text,
-      //     }}
-      //   >
-      //     <Box className="flex gap-2 items-center">
-      //       <h2 className="text-xl lg:text-3xl flex gap-2 items-center">
-      //         <Warning fontSize="inherit" />
-      //         {dict.sites.warningTitle[intensity]}
-      //       </h2>
-      //     </Box>
-      //   </AccordionSummary>
-      //   <AccordionDetails
-      //     sx={{
-      //       background: colors.minorBackground,
-      //       color: colors.text,
-      //     }}
-      //   >
-      //     <Box className="flex gap-2 pb-2 items-center">
-      //       <AccessTime />
-      //       <Box>
-      //         <Typography variant="body2">{dict.sites.urgency}</Typography>
-      //         <Typography variant="body1">
-      //           {dict.sites.urgencyDescription[timing]}
-      //         </Typography>
-      //       </Box>
-      //     </Box>
-      //     <Divider />
-      //     <Box className="flex gap-2 pt-2 items-center">
-      //       <Place />
-      //       <Box>
-      //         <Typography variant="body2">{dict.sites.affectedSite}</Typography>
-      //         <Typography variant="body1">{siteName}</Typography>
-      //       </Box>
-      //     </Box>
-      //   </AccordionDetails>
-      // </Accordion>
     );
   }
 

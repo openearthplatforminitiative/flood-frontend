@@ -3,66 +3,68 @@
 import { ArrowForward } from '@mui/icons-material';
 import { TableCell, Typography } from '@mui/material';
 import Image from 'next/image';
-import { WeatherDay } from './WeatherWidget';
+import { WeatherDayForecast } from './WeatherForecastActions';
 
-export type WeatherProps = {
-  weather: WeatherDay;
+export type WeatherForecastRowsProps = {
+  weatherDay: WeatherDayForecast;
 };
 
-export const WeatherForecast = ({ weather }: WeatherProps) => {
+export const WeatherForecastRows = ({
+  weatherDay,
+}: WeatherForecastRowsProps) => {
   return (
     <>
       <TableCell>
-        <Typography>{weather.formatted}</Typography>
+        <Typography>{weatherDay.formatted}</Typography>
       </TableCell>
       <TableCell>
-        {weather.night && (
+        {weatherDay.night && (
           <Image
             width={50}
             height={50}
-            alt={weather.night}
+            alt={weatherDay.night}
             className="mx-auto"
             src={require(
-              `@/public/assets/images/weather-icons/${weather.night}.svg`
+              `@/public/assets/images/weather-icons/${weatherDay.night}.svg`
             )}
           />
         )}
       </TableCell>
       <TableCell>
-        {weather.day && (
+        {weatherDay.day && (
           <Image
             width={50}
             height={50}
-            alt={weather.day}
+            alt={weatherDay.day}
             className="mx-auto"
             src={require(
-              `@/public/assets/images/weather-icons/${weather.day}.svg`
+              `@/public/assets/images/weather-icons/${weatherDay.day}.svg`
             )}
           />
         )}
       </TableCell>
       <TableCell>
-        {weather.noon && (
+        {weatherDay.noon && (
           <Image
             width={50}
             height={50}
-            alt={weather.noon}
+            alt={weatherDay.noon}
             className="mx-auto"
             src={require(
-              `@/public/assets/images/weather-icons/${weather.noon}.svg`
+              `@/public/assets/images/weather-icons/${weatherDay.noon}.svg`
             )}
           />
         )}
       </TableCell>
       <TableCell>
-        {weather.evening && (
+        {weatherDay.evening && (
           <Image
             width={50}
             height={50}
-            alt={weather.evening}
+            alt={weatherDay.evening}
             className="mx-auto"
             src={require(
-              `@/public/assets/images/weather-icons/${weather.evening}.svg`
+              `@/public/assets/images/weather-icons/${weatherDay.evening}.svg`
             )}
           />
         )}
@@ -71,30 +73,30 @@ export const WeatherForecast = ({ weather }: WeatherProps) => {
         <Typography>
           <span
             className={
-              weather.temperatureMax > 0 ? 'text-red-800' : 'text-blue-800'
+              weatherDay.temperatureMax > 0 ? 'text-red-800' : 'text-blue-800'
             }
           >
-            {weather.temperatureMax}°C
+            {weatherDay.temperatureMax}°C
           </span>{' '}
           /{' '}
           <span
             className={
-              weather.temperatureMin > 0 ? 'text-red-800' : 'text-blue-800'
+              weatherDay.temperatureMin > 0 ? 'text-red-800' : 'text-blue-800'
             }
           >
-            {weather.temperatureMin}°C
+            {weatherDay.temperatureMin}°C
           </span>
         </Typography>
       </TableCell>
       <TableCell align="right">
-        {weather.precipitation > 0 && (
+        {weatherDay.precipitation > 0 && (
           <Typography className="text-blue-800">
-            {weather.precipitation}mm
+            {weatherDay.precipitation}mm
           </Typography>
         )}
       </TableCell>
       <TableCell align="right">
-        <Typography>{weather.wind.toFixed(0)}m/s</Typography>
+        <Typography>{weatherDay.wind.toFixed(0)}m/s</Typography>
       </TableCell>
       <TableCell align="right">
         <ArrowForward />
