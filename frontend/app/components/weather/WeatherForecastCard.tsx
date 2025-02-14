@@ -30,9 +30,7 @@ export const WeatherForecastCard = ({
                 width={50}
                 height={50}
                 alt={availableSymbol}
-                src={require(
-                  `@/public/assets/images/weather-icons/${availableSymbol}.svg`
-                )}
+                src={`/assets/images/weather-icons/${availableSymbol}.svg`}
               />
             )}
           </div>

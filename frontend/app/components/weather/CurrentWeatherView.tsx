@@ -41,9 +41,7 @@ export const CurrentWeatherView = ({
             width={50}
             height={50}
             alt={weatherSymbolCode}
-            src={require(
-              `@/public/assets/images/weather-icons/${weatherSymbolCode}.svg`
-            )}
+            src={`/assets/images/weather-icons/${weatherSymbolCode}.svg`}
           />
         )}
       </div>
@@ -57,9 +55,7 @@ export const CurrentWeatherView = ({
               width={50}
               height={50}
               alt={weatherSymbolCode}
-              src={require(
-                `@/public/assets/images/weather-icons/${weatherSymbolCode}.svg`
-              )}
+              src={`/assets/images/weather-icons/${weatherSymbolCode}.svg`}
             />
           )}
           <span

@@ -24,9 +24,7 @@ export const WeatherForecastRows = ({
             height={50}
             alt={weatherDay.night}
             className="mx-auto"
-            src={require(
-              `@/public/assets/images/weather-icons/${weatherDay.night}.svg`
-            )}
+            src={`/assets/images/weather-icons/${weatherDay.night}.svg`}
           />
         )}
       </TableCell>
@@ -37,9 +35,7 @@ export const WeatherForecastRows = ({
             height={50}
             alt={weatherDay.day}
             className="mx-auto"
-            src={require(
-              `@/public/assets/images/weather-icons/${weatherDay.day}.svg`
-            )}
+            src={`/assets/images/weather-icons/${weatherDay.day}.svg`}
           />
         )}
       </TableCell>
@@ -50,9 +46,7 @@ export const WeatherForecastRows = ({
             height={50}
             alt={weatherDay.noon}
             className="mx-auto"
-            src={require(
-              `@/public/assets/images/weather-icons/${weatherDay.noon}.svg`
-            )}
+            src={`/assets/images/weather-icons/${weatherDay.noon}.svg`}
           />
         )}
       </TableCell>
@@ -63,9 +57,7 @@ export const WeatherForecastRows = ({
             height={50}
             alt={weatherDay.evening}
             className="mx-auto"
-            src={require(
-              `@/public/assets/images/weather-icons/${weatherDay.evening}.svg`
-            )}
+            src={`/assets/images/weather-icons/${weatherDay.evening}.svg`}
           />
         )}
       </TableCell>

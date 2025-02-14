@@ -97,9 +97,7 @@ export const WeatherForecastModal = ({
                         width={30}
                         height={30}
                         alt={weather.symbol}
-                        src={require(
-                          `@/public/assets/images/weather-icons/${weather.symbol}.svg`
-                        )}
+                        src={`/assets/images/weather-icons/${weather.symbol}.svg`}
                       />
                     )}
                   </TableCell>
