@@ -2,7 +2,7 @@
 
 import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { useEffect } from 'react';
-import { DragEndEvent, Icon, LatLng, LocationEvent } from 'leaflet';
+import L, { DragEndEvent, icon, LatLng, LocationEvent } from 'leaflet';
 import LocateControl from '@/app/components/onboarding/LocateControl';
 
 type SiteMapProps = {
@@ -18,6 +18,14 @@ const SiteMap = ({ lat, lng, radius, setLat, setLng }: SiteMapProps) => {
   lat ??= 51.505;
   lng ??= -0.09;
   radius ??= 0;
+
+  const MarkerIcon = icon({
+    iconUrl: '/assets/images/map-marker.svg',
+    iconRetinaUrl: '/assets/images/map-marker.svg',
+    className: 'text-error-90',
+    iconSize: [48, 48],
+    iconAnchor: [24, 38],
+  });
 
   const LocationMarker = () => {
     const map = useMap();
@@ -43,6 +51,7 @@ const SiteMap = ({ lat, lng, radius, setLat, setLng }: SiteMapProps) => {
     return (
       <Marker
         draggable
+        icon={MarkerIcon}
         position={{ lat, lng }}
         eventHandlers={{ dragend: handleDragEnd }}
       >
@@ -56,7 +65,7 @@ const SiteMap = ({ lat, lng, radius, setLat, setLng }: SiteMapProps) => {
       center={{ lat, lng }}
       zoom={5}
       scrollWheelZoom={true}
-      style={{ width: '512px', height: '512px', flexShrink: '0' }}
+      style={{ width: '100%', height: '100%', flexShrink: '0' }}
       attributionControl={false}
     >
       <TileLayer

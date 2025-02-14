@@ -14,10 +14,10 @@ import {
 } from '@mui/material';
 import { Add, PlaceOutlined } from '@mui/icons-material';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import PositionDialog from '@/app/components/onboarding/PositionDialog';
 import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
+import PositionModal from '../map/PositionModal';
 
 interface SiteFormProps {
   dict: Dict;
@@ -46,7 +46,7 @@ const SiteForm = ({
   const [typesError, setTypesError] = useState<string | undefined>();
   const [positionError, setPositionError] = useState<string | undefined>();
 
-  const [openPositionDialog, setOpenPositionDialog] = useState(false);
+  const [openPositionModal, setOpenPositionModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const SiteForm = ({
   }, [lat, lng, name, types]);
 
   const handleSetPosition = () => {
-    setOpenPositionDialog(true);
+    setOpenPositionModal(true);
   };
 
   const handleAddSite = () => {
@@ -134,14 +134,14 @@ const SiteForm = ({
   };
 
   const handleConfirmLocation = (lat: number, lng: number, radius: number) => {
-    setOpenPositionDialog(false);
+    setOpenPositionModal(false);
     setLat(lat);
     setLng(lng);
     setRadius(radius);
   };
 
   const handleCancelSetLocation = () => {
-    setOpenPositionDialog(false);
+    setOpenPositionModal(false);
   };
 
   const handleDeleteSite = () => {
@@ -152,9 +152,9 @@ const SiteForm = ({
 
   return (
     <>
-      <PositionDialog
+      <PositionModal
         dict={dict}
-        isOpen={openPositionDialog}
+        isOpen={openPositionModal}
         radius={radius}
         lat={lat}
         lng={lng}

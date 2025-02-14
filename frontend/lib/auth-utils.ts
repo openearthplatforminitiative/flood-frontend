@@ -2,6 +2,7 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 import { getServerSession, type NextAuthOptions } from 'next-auth';
 import type { DefaultSession } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
+import { signOut } from 'next-auth/react';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
