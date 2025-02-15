@@ -24,6 +24,7 @@ interface SiteFormProps {
   redirectPath: string;
   deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
   site?: Site;
+  onSiteAdded?: (newSite:Site) => void
 }
 
 const SiteForm = ({
@@ -31,6 +32,7 @@ const SiteForm = ({
   redirectPath,
   deleteRedirectPath,
   site,
+  onSiteAdded
 }: SiteFormProps) => {
   const siteId = site?.id;
 
@@ -102,9 +104,9 @@ const SiteForm = ({
     setOpenPositionModal(true);
   };
 
-  const handleAddSite = () => {
+  const handleAddSite = async() => {
     if (validate()) {
-      createSite(
+      const newSite = await createSite(
         name,
         types,
         lat as number,

@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { FloodWarnings } from './FloodWarnings';
 import { SiteList, SiteListSkeleton } from './SiteList';
 import { ContentContainer } from '@/app/components/ContentContainer';
+import { OnboardingView } from '@/app/components/onboarding/OnboardingView';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
@@ -49,6 +50,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           </Box>
         </Box>
       </ContentContainer>
+      <OnboardingView lang={lang} /> 
     </>
   );
 };
