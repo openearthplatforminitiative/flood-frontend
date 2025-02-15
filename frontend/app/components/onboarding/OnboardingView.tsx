@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { Button } from "@mui/material";
 import { Add } from '@mui/icons-material';
-import { OnboardingModal } from "./NotificationModal";
+import { OnboardingModal } from "./OnboardingModal";
 
 type OnboardingViewProps = {
     lang: string;
