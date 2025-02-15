@@ -52,6 +52,7 @@ const SitesOnboardingPage = async ({
               <SiteListItem
                 key={site.id}
                 dict={dict}
+                isExample={false}
                 href={`/${lang}/onboarding/sites/${site.id}`}
                 site={site}
               />

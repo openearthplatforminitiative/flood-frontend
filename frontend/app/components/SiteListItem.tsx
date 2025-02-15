@@ -16,6 +16,7 @@ interface SiteListItemProps {
   dict: Dict;
   href: string;
   site: Site;
+  isExample: boolean;
   icon?: ReactNode;
 }
 
@@ -23,11 +24,13 @@ const SiteListItem = ({
   dict,
   href,
   site,
+  isExample,
   icon = <Place />,
 }: SiteListItemProps) => {
   const siteTypeNames = typesRenderer(site.types, dict);
   return (
-    <Link href={href} key={site.id}>
+    isExample ?
+    <Link className="opacity-50" href={href} key={site.id}>
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>{icon}</ListItemIcon>
@@ -39,6 +42,19 @@ const SiteListItem = ({
       </ListItem>
       <Divider />
     </Link>
+    : 
+    <Link href={href} key={site.id}>
+    <ListItem disablePadding>
+      <ListItemButton>
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={site.name} secondary={siteTypeNames} />
+        <ListItemIcon>
+          <ArrowForward />
+        </ListItemIcon>
+      </ListItemButton>
+    </ListItem>
+    <Divider />
+  </Link>
   );
 };
 

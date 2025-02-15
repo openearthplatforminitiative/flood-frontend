@@ -67,6 +67,7 @@ export const SiteList = async ({ dict }: SiteListProps) => {
             dict={dict}
             href={`sites/${site.id}`}
             site={site}
+            isExample={false}
             icon={icon}
           />
         );
