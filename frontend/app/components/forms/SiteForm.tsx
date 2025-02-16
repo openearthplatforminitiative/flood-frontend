@@ -24,7 +24,7 @@ interface SiteFormProps {
   redirectPath: string;
   deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
   site?: Site;
-  onSiteAdded?: (newSite:Site) => void
+  onSiteAdded: (newSite: Site) => void
 }
 
 const SiteForm = ({
@@ -106,7 +106,7 @@ const SiteForm = ({
 
   const handleAddSite = async() => {
     if (validate()) {
-      const newSite = await createSite(
+      createSite(
         name,
         types,
         lat as number,
@@ -114,6 +114,16 @@ const SiteForm = ({
         radius,
         redirectPath
       );
+      const newSite = {
+        id: '',
+        name,
+        types,
+        lat: lat as number,
+        lng: lng as number,
+        radius,
+        userId: 'currentUserID'
+      };
+      onSiteAdded(newSite);
     } else {
       console.log('Could not add site - invalid data');
     }

@@ -4,19 +4,14 @@ import {
   Modal, 
   Typography,
   Box,
-  Button,
-  List,
+  Button
 } from '@mui/material';
 import { Add, Place } from '@mui/icons-material';
-import { Suspense, useEffect, useState } from 'react';
+import {  useState } from 'react';
 
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { getUserId } from '@/lib/auth-utils';
-import { getUser } from '@/lib/prisma';
-
 
 import NotificationsForm from '../forms/NotificationsForm';
-import { SiteList, SiteListSkeleton } from '@/app/[lang]/(main)/sites/SiteList';
 import SiteListItem from '../SiteListItem';
 import SiteForm from '../forms/SiteForm';
 import { Site } from '@prisma/client';
@@ -30,7 +25,7 @@ type OnboardingProps = {
 export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
     
     const [step, setStep] = useState(1);
-    const [sites, setSites] = useState([{
+    const exampleSite = {
         name: 'Example Farm',
         id: 'exampleID',
         radius: 100,
@@ -38,13 +33,15 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
         lat: 51,
         lng: 12,
         userId: 'userId'
-    }]);
+    };
 
     const dict: Dict = getDictonaryWithDefault(lang);
 
     const handleNext = () => setStep(step + 1);
     const goToAddNewSite = () => setStep(3);
 
+    const [sites, setSites] = useState<Site[]>([]);
+    
     const handleSiteAdded = (newSite: Site) => {
         setSites([...sites, newSite]); // Add the new site to the list
         setStep(2); // Go back to the site overview modal
@@ -59,7 +56,6 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
             <NotificationsForm
                 initialAllowWebPush={false}
                 initialAllowSms={false}
-                //redirectPath={`/${lang}/onboarding/sites`}
                 dict={dict}
                 onSuccess={handleNext}
                 />
@@ -69,28 +65,42 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
     const newSiteOverviewModal = (
             <Box  className="w-full flex content-between flex flex-col p-4">
                 <Box>
-                    {sites.map(
-                        (site) => (
+                    {sites.length === 0 ? 
                         <SiteListItem 
-                            key={site.id}
-                            dict={dict}
-                            href={site.id === 'exampleID' ? '': `/${lang}/onboarding/sites/${site.id}`}
-                            isExample={site.id === 'exampleID'}
-                            site={site}
-                            icon={<Place />}
-                        />  
-                        )
-                    )}
-                    
+                        key={exampleSite.id}
+                        dict={dict}
+                        href={''}
+                        isExample={exampleSite.id === 'exampleID'}
+                        site={exampleSite}
+                        icon={<Place />}
+                    />  
+                    : 
+                    sites.map((site) => 
+                     <SiteListItem 
+                        key={site.id}
+                        dict={dict}
+                        href={''}
+                        isExample={site.id === 'exampleID'}
+                        site={site}
+                        icon={<Place />}
+                    /> )
+                    }
                 </Box>
-                <Box className="flex justify-center py-5">
+                <Box className="flex flex-col items-end py-5 mt-5">
                    <Button
                     variant={'outlined'}
-                    sx={{ width: 'fit-content', px: 5, backgroundColor: '#D1E8D5' }}
+                    sx={{ width: 'fit-content', px: 5, mb: 2,  backgroundColor: '#D1E8D5' }}
                     startIcon={<Add />}
                     onClick={goToAddNewSite}
                 >
                     {dict.onBoarding.sites.addNewSite}
+                </Button> 
+                <Button
+                    variant={'contained'}
+                    sx={{ width: 'fit-content', px: 5 }}
+                    onClick={handleClose}
+                >
+                    {dict.confirm}
                 </Button> 
                 </Box>
                 
@@ -106,7 +116,7 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
         return(
             <Modal open={open} onClose={handleClose}>
                 <div>
-                    <Box className="w-full h-screen flex justify-center items-center md:py-12 md:px-4 pointer-events-none">
+                    <Box className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
                         <Box className="relative overflow-y-scroll w-full md:max-w-[800px] max-h-full pointer-events-auto bg-neutralVariant-98 rounded-xl ">
                             <Box className="sticky flex flex-col gap-4 top-0 w-full h-60 bg-neutralVariant-98 p-4 md:p-6 z-20">
                                 <Typography variant="h4">{HeaderText}</Typography>
