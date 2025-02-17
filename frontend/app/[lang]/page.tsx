@@ -7,9 +7,11 @@ import { redirect } from 'next/navigation';
 import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
 import LanguageModal from '../components/LanguageModal';
+import { OnboardingModal } from '../components/onboarding/OnboardingModal';
 
 const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict: Dict = getDictonaryWithDefault(lang);
+  let showOnboardingModal = false;
 
   if (hasCookie('language', { cookies })) {
     const userId = await getUserId();
@@ -23,7 +25,8 @@ const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
           user.allowPushNotifications === null ||
           user.allowSMSNotifications === null
         ) {
-          redirect(`/${lang}/onboarding/notifications`);
+          redirect(`/${lang}/sites`);
+          showOnboardingModal = true;
         } else {
           redirect(`/${lang}/onboarding/sites`);
         }
