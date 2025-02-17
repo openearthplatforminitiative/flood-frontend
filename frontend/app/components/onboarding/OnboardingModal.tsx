@@ -6,7 +6,7 @@ import {
   Box,
   Button
 } from '@mui/material';
-import { Add, Place } from '@mui/icons-material';
+import { Add, ArrowBack, Place } from '@mui/icons-material';
 import {  useState } from 'react';
 
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
@@ -38,6 +38,7 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
     const dict: Dict = getDictonaryWithDefault(lang);
 
     const handleNext = () => setStep(step + 1);
+    const handleBack = () => {if (step > 1) setStep(step - 1)};
     const goToAddNewSite = () => setStep(3);
 
     const [sites, setSites] = useState<Site[]>([]);
@@ -113,20 +114,28 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
         </Box>
     )
 
-        return(
-            <Modal open={open} onClose={handleClose}>
-                <div>
-                    <Box className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
-                        <Box className="relative overflow-y-scroll w-full md:max-w-[800px] max-h-full pointer-events-auto bg-neutralVariant-98 rounded-xl ">
-                            <Box className="sticky flex flex-col gap-4 top-0 w-full h-60 bg-neutralVariant-98 p-4 md:p-6 z-20">
-                                <Typography variant="h4">{HeaderText}</Typography>
-                            </Box>
-                            {step === 1 && notificationModal}
-                            {step === 2 && newSiteOverviewModal}
-                            {step === 3 && addNewSiteModal}
+    return(
+        <Modal open={open} onClose={handleClose}>
+                <Box className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
+                    <Box className="relative overflow-y-scroll w-full md:max-w-[800px] max-h-full pointer-events-auto bg-neutralVariant-98 rounded-xl ">
+                        <Box className="sticky flex flex-row justify-between gap-4 top-0 w-full bg-neutralVariant-98 p-4 md:p-6 z-20">
+                            <Typography variant="h4">{HeaderText}</Typography>
+                            {step > 1 && 
+                                <Box>
+                                    <Button 
+                                    startIcon={<ArrowBack />}
+                                    sx={{ width: 'fit-content', px: 5 }}
+                                    onClick={handleBack}>
+                                </Button>
+                                </Box>
+                            }
+                            
                         </Box>
+                        {step === 1 && notificationModal}
+                        {step === 2 && newSiteOverviewModal}
+                        {step === 3 && addNewSiteModal}
                     </Box>
-                </div>
-            </Modal>
-        )
+                </Box>
+        </Modal>
+    )
 }
