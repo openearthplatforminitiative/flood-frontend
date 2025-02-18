@@ -7,10 +7,25 @@ import { Suspense } from 'react';
 import { FloodWarnings } from './FloodWarnings';
 import { SiteList, SiteListSkeleton } from './SiteList';
 import { ContentContainer } from '@/app/components/ContentContainer';
-import { OnboardingView } from '@/app/components/onboarding/OnboardingView';
+import { getUserId } from "@/lib/auth-utils";
+import { getOrCreateUser } from "@/lib/prisma";
+import { OnboardingModal } from '@/app/components/onboarding/OnboardingModal';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
+
+  const userId = await getUserId();
+  let showOnboardingModal = false;
+  console.log('userId: ', userId)
+  console.log('showOnboardingModal: ', showOnboardingModal)
+
+  if (userId) {
+    console.log('userId: ', userId)
+    const user = await getOrCreateUser(userId);
+    console.log('user: ', user)
+    showOnboardingModal = !user.completedOnboarding; // Show modal if onboarding isn't complete
+    console.log('user.completeonboarding: ', user.completedOnboarding)
+  }
 
   return (
     <>
@@ -50,7 +65,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           </Box>
         </Box>
       </ContentContainer>
-      <OnboardingView lang={lang} /> 
+      <OnboardingModal lang={lang} open={showOnboardingModal}  />
     </>
   );
 };
