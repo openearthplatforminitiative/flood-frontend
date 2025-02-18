@@ -19,10 +19,9 @@ import { Site } from '@prisma/client';
 type OnboardingProps = {
     lang: string;
     open: boolean;
-    handleClose: () => void;
 };
 
-export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
+export const OnboardingModal = ({lang, open}: OnboardingProps) => {
     
     const [step, setStep] = useState(1);
     const exampleSite = {
@@ -36,6 +35,11 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
     };
 
     const dict: Dict = getDictonaryWithDefault(lang);
+    const [modalOpen, setModalOpen] = useState(open); 
+
+    const handleClose = () => {
+        setModalOpen(false); 
+    };
 
     const handleNext = () => setStep(step + 1);
     const handleBack = () => {if (step > 1) setStep(step - 1)};
@@ -99,7 +103,7 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
                 <Button
                     variant={'contained'}
                     sx={{ width: 'fit-content', px: 5 }}
-                    onClick={handleClose}
+                    onClick={() => setModalOpen(false)}
                 >
                     {dict.confirm}
                 </Button> 
@@ -115,7 +119,7 @@ export const OnboardingModal = ({lang, open, handleClose}: OnboardingProps) => {
     )
 
     return(
-        <Modal open={open} onClose={handleClose}>
+        <Modal open={modalOpen} onClose={handleClose}>
                 <Box className="w-full h-full flex justify-center items-start md:py-12 md:px-4">
                     <Box className="relative overflow-y-scroll w-full md:max-w-[800px] max-h-full pointer-events-auto bg-neutralVariant-98 rounded-xl ">
                         <Box className="sticky flex flex-row justify-between gap-4 top-0 w-full bg-neutralVariant-98 p-4 md:p-6 z-20">
