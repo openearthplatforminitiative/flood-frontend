@@ -16,15 +16,10 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
 
   const userId = await getUserId();
   let showOnboardingModal = false;
-  console.log('userId: ', userId)
-  console.log('showOnboardingModal: ', showOnboardingModal)
 
   if (userId) {
-    console.log('userId: ', userId)
     const user = await getOrCreateUser(userId);
-    console.log('user: ', user)
     showOnboardingModal = !user.completedOnboarding;
-    console.log('user.completeonboarding: ', user.completedOnboarding)
   }
 
   return (
