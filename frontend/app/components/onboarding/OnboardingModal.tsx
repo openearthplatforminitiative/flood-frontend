@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { Add, ArrowBack, Place } from '@mui/icons-material';
 import {  useState } from 'react';
+import { completeOnboarding } from '@/app/actions';
 
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 
@@ -103,7 +104,11 @@ export const OnboardingModal = ({lang, open}: OnboardingProps) => {
                 <Button
                     variant={'contained'}
                     sx={{ width: 'fit-content', px: 5 }}
-                    onClick={() => setModalOpen(false)}
+                    onClick={() => 
+                        {
+                            setModalOpen(false)
+                            completeOnboarding()   
+                        }}
                 >
                     {dict.confirm}
                 </Button> 
