@@ -8,7 +8,6 @@ import { useState } from 'react';
 interface NotificationFormProps {
   initialAllowWebPush: boolean;
   initialAllowSms: boolean;
-  //redirectPath: string;
   dict: Dict;
   onSuccess: () => void;
 }
@@ -16,7 +15,6 @@ interface NotificationFormProps {
 const NotificationForm = ({
   initialAllowWebPush,
   initialAllowSms,
-  //redirectPath,
   dict,
   onSuccess
 }: NotificationFormProps) => {
@@ -29,7 +27,7 @@ const NotificationForm = ({
     setLoading(true);
     try {
         await submitPushPermissions(allowWebPush, allowSms);
-        if (onSuccess) onSuccess(); // <-- Call client function AFTER server function
+        if (onSuccess) onSuccess();
     } catch (error) {
         console.error('Error updating push permissions:', error);
     } finally {
