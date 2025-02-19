@@ -49,8 +49,8 @@ export const OnboardingModal = ({lang, open}: OnboardingProps) => {
     const [sites, setSites] = useState<Site[]>([]);
     
     const handleSiteAdded = (newSite: Site) => {
-        setSites([...sites, newSite]); // Add the new site to the list
-        setStep(2); // Go back to the site overview modal
+        setSites([...sites, newSite]); 
+        setStep(2); 
     };
 
     const HeaderText = (step === 1) ? 

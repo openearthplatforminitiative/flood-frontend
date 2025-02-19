@@ -23,7 +23,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
     console.log('userId: ', userId)
     const user = await getOrCreateUser(userId);
     console.log('user: ', user)
-    showOnboardingModal = !user.completedOnboarding; // Show modal if onboarding isn't complete
+    showOnboardingModal = !user.completedOnboarding;
     console.log('user.completeonboarding: ', user.completedOnboarding)
   }
 
