@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 export async function submitPushPermissions(
   allowPushNotifications: boolean,
   allowSMSNotifications: boolean,
-  //redirectPath?: string
 ) {
   const userId = await getUserId();
   if (!userId) {
@@ -17,7 +16,6 @@ export async function submitPushPermissions(
     where: { id: userId },
     data: { allowPushNotifications, allowSMSNotifications },
   });
-  //if (redirectPath) redirect(redirectPath);
 }
 
 export async function createSite(
