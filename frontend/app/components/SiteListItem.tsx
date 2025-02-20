@@ -1,4 +1,4 @@
-import { Place, ArrowRight, ArrowForward } from '@mui/icons-material';
+import { Place, ArrowForward } from '@mui/icons-material';
 import {
   Divider,
   ListItem,

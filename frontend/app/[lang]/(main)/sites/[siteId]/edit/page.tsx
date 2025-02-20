@@ -1,10 +1,10 @@
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';
 import Header from '@/app/components/Header';
 import { ContentContainer } from '@/app/components/ContentContainer';
+import { Suspense } from 'react';
 
 interface EditSitePageProps {
   params: {
@@ -13,9 +13,26 @@ interface EditSitePageProps {
   };
 }
 
-const EditSitePage = async ({
-  params: { lang, siteId },
-}: EditSitePageProps) => {
+const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
+  return (
+    <>
+      <Header title="Edit" />
+      <ContentContainer>
+        <Suspense fallback={<div>Loading...</div>}>
+          <EditSiteFormLoader siteId={siteId} lang={lang} />
+        </Suspense>
+      </ContentContainer>
+    </>
+  );
+};
+
+const EditSiteFormLoader = async ({
+  siteId,
+  lang,
+}: {
+  siteId: string;
+  lang: string;
+}) => {
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User not found');
@@ -26,17 +43,12 @@ const EditSitePage = async ({
   }
   const dict: Dict = getDictonaryWithDefault(lang);
   return (
-    <>
-      <Header title={'Title'} />
-      <ContentContainer>
-        <SiteForm
-          dict={dict}
-          site={site}
-          redirectPath={`/${lang}/sites/${site.id}`}
-          deleteRedirectPath={`/${lang}/sites`}
-        />
-      </ContentContainer>
-    </>
+    <SiteForm
+      dict={dict}
+      site={site}
+      redirectPath={`/${lang}/sites/${site.id}`}
+      deleteRedirectPath={`/${lang}/sites`}
+    />
   );
 };
 

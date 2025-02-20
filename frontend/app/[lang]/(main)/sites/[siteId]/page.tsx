@@ -5,21 +5,20 @@ import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import { ComponentProps, Suspense } from 'react';
 import { WeatherWidget } from '../../../../components/weather/WeatherWidget';
-import { MapLoader } from './MapLoader';
 import { FloodWarning } from './FloodWarning';
 import { CurrentWeatherWidget } from '../../../../components/weather/CurrentWeatherWidget';
 import { SiteInfoWidget } from './SiteInfoWidget';
 import { weatherClient } from '@/lib/openepi-clients';
-import SiteHeader from '@/app/components/SiteHeader';
+import Header from '@/app/components/Header';
 
-interface EditSitePageProps {
+interface SitePageProps {
   params: {
     lang: string;
     siteId: string;
   };
 }
 
-type HeaderPropsWithoutTitle = Omit<ComponentProps<typeof SiteHeader>, 'title'>;
+type HeaderPropsWithoutTitle = Omit<ComponentProps<typeof Header>, 'title'>;
 
 // Usage example
 const HeaderLoader = async ({
@@ -35,10 +34,10 @@ const HeaderLoader = async ({
     throw new Error('Site not found');
   }
 
-  return <SiteHeader {...props} title={site.name} />;
+  return <Header {...props} title={site.name} />;
 };
 
-const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
+const Page = ({ params: { lang, siteId } }: SitePageProps) => {
   const dict: Dict = getDictonaryWithDefault(lang);
 
   const getSite = async (
@@ -72,16 +71,11 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 w-full h-full">
-        <div className="sticky top-0 w-full h-96 -z-50">
-          <MapLoader siteId={siteId} />
-        </div>
-      </div>
-      <Suspense fallback={<SiteHeader title="" />}>
+      <Suspense fallback={<Header title="" />}>
         <HeaderLoader
           siteId={siteId}
           actions={
-            <Link href={`/${lang}/sites/${siteId}/edit`}>
+            <Link href={`/en/sites/${siteId}/edit`}>
               <Tooltip title={dict.sites.editSite}>
                 <IconButton>
                   <Settings />
@@ -91,7 +85,7 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
           }
         />
       </Suspense>
-      <div className="relative px-4 pb-4 lg:px-10 lg:pb-10 mt-96 bg-neutralVariant-99">
+      <div className="relative px-4 pb-4 lg:px-6 lg:pb-6 mt-6 bg-neutralVariant-99">
         {/* <div className="absolute bottom-0 left-0 w-full top-16"></div> */}
         <div className="relative flex flex-col lg:flex-row justify-start gap-4 lg:gap-10 items-stretch flex-wrap -top-16 -mb-11 lg:-mb-6">
           <Suspense
@@ -149,4 +143,4 @@ const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
   );
 };
 
-export default EditSitePage;
+export default Page;
