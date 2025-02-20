@@ -1,27 +1,18 @@
 'use client';
 
-import { debounce } from 'lodash';
-
 import {
-  Autocomplete,
   Box,
   Button,
   DialogActions,
   Modal,
   Skeleton,
   Slider,
-  TextField,
   Typography,
 } from '@mui/material';
 import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { geoCodingAction } from './GeoCodingActions';
-
-// const SiteMap = dynamic(() => import('@/app/components/onboarding/SiteMap'), {
-//   ssr: false,
-//   loading: () => <p>Loading...</p>,
-// });
+import { useMemo, useState } from 'react';
+import { GeoAutoComplete } from '../GeoAutoComplete';
 
 interface PositionModalProps {
   dict: Dict;
@@ -33,11 +24,6 @@ interface PositionModalProps {
   handleConfirm: (lat: number, lng: number, radius: number) => void;
 }
 
-type LocationOption = {
-  label: string;
-  coordinate: [number, number];
-};
-
 const PositionModal = ({
   dict,
   isOpen,
@@ -47,13 +33,10 @@ const PositionModal = ({
   handleCancel,
   handleConfirm,
 }: PositionModalProps) => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [lat, setLat] = useState(prevLat);
   const [lng, setLng] = useState(prevLng);
-  const [options, setOptions] = useState<LocationOption[]>([]);
+
   const [radius, setRadius] = useState<number>(prevRadius ?? 0);
-  const [loading, setLoading] = useState(false);
-  const abortControllerRef = useRef<AbortController | null>(null);
 
   const SiteMap = useMemo(
     () =>
@@ -74,54 +57,6 @@ const PositionModal = ({
     setRadius(newValue as number);
   };
 
-  const fetchOptions = useCallback(
-    debounce(async (searchTerm, abortController) => {
-      if (!searchTerm) {
-        setOptions([]);
-        return;
-      }
-      setLoading(true);
-      await geoCodingAction(searchTerm, 'en').then((result) => {
-        if (!abortController.signal.aborted) {
-          if (result.features && result.features.length > 0) {
-            setOptions(
-              result.features.map((feature) => {
-                let label = feature.properties.name || '';
-                if (feature.properties.city) {
-                  label += `, ${feature.properties.city}`;
-                }
-                if (feature.properties.country) {
-                  label += `, ${feature.properties.country}`;
-                }
-                const coordinate = feature.geometry.coordinates as [
-                  number,
-                  number,
-                ];
-                return { label, coordinate };
-              })
-            );
-            console.log(result);
-          }
-          setLoading(false);
-        }
-      });
-    }, 300),
-    []
-  );
-
-  useEffect(() => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-
-    const newAbortController = new AbortController();
-    abortControllerRef.current = newAbortController;
-
-    fetchOptions(searchQuery, newAbortController);
-
-    return () => newAbortController.abort(); // Cleanup on unmount
-  }, [searchQuery, fetchOptions]);
-
   return (
     <Modal open={isOpen} onClose={handleCancel}>
       <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4 pointer-events-none">
@@ -129,22 +64,11 @@ const PositionModal = ({
           <Typography variant="h2">
             {dict.onBoarding.sites.setLocation}
           </Typography>
-          <Autocomplete
-            disablePortal
-            options={options}
-            loading={loading}
-            onChange={(e, value) => {
-              if (!value) return;
-              setLng(value?.coordinate[0]);
-              setLat(value?.coordinate[1]);
+          <GeoAutoComplete
+            setLngLat={(LngLat) => {
+              setLat(LngLat.lat);
+              setLng(LngLat.lng);
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search Location"
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            )}
           />
           <Box
             id={'map'}

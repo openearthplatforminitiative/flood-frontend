@@ -10,7 +10,7 @@ import {
   FormControl,
   FormHelperText,
   TextField,
-  Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { Add, PlaceOutlined } from '@mui/icons-material';
 import type { Dict } from '@/app/[lang]/dictionaries';
@@ -18,13 +18,14 @@ import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
 import PositionModal from '../map/PositionModal';
+import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
 
 interface SiteFormProps {
   dict: Dict;
   redirectPath: string;
   deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
   site?: Site;
-  onSiteAdded: (newSite: Site) => void
+  onSiteAdded: (newSite: Site) => void;
 }
 
 const SiteForm = ({
@@ -32,9 +33,13 @@ const SiteForm = ({
   redirectPath,
   deleteRedirectPath,
   site,
-  onSiteAdded
+  onSiteAdded,
 }: SiteFormProps) => {
   const siteId = site?.id;
+
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+
+  const { newSiteLngLat, newSiteRadius, refetchSites } = useSitesMap();
 
   const [name, setName] = useState<string>(site ? site.name : '');
   const [types, setTypes] = useState<string[]>(site ? site.types : []);
@@ -50,6 +55,14 @@ const SiteForm = ({
 
   const [openPositionModal, setOpenPositionModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+  useEffect(() => {
+    handleConfirmLocation(
+      newSiteRadius ?? 0,
+      newSiteLngLat?.lat,
+      newSiteLngLat?.lng
+    );
+  }, [newSiteLngLat, newSiteRadius]);
 
   useEffect(() => {
     if (lat !== undefined && lng !== undefined) {
@@ -104,7 +117,7 @@ const SiteForm = ({
     setOpenPositionModal(true);
   };
 
-  const handleAddSite = async() => {
+  const handleAddSite = async () => {
     if (validate()) {
       createSite(
         name,
@@ -121,7 +134,7 @@ const SiteForm = ({
         lat: lat as number,
         lng: lng as number,
         radius,
-        userId: 'currentUserID'
+        userId: 'currentUserID',
       };
       onSiteAdded(newSite);
     } else {
@@ -140,12 +153,17 @@ const SiteForm = ({
         radius,
         redirectPath
       );
+      refetchSites();
     } else {
       console.log('Could not update site - invalid data');
     }
   };
 
-  const handleConfirmLocation = (lat: number, lng: number, radius: number) => {
+  const handleConfirmLocation = (
+    radius: number,
+    lat?: number,
+    lng?: number
+  ) => {
     setOpenPositionModal(false);
     setLat(lat);
     setLng(lng);
@@ -164,15 +182,19 @@ const SiteForm = ({
 
   return (
     <>
-      <PositionModal
-        dict={dict}
-        isOpen={openPositionModal}
-        radius={radius}
-        lat={lat}
-        lng={lng}
-        handleCancel={handleCancelSetLocation}
-        handleConfirm={handleConfirmLocation}
-      />
+      {isMobile && (
+        <PositionModal
+          dict={dict}
+          isOpen={openPositionModal}
+          radius={radius}
+          lat={lat}
+          lng={lng}
+          handleCancel={handleCancelSetLocation}
+          handleConfirm={(lat, lng, radius) =>
+            handleConfirmLocation(radius, lat, lng)
+          }
+        />
+      )}
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <TextField
           label={dict.onBoarding.sites.name}
@@ -211,14 +233,16 @@ const SiteForm = ({
               ? `${dict.sites.locationSetNear}: ${city}, ${country}`
               : ''}
           </FormHelperText>
-          <Button
-            color={positionError ? 'error' : 'primary'}
-            variant={'outlined'}
-            startIcon={<PlaceOutlined />}
-            onClick={handleSetPosition}
-          >
-            {dict.onBoarding.sites.setLocation}
-          </Button>
+          {isMobile && (
+            <Button
+              color={positionError ? 'error' : 'primary'}
+              variant={'outlined'}
+              startIcon={<PlaceOutlined />}
+              onClick={handleSetPosition}
+            >
+              {dict.onBoarding.sites.setLocation}
+            </Button>
+          )}
           <FormHelperText error>{positionError}</FormHelperText>
         </FormControl>
       </Box>

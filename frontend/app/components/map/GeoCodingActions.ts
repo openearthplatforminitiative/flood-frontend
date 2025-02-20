@@ -12,7 +12,6 @@ export const geoCodingAction = async (searchQuery: string, lang: string) => {
         console.error(error);
         throw new Error('Failed to get geocoding data');
       } else {
-        console.log(data);
         return data;
       }
     })

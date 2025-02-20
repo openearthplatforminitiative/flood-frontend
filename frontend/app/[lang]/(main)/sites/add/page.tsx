@@ -1,5 +1,4 @@
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack } from '@mui/icons-material';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { ContentContainer } from '@/app/components/ContentContainer';
 import { Typography } from '@mui/material';
