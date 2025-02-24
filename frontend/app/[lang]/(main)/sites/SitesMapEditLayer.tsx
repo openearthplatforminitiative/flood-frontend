@@ -1,6 +1,7 @@
 import { GeoAutoComplete } from '@/app/components/GeoAutoComplete';
 import { AddLocationAltOutlined } from '@mui/icons-material';
 import { Layer, Marker, Source } from 'react-map-gl/maplibre';
+import { LngLat } from 'maplibre-gl';
 import { useMemo } from 'react';
 import { Slider } from '@mui/material';
 import { useSitesMap } from './SitesMapProvider';
@@ -32,6 +33,17 @@ export const SitesMapEditLayer = () => {
     }
     return newSiteLngLat;
   }, [newSiteLngLat, site]);
+
+  const movedFromOriginalSite = useMemo(() => {
+    if (newSiteLngLat?.lng !== site?.lng && newSiteLngLat?.lat !== site?.lat) {
+      return true;
+    }
+    return false;
+  }, [newSiteLngLat, site]);
+
+  const handleResetLocation = () => {
+    setNewSiteLngLat(new LngLat(site?.lng ?? 0, site?.lat ?? 0));
+  };
 
   const newMarker = useMemo(() => {
     return (
@@ -89,6 +101,16 @@ export const SitesMapEditLayer = () => {
           />
         </Source>
       </div>
+      {movedFromOriginalSite && (
+        <div className="absolute left-0 right-0 bottom-5 w-full flex justify-center">
+          <button
+            className="bg-neutral-95 hover:bg-neutral-90 rounded-full shadow-md px-4 py-2 text-lg"
+            onClick={handleResetLocation}
+          >
+            Reset Location
+          </button>
+        </div>
+      )}
       {newMarker}
     </>
   );
