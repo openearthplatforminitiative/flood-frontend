@@ -2,7 +2,7 @@
 
 import { Skeleton, useMediaQuery } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { SitesMap } from './SitesMap';
 import { SitesMapProvider } from './SitesMapProvider';
 
@@ -25,7 +25,7 @@ const SitesLayout = ({ children, params: { lang } }: SitesLayoutProps) => {
         children
       ) : (
         <div className="flex min-h-full ">
-          <div className="flex-1 shrink-1 h-screen p-10 sticky top-0 overflow-hidden">
+          <div className="min-w-1/2 w-full h-screen pl-10 py-10 pr-4 sticky top-0 overflow-hidden">
             <div className="rounded-xl h-full w-full overflow-hidden">
               <Suspense
                 fallback={
@@ -37,7 +37,7 @@ const SitesLayout = ({ children, params: { lang } }: SitesLayoutProps) => {
             </div>
           </div>
           <div
-            className={`${isSites ? 'w-[32rem]' : 'w-1/2'} flex flex-col transition-all`}
+            className={`w-full ${isSites ? 'max-w-[32rem]' : 'max-w-[48rem]'} flex flex-col transition-all`}
           >
             {children}
           </div>
