@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
-import { WeatherForecastRows } from './WeatherForecastRows';
+import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WeatherForecastModal } from './WeatherForecastModal';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
