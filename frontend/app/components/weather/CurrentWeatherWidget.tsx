@@ -36,6 +36,10 @@ export const CurrentWeatherWidget = async ({
   if (currentWeather)
     return <CurrentWeatherView currentWeather={currentWeather} lang={lang} />;
   else {
-    return <Box>Could not get current data</Box>;
+    return (
+      <div className="flex-1 flex flex-row lg:flex-col items-center justify-start lg:items-start bg-neutral-95 rounded-xl p-4 lg:p-6 gap-4 lg:gap-6">
+        Could not retrieve data
+      </div>
+    );
   }
 };

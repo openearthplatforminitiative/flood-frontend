@@ -44,7 +44,8 @@ export const getMutadedWeatherForecast = async (
   const timeSeries = locationForecast.data?.properties.timeseries;
 
   if (!timeSeries || timeSeries.length === 0) {
-    throw new Error('No weather data found');
+    console.error('No weather data found');
+    return [];
   }
 
   // Last timeSeries is not containing full information, so we remove it
