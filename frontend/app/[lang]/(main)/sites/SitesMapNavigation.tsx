@@ -37,7 +37,7 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
 
   const sitesBounds = useMemo(() => {
     if (sites.length === 0) {
-      return new LngLatBounds(new LngLat(0, 0), new LngLat(0, 0));
+      return new LngLatBounds(new LngLat(-180, -90), new LngLat(180, 90));
     }
     return new LngLatBounds(
       new LngLat(
