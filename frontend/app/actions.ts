@@ -59,7 +59,7 @@ export async function updateSite(
   });
 }
 
-export async function deleteSite(siteId: string, redirectPath?: string) {
+export async function deleteSite(siteId: string) {
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User ID not found in session');
@@ -67,7 +67,6 @@ export async function deleteSite(siteId: string, redirectPath?: string) {
   await prisma.site.delete({
     where: { id: siteId, userId },
   });
-  if (redirectPath) redirect(redirectPath);
 }
 
 export async function completeOnboarding() {
