@@ -19,13 +19,15 @@ import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
 import PositionModal from '../map/PositionModal';
 import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
+import { LngLat } from 'maplibre-gl';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface SiteFormProps {
   dict: Dict;
   redirectPath: string;
-  deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
+  deleteRedirectPath?: string;
   site?: Site;
-  onSiteAdded: (newSite: Site) => void;
+  onSuccess?: (newSite: Site) => void;
 }
 
 const SiteForm = ({
@@ -33,19 +35,35 @@ const SiteForm = ({
   redirectPath,
   deleteRedirectPath,
   site,
-  onSiteAdded,
+  onSuccess,
 }: SiteFormProps) => {
   const siteId = site?.id;
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const searchParams = useSearchParams();
+  const Router = useRouter();
 
-  const { newSiteLngLat, newSiteRadius, refetchSites } = useSitesMap();
+  useEffect(() => {
+    if (searchParams.has('lat') && searchParams.has('lng')) {
+      setNewSiteLngLat(
+        new LngLat(
+          parseFloat(searchParams.get('lng') as string),
+          parseFloat(searchParams.get('lat') as string)
+        )
+      );
+    }
+  }, [searchParams]);
+
+  const {
+    newSiteLngLat,
+    setNewSiteLngLat,
+    newSiteRadius,
+    setNewSiteRadius,
+    refetchSites,
+  } = useSitesMap();
 
   const [name, setName] = useState<string>(site ? site.name : '');
   const [types, setTypes] = useState<string[]>(site ? site.types : []);
-  const [radius, setRadius] = useState<number>(site ? site.radius : 0);
-  const [lat, setLat] = useState<number | undefined>(site?.lat);
-  const [lng, setLng] = useState<number | undefined>(site?.lng);
   const [city, setCity] = useState<string>();
   const [country, setCountry] = useState<string>();
 
@@ -57,18 +75,17 @@ const SiteForm = ({
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
-    handleConfirmLocation(
-      newSiteRadius ?? 0,
-      newSiteLngLat?.lat,
-      newSiteLngLat?.lng
-    );
-  }, [newSiteLngLat, newSiteRadius]);
+    if (site) {
+      setNewSiteLngLat(new LngLat(site.lng, site.lat));
+      setNewSiteRadius(site.radius);
+    }
+  }, [site]);
 
   useEffect(() => {
-    if (lat !== undefined && lng !== undefined) {
+    if (newSiteLngLat) {
       const getLocation = async () => {
         const response = await fetch(
-          `/api/geocoding/reverse?lat=${lat}&lon=${lng}`,
+          `/api/geocoding/reverse?lat=${newSiteLngLat.lat}&lon=${newSiteLngLat?.lng}`,
           {
             method: 'GET',
             headers: {
@@ -79,13 +96,12 @@ const SiteForm = ({
         const data = await response
           .json()
           .then((res) => res?.data?.features[0]?.properties);
-
         setCity(data?.city ?? undefined);
         setCountry(data?.country ?? undefined);
       };
       getLocation();
     }
-  }, [lat, lng]);
+  }, [newSiteLngLat]);
 
   const validate = useCallback(() => {
     let valid = true;
@@ -103,7 +119,7 @@ const SiteForm = ({
       setTypesError(undefined);
     }
 
-    if (!lat || !lng) {
+    if (!newSiteLngLat) {
       setPositionError('Position is required.');
       valid = false;
     } else {
@@ -111,7 +127,7 @@ const SiteForm = ({
     }
 
     return valid;
-  }, [lat, lng, name, types]);
+  }, [newSiteLngLat, name, types]);
 
   const handleSetPosition = () => {
     setOpenPositionModal(true);
@@ -122,23 +138,16 @@ const SiteForm = ({
       createSite(
         name,
         types,
-        lat as number,
-        lng as number,
-        radius,
-        redirectPath
-      );
-      const newSite = {
-        id: '',
-        name,
-        types,
-        lat: lat as number,
-        lng: lng as number,
-        radius,
-        userId: 'currentUserID',
-      };
-      onSiteAdded(newSite);
-    } else {
-      console.log('Could not add site - invalid data');
+        newSiteLngLat?.lat as number,
+        newSiteLngLat?.lng as number,
+        newSiteRadius ?? 100
+      ).then((newSite) => {
+        onSuccess?.(newSite);
+        refetchSites();
+        if (redirectPath) {
+          Router.push(redirectPath);
+        }
+      });
     }
   };
 
@@ -148,26 +157,21 @@ const SiteForm = ({
         siteId,
         name,
         types,
-        lat as number,
-        lng as number,
-        radius,
-        redirectPath
-      );
-      refetchSites();
-    } else {
-      console.log('Could not update site - invalid data');
+        newSiteLngLat?.lat as number,
+        newSiteLngLat?.lng as number,
+        newSiteRadius ?? 100
+      ).then((updatedSite) => {
+        onSuccess?.(updatedSite);
+        refetchSites();
+        if (redirectPath) {
+          Router.push(redirectPath);
+        }
+      });
     }
   };
 
-  const handleConfirmLocation = (
-    radius: number,
-    lat?: number,
-    lng?: number
-  ) => {
+  const handleConfirmLocation = () => {
     setOpenPositionModal(false);
-    setLat(lat);
-    setLng(lng);
-    setRadius(radius);
   };
 
   const handleCancelSetLocation = () => {
@@ -186,13 +190,8 @@ const SiteForm = ({
         <PositionModal
           dict={dict}
           isOpen={openPositionModal}
-          radius={radius}
-          lat={lat}
-          lng={lng}
           handleCancel={handleCancelSetLocation}
-          handleConfirm={(lat, lng, radius) =>
-            handleConfirmLocation(radius, lat, lng)
-          }
+          handleConfirm={() => handleConfirmLocation()}
         />
       )}
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>

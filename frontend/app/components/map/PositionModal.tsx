@@ -13,48 +13,43 @@ import type { Dict } from '@/app/[lang]/dictionaries';
 import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { GeoAutoComplete } from '../GeoAutoComplete';
+import SiteMap from '../onboarding/SiteMap';
+import { Site } from '@prisma/client';
+import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
 
 interface PositionModalProps {
   dict: Dict;
   isOpen: boolean;
-  radius?: number;
-  lat?: number;
-  lng?: number;
   handleCancel: () => void;
-  handleConfirm: (lat: number, lng: number, radius: number) => void;
+  handleConfirm: () => void;
 }
 
 const PositionModal = ({
   dict,
   isOpen,
-  radius: prevRadius,
-  lat: prevLat,
-  lng: prevLng,
   handleCancel,
   handleConfirm,
 }: PositionModalProps) => {
-  const [lat, setLat] = useState(prevLat);
-  const [lng, setLng] = useState(prevLng);
+  const {
+    currentSite,
+    newSiteLngLat,
+    setNewSiteLngLat,
+    newSiteRadius,
+    setNewSiteRadius,
+  } = useSitesMap();
 
-  const [radius, setRadius] = useState<number>(prevRadius ?? 0);
-
-  const SiteMap = useMemo(
-    () =>
-      dynamic(() => import('@/app/components/onboarding/SiteMap'), {
-        ssr: false,
-        loading: () => (
-          <Skeleton
-            variant="rectangular"
-            className="rounded-xl"
-            height="100%"
-          />
-        ),
-      }),
-    []
-  );
+  const lngLatIsSet = useMemo(() => {
+    if (
+      newSiteLngLat?.lng == currentSite?.lng &&
+      newSiteLngLat?.lat == currentSite?.lat
+    ) {
+      return false;
+    }
+    return true;
+  }, [newSiteLngLat, currentSite]);
 
   const handleSliderChange = (_: any, newValue: number | number[]) => {
-    setRadius(newValue as number);
+    setNewSiteRadius(newValue as number);
   };
 
   return (
@@ -66,8 +61,7 @@ const PositionModal = ({
           </Typography>
           <GeoAutoComplete
             setLngLat={(LngLat) => {
-              setLat(LngLat.lat);
-              setLng(LngLat.lng);
+              setNewSiteLngLat(LngLat);
             }}
           />
           <Box
@@ -79,15 +73,7 @@ const PositionModal = ({
             }}
           >
             <div className="overflow-hidden rounded-xl h-96">
-              <SiteMap
-                key={'siteMap'}
-                lat={lat}
-                lng={lng}
-                radius={radius}
-                setLat={setLat}
-                setLng={setLng}
-                setRadius={setRadius}
-              />
+              <SiteMap key={'siteMap'} mode={currentSite ? 'edit' : 'add'} />
             </div>
             <Box
               sx={{
@@ -109,18 +95,22 @@ const PositionModal = ({
                 <Typography sx={{ fontWeight: 500, lineHeight: '20px' }}>
                   {dict.onBoarding.sites.locationArea}
                 </Typography>
-                {radius}
+                {newSiteRadius}
               </Box>
-              <Slider value={radius} onChange={handleSliderChange} />
+              <Slider
+                min={100}
+                max={1000}
+                step={100}
+                value={newSiteRadius ?? currentSite?.radius ?? 0}
+                onChange={handleSliderChange}
+              />
             </Box>
           </Box>
           <DialogActions>
             <Box>
               <Button onClick={handleCancel}>{dict.cancel}</Button>
-              {lat && lng ? (
-                <Button onClick={() => handleConfirm(lat, lng, radius)}>
-                  {dict.confirm}
-                </Button>
+              {lngLatIsSet ? (
+                <Button onClick={() => handleConfirm()}>{dict.confirm}</Button>
               ) : (
                 <Button disabled>{dict.confirm}</Button>
               )}

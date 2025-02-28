@@ -1,86 +1,40 @@
 'use client';
 
-import { Circle, MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
-import { useEffect } from 'react';
-import L, { DragEndEvent, icon, LatLng, LocationEvent } from 'leaflet';
-import LocateControl from '@/app/components/onboarding/LocateControl';
+import { createRef } from 'react';
+import Map, { MapRef } from 'react-map-gl/maplibre';
+import { sentinelStyleGl } from '@/utils/sentinelStyleGl';
+import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
+import { SitesMapAddLayer } from '@/app/[lang]/(main)/sites/SitesMapAddLayer';
+import { SitesMapEditLayer } from '@/app/[lang]/(main)/sites/SitesMapEditLayer';
+import { SiteMarkers } from '@/app/[lang]/(main)/sites/SitesMapSitesLayer';
+import { SiteMapNavigation } from '@/app/[lang]/(main)/sites/SitesMapNavigation';
+import { Site } from '@prisma/client';
 
 type SiteMapProps = {
-  lat?: number;
-  lng?: number;
-  radius?: number;
-  setRadius: (value: number) => void;
-  setLat: (value: number) => void;
-  setLng: (value: number) => void;
+  mode: 'add' | 'edit';
 };
 
-const SiteMap = ({ lat, lng, radius, setLat, setLng }: SiteMapProps) => {
-  lat ??= 51.505;
-  lng ??= -0.09;
-  radius ??= 0;
+const SiteMap = ({ mode }: SiteMapProps) => {
+  const lang = 'en';
 
-  const MarkerIcon = icon({
-    iconUrl: '/assets/images/map-marker.svg',
-    iconRetinaUrl: '/assets/images/map-marker.svg',
-    className: 'text-error-90',
-    iconSize: [48, 48],
-    iconAnchor: [24, 38],
-  });
-
-  const LocationMarker = () => {
-    const map = useMap();
-
-    useEffect(() => {
-      if (lat === undefined || lng === undefined) {
-        map.locate().on('locationfound', function (e: LocationEvent) {
-          setLat(e.latlng.lat);
-          setLng(e.latlng.lng);
-          map.setView(e.latlng, map.getZoom());
-        });
-      } else {
-        map.setView({ lat, lng }, map.getZoom());
-      }
-    }, [map]);
-
-    const handleDragEnd = (event: DragEndEvent) => {
-      const nextPosition: LatLng = event.target.getLatLng();
-      setLat(nextPosition.lat);
-      setLng(nextPosition.lng);
-    };
-
-    return (
-      <Marker
-        draggable
-        icon={MarkerIcon}
-        position={{ lat, lng }}
-        eventHandlers={{ dragend: handleDragEnd }}
-      >
-        {radius > 0 && <Circle center={{ lat, lng }} radius={radius * 30} />}
-      </Marker>
-    );
-  };
+  const mapRef = createRef<MapRef>();
+  const { currentSite, sites, mapStyle } = useSitesMap()!;
 
   return (
-    <MapContainer
-      center={{ lat, lng }}
-      zoom={5}
-      scrollWheelZoom={true}
-      style={{ width: '100%', height: '100%', flexShrink: '0' }}
+    <Map
       attributionControl={false}
+      mapStyle={
+        mapStyle === 'streets'
+          ? 'https://tiles.openfreemap.org/styles/liberty'
+          : sentinelStyleGl
+      }
+      ref={mapRef}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=yKbUfk8FeU9lYSvB92QQ"
-      />
-      <LocationMarker />
-      <LocateControl
-        position="topleft"
-        lat={lat}
-        lng={lng}
-        setLat={setLat}
-        setLng={setLng}
-      />
-    </MapContainer>
+      {mode === 'add' && <SitesMapAddLayer />}
+      {mode === 'edit' && <SitesMapEditLayer />}
+      {SiteMarkers(lang, sites, mode, currentSite)}
+      <SiteMapNavigation currentPage={mode} currentSite={currentSite} />
+    </Map>
   );
 };
 

@@ -3,9 +3,7 @@ import FloodWarningBox from '@/app/components/FloodWarningBox';
 import { intensityToColors } from '@/app/helpers/intensityToColors';
 import { getUserId } from '@/lib/auth-utils';
 import { floodClient } from '@/lib/openepi-clients';
-import { getSiteForUser, getUserIncludingSites } from '@/lib/prisma';
-import { Flood } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { getSiteForUser } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 
 type WeatherWidgetProps = {
@@ -38,7 +36,6 @@ export const FloodWarning = async ({ siteId, lang }: WeatherWidgetProps) => {
   if (noFloodWarnings) {
     return <FloodWarningBox dict={dict} intensity="G" />;
   } else {
-    const intensityColors = intensityToColors(floodProperties.intensity);
     return (
       <FloodWarningBox
         dict={dict}
