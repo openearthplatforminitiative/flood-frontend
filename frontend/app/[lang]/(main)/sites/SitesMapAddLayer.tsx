@@ -18,11 +18,12 @@ export const SitesMapAddLayer = () => {
   };
 
   useEffect(() => {
-    map.current?.on('contextmenu', (e) => {
+    const contextMenuHandler = (e: maplibregl.MapMouseEvent): void => {
       handleContextMenu(e);
-    });
+    };
+    map.current?.on('contextmenu', contextMenuHandler);
     return () => {
-      map.current?.off('contextmenu', () => {});
+      map.current?.off('contextmenu', contextMenuHandler);
     };
   }, []);
 

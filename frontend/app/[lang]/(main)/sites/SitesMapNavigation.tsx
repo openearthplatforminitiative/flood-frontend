@@ -35,11 +35,11 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
 
   const map = useMap();
 
-  const sitesCameraInfo = useMemo(() => {
+  const sitesBounds = useMemo(() => {
     if (sites.length === 0) {
-      return { center: undefined, zoom: undefined };
+      return new LngLatBounds(new LngLat(0, 0), new LngLat(0, 0));
     }
-    const bounds = new LngLatBounds(
+    return new LngLatBounds(
       new LngLat(
         Math.min(...sites.map((site) => site.lng)),
         Math.min(...sites.map((site) => site.lat))
@@ -49,20 +49,13 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
         Math.max(...sites.map((site) => site.lat))
       )
     );
-    const fitBounds = map.current?.fitBounds(bounds, {
-      padding: 100,
-      maxZoom: 14,
-    });
-    const zoom = fitBounds?.getZoom();
-    const center = fitBounds?.getCenter();
-    return { center, zoom };
   }, [sites]);
 
   useEffect(() => {
     if (currentPage === 'sites') {
-      const { center, zoom } = sitesCameraInfo;
-      setDefaultCoordinates(center);
-      setDefaultZoom(zoom);
+      const bounds = sitesBounds;
+      setDefaultCoordinates(bounds.getCenter());
+      setDefaultZoom(undefined);
     } else if (currentPage === 'site') {
       if (currentSite) {
         setDefaultCoordinates(new LngLat(currentSite.lng, currentSite.lat));
@@ -79,11 +72,9 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
         setDefaultZoom(undefined);
       }
     }
-  }, [currentPage, currentSite, newSiteLngLat, sitesCameraInfo]);
+  }, [currentPage, currentSite, newSiteLngLat, sitesBounds]);
 
   const handleUserMove = (centerCoordinates?: LngLat) => {
-    console.log('center', centerCoordinates);
-    console.log('map', map.current?.getCenter());
     if (centerCoordinates) {
       if (
         Math.abs(
@@ -134,11 +125,19 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
   }, [defaultCoordinates, defaultZoom]);
 
   const zoomToLocation = () => {
-    map.current?.flyTo({
-      center: defaultCoordinates,
-      zoom: defaultZoom,
-      screenSpeed: 3,
-    });
+    if (currentPage == 'sites') {
+      map.current?.fitBounds(sitesBounds, {
+        padding: 100,
+        maxZoom: 14,
+        screenSpeed: 3,
+      });
+    } else {
+      map.current?.flyTo({
+        center: defaultCoordinates,
+        zoom: defaultZoom,
+        screenSpeed: 3,
+      });
+    }
   };
 
   const handleCompassClick = () => {

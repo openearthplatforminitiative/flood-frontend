@@ -33,7 +33,7 @@ const SiteMap = ({ mode }: SiteMapProps) => {
       {mode === 'add' && <SitesMapAddLayer />}
       {mode === 'edit' && <SitesMapEditLayer />}
       {SiteMarkers(lang, sites, mode, currentSite)}
-      <SiteMapNavigation currentPage={mode} currentSite={currentSite} />
+      <SiteMapNavigation currentPage={mode} />
     </Map>
   );
 };
