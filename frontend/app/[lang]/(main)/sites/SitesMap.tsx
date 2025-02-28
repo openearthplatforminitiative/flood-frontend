@@ -1,12 +1,12 @@
 'use client';
 
 import { useSelectedLayoutSegments } from 'next/navigation';
-import { createRef, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
+  LngLat,
   Map,
   MapLayerMouseEvent,
   MapProvider,
-  MapRef,
   Popup,
 } from 'react-map-gl/maplibre';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ import { SiteMapNavigation } from './SitesMapNavigation';
 import { SiteMarkers } from './SitesMapSitesLayer';
 import { useSitesMap } from './SitesMapProvider';
 import { SitesMapEditLayer } from './SitesMapEditLayer';
+import { sentinelStyleGl } from '@/utils/sentinelStyleGl';
 
 type SitesMapProps = {
   lang: string;
@@ -24,13 +25,12 @@ type SitesMapProps = {
 
 export const SitesMap = ({ lang }: SitesMapProps) => {
   const segments = useSelectedLayoutSegments();
-  const mapRef = createRef<MapRef>();
+
   const [showPopup, setShowPopup] = useState(false);
-  const { sites, newSiteLngLat, setNewSiteLngLat, mapStyle, setMapStyle } =
-    useSitesMap()!;
+  const [popupLngLat, setPopupLngLat] = useState<LngLat | undefined>();
+  const { currentSite, sites, mapStyle } = useSitesMap()!;
 
   const currentPage = useMemo(() => {
-    console.log(segments);
     if (!segments || segments.length === 0) return 'sites';
     const lastSegment = segments[segments.length - 1] ?? '';
     if (lastSegment === 'add') return 'add';
@@ -40,38 +40,32 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
 
   const handleContextMenu = (e: MapLayerMouseEvent) => {
     e.preventDefault();
-    setNewSiteLngLat(e.lngLat);
+    setPopupLngLat(e.lngLat);
     if (currentPage !== 'add') {
       setShowPopup(true);
     }
   };
 
-  const currentSite = useMemo(() => {
-    if (currentPage === 'site' || currentPage === 'edit') {
-      return sites.find((site) => site.id === segments[0]);
-    }
-    return undefined;
-  }, [currentPage, segments, sites]);
-
   return (
     <MapProvider>
       <Map
-        mapStyle={`https://api.maptiler.com/maps/${mapStyle}/style.json?key=HDOhgcsYJqejWL2p8lA6`}
-        ref={mapRef}
+        attributionControl={false}
+        mapStyle={
+          mapStyle === 'streets'
+            ? 'https://tiles.openfreemap.org/styles/liberty'
+            : sentinelStyleGl
+        }
         onContextMenu={handleContextMenu}
       >
         {currentPage === 'add' && <SitesMapAddLayer />}
         {currentPage === 'edit' && <SitesMapEditLayer />}
         {SiteMarkers(lang, sites, currentPage, currentSite)}
-        <SiteMapNavigation
-          currentPage={currentPage}
-          currentSite={currentSite}
-        />
+        <SiteMapNavigation currentPage={currentPage} />
 
-        {showPopup && newSiteLngLat && (
+        {showPopup && popupLngLat && (
           <Popup
-            latitude={newSiteLngLat?.lat}
-            longitude={newSiteLngLat?.lng}
+            latitude={popupLngLat.lat}
+            longitude={popupLngLat.lng}
             closeOnClick={true}
             onClose={() => setShowPopup(false)}
             style={{ visibility: 'hidden' }}
@@ -80,7 +74,7 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
           >
             <Link
               className="absolute visible w-32 top-0 left-1/2 transform -translate-x-1/2"
-              href={`/${lang}/sites/add`}
+              href={`/${lang}/sites/add?lat=${popupLngLat.lat}&lng=${popupLngLat.lng}`}
               onClick={() => setShowPopup(false)}
             >
               <Button variant="contained" color="primary">

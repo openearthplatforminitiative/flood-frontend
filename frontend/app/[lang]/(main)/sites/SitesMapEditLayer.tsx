@@ -3,22 +3,20 @@ import { AddLocationAltOutlined } from '@mui/icons-material';
 import { Layer, Marker, Source } from 'react-map-gl/maplibre';
 import { LngLat } from 'maplibre-gl';
 import { useMemo } from 'react';
-import { Slider } from '@mui/material';
+import { Slider, useMediaQuery } from '@mui/material';
 import { useSitesMap } from './SitesMapProvider';
-import { useSelectedLayoutSegments } from 'next/navigation';
 import { circle } from '@turf/turf';
 
 export const SitesMapEditLayer = () => {
   const {
-    sites,
+    currentSite,
     newSiteLngLat,
     setNewSiteLngLat,
     newSiteRadius,
     setNewSiteRadius,
   } = useSitesMap()!;
 
-  const siteId = useSelectedLayoutSegments()[0];
-  const site = sites.find((site) => site.id === siteId);
+  const isMobile = useMediaQuery('(max-width: 1024px)');
 
   const handleSliderChange = (_: any, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
@@ -26,23 +24,26 @@ export const SitesMapEditLayer = () => {
 
   const latlng = useMemo(() => {
     if (!newSiteLngLat) {
-      if (!site) {
+      if (!currentSite) {
         return { lat: 0, lng: 0 };
       }
-      return { lat: site.lat, lng: site.lng };
+      return { lat: currentSite.lat, lng: currentSite.lng };
     }
     return newSiteLngLat;
-  }, [newSiteLngLat, site]);
+  }, [newSiteLngLat, currentSite]);
 
   const movedFromOriginalSite = useMemo(() => {
-    if (newSiteLngLat?.lng !== site?.lng && newSiteLngLat?.lat !== site?.lat) {
+    if (
+      newSiteLngLat?.lng !== currentSite?.lng &&
+      newSiteLngLat?.lat !== currentSite?.lat
+    ) {
       return true;
     }
     return false;
-  }, [newSiteLngLat, site]);
+  }, [newSiteLngLat, currentSite]);
 
   const handleResetLocation = () => {
-    setNewSiteLngLat(new LngLat(site?.lng ?? 0, site?.lat ?? 0));
+    setNewSiteLngLat(new LngLat(currentSite?.lng ?? 0, currentSite?.lat ?? 0));
   };
 
   const newMarker = useMemo(() => {
@@ -68,39 +69,44 @@ export const SitesMapEditLayer = () => {
       features: [
         circle(
           [latlng?.lng ?? 0, latlng?.lat ?? 0],
-          newSiteRadius ?? site?.radius ?? 0,
+          newSiteRadius ?? currentSite?.radius ?? 0,
           { units: 'meters' }
         ),
       ],
     }),
-    [newSiteLngLat, newSiteRadius, site]
+    [newSiteLngLat, newSiteRadius, currentSite]
   );
 
   return (
     <>
-      <div className="absolute top-0 left-0 m-4 w-1/2">
-        <GeoAutoComplete setLngLat={setNewSiteLngLat} />
-        {newSiteRadius ?? site?.radius}
-        <Slider
-          min={100}
-          max={1000}
-          step={100}
-          value={newSiteRadius ?? site?.radius ?? 0}
-          onChange={handleSliderChange}
+      {!isMobile && (
+        <div className="absolute top-0 left-0 m-4 w-1/2">
+          <GeoAutoComplete setLngLat={setNewSiteLngLat} />
+          <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border">
+            {newSiteRadius}
+            <Slider
+              className="!bg-neutral-95 !text-neutral-20"
+              orientation="vertical"
+              min={100}
+              max={1000}
+              step={100}
+              value={newSiteRadius ?? currentSite?.radius ?? 0}
+              onChange={handleSliderChange}
+            />
+          </div>
+        </div>
+      )}
+      <Source id="circle-source" type="geojson" data={circleData}>
+        <Layer
+          id="circle-layer"
+          type="fill"
+          paint={{
+            'fill-color': 'blue',
+            'fill-opacity': 0.4,
+          }}
         />
-      </div>
-      <div className="absolute bottom-10 left-8 right-8">
-        <Source id="circle-source" type="geojson" data={circleData}>
-          <Layer
-            id="circle-layer"
-            type="fill"
-            paint={{
-              'fill-color': 'blue',
-              'fill-opacity': 0.4,
-            }}
-          />
-        </Source>
-      </div>
+      </Source>
+
       {movedFromOriginalSite && (
         <div className="absolute left-0 right-0 bottom-5 w-full flex justify-center">
           <button

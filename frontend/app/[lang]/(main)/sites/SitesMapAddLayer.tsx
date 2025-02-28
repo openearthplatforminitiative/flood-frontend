@@ -1,8 +1,8 @@
 import { GeoAutoComplete } from '@/app/components/GeoAutoComplete';
 import { AddLocationAltOutlined } from '@mui/icons-material';
-import { Layer, Marker, Source } from 'react-map-gl/maplibre';
-import { useMemo } from 'react';
-import { Slider } from '@mui/material';
+import { Layer, Marker, Source, useMap } from 'react-map-gl/maplibre';
+import { useEffect, useMemo } from 'react';
+import { Slider, useMediaQuery } from '@mui/material';
 import { useSitesMap } from './SitesMapProvider';
 import { circle } from '@turf/turf';
 
@@ -10,9 +10,27 @@ export const SitesMapAddLayer = () => {
   const { newSiteLngLat, setNewSiteLngLat, newSiteRadius, setNewSiteRadius } =
     useSitesMap()!;
 
+  const map = useMap();
+
+  const handleContextMenu = (e: maplibregl.MapMouseEvent) => {
+    e.preventDefault();
+    setNewSiteLngLat(e.lngLat);
+  };
+
+  useEffect(() => {
+    map.current?.on('contextmenu', (e) => {
+      handleContextMenu(e);
+    });
+    return () => {
+      map.current?.off('contextmenu', () => {});
+    };
+  }, []);
+
   const handleSliderChange = (_: any, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
   };
+
+  const isMobile = useMediaQuery('(max-width: 1024px)');
 
   const AddMarker = useMemo(() => {
     return (
@@ -47,29 +65,33 @@ export const SitesMapAddLayer = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 m-4 w-1/2">
-        <GeoAutoComplete setLngLat={setNewSiteLngLat} />
-        {newSiteRadius}
-        <Slider
-          min={100}
-          max={1000}
-          step={100}
-          value={newSiteRadius ?? 0}
-          onChange={handleSliderChange}
+      {!isMobile && (
+        <div className="absolute top-0 left-0 m-4 w-1/2">
+          <GeoAutoComplete setLngLat={setNewSiteLngLat} />
+          <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border">
+            {newSiteRadius}
+            <Slider
+              className="!bg-neutral-95 !text-neutral-20"
+              orientation="vertical"
+              min={100}
+              max={1000}
+              step={100}
+              value={newSiteRadius ?? 0}
+              onChange={handleSliderChange}
+            />
+          </div>
+        </div>
+      )}
+      <Source id="circle-source" type="geojson" data={circleData}>
+        <Layer
+          id="circle-layer"
+          type="fill"
+          paint={{
+            'fill-color': 'blue',
+            'fill-opacity': 0.4,
+          }}
         />
-      </div>
-      <div className="absolute bottom-10 left-8 right-8">
-        <Source id="circle-source" type="geojson" data={circleData}>
-          <Layer
-            id="circle-layer"
-            type="fill"
-            paint={{
-              'fill-color': 'blue',
-              'fill-opacity': 0.4,
-            }}
-          />
-        </Source>
-      </div>
+      </Source>
       {AddMarker}
     </>
   );
