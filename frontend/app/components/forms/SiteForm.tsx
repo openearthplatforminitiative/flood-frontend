@@ -10,20 +10,24 @@ import {
   FormControl,
   FormHelperText,
   TextField,
-  Typography,
+  useMediaQuery,
 } from '@mui/material';
 import { Add, PlaceOutlined } from '@mui/icons-material';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import PositionDialog from '@/app/components/onboarding/PositionDialog';
 import MultipleTypeSelect from '@/app/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
+import PositionModal from '../map/PositionModal';
+import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
+import { LngLat } from 'maplibre-gl';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface SiteFormProps {
   dict: Dict;
   redirectPath: string;
-  deleteRedirectPath?: string; // Redirect path after deleting site, in case it should not redirect to the same path as when creating or updating
+  deleteRedirectPath?: string;
   site?: Site;
+  onSuccess?: (newSite: Site) => void;
 }
 
 const SiteForm = ({
@@ -31,14 +35,35 @@ const SiteForm = ({
   redirectPath,
   deleteRedirectPath,
   site,
+  onSuccess,
 }: SiteFormProps) => {
   const siteId = site?.id;
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const searchParams = useSearchParams();
+  const Router = useRouter();
+
+  useEffect(() => {
+    if (searchParams.has('lat') && searchParams.has('lng')) {
+      setNewSiteLngLat(
+        new LngLat(
+          parseFloat(searchParams.get('lng') as string),
+          parseFloat(searchParams.get('lat') as string)
+        )
+      );
+    }
+  }, [searchParams]);
+
+  const {
+    newSiteLngLat,
+    setNewSiteLngLat,
+    newSiteRadius,
+    setNewSiteRadius,
+    refetchSites,
+  } = useSitesMap();
+
   const [name, setName] = useState<string>(site ? site.name : '');
   const [types, setTypes] = useState<string[]>(site ? site.types : []);
-  const [radius, setRadius] = useState<number>(site ? site.radius : 0);
-  const [lat, setLat] = useState<number | undefined>(site?.lat);
-  const [lng, setLng] = useState<number | undefined>(site?.lng);
   const [city, setCity] = useState<string>();
   const [country, setCountry] = useState<string>();
 
@@ -46,14 +71,21 @@ const SiteForm = ({
   const [typesError, setTypesError] = useState<string | undefined>();
   const [positionError, setPositionError] = useState<string | undefined>();
 
-  const [openPositionDialog, setOpenPositionDialog] = useState(false);
+  const [openPositionModal, setOpenPositionModal] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
-    if (lat !== undefined && lng !== undefined) {
+    if (site) {
+      setNewSiteLngLat(new LngLat(site.lng, site.lat));
+      setNewSiteRadius(site.radius);
+    }
+  }, [site]);
+
+  useEffect(() => {
+    if (newSiteLngLat) {
       const getLocation = async () => {
         const response = await fetch(
-          `/api/geocoding/reverse?lat=${lat}&lon=${lng}`,
+          `/api/geocoding/reverse?lat=${newSiteLngLat.lat}&lon=${newSiteLngLat?.lng}`,
           {
             method: 'GET',
             headers: {
@@ -64,13 +96,12 @@ const SiteForm = ({
         const data = await response
           .json()
           .then((res) => res?.data?.features[0]?.properties);
-
         setCity(data?.city ?? undefined);
         setCountry(data?.country ?? undefined);
       };
       getLocation();
     }
-  }, [lat, lng]);
+  }, [newSiteLngLat]);
 
   const validate = useCallback(() => {
     let valid = true;
@@ -88,7 +119,7 @@ const SiteForm = ({
       setTypesError(undefined);
     }
 
-    if (!lat || !lng) {
+    if (!newSiteLngLat) {
       setPositionError('Position is required.');
       valid = false;
     } else {
@@ -96,24 +127,27 @@ const SiteForm = ({
     }
 
     return valid;
-  }, [lat, lng, name, types]);
+  }, [newSiteLngLat, name, types]);
 
   const handleSetPosition = () => {
-    setOpenPositionDialog(true);
+    setOpenPositionModal(true);
   };
 
-  const handleAddSite = () => {
+  const handleAddSite = async () => {
     if (validate()) {
       createSite(
         name,
         types,
-        lat as number,
-        lng as number,
-        radius,
-        redirectPath
-      );
-    } else {
-      console.log('Could not add site - invalid data');
+        newSiteLngLat?.lat as number,
+        newSiteLngLat?.lng as number,
+        newSiteRadius ?? 100
+      ).then((newSite) => {
+        onSuccess?.(newSite);
+        refetchSites();
+        if (redirectPath) {
+          Router.push(redirectPath);
+        }
+      });
     }
   };
 
@@ -123,25 +157,25 @@ const SiteForm = ({
         siteId,
         name,
         types,
-        lat as number,
-        lng as number,
-        radius,
-        redirectPath
-      );
-    } else {
-      console.log('Could not update site - invalid data');
+        newSiteLngLat?.lat as number,
+        newSiteLngLat?.lng as number,
+        newSiteRadius ?? 100
+      ).then((updatedSite) => {
+        onSuccess?.(updatedSite);
+        refetchSites();
+        if (redirectPath) {
+          Router.push(redirectPath);
+        }
+      });
     }
   };
 
-  const handleConfirmLocation = (lat: number, lng: number, radius: number) => {
-    setOpenPositionDialog(false);
-    setLat(lat);
-    setLng(lng);
-    setRadius(radius);
+  const handleConfirmLocation = () => {
+    setOpenPositionModal(false);
   };
 
   const handleCancelSetLocation = () => {
-    setOpenPositionDialog(false);
+    setOpenPositionModal(false);
   };
 
   const handleDeleteSite = () => {
@@ -152,15 +186,14 @@ const SiteForm = ({
 
   return (
     <>
-      <PositionDialog
-        dict={dict}
-        isOpen={openPositionDialog}
-        radius={radius}
-        lat={lat}
-        lng={lng}
-        handleCancel={handleCancelSetLocation}
-        handleConfirm={handleConfirmLocation}
-      />
+      {isMobile && (
+        <PositionModal
+          dict={dict}
+          isOpen={openPositionModal}
+          handleCancel={handleCancelSetLocation}
+          handleConfirm={() => handleConfirmLocation()}
+        />
+      )}
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <TextField
           label={dict.onBoarding.sites.name}
@@ -199,14 +232,16 @@ const SiteForm = ({
               ? `${dict.sites.locationSetNear}: ${city}, ${country}`
               : ''}
           </FormHelperText>
-          <Button
-            color={positionError ? 'error' : 'primary'}
-            variant={'outlined'}
-            startIcon={<PlaceOutlined />}
-            onClick={handleSetPosition}
-          >
-            {dict.onBoarding.sites.setLocation}
-          </Button>
+          {isMobile && (
+            <Button
+              color={positionError ? 'error' : 'primary'}
+              variant={'outlined'}
+              startIcon={<PlaceOutlined />}
+              onClick={handleSetPosition}
+            >
+              {dict.onBoarding.sites.setLocation}
+            </Button>
+          )}
           <FormHelperText error>{positionError}</FormHelperText>
         </FormControl>
       </Box>

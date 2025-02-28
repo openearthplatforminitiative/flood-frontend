@@ -4,7 +4,9 @@ import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import { typesRenderer } from '@/lib/render-utils';
-import { Box, Typography } from '@mui/material';
+import { Settings } from '@mui/icons-material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import Link from 'next/link';
 
 interface SiteInfoWidgetProps {
   lang: string;
@@ -24,8 +26,8 @@ export const SiteInfoWidget = async ({ siteId, lang }: SiteInfoWidgetProps) => {
 
   return (
     <Box className="flex-1 overflow-hidden bg-neutral-95 rounded-xl lg:gap-6">
-      <div className="bg-primary-40 text-white p-4 md:p-6 w-full">
-        <Typography variant="h2">{site.name}</Typography>
+      <div className="bg-neutral-90 p-4 md:p-6 w-full flex items-center justify-between">
+        <Typography variant="h2">Site Information</Typography>
       </div>
       <div className="flex flex-col justify-start items-start p-4 md:p-6 gap-4">
         <Box>

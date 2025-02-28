@@ -44,7 +44,8 @@ export const getMutadedWeatherForecast = async (
   const timeSeries = locationForecast.data?.properties.timeseries;
 
   if (!timeSeries || timeSeries.length === 0) {
-    throw new Error('No weather data found');
+    console.error('No weather data found');
+    return [];
   }
 
   // Last timeSeries is not containing full information, so we remove it
@@ -106,11 +107,12 @@ export const getMutadedWeatherForecast = async (
       continue;
     }
 
-    const toDateTime = locationForecastIndexed.get(
-      localDay.set({ hour: 19 }).toISO()!
-    )
-      ? localDay.set({ hour: 23 })
-      : getMetDate(localDay.set({ hour: 18 }));
+    const toDateTime =
+      localDay == currentTimeLocal
+        ? localDay.set({ hour: 23 })
+        : locationForecastIndexed.get(localDay.set({ hour: 19 }).toISO()!)
+          ? localDay.set({ hour: 23 })
+          : getMetDate(localDay.set({ hour: 18 }));
 
     let temperatureMax = -Infinity,
       temperatureMin = Infinity,

@@ -4,12 +4,8 @@ import {
   isLang,
 } from '../dictionaries';
 import { Box, Typography } from '@mui/material';
-import Header from '@/app/components/Header';
-import background from '@/public/assets/images/clima_safe.png';
 import SignInButton from '@/app/components/buttons/SignInButton';
-import Logo from '@/app/components/icons/Logo';
-import LogoCopy from '@/app/components/icons/LogoCopy';
-import { Water, Waves } from '@mui/icons-material';
+import { Water } from '@mui/icons-material';
 
 interface SignInPageProps {
   params: { lang: string };
@@ -32,7 +28,7 @@ const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
         sx={{
           flex: 1,
           display: 'flex',
-          backgroundImage: `url(${background.src})`,
+          backgroundImage: 'url(/assets/images/clima_safe.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           justifyContent: 'center',

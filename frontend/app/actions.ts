@@ -6,8 +6,7 @@ import { redirect } from 'next/navigation';
 
 export async function submitPushPermissions(
   allowPushNotifications: boolean,
-  allowSMSNotifications: boolean,
-  redirectPath?: string
+  allowSMSNotifications: boolean
 ) {
   const userId = await getUserId();
   if (!userId) {
@@ -17,7 +16,6 @@ export async function submitPushPermissions(
     where: { id: userId },
     data: { allowPushNotifications, allowSMSNotifications },
   });
-  if (redirectPath) redirect(redirectPath);
 }
 
 export async function createSite(
@@ -25,14 +23,13 @@ export async function createSite(
   types: string[],
   lat: number,
   lng: number,
-  radius: number,
-  redirectPath?: string
+  radius: number
 ) {
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User ID not found in session');
   }
-  await prisma.site.create({
+  return await prisma.site.create({
     data: {
       name,
       types,
@@ -42,7 +39,6 @@ export async function createSite(
       userId,
     },
   });
-  if (redirectPath) redirect(redirectPath);
 }
 
 export async function updateSite(
@@ -51,18 +47,16 @@ export async function updateSite(
   types: string[],
   lat: number,
   lng: number,
-  radius: number,
-  redirectPath?: string
+  radius: number
 ) {
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User ID not found in session');
   }
-  await prisma.site.update({
+  return await prisma.site.update({
     where: { id: siteId, userId },
     data: { name, types, lat, lng, radius },
   });
-  if (redirectPath) redirect(redirectPath);
 }
 
 export async function deleteSite(siteId: string, redirectPath?: string) {

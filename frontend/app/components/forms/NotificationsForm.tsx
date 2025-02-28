@@ -8,21 +8,31 @@ import { useState } from 'react';
 interface NotificationFormProps {
   initialAllowWebPush: boolean;
   initialAllowSms: boolean;
-  redirectPath: string;
   dict: Dict;
+  onSuccess: () => void;
 }
 
 const NotificationForm = ({
   initialAllowWebPush,
   initialAllowSms,
-  redirectPath,
   dict,
+  onSuccess
 }: NotificationFormProps) => {
   const [allowWebPush, setAllowWebPush] = useState(initialAllowWebPush);
   const [allowSms, setAllowSms] = useState(initialAllowSms);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    submitPushPermissions(allowWebPush, allowSms, redirectPath);
+
+  const handleSubmit = async() => {
+    setLoading(true);
+    try {
+        await submitPushPermissions(allowWebPush, allowSms);
+        if (onSuccess) onSuccess();
+    } catch (error) {
+        console.error('Error updating push permissions:', error);
+    } finally {
+        setLoading(false);
+    }
   };
 
   return (

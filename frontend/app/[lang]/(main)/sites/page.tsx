@@ -7,9 +7,20 @@ import { Suspense } from 'react';
 import { FloodWarnings } from './FloodWarnings';
 import { SiteList, SiteListSkeleton } from './SiteList';
 import { ContentContainer } from '@/app/components/ContentContainer';
+import { getUserId } from "@/lib/auth-utils";
+import { getOrCreateUser } from "@/lib/prisma";
+import { OnboardingModal } from '@/app/components/onboarding/OnboardingModal';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
   const dict = getDictonaryWithDefault(lang);
+
+  const userId = await getUserId();
+  let showOnboardingModal = false;
+
+  if (userId) {
+    const user = await getOrCreateUser(userId);
+    showOnboardingModal = !user.completedOnboarding;
+  }
 
   return (
     <>
@@ -49,6 +60,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           </Box>
         </Box>
       </ContentContainer>
+      <OnboardingModal lang={lang} open={showOnboardingModal}  />
     </>
   );
 };

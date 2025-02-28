@@ -1,9 +1,9 @@
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
-import { ArrowBack } from '@mui/icons-material';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { ContentContainer } from '@/app/components/ContentContainer';
 import { Typography } from '@mui/material';
 import Header from '@/app/components/Header';
+import { Suspense } from 'react';
 
 const AddSitePage = async ({
   params: { lang },
@@ -18,7 +18,9 @@ const AddSitePage = async ({
         <Typography variant={'subtitle2'} component={'p'}>
           {dict.onBoarding.sites.addNewSiteInfo}
         </Typography>
-        <SiteForm dict={dict} redirectPath={`/${lang}/sites`} />
+        <Suspense>
+          <SiteForm dict={dict} redirectPath={`/${lang}/sites`} />
+        </Suspense>
       </ContentContainer>
     </>
   );
