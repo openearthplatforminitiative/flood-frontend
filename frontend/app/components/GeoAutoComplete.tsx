@@ -94,7 +94,6 @@ export const GeoAutoComplete = ({
           style={fieldStyle}
           className={fieldClassName}
           sx={{
-            marginTop: '24px',
             '& .MuiFilledInput-root': {
               backgroundColor: 'white',
               '&:hover': {

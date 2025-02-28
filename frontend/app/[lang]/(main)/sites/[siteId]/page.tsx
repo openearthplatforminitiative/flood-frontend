@@ -1,4 +1,4 @@
-import { IconButton, Link, Skeleton, Tooltip } from '@mui/material';
+import { Button, IconButton, Skeleton, Tooltip } from '@mui/material';
 import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
 import { Settings } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
@@ -10,6 +10,7 @@ import { CurrentWeatherWidget } from '../../../../components/weather/CurrentWeat
 import { SiteInfoWidget } from './SiteInfoWidget';
 import { weatherClient } from '@/lib/openepi-clients';
 import Header from '@/app/components/Header';
+import Link from 'next/link';
 
 interface SitePageProps {
   params: {
@@ -75,52 +76,70 @@ const Page = ({ params: { lang, siteId } }: SitePageProps) => {
         <HeaderLoader
           siteId={siteId}
           actions={
-            <Link href={`/en/sites/${siteId}/edit`}>
-              <Tooltip title={dict.sites.editSite}>
-                <IconButton>
-                  <Settings />
-                </IconButton>
-              </Tooltip>
-            </Link>
+            <>
+              <div className="text-black lg:hidden">
+                <Link href={`/en/sites/${siteId}/edit`}>
+                  <Tooltip title={dict.sites.editSite}>
+                    <IconButton color="inherit">
+                      <Settings />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+              </div>
+              <div className="hidden lg:inline">
+                <Link href={`/en/sites/${siteId}/edit`}>
+                  <Tooltip title={dict.sites.editSite}>
+                    <Button variant="contained" endIcon={<Settings />}>
+                      {dict.sites.editSite}
+                    </Button>
+                  </Tooltip>
+                </Link>
+              </div>
+            </>
           }
         />
       </Suspense>
-      <div className="relative px-4 pb-4 lg:px-6 lg:pb-6 mt-6 bg-neutralVariant-99">
-        {/* <div className="absolute bottom-0 left-0 w-full top-16"></div> */}
-        <div className="relative flex flex-col lg:flex-row justify-start gap-4 lg:gap-10 items-stretch flex-wrap -top-16 -mb-11 lg:-mb-6">
-          <Suspense
-            fallback={
-              <Skeleton
-                variant="rectangular"
-                sx={{ display: 'flex', height: 'auto' }}
-                className="flex-1 flex h-full rounded-xl"
-              />
-            }
-          >
-            <SiteInfoWidget siteId={siteId} lang={lang} />
-          </Suspense>
-          <Suspense
-            fallback={
-              <Skeleton
-                variant="rectangular"
-                sx={{ display: 'flex', height: 'auto' }}
-                className="flex-1 flex h-full rounded-xl"
-              />
-            }
-          >
-            <FloodWarning siteId={siteId} lang={lang} />
-          </Suspense>
-          <Suspense
-            fallback={
-              <Skeleton
-                variant="rectangular"
-                sx={{ display: 'flex', height: 'auto' }}
-                className="flex-1 flex h-full rounded-xl"
-              />
-            }
-          >
-            <CurrentWeatherWidget siteId={siteId} lang={lang} />
-          </Suspense>
+      <div className="px-4 pb-4 lg:px-6 lg:pb-6 bg-neutralVariant-99 flex flex-col gap-4 lg:gap-6">
+        <div className="flex flex-col lg:flex-row justify-start gap-4 lg:gap-6 items-stretch flex-wrap">
+          <div className="w-full min-w-1/2">
+            <Suspense
+              fallback={
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ display: 'flex', height: 'auto' }}
+                  className="flex-1 flex h-full rounded-xl"
+                />
+              }
+            >
+              <SiteInfoWidget siteId={siteId} lang={lang} />
+            </Suspense>
+          </div>
+          <div className="w-full min-w-1/2">
+            <Suspense
+              fallback={
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ display: 'flex', height: 'auto' }}
+                  className="flex-1 flex h-full rounded-xl"
+                />
+              }
+            >
+              <FloodWarning siteId={siteId} lang={lang} />
+            </Suspense>
+          </div>
+          <div className="w-full min-w-1/2">
+            <Suspense
+              fallback={
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ display: 'flex', height: 'auto' }}
+                  className="flex-1 flex h-full rounded-xl"
+                />
+              }
+            >
+              <CurrentWeatherWidget siteId={siteId} lang={lang} />
+            </Suspense>
+          </div>
         </div>
         <Suspense
           fallback={
