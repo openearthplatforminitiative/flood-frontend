@@ -2,7 +2,6 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 import { getServerSession, type NextAuthOptions } from 'next-auth';
 import type { DefaultSession } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
-import { signOut } from 'next-auth/react';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -108,12 +107,3 @@ export async function getUserId(): Promise<string | undefined> {
   const session = await getServerSession(authOptions);
   return session?.user.id;
 }
-
-// export async function getAccessToken(): Promise<string | undefined> {
-// 	const session = await getServerSession(authOptions)
-// 	if (!session) {
-// 		console.error("No session found")
-// 		return undefined
-// 	}
-// 	return session.token.access_token
-// }
