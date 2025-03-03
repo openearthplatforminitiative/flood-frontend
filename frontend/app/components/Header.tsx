@@ -30,7 +30,7 @@ const Header = ({ title, actions }: HeaderProps) => {
               <Button
                 variant="outlined"
                 startIcon={<ArrowBack />}
-                onClick={() => router.back()}
+                onClick={() => router.push(`/${pathSegments.slice(0, -1).join('/')}`)}
               >
                 Back
               </Button>
