@@ -18,7 +18,7 @@ import {
   Close,
 } from '@mui/icons-material';
 import Image from 'next/image';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 
 type WeatherForecastModalProps = {
@@ -38,7 +38,7 @@ export const WeatherForecastModal = ({
   handleClose,
   handleNext,
 }: WeatherForecastModalProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const selectedDay = weatherDaysForecast[dayIndex];
 
   return (

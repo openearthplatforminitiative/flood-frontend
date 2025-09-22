@@ -5,16 +5,13 @@ import {
   Button,
   DialogActions,
   Modal,
-  Skeleton,
   Slider,
   Typography,
 } from '@mui/material';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import dynamic from 'next/dynamic';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { GeoAutoComplete } from '../GeoAutoComplete';
 import SiteMap from '../onboarding/SiteMap';
-import { Site } from '@prisma/client';
 import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
 
 interface PositionModalProps {
@@ -48,7 +45,7 @@ const PositionModal = ({
     return true;
   }, [newSiteLngLat, currentSite]);
 
-  const handleSliderChange = (_: any, newValue: number | number[]) => {
+  const handleSliderChange = (_: unknown, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
   };
 

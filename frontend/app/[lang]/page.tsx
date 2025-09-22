@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { hasCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
 import type { Dict } from '@/app/[lang]/dictionaries';
-import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { redirect } from 'next/navigation';
 import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
@@ -10,7 +10,7 @@ import LanguageModal from '../components/LanguageModal';
 
 const Home = async ({ params }: { params: Promise<{ lang: string }> }) => {
   const { lang } = await params;
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
 
   if (hasCookie('language', { cookies })) {
     const userId = await getUserId();

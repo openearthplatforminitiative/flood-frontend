@@ -3,7 +3,6 @@
 import { getUserId } from '@/lib/auth-utils';
 import { weatherClient } from '@/lib/openepi-clients';
 import { getSiteForUser } from '@/lib/prisma';
-import { Box } from '@mui/material';
 import { CurrentWeatherView } from './CurrentWeatherView';
 
 type WeatherWidgetProps = {
@@ -30,7 +29,6 @@ export const CurrentWeatherWidget = async ({
     lon: site.lng,
   });
 
-  // Current weather does not hold all the information we need, so we need to look at the next hour as well
   const currentWeather = response.data?.properties.timeseries[0].data;
 
   if (currentWeather)

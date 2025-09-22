@@ -1,30 +1,36 @@
 'use client';
 
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { ArrowDownward } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
+import { weatherClient } from '@/lib/openepi-clients';
 
 type CurrentWeatherViewProps = {
   lang: string;
-  currentWeather: any;
+  currentWeather: NonNullable<
+    NonNullable<
+      Awaited<ReturnType<typeof weatherClient.getLocationForecast>>['data']
+    >['properties']['timeseries'][0]['data']
+  >;
 };
 
 export const CurrentWeatherView = ({
   lang,
   currentWeather,
 }: CurrentWeatherViewProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
 
   const nextHourWeather = currentWeather?.next_1_hours;
-  const weatherSymbolCode = currentWeather?.next_1_hours.summary?.symbol_code;
+  const weatherSymbolCode = currentWeather?.next_1_hours?.summary?.symbol_code;
 
   const temperature = Math.round(
-    currentWeather.instant.details?.air_temperature!
+    currentWeather.instant.details?.air_temperature ?? 0
   );
-  const wind = Math.round(currentWeather.instant.details?.wind_speed) + 'm/s';
+  const wind =
+    Math.round(currentWeather.instant.details?.wind_speed ?? 0) + 'm/s';
   const windDirection = currentWeather.instant.details?.wind_from_direction;
-  const precipitation = nextHourWeather.details.precipitation_amount
+  const precipitation = nextHourWeather?.details.precipitation_amount
     ? `${nextHourWeather.details.precipitation_amount}mm`
     : '0.0mm';
 

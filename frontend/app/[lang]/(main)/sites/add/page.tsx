@@ -1,4 +1,4 @@
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { ContentContainer } from '@/app/components/ContentContainer';
 import { Typography } from '@mui/material';
@@ -6,11 +6,12 @@ import Header from '@/app/components/Header';
 import { Suspense } from 'react';
 
 const AddSitePage = async ({
-  params: { lang },
+  params,
 }: {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const { lang } = await params;
+  const dict: Dict = getDictionaryWithDefault(lang);
   return (
     <>
       <Header title={dict.onBoarding.sites.addNewSite} />

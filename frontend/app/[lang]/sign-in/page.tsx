@@ -1,6 +1,6 @@
 import {
   defaultLocale,
-  getDictonaryWithDefault,
+  getDictionaryWithDefault,
   isLang,
 } from '../dictionaries';
 import { Box, Typography } from '@mui/material';
@@ -13,7 +13,7 @@ interface SignInPageProps {
 
 const SignInPage = async ({ params }: SignInPageProps) => {
   const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
   return (
     <Box
       sx={{

@@ -1,6 +1,5 @@
-import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import FloodWarningBox from '@/app/components/FloodWarningBox';
-import { intensityToColors } from '@/app/helpers/intensityToColors';
 import { getUserId } from '@/lib/auth-utils';
 import { floodClient } from '@/lib/openepi-clients';
 import { getSiteForUser } from '@/lib/prisma';
@@ -12,7 +11,7 @@ type WeatherWidgetProps = {
 };
 
 export const FloodWarning = async ({ siteId, lang }: WeatherWidgetProps) => {
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
 
   const userId = await getUserId();
   if (!userId) redirect('/');

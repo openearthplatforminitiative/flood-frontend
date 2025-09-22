@@ -8,7 +8,6 @@ import { SitesMapAddLayer } from '@/app/[lang]/(main)/sites/SitesMapAddLayer';
 import { SitesMapEditLayer } from '@/app/[lang]/(main)/sites/SitesMapEditLayer';
 import { SiteMarkers } from '@/app/[lang]/(main)/sites/SitesMapSitesLayer';
 import { SiteMapNavigation } from '@/app/[lang]/(main)/sites/SitesMapNavigation';
-import { Site } from '@prisma/client';
 
 type SiteMapProps = {
   mode: 'add' | 'edit';

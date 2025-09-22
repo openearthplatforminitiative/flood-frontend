@@ -5,7 +5,7 @@ import { Add, ArrowBack, Place } from '@mui/icons-material';
 import { useState } from 'react';
 import { completeOnboarding } from '@/app/actions';
 
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 
 import NotificationsForm from '../forms/NotificationsForm';
 import SiteListItem from '../SiteListItem';
@@ -29,7 +29,7 @@ export const OnboardingModal = ({ lang, open }: OnboardingProps) => {
     userId: 'userId',
   };
 
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const [modalOpen, setModalOpen] = useState(open);
 
   const handleClose = () => {

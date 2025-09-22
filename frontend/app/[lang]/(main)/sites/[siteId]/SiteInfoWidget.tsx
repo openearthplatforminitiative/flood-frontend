@@ -1,12 +1,10 @@
 'use server';
 
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import { typesRenderer } from '@/lib/render-utils';
-import { Settings } from '@mui/icons-material';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Box, Typography } from '@mui/material';
 
 interface SiteInfoWidgetProps {
   lang: string;
@@ -14,7 +12,7 @@ interface SiteInfoWidgetProps {
 }
 
 export const SiteInfoWidget = async ({ siteId, lang }: SiteInfoWidgetProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const userId = await getUserId();
   if (!userId) {
     throw new Error('User not found');

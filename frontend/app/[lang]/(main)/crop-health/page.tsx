@@ -1,12 +1,12 @@
 import { ContentContainer } from '@/app/components/ContentContainer';
 import Header from '@/app/components/Header';
-import { getDictonaryWithDefault } from '../../dictionaries';
+import { getDictionaryWithDefault } from '../../dictionaries';
 import { CropHealth } from './crop_health';
 import { Typography } from '@mui/material';
 
 const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
   const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
 
   return (
     <>

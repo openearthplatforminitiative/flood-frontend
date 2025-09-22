@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import Link from 'next/link';
 import { Add } from '@mui/icons-material';
 import Header from '@/app/components/Header';
@@ -13,7 +13,7 @@ import { OnboardingModal } from '@/app/components/onboarding/OnboardingModal';
 
 const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
   const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
 
   const userId = await getUserId();
   let showOnboardingModal = false;

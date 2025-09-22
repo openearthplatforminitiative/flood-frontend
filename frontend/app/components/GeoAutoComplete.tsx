@@ -1,7 +1,7 @@
 'use client';
 
 import { Autocomplete, debounce, TextField } from '@mui/material';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { geoCodingAction } from './map/GeoCodingActions';
 import { LngLat } from 'maplibre-gl';
 
@@ -28,39 +28,36 @@ export const GeoAutoComplete = ({
   const abortControllerRef = useRef<AbortController | null>(null);
   const { fieldStyle, fieldClassName, ...autoProps } = rest;
 
-  const fetchOptions = useCallback(
-    debounce(async (searchTerm, abortController) => {
-      if (!searchTerm) {
-        setOptions([]);
-        return;
-      }
-      setLoading(true);
-      await geoCodingAction(searchTerm, 'en').then((result) => {
-        if (!abortController.signal.aborted) {
-          if (result.features && result.features.length > 0) {
-            setOptions(
-              result.features.map((feature) => {
-                let label = feature.properties.name || '';
-                if (feature.properties.city) {
-                  label += `, ${feature.properties.city}`;
-                }
-                if (feature.properties.country) {
-                  label += `, ${feature.properties.country}`;
-                }
-                const coordinate = feature.geometry.coordinates as [
-                  number,
-                  number,
-                ];
-                return { label, coordinate };
-              })
-            );
-          }
-          setLoading(false);
+  const fetchOptions = debounce(async (searchTerm, abortController) => {
+    if (!searchTerm) {
+      setOptions([]);
+      return;
+    }
+    setLoading(true);
+    await geoCodingAction(searchTerm, 'en').then((result) => {
+      if (!abortController.signal.aborted) {
+        if (result.features && result.features.length > 0) {
+          setOptions(
+            result.features.map((feature) => {
+              let label = feature.properties.name || '';
+              if (feature.properties.city) {
+                label += `, ${feature.properties.city}`;
+              }
+              if (feature.properties.country) {
+                label += `, ${feature.properties.country}`;
+              }
+              const coordinate = feature.geometry.coordinates as [
+                number,
+                number,
+              ];
+              return { label, coordinate };
+            })
+          );
         }
-      });
-    }, 300),
-    []
-  );
+        setLoading(false);
+      }
+    });
+  }, 300);
 
   useEffect(() => {
     if (abortControllerRef.current) {

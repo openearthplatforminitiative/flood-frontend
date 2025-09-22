@@ -8,9 +8,9 @@ import {
   SatelliteAltOutlined,
 } from '@mui/icons-material';
 import { GeolocateControl, useMap } from 'react-map-gl/maplibre';
-import maplibregl, { LngLat, LngLatBounds } from 'maplibre-gl';
+import maplibregl, { LngLat, LngLatBounds, MapLibreEvent } from 'maplibre-gl';
 import { useSitesMap } from './SitesMapProvider';
-import { createRef, useEffect, useMemo, useState } from 'react';
+import { createRef, useCallback, useEffect, useMemo, useState } from 'react';
 
 type SiteMapNavigationProps = {
   currentPage: string;
@@ -33,7 +33,7 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
   const [currentPitch, setCurrentPitch] = useState(0);
   const [userHasMoved, setUserHasMoved] = useState(false);
 
-  const map = useMap();
+  const mapRef = useMap();
 
   const sitesBounds = useMemo(() => {
     if (sites.length === 0) {
@@ -72,87 +72,98 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
         setDefaultZoom(undefined);
       }
     }
-  }, [currentPage, currentSite, newSiteLngLat, sitesBounds]);
+  }, [
+    currentPage,
+    currentSite,
+    newSiteLngLat,
+    setDefaultCoordinates,
+    setDefaultZoom,
+    sitesBounds,
+  ]);
 
-  const handleUserMove = (centerCoordinates?: LngLat) => {
-    if (centerCoordinates) {
-      if (
-        Math.abs(
-          centerCoordinates.lat - (map.current?.getCenter()?.lat || 0)
-        ) <= 0.05 &&
-        Math.abs(
-          centerCoordinates.lng - (map.current?.getCenter()?.lng || 0)
-        ) <= 0.05
-      ) {
-        setUserHasMoved(false);
+  const handleUserMove = useCallback(
+    (centerCoordinates?: LngLat) => {
+      if (centerCoordinates) {
+        if (
+          Math.abs(
+            centerCoordinates.lat - (mapRef.current?.getCenter()?.lat || 0)
+          ) <= 0.05 &&
+          Math.abs(
+            centerCoordinates.lng - (mapRef.current?.getCenter()?.lng || 0)
+          ) <= 0.05
+        ) {
+          setUserHasMoved(false);
+        } else {
+          setUserHasMoved(true);
+        }
       } else {
-        setUserHasMoved(true);
+        setUserHasMoved(false);
       }
-    } else {
-      setUserHasMoved(false);
-    }
-  };
+    },
+    [mapRef]
+  );
 
   const handleRotate = (bearing: number, pitch: number) => {
     setCurrentBearing(bearing);
     setCurrentPitch(pitch);
   };
 
-  useEffect(() => {
-    if (map.current) {
-      const handleMove = () => handleUserMove(defaultCoordinates);
-      const handleRotateEvent = (e: any) =>
-        handleRotate(e.target.getBearing(), e.target.getPitch());
-
-      map.current.on('zoom', handleMove);
-      map.current.on('move', handleMove);
-      map.current.on('rotate', handleRotateEvent);
-      map.current.on('pitch', handleRotateEvent);
-
-      return () => {
-        map.current?.off('zoom', handleMove);
-        map.current?.off('move', handleMove);
-        map.current?.off('rotate', handleRotateEvent);
-        map.current?.off('pitch', handleRotateEvent);
-      };
-    }
-  }, [defaultCoordinates]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      zoomToLocation();
-    }, 200);
-  }, [defaultCoordinates, defaultZoom]);
-
-  const zoomToLocation = () => {
+  const zoomToLocation = useCallback(() => {
     if (currentPage == 'sites') {
-      map.current?.fitBounds(sitesBounds, {
+      mapRef.current?.fitBounds(sitesBounds, {
         padding: 100,
         maxZoom: 14,
         screenSpeed: 3,
       });
     } else {
-      map.current?.flyTo({
+      mapRef.current?.flyTo({
         center: defaultCoordinates,
         zoom: defaultZoom,
         screenSpeed: 3,
       });
     }
-  };
+  }, [currentPage, defaultCoordinates, defaultZoom, mapRef, sitesBounds]);
+
+  useEffect(() => {
+    const map = mapRef?.current;
+    if (!map) return;
+    const handleMove = () => handleUserMove(defaultCoordinates);
+    const handleRotateEvent = (
+      e: MapLibreEvent<MouseEvent | TouchEvent | undefined>
+    ) => handleRotate(e.target.getBearing(), e.target.getPitch());
+
+    map.on('zoom', handleMove);
+    map.on('move', handleMove);
+    map.on('rotate', handleRotateEvent);
+    map.on('pitch', handleRotateEvent);
+
+    return () => {
+      map?.off('zoom', handleMove);
+      map?.off('move', handleMove);
+      map?.off('rotate', handleRotateEvent);
+      map?.off('pitch', handleRotateEvent);
+    };
+  }, [defaultCoordinates, handleUserMove, mapRef]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      zoomToLocation();
+    }, 200);
+  }, [defaultCoordinates, defaultZoom, zoomToLocation]);
 
   const handleCompassClick = () => {
-    map.current?.resetNorthPitch();
+    mapRef.current?.resetNorthPitch();
     if (userHasMoved) {
       zoomToLocation();
     }
   };
 
   const handleZoomIn = () => {
-    map.current?.zoomIn();
+    mapRef.current?.zoomIn();
   };
 
   const handleZoomOut = () => {
-    map.current?.zoomOut();
+    mapRef.current?.zoomOut();
   };
 
   const handleMapStyleChange = () => {

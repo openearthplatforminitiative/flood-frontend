@@ -1,5 +1,5 @@
 import { Button, IconButton, Skeleton, Tooltip } from '@mui/material';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { Settings } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
@@ -13,10 +13,10 @@ import Header from '@/app/components/Header';
 import Link from 'next/link';
 
 interface SitePageProps {
-  params: {
+  params: Promise<{
     lang: string;
     siteId: string;
-  };
+  }>;
 }
 
 type HeaderPropsWithoutTitle = Omit<ComponentProps<typeof Header>, 'title'>;
@@ -38,8 +38,9 @@ const HeaderLoader = async ({
   return <Header {...props} title={site.name} />;
 };
 
-const Page = ({ params: { lang, siteId } }: SitePageProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+const Page = async ({ params }: SitePageProps) => {
+  const { lang, siteId } = await params;
+  const dict: Dict = getDictionaryWithDefault(lang);
 
   const getSite = async (
     userIdPromise: ReturnType<typeof getUserId>,

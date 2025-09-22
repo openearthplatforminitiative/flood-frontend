@@ -3,7 +3,7 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WeatherForecastModal } from './WeatherForecastModal';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 import { WeatherForecastCard } from './WeatherForecastCard';
 
@@ -16,7 +16,7 @@ export const WeatherWidgetView = ({
   lang,
   weatherDaysForecast: weatherDays,
 }: WeatherWidgetViewProps) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<number>(0);
 

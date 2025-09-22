@@ -1,7 +1,6 @@
-import { Dict, getDictonaryWithDefault } from '../[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '../[lang]/dictionaries';
 import { DateTime } from 'luxon';
-
-const find = require('tz-lookup');
+import find from 'tz-lookup';
 
 export const getLocalTime = (date: DateTime, coordinates: [number, number]) => {
   const timeZone = find(coordinates[0], coordinates[1]);
@@ -20,7 +19,7 @@ export const getMETHour = (localDateTime: DateTime, hour: number) => {
   // Because the MET api only provides data for 00:00, 06:00, 12:00, 18:00, we need to adjust the hour and select the nearest available data
   const pattern = [0, 1, 2, 3, -2, -1];
   const offset = localDateTime.offset;
-  let index = ((Math.floor(offset / 60) % 6) + 6) % 6;
+  const index = ((Math.floor(offset / 60) % 6) + 6) % 6;
   return hour + pattern[index];
 };
 
@@ -32,7 +31,7 @@ export const getMetDate = (localDateTime: DateTime) => {
 };
 
 export const getDayOfWeek = (date: Date, lang: string) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const days = [
     dict.time.sunday,
     dict.time.monday,

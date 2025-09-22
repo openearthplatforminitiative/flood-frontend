@@ -5,7 +5,7 @@ import {
   getMETHour,
 } from '@/app/helpers/timestampToLocalDate';
 import { DateTime } from 'luxon';
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { Site } from '@prisma/client';
 
 export type WeatherDayForecast = {
@@ -40,7 +40,7 @@ export const getMutadedWeatherForecast = async (
     ReturnType<typeof weatherClient.getLocationForecast>
   >
 ) => {
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   const timeSeries = locationForecast.data?.properties.timeseries;
 
   if (!timeSeries || timeSeries.length === 0) {
@@ -119,7 +119,7 @@ export const getMutadedWeatherForecast = async (
       precipitation = 0,
       wind = 0;
 
-    let weatherHours: WeatherHourForecast[] = [];
+    const weatherHours: WeatherHourForecast[] = [];
 
     // for each hour form getDatesFrom to getDatesTo, access the locationForecastIndexed[date] to get the weather data
     for (

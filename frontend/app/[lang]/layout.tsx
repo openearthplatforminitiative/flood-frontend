@@ -3,16 +3,11 @@ import { ReactNode } from 'react';
 import Providers from '@/app/components/Providers';
 import { Box } from '@mui/material';
 import { Inter } from 'next/font/google';
-import { getDictonaryWithDefault, languages } from './[lang]/dictionaries';
+import { getDictionaryWithDefault, languages } from './dictionaries';
 import './global.css';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}): Promise<Metadata> {
-  const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+export async function generateMetadata(): Promise<Metadata> {
+  const dict = getDictionaryWithDefault('en'); // Use default language
 
   return {
     title: dict.title,
@@ -37,7 +32,7 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
   return (
     <html lang={lang} className={inter.className + ' h-min-full h-full'}>
       <head>

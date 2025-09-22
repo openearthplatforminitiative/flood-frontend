@@ -2,7 +2,7 @@
 
 import { Skeleton, useMediaQuery } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import { Suspense, use, useEffect, useMemo } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import { SitesMap } from './SitesMap';
 import { SitesMapProvider } from './SitesMapProvider';
 

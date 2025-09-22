@@ -1,4 +1,4 @@
-import { Dict, getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import SiteForm from '@/app/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';
@@ -7,13 +7,14 @@ import { ContentContainer } from '@/app/components/ContentContainer';
 import { Suspense } from 'react';
 
 interface EditSitePageProps {
-  params: {
+  params: Promise<{
     lang: string;
     siteId: string;
-  };
+  }>;
 }
 
-const EditSitePage = ({ params: { lang, siteId } }: EditSitePageProps) => {
+const EditSitePage = async ({ params }: EditSitePageProps) => {
+  const { lang, siteId } = await params;
   return (
     <>
       <Header title="Edit" />
@@ -41,7 +42,7 @@ const EditSiteFormLoader = async ({
   if (!site) {
     throw new Error('Site not found');
   }
-  const dict: Dict = getDictonaryWithDefault(lang);
+  const dict: Dict = getDictionaryWithDefault(lang);
   return (
     <SiteForm
       dict={dict}

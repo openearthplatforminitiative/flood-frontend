@@ -1,6 +1,5 @@
 import FloodWarningBox from '@/app/components/FloodWarningBox';
 import { floodClient } from '@/lib/openepi-clients';
-import { Site, User } from '@prisma/client';
 import { Dict } from '../../dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';

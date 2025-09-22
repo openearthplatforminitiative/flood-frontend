@@ -3,7 +3,9 @@
 import { Button, Box, Typography, Input } from '@mui/material';
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { useState } from 'react';
-import { Grass, Yard } from '@mui/icons-material';
+import { Yard } from '@mui/icons-material';
+import Image from 'next/image';
+import { Dict } from '../../dictionaries';
 
 type CropHealthData = {
   ALS: number;
@@ -42,12 +44,12 @@ const GetCropHealthTranslation = (key: keyof CropHealthData) => {
 };
 
 type CropHealthProps = {
-  dict: any;
+  dict: Dict;
 };
 
 export const CropHealth = ({ dict }: CropHealthProps) => {
-  const [image, setImage] = useState<string | null>(null);
-  const [data, setData] = useState<any | null>(null);
+  const [image, setImage] = useState<string>();
+  const [data, setData] = useState<CropHealthData>();
 
   const [expanded, setExpanded] = useState(false);
 
@@ -60,7 +62,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
 
     const file = event.target.files[0];
 
-    var reader = new FileReader();
+    const reader = new FileReader();
 
     reader.readAsDataURL(file);
 
@@ -123,11 +125,13 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
           <>
             <Box className="flex-1 h-fit rounded-3xl overflow-hidden">
               {image && (
-                <img
-                  width="100%"
+                <Image
+                  width={400}
+                  height={400}
                   id="preview"
                   src={image}
                   alt="upload-preview"
+                  className="object-cover w-full"
                 />
               )}
             </Box>
@@ -137,7 +141,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                 onClick={() => setExpanded(!expanded)}
               >
                 {data ? (
-                  Object.keys(data)
+                  (Object.keys(data) as Array<keyof CropHealthData>)
                     .sort((a, b) => {
                       if (a === 'HLT') return -1; // Always put HLT first
                       if (b === 'HLT') return 1;
@@ -218,9 +222,7 @@ export const CropHealth = ({ dict }: CropHealthProps) => {
                               expanded ? 'line-clamp-none' : 'line-clamp-2'
                             }`}
                           >
-                            {GetCropHealthTranslation(
-                              key as keyof CropHealthData
-                            )}
+                            {GetCropHealthTranslation(key)}
                           </Typography>
                         </Box>
                       );

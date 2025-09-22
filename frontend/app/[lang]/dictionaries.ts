@@ -183,12 +183,12 @@ export const propertyTypes: SiteType[] = [
 
 export type Lang = keyof LangDictionary;
 export const languages: Lang[] = ['en', 'fr', 'rw'];
-export const isLang = (x: any): x is Lang => languages.includes(x);
+export const isLang = (x: unknown): x is Lang => languages.includes(x as Lang);
 
 export const getDictionary = (lang: Lang) => {
   return dictionaries[lang];
 };
 
-export const getDictonaryWithDefault = (lang: string) => {
+export const getDictionaryWithDefault = (lang: string) => {
   return isLang(lang) ? getDictionary(lang) : getDictionary(defaultLocale);
 };

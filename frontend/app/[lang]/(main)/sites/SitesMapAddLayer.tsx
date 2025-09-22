@@ -1,7 +1,7 @@
 import { GeoAutoComplete } from '@/app/components/GeoAutoComplete';
 import { AddLocationAltOutlined } from '@mui/icons-material';
 import { Layer, Marker, Source, useMap } from 'react-map-gl/maplibre';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Slider, useMediaQuery } from '@mui/material';
 import { useSitesMap } from './SitesMapProvider';
 import { circle } from '@turf/turf';
@@ -10,24 +10,29 @@ export const SitesMapAddLayer = () => {
   const { newSiteLngLat, setNewSiteLngLat, newSiteRadius, setNewSiteRadius } =
     useSitesMap()!;
 
-  const map = useMap();
+  const mapRef = useMap();
 
-  const handleContextMenu = (e: maplibregl.MapMouseEvent) => {
-    e.preventDefault();
-    setNewSiteLngLat(e.lngLat);
-  };
+  const handleContextMenu = useCallback(
+    (e: maplibregl.MapMouseEvent) => {
+      e.preventDefault();
+      setNewSiteLngLat(e.lngLat);
+    },
+    [setNewSiteLngLat]
+  );
 
   useEffect(() => {
+    const map = mapRef?.current;
+    if (!map) return;
     const contextMenuHandler = (e: maplibregl.MapMouseEvent): void => {
       handleContextMenu(e);
     };
-    map.current?.on('contextmenu', contextMenuHandler);
+    map.on('contextmenu', contextMenuHandler);
     return () => {
-      map.current?.off('contextmenu', contextMenuHandler);
+      map.off('contextmenu', contextMenuHandler);
     };
-  }, []);
+  }, [handleContextMenu, mapRef]);
 
-  const handleSliderChange = (_: any, newValue: number | number[]) => {
+  const handleSliderChange = (_: unknown, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
   };
 

@@ -64,4 +64,4 @@ export const SiteMarkers = (
         </Link>
       )
     );
-  }, [sites, currentPage, site]);
+  }, [lang, sites, currentPage, site]);

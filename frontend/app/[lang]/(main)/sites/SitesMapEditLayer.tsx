@@ -18,7 +18,7 @@ export const SitesMapEditLayer = () => {
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
 
-  const handleSliderChange = (_: any, newValue: number | number[]) => {
+  const handleSliderChange = (_: unknown, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
   };
 
@@ -74,7 +74,7 @@ export const SitesMapEditLayer = () => {
         ),
       ],
     }),
-    [newSiteLngLat, newSiteRadius, currentSite]
+    [latlng?.lat, latlng?.lng, newSiteRadius, currentSite]
   );
 
   return (

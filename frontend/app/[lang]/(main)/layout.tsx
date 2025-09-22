@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
-import { getDictonaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
 import Navbar from '@/app/components/Navbar';
-import Header from '@/app/components/Header';
 
 interface MainLayoutProps {
   params: Promise<{
@@ -12,7 +11,7 @@ interface MainLayoutProps {
 
 const MainLayout = async ({ params, children }: MainLayoutProps) => {
   const { lang } = await params;
-  const dict = getDictonaryWithDefault(lang);
+  const dict = getDictionaryWithDefault(lang);
 
   return (
     <Box className="min-h-full w-full flex flex-col lg:flex-row">
