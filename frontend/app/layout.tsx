@@ -47,9 +47,7 @@ export default async function RootLayout({
       </head>
       <body className="flex w-full h-full m-0 bg-neutralVariant-99">
         <Box sx={{ flexGrow: 1 }}>
-          <Providers lang={lang}>
-            {children}
-          </Providers>
+          <Providers lang={lang}>{children}</Providers>
         </Box>
       </body>
     </html>

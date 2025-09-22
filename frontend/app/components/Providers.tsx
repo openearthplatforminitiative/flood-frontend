@@ -12,11 +12,7 @@ interface ThemeRegistryProps {
   children: ReactNode;
 }
 
-export default function Providers({
-  lang,
-  children,
-}: ThemeRegistryProps) {
-
+export default function Providers({ lang, children }: ThemeRegistryProps) {
   return (
     <AppRouterCacheProvider options={{ enableCssLayer: true }}>
       <ThemeProvider theme={theme}>

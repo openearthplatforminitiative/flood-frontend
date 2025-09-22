@@ -12,9 +12,7 @@ const page = async ({ params }: { params: Promise<{ lang: string }> }) => {
     <>
       <Header title="Crop Health" />
       <ContentContainer>
-        <div
-          className='flex flex-col gap-4 mb-4 bg-neutral-90 pt-2 pb-4 rounded-xl'
-        >
+        <div className="flex flex-col gap-4 mb-4 bg-neutral-90 pt-2 pb-4 rounded-xl">
           <Typography
             sx={{
               paddingX: '1rem',
