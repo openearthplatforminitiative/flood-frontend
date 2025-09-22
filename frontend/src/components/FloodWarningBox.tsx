@@ -14,15 +14,15 @@ import { intensityToColors } from '../helpers/intensityToColors';
 
 type FloodWarningBoxProps =
   | {
-    dict: Dict;
-    intensity: Exclude<FloodIntensity, 'G'>;
-    timing: FloodTiming;
-    siteName: string;
-  }
+      dict: Dict;
+      intensity: Exclude<FloodIntensity, 'G'>;
+      timing: FloodTiming;
+      siteName: string;
+    }
   | {
-    dict: Dict;
-    intensity: Extract<FloodIntensity, 'G'>;
-  };
+      dict: Dict;
+      intensity: Extract<FloodIntensity, 'G'>;
+    };
 
 const FloodWarningBox = (props: FloodWarningBoxProps) => {
   const { dict, intensity } = props;
