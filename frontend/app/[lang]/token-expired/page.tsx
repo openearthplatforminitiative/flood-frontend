@@ -8,10 +8,11 @@ import Image from 'next/image';
 import SignInButton from '@/app/components/buttons/SignInButton';
 
 interface TokenExpirePageProps {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
-const TokenExpiredPage = async ({ params: { lang } }: TokenExpirePageProps) => {
+const TokenExpiredPage = async ({ params }: TokenExpirePageProps) => {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
   return (
     <Box

@@ -1,6 +1,4 @@
-import tailwindConfig from '../tailwind.config.js';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { PaletteOptions } from '@mui/material/styles';
+import tailwindConfig from '../tailwind.config';
 
-const fullConfig = resolveConfig(tailwindConfig);
-
-export const palettes = fullConfig.theme.colors;
+export const palettes = tailwindConfig.theme?.extend?.colors as PaletteOptions;

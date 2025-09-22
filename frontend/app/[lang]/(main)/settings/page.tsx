@@ -9,7 +9,8 @@ import Header from '@/app/components/Header';
 import LanguageDropdown from '@/app/components/LanguageDropdown';
 import { ContentContainer } from '@/app/components/ContentContainer';
 
-const Settings = async ({ params: { lang } }: { params: { lang: string } }) => {
+const Settings = async ({ params }: { params: Promise<{ lang: string }> }) => {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
   return (
     <>

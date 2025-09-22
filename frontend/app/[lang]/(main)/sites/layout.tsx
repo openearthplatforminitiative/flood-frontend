@@ -2,18 +2,19 @@
 
 import { Skeleton, useMediaQuery } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import { Suspense, useEffect, useMemo } from 'react';
+import { Suspense, use, useEffect, useMemo } from 'react';
 import { SitesMap } from './SitesMap';
 import { SitesMapProvider } from './SitesMapProvider';
 
 type SitesLayoutProps = {
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     lang: string;
-  };
+  }>;
 };
 
-const SitesLayout = ({ children, params: { lang } }: SitesLayoutProps) => {
+const SitesLayout = ({ children, params }: SitesLayoutProps) => {
+  const { lang } = use(params);
   const pathname = usePathname();
   const isMobile = useMediaQuery('(max-width: 1024px)');
 

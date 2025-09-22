@@ -11,7 +11,8 @@ import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
 import { OnboardingModal } from '@/app/components/onboarding/OnboardingModal';
 
-const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
+const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
 
   const userId = await getUserId();

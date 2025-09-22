@@ -8,10 +8,11 @@ import SignInButton from '@/app/components/buttons/SignInButton';
 import { Water } from '@mui/icons-material';
 
 interface SignInPageProps {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
-const SignInPage = async ({ params: { lang } }: SignInPageProps) => {
+const SignInPage = async ({ params }: SignInPageProps) => {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
   return (
     <Box

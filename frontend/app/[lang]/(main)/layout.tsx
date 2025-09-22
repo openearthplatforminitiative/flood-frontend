@@ -4,13 +4,14 @@ import Navbar from '@/app/components/Navbar';
 import Header from '@/app/components/Header';
 
 interface MainLayoutProps {
-  params: {
+  params: Promise<{
     lang: string;
-  };
+  }>;
   children: React.ReactNode;
 }
 
-const MainLayout = async ({ params: { lang }, children }: MainLayoutProps) => {
+const MainLayout = async ({ params, children }: MainLayoutProps) => {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
 
   return (

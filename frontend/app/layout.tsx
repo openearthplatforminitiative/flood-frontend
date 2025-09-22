@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import ThemeRegistry from '@/app/components/ThemeRegistry';
+import Providers from '@/app/components/Providers';
 import { Box } from '@mui/material';
 import { Inter } from 'next/font/google';
-import { getDictonaryWithDefault, languages } from './dictionaries';
+import { getDictonaryWithDefault, languages } from './[lang]/dictionaries';
 import './global.css';
 
 export async function generateMetadata({
-  params: { lang },
+  params,
 }: {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
 
   return {
@@ -28,13 +29,14 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 });
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params: { lang },
+  params,
 }: {
   children: ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
+  const { lang } = await params;
   const dict = getDictonaryWithDefault(lang);
   return (
     <html lang={lang} className={inter.className + ' h-min-full h-full'}>
@@ -45,9 +47,9 @@ export default function RootLayout({
       </head>
       <body className="flex w-full h-full m-0 bg-neutralVariant-99">
         <Box sx={{ flexGrow: 1 }}>
-          <ThemeRegistry lang={lang} options={{ key: 'mui' }}>
+          <Providers lang={lang}>
             {children}
-          </ThemeRegistry>
+          </Providers>
         </Box>
       </body>
     </html>

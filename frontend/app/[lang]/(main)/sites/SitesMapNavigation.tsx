@@ -160,7 +160,7 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
   };
 
   const buttonStyle =
-    'bg-neutral-95 hover:bg-neutral-90 border p-2 first:rounded-t-lg last:rounded-b-lg';
+    'bg-neutral-95 hover:bg-neutral-90 border border-neutral-90 p-2 first:rounded-t-lg last:rounded-b-lg';
 
   return (
     <>

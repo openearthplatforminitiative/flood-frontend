@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { palettes } from '@/theme/palettes';
 import { typography } from '@/theme/typography';
+import { palettes } from './palettes';
 
 const theme = createTheme({
   palette: palettes,

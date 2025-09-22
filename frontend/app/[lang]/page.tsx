@@ -8,7 +8,8 @@ import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
 import LanguageModal from '../components/LanguageModal';
 
-const Home = async ({ params: { lang } }: { params: { lang: string } }) => {
+const Home = async ({ params }: { params: Promise<{ lang: string }> }) => {
+  const { lang } = await params;
   const dict: Dict = getDictonaryWithDefault(lang);
 
   if (hasCookie('language', { cookies })) {
