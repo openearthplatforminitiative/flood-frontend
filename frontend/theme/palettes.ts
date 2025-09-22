@@ -3,4 +3,4 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 
 const fullConfig = resolveConfig(tailwindConfig);
 
-export const palettes = fullConfig.theme.colors
+export const palettes = fullConfig.theme.colors;

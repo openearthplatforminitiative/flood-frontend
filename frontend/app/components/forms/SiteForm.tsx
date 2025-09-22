@@ -43,6 +43,14 @@ const SiteForm = ({
   const searchParams = useSearchParams();
   const Router = useRouter();
 
+  const {
+    newSiteLngLat,
+    setNewSiteLngLat,
+    newSiteRadius,
+    setNewSiteRadius,
+    refetchSites,
+  } = useSitesMap();
+
   useEffect(() => {
     if (searchParams.has('lat') && searchParams.has('lng')) {
       setNewSiteLngLat(
@@ -52,15 +60,7 @@ const SiteForm = ({
         )
       );
     }
-  }, [searchParams]);
-
-  const {
-    newSiteLngLat,
-    setNewSiteLngLat,
-    newSiteRadius,
-    setNewSiteRadius,
-    refetchSites,
-  } = useSitesMap();
+  }, [searchParams, setNewSiteLngLat]);
 
   const [name, setName] = useState<string>(site ? site.name : '');
   const [types, setTypes] = useState<string[]>(site ? site.types : []);
@@ -79,7 +79,7 @@ const SiteForm = ({
       setNewSiteLngLat(new LngLat(site.lng, site.lat));
       setNewSiteRadius(site.radius);
     }
-  }, [site]);
+  }, [setNewSiteLngLat, setNewSiteRadius, site]);
 
   useEffect(() => {
     if (newSiteLngLat) {

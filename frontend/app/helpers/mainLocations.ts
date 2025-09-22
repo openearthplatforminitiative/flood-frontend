@@ -10,22 +10,22 @@ export type Location = {
   name: string;
   icon: ReactNode;
   pathName: string;
-}
+};
 
 export const mainLocations = (dict: Dict): Location[] => [
   {
     name: dict.navbar.sites,
     icon: React.createElement(PlaceOutlined),
-    pathName: 'sites'
+    pathName: 'sites',
   },
   {
     name: dict.navbar.cropHealth,
     icon: React.createElement(GrassOutlined),
-    pathName: 'crop-health'
+    pathName: 'crop-health',
   },
   {
     name: dict.navbar.settings,
     icon: React.createElement(SettingsOutlined),
-    pathName: 'settings'
-  }
-]
+    pathName: 'settings',
+  },
+];

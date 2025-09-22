@@ -7,8 +7,8 @@ import { Suspense } from 'react';
 import { FloodWarnings } from './FloodWarnings';
 import { SiteList, SiteListSkeleton } from './SiteList';
 import { ContentContainer } from '@/app/components/ContentContainer';
-import { getUserId } from "@/lib/auth-utils";
-import { getOrCreateUser } from "@/lib/prisma";
+import { getUserId } from '@/lib/auth-utils';
+import { getOrCreateUser } from '@/lib/prisma';
 import { OnboardingModal } from '@/app/components/onboarding/OnboardingModal';
 
 const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
@@ -41,7 +41,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
             <h2 className="text-2xl lg:text-4xl text-primary-20">
               {dict.sites.title}
             </h2>
-            <Box className="order-last lg:order-none sticky bottom-[93px] w-full lg:w-auto z-50">
+            <Box className="order-last lg:order-0 sticky bottom-[93px] w-full lg:w-auto z-50">
               <Link href={'sites/add'}>
                 <Button
                   variant={'contained'}
@@ -60,7 +60,7 @@ const Sites = async ({ params: { lang } }: { params: { lang: string } }) => {
           </Box>
         </Box>
       </ContentContainer>
-      <OnboardingModal lang={lang} open={showOnboardingModal}  />
+      <OnboardingModal lang={lang} open={showOnboardingModal} />
     </>
   );
 };

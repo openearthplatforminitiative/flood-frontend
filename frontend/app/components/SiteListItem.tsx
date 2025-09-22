@@ -28,8 +28,7 @@ const SiteListItem = ({
   icon = <Place />,
 }: SiteListItemProps) => {
   const siteTypeNames = typesRenderer(site.types, dict);
-  return (
-    isExample ?
+  return isExample ? (
     <Link className="opacity-50" href={href} key={site.id}>
       <ListItem disablePadding>
         <ListItemButton>
@@ -42,19 +41,19 @@ const SiteListItem = ({
       </ListItem>
       <Divider />
     </Link>
-    : 
+  ) : (
     <Link href={href} key={site.id}>
-    <ListItem disablePadding>
-      <ListItemButton>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={site.name} secondary={siteTypeNames} />
-        <ListItemIcon>
-          <ArrowForward />
-        </ListItemIcon>
-      </ListItemButton>
-    </ListItem>
-    <Divider />
-  </Link>
+      <ListItem disablePadding>
+        <ListItemButton>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={site.name} secondary={siteTypeNames} />
+          <ListItemIcon>
+            <ArrowForward />
+          </ListItemIcon>
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+    </Link>
   );
 };
 

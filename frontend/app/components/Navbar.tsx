@@ -26,11 +26,11 @@ const Navbar = ({ dict, lang }: NavbarProps) => {
           {dict.title}
         </h2>
       </Box>
-      <Box className=" flex-grow flex lg:flex-col w-full lg:p-6 p-2 justify-around lg:pr-0 lg:gap-6">
+      <Box className=" grow flex lg:flex-col w-full lg:p-6 p-2 justify-around lg:pr-0 lg:gap-6">
         {mainLocations(dict).map((location) => (
           <NavBarButton key={location.name} location={location} lang={lang} />
         ))}
-        <Box className="hidden lg:flex flex-grow flex-col justify-end">
+        <Box className="hidden lg:flex grow flex-col justify-end">
           <button
             onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
             className={

@@ -13,7 +13,12 @@ function getBrowserLocale(request: NextRequest) {
 }
 
 function auth(request: NextRequestWithAuth, pathname: string, lang: string) {
-  const allowedPaths = [`/${lang}/sign-in`, `/${lang}/token-expired`, `/${lang}`, '/'];
+  const allowedPaths = [
+    `/${lang}/sign-in`,
+    `/${lang}/token-expired`,
+    `/${lang}`,
+    '/',
+  ];
   if (allowedPaths.includes(pathname)) {
     return;
   }

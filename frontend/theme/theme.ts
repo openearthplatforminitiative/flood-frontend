@@ -6,10 +6,10 @@ const theme = createTheme({
   palette: palettes,
   components: {
     MuiButtonBase: {
-			defaultProps: {
-				disableRipple: true,
-			},
-		},
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -31,7 +31,7 @@ const theme = createTheme({
         root: {
           boxShadow: 'none',
         },
-      }
+      },
     },
     MuiFilledInput: {
       styleOverrides: {

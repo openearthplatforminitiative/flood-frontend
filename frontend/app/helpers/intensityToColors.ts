@@ -1,5 +1,5 @@
-import { FloodIntensity } from "@/lib/openepi-clients";
-import { palettes } from "../../theme/palettes";
+import { FloodIntensity } from '@/lib/openepi-clients';
+import { palettes } from '../../theme/palettes';
 
 export const intensityToColors = (intensity: FloodIntensity) => {
   switch (intensity) {
@@ -28,4 +28,4 @@ export const intensityToColors = (intensity: FloodIntensity) => {
         minorBackground: palettes.extreme[90],
       };
   }
-}
+};

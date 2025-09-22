@@ -40,10 +40,10 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
 
   const handleContextMenu = (e: MapLayerMouseEvent) => {
     e.preventDefault();
+    console.log(currentPage);
+    if (currentPage == 'add' || currentPage == 'edit') return;
     setPopupLngLat(e.lngLat);
-    if (currentPage !== 'add') {
-      setShowPopup(true);
-    }
+    setShowPopup(true);
   };
 
   return (
@@ -69,7 +69,7 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
             closeOnClick={true}
             onClose={() => setShowPopup(false)}
             style={{ visibility: 'hidden' }}
-            className="!rounded-xl !bg-transparent"
+            className="rounded-xl! bg-transparent!"
             anchor="top"
           >
             <Link

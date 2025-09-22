@@ -40,12 +40,6 @@ export default function RootLayout({
     <html lang={lang} className={inter.className + ' h-min-full h-full'}>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin="anonymous"
-        />
         <meta name="theme-color" content="#E9FFED" />
         <title>{dict.title}</title>
       </head>

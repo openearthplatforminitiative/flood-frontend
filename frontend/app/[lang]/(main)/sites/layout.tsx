@@ -37,7 +37,7 @@ const SitesLayout = ({ children, params: { lang } }: SitesLayoutProps) => {
             </div>
           </div>
           <div
-            className={`w-full ${isSites ? 'max-w-[32rem]' : 'max-w-[48rem]'} flex flex-col transition-all`}
+            className={`w-full ${isSites ? 'max-w-lg' : 'max-w-3xl'} flex flex-col transition-all`}
           >
             {children}
           </div>
