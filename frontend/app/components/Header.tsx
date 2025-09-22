@@ -17,7 +17,7 @@ const Header = ({ title, actions }: HeaderProps) => {
   const isNested = pathSegments.length > 2;
 
   return (
-    <Box className="sticky gap-2 lg:gap-6 top-0 w-full flex lg:flex-wrap justify-between lg:items-start items-center lg:static bg-neutralVariant-99 text-primary-20 p-4 lg:p-6 lg:pt-12 lg:pb-10 z-50 lg:z-0">
+    <div className="sticky gap-2 lg:gap-6 top-0 w-full flex lg:flex-wrap justify-between items-center lg:static bg-neutralVariant-99 text-primary-20 p-4 lg:p-6 lg:pt-12 lg:pb-10 z-50 lg:z-0">
       <div className="flex-1 lg:flex-none lg:w-min">
         {isNested && (
           <>
@@ -38,11 +38,11 @@ const Header = ({ title, actions }: HeaderProps) => {
           </>
         )}
       </div>
-      <h1 className="flex-2 lg:w-full lg:order-3 text-center lg:text-left text-2xl lg:text-6xl">
+      <h1 className="flex-2 lg:w-full text-center lg:text-left text-2xl lg:text-6xl">
         {title}
       </h1>
       <div className="flex-1 flex justify-end items-center">{actions}</div>
-    </Box>
+    </div>
   );
 };
 

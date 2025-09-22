@@ -69,7 +69,7 @@ export const SitesMapAddLayer = () => {
       {!isMobile && (
         <div className="absolute top-0 left-0 m-4 w-1/2">
           <GeoAutoComplete setLngLat={setNewSiteLngLat} />
-          <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border">
+          <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border border-neutral-90">
             {newSiteRadius}
             <Slider
               className="!bg-neutral-95 !text-neutral-20"

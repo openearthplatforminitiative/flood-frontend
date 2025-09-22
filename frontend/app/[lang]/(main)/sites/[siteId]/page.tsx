@@ -78,7 +78,7 @@ const Page = ({ params: { lang, siteId } }: SitePageProps) => {
           actions={
             <>
               <div className="text-black lg:hidden">
-                <Link href={`/en/sites/${siteId}/edit`}>
+                <Link href={`/${lang}}/sites/${siteId}/edit`}>
                   <Tooltip title={dict.sites.editSite}>
                     <IconButton color="inherit">
                       <Settings />
@@ -87,7 +87,7 @@ const Page = ({ params: { lang, siteId } }: SitePageProps) => {
                 </Link>
               </div>
               <div className="hidden lg:inline">
-                <Link href={`/en/sites/${siteId}/edit`}>
+                <Link href={`/${lang}/sites/${siteId}/edit`}>
                   <Tooltip title={dict.sites.editSite}>
                     <Button variant="contained" endIcon={<Settings />}>
                       {dict.sites.editSite}
