@@ -12,8 +12,8 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import type { Dict, Lang } from '@/app/[lang]/dictionaries';
-import { isLang } from '@/app/[lang]/dictionaries';
+import type { Dict, Lang } from '@/utils/dictionaries';
+import { isLang } from '@/utils/dictionaries';
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'cookies-next';
 

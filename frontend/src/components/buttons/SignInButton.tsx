@@ -1,6 +1,6 @@
 'use client';
 
-import { defaultLocale, Lang } from '@/app/[lang]/dictionaries';
+import { defaultLocale, Lang } from '@/utils/dictionaries';
 import { Button } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import React from 'react';

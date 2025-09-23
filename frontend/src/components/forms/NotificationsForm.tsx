@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict } from '@/app/[lang]/dictionaries';
+import { Dict } from '@/utils/dictionaries';
 import { submitPushPermissions } from '@/app/actions';
 import { Switch, Box, Button } from '@mui/material';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { Dict } from '@/app/[lang]/dictionaries';
+import { Dict } from '@/utils/dictionaries';
 
 export const en: Dict = {
   yes: 'Yes',

@@ -3,7 +3,7 @@
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
-import { Location } from '../../helpers/mainLocations';
+import { Location } from '../../utils/mainLocations';
 
 type NavBarButtonProps = {
   location: Location;

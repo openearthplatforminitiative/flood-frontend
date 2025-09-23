@@ -18,7 +18,7 @@ import {
   cropTypes,
   livestockTypes,
   propertyTypes,
-} from '@/app/[lang]/dictionaries';
+} from '@/utils/dictionaries';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { typesRenderer } from '@/lib/render-utils';
 

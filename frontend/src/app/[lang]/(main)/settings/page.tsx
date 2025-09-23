@@ -2,7 +2,7 @@ import {
   defaultLocale,
   getDictionaryWithDefault,
   isLang,
-} from '@/app/[lang]/dictionaries';
+} from '@/utils/dictionaries';
 import SignOutButton from '@/components/buttons/SignOutButton';
 import Header from '@/components/Header';
 import LanguageDropdown from '@/components/LanguageDropdown';

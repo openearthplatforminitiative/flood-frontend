@@ -1,4 +1,4 @@
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { DateTime } from 'luxon';
 import find from 'tz-lookup';
 

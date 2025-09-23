@@ -1,15 +1,15 @@
 import { Box, Button } from '@mui/material';
-import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import Link from 'next/link';
 import { Add } from '@mui/icons-material';
 import Header from '@/components/Header';
 import { Suspense } from 'react';
-import { FloodWarnings } from './FloodWarnings';
-import { SiteList, SiteListSkeleton } from './SiteList';
 import { ContentContainer } from '@/components/ContentContainer';
 import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
+import { FloodWarnings } from '@/components/FloodWarnings';
+import { SiteListSkeleton, SiteList } from '@/components/SiteList';
 
 const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
   const { lang } = await params;

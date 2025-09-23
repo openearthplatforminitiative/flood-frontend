@@ -1,6 +1,6 @@
 import { ContentContainer } from '@/components/ContentContainer';
 import Header from '@/components/Header';
-import { getDictionaryWithDefault } from '../../dictionaries';
+import { getDictionaryWithDefault } from '../../../../utils/dictionaries';
 import { CropHealth } from './crop_health';
 import { Typography } from '@mui/material';
 

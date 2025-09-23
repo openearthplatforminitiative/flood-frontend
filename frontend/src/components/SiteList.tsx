@@ -1,12 +1,12 @@
 'use client';
 
 import SiteListItem from '@/components/SiteListItem';
-import { intensityToColors } from '@/helpers/intensityToColors';
+import { intensityToColors } from '@/utils/intensityToColors';
 import { floodIntensityRatingMap } from '@/lib/openepi-clients';
 import { Warning } from '@mui/icons-material';
 import { List, Skeleton } from '@mui/material';
-import { Dict } from '../../dictionaries';
-import { useSitesMap } from './SitesMapProvider';
+import { useSitesMap } from '@/components/map/SitesMapProvider';
+import { Dict } from '@/utils/dictionaries';
 
 type SiteListProps = {
   dict: Dict;

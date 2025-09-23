@@ -1,6 +1,6 @@
 'use server';
 
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import { typesRenderer } from '@/lib/render-utils';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { ArrowDownward } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import Image from 'next/image';

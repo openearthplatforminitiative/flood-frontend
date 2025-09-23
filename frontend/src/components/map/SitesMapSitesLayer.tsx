@@ -1,10 +1,10 @@
 'use client';
 
+import { SiteWithFloodData } from '@/types/SitesWithFloodData';
 import { PlaceOutlined } from '@mui/icons-material';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
-import { SiteWithFloodData } from './SitesAction';
 
 export const SiteMarkers = (
   lang: string,

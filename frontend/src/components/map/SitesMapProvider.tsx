@@ -7,8 +7,9 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { fetchSites, SiteWithFloodData } from './SitesAction';
 import { useParams } from 'next/navigation';
+import { SiteWithFloodData } from '@/types/SitesWithFloodData';
+import { fetchSites } from '@/actions/SitesAction';
 
 interface SitesMapContextType {
   sites: SiteWithFloodData[];

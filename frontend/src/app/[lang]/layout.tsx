@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import Providers from '@/components/Providers';
 import { Box } from '@mui/material';
 import { Inter } from 'next/font/google';
-import { getDictionaryWithDefault, languages } from './dictionaries';
+import { getDictionaryWithDefault, languages } from '../../utils/dictionaries';
 import './global.css';
 
 export async function generateMetadata(): Promise<Metadata> {

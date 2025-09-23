@@ -5,7 +5,7 @@ import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { useState } from 'react';
 import { Yard } from '@mui/icons-material';
 import Image from 'next/image';
-import { Dict } from '../../dictionaries';
+import { Dict } from '../../../../utils/dictionaries';
 
 type CropHealthData = {
   ALS: number;

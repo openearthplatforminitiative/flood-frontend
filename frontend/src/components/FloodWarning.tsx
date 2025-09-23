@@ -1,4 +1,4 @@
-import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import FloodWarningBox from '@/components/FloodWarningBox';
 import { getUserId } from '@/lib/auth-utils';
 import { floodClient } from '@/lib/openepi-clients';

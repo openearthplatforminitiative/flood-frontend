@@ -1,12 +1,13 @@
 import { weatherClient } from '@/lib/openepi-clients';
+
+import { DateTime } from 'luxon';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
+import { Site } from '@prisma/client';
 import {
   getLocalTime,
-  getMetDate,
   getMETHour,
-} from '@/helpers/timestampToLocalDate';
-import { DateTime } from 'luxon';
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
-import { Site } from '@prisma/client';
+  getMetDate,
+} from '@/utils/timestampToLocalDate';
 
 export type WeatherDayForecast = {
   date: Date;

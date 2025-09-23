@@ -4,7 +4,7 @@ import {
   SettingsOutlined,
 } from '@mui/icons-material';
 import React, { ReactNode } from 'react';
-import { Dict } from '@/app/[lang]/dictionaries';
+import { Dict } from '@/utils/dictionaries';
 
 export type Location = {
   name: string;

@@ -3,7 +3,7 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WeatherForecastModal } from './WeatherForecastModal';
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 import { WeatherForecastCard } from './WeatherForecastCard';
 

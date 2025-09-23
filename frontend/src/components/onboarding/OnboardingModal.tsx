@@ -5,7 +5,7 @@ import { Add, ArrowBack, Place } from '@mui/icons-material';
 import { useState } from 'react';
 import { completeOnboarding } from '@/app/actions';
 
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 
 import NotificationsForm from '../forms/NotificationsForm';
 import SiteListItem from '../SiteListItem';

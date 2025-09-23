@@ -1,16 +1,16 @@
 import { Button, IconButton, Skeleton, Tooltip } from '@mui/material';
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { Settings } from '@mui/icons-material';
 import { getUserId } from '@/lib/auth-utils';
 import { getSiteForUser } from '@/lib/prisma';
 import { ComponentProps, Suspense } from 'react';
-import { WeatherWidget } from '../../../../../components/weather/WeatherWidget';
-import { FloodWarning } from './FloodWarning';
-import { CurrentWeatherWidget } from '../../../../../components/weather/CurrentWeatherWidget';
-import { SiteInfoWidget } from './SiteInfoWidget';
 import { weatherClient } from '@/lib/openepi-clients';
 import Header from '@/components/Header';
 import Link from 'next/link';
+import { FloodWarning } from '@/components/FloodWarning';
+import { SiteInfoWidget } from '@/components/SiteInfoWidget';
+import { CurrentWeatherWidget } from '@/components/weather/CurrentWeatherWidget';
+import { WeatherWidget } from '@/components/weather/WeatherWidget';
 
 interface SitePageProps {
   params: Promise<{

@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { defaultLocale, isLang, languages } from '@/app/[lang]/dictionaries';
+import { defaultLocale, isLang, languages } from '@/utils/dictionaries';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import withAuth, { NextRequestWithAuth } from 'next-auth/middleware';

@@ -1,4 +1,4 @@
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import SiteForm from '@/components/forms/SiteForm';
 import { ContentContainer } from '@/components/ContentContainer';
 import { Typography } from '@mui/material';

@@ -1,4 +1,4 @@
-import type { Dict, SiteType } from '@/app/[lang]/dictionaries';
+import type { Dict, SiteType } from '@/utils/dictionaries';
 
 export const typesRenderer = (types: string[], dict: Dict) => {
   return types

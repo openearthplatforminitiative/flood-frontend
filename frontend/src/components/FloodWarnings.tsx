@@ -1,10 +1,10 @@
 import FloodWarningBox from '@/components/FloodWarningBox';
 import { floodClient } from '@/lib/openepi-clients';
-import { Dict } from '../../dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import { getUserIncludingSites } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { Box } from '@mui/material';
+import { Dict } from '@/utils/dictionaries';
 
 type FloodWarningsProps = {
   dict: Dict;

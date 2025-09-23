@@ -1,13 +1,9 @@
 'use server';
 
 import { getUserId } from '@/lib/auth-utils';
-import { floodClient, FloodIntensity } from '@/lib/openepi-clients';
+import { floodClient } from '@/lib/openepi-clients';
 import { getUserIncludingSites } from '@/lib/prisma';
-import { Site } from '@prisma/client';
-
-export type SiteWithFloodData = Site & {
-  floodIntensity?: FloodIntensity;
-};
+import { SiteWithFloodData } from '@/types/SitesWithFloodData';
 
 export const fetchSites = async () => {
   try {

@@ -2,7 +2,7 @@ import {
   defaultLocale,
   getDictionaryWithDefault,
   isLang,
-} from '../dictionaries';
+} from '../../../utils/dictionaries';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import SignInButton from '@/components/buttons/SignInButton';

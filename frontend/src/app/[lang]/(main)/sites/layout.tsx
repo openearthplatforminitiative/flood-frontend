@@ -1,10 +1,10 @@
 'use client';
 
+import { SitesMap } from '@/components/map/SitesMap';
+import { SitesMapProvider } from '@/components/map/SitesMapProvider';
 import { Skeleton, useMediaQuery } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { Suspense, use, useMemo } from 'react';
-import { SitesMap } from './SitesMap';
-import { SitesMapProvider } from './SitesMapProvider';
 
 type SitesLayoutProps = {
   children: React.ReactNode;

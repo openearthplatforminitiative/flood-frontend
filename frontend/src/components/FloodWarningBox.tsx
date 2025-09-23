@@ -1,6 +1,6 @@
 'use client';
 
-import type { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/utils/dictionaries';
 import { Typography } from '@mui/material';
 import { FloodIntensity, FloodTiming } from '@/lib/openepi-clients';
 import {
@@ -10,7 +10,7 @@ import {
   Warning,
 } from '@mui/icons-material';
 import { ReactElement, useState } from 'react';
-import { intensityToColors } from '../helpers/intensityToColors';
+import { intensityToColors } from '../utils/intensityToColors';
 
 type FloodWarningBoxProps =
   | {

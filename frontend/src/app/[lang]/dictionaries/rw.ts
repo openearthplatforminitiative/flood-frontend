@@ -1,4 +1,4 @@
-import { Dict } from '@/app/[lang]/dictionaries';
+import { Dict } from '@/utils/dictionaries';
 
 export const rw: Dict = {
   yes: 'Yego',

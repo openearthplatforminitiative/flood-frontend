@@ -1,8 +1,8 @@
 'use client';
 
 import { Box } from '@mui/material';
-import { Dict } from '@/app/[lang]/dictionaries';
-import { mainLocations } from '@/helpers/mainLocations';
+import { Dict } from '@/utils/dictionaries';
+import { mainLocations } from '@/utils/mainLocations';
 import LogoCopy from './icons/LogoCopy';
 import { NavBarButton } from './buttons/NavBarButton';
 import { Logout } from '@mui/icons-material';

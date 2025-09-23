@@ -3,11 +3,11 @@
 import { createRef } from 'react';
 import Map, { MapRef } from 'react-map-gl/maplibre';
 import { sentinelStyleGl } from '@/utils/sentinelStyleGl';
-import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
-import { SitesMapAddLayer } from '@/app/[lang]/(main)/sites/SitesMapAddLayer';
-import { SitesMapEditLayer } from '@/app/[lang]/(main)/sites/SitesMapEditLayer';
-import { SiteMarkers } from '@/app/[lang]/(main)/sites/SitesMapSitesLayer';
-import { SiteMapNavigation } from '@/app/[lang]/(main)/sites/SitesMapNavigation';
+import { SitesMapAddLayer } from '../map/SitesMapAddLayer';
+import { SitesMapEditLayer } from '../map/SitesMapEditLayer';
+import { SiteMapNavigation } from '../map/SitesMapNavigation';
+import { useSitesMap } from '../map/SitesMapProvider';
+import { SiteMarkers } from '../map/SitesMapSitesLayer';
 
 type SiteMapProps = {
   mode: 'add' | 'edit';

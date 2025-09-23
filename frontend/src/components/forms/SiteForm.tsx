@@ -13,14 +13,14 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Add, PlaceOutlined } from '@mui/icons-material';
-import type { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/utils/dictionaries';
 import MultipleTypeSelect from '@/components/onboarding/MultipleTypeSelect';
 import { createSite, deleteSite, updateSite } from '@/app/actions';
 import { Site } from '@prisma/client';
 import PositionModal from '../map/PositionModal';
-import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
 import { LngLat } from 'maplibre-gl';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSitesMap } from '../map/SitesMapProvider';
 
 interface SiteFormProps {
   dict: Dict;

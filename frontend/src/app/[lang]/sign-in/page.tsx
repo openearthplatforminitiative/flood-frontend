@@ -2,7 +2,7 @@ import {
   defaultLocale,
   getDictionaryWithDefault,
   isLang,
-} from '../dictionaries';
+} from '../../../utils/dictionaries';
 import { Box, Typography } from '@mui/material';
 import SignInButton from '@/components/buttons/SignInButton';
 import { Water } from '@mui/icons-material';

@@ -18,7 +18,7 @@ import {
   Close,
 } from '@mui/icons-material';
 import Image from 'next/image';
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 
 type WeatherForecastModalProps = {

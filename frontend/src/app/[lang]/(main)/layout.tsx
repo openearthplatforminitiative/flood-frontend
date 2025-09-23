@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import Navbar from '@/components/Navbar';
 
 interface MainLayoutProps {

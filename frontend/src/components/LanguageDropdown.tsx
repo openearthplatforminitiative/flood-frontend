@@ -7,7 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { Dict, Lang } from '@/app/[lang]/dictionaries';
+import { Dict, Lang } from '@/utils/dictionaries';
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'cookies-next';
 

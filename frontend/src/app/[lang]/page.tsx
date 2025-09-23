@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { hasCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
-import type { Dict } from '@/app/[lang]/dictionaries';
-import { getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/utils/dictionaries';
+import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import { redirect } from 'next/navigation';
 import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';

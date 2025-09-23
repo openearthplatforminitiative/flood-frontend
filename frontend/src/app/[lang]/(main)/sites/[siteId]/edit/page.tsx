@@ -1,4 +1,4 @@
-import { Dict, getDictionaryWithDefault } from '@/app/[lang]/dictionaries';
+import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
 import SiteForm from '@/components/forms/SiteForm';
 import { getSiteForUser } from '@/lib/prisma';

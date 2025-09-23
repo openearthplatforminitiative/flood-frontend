@@ -8,11 +8,11 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import type { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/utils/dictionaries';
 import { useMemo } from 'react';
 import { GeoAutoComplete } from '../GeoAutoComplete';
 import SiteMap from '../onboarding/SiteMap';
-import { useSitesMap } from '@/app/[lang]/(main)/sites/SitesMapProvider';
+import { useSitesMap } from './SitesMapProvider';
 
 interface PositionModalProps {
   dict: Dict;

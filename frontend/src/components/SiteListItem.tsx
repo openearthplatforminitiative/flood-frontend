@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Site } from '@prisma/client';
 import Link from 'next/link';
-import type { Dict } from '@/app/[lang]/dictionaries';
+import type { Dict } from '@/utils/dictionaries';
 import { typesRenderer } from '@/lib/render-utils';
 import { ReactNode } from 'react';
 
