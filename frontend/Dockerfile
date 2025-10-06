@@ -8,6 +8,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY package.json package-lock.json ./
+COPY prisma prisma
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
   else echo "Lockfile not found." && exit 1; \
@@ -35,23 +36,17 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma  
+COPY --from=builder /app/node_modules ./node_modules  
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Files needed to migrate DB
-COPY prisma prisma
-RUN npm install prisma@^6.16.2 && npm cache clean --force
-COPY entrypoint.sh .
-RUN chmod +x ./entrypoint.sh
 
 USER nextjs
 
@@ -61,4 +56,4 @@ ENV PORT=3000
 # set hostname to localhost
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["./entrypoint.sh"]
+CMD ["sh", "-c", "npx prisma migrate deploy --schema=./prisma/schema.prisma && node server.js"]
