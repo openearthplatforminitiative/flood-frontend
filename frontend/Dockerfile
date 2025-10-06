@@ -49,7 +49,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Files needed to migrate DB
 COPY prisma prisma
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
 

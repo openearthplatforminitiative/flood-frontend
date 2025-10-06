@@ -33,6 +33,7 @@
     "next": "^15.5.3",
     "next-auth": "^4.24.11",
     "openepi-client": "1.1.5",
+    "prisma": "^6.16.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.63.0",
@@ -55,7 +56,6 @@
     "eslint-plugin-prettier": "^5.5.4",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
-    "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",
     "typescript": "^5"
   }
