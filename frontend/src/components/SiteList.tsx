@@ -6,7 +6,7 @@ import { List, Skeleton } from '@mui/material';
 import { Dict } from '@/utils/dictionaries';
 import { fetchSites } from '@/actions/SitesAction';
 import { Suspense } from 'react';
-import { LngLatBounds, LngLatBoundsLike } from 'maplibre-gl';
+import { LngLatBounds } from 'maplibre-gl';
 import { MapFlyTo } from './MapFlyTo';
 import { MapFitBounds } from './MapFitBounds';
 

@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import Link from 'next/link';
 import { Add } from '@mui/icons-material';
