@@ -49,8 +49,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Files needed to migrate DB
 COPY prisma prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+RUN npm install prisma@^6.16.2 && npm cache clean --force
 COPY entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
 
@@ -60,6 +59,6 @@ EXPOSE 3000
 
 ENV PORT=3000
 # set hostname to localhost
-ENV HOSTNAME=0.0.0.0
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["./entrypoint.sh"]
