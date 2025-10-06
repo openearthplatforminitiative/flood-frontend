@@ -9,7 +9,7 @@ type MapFitBoundsProps = {
   maxLng: number;
   minLng: number;
   padding: number | PaddingOptions;
-}
+};
 
 export const MapFitBounds = (props: MapFitBoundsProps) => {
   const { maxLat, minLat, maxLng, minLng, padding } = props;

@@ -74,7 +74,13 @@ export async function SiteListContent({ dict }: SiteListProps) {
   return (
     <List>
       {bounds ? (
-        <MapFitBounds maxLat={bounds[1][1]} minLat={bounds[0][1]} maxLng={bounds[1][0]} minLng={bounds[0][0]} padding={100} />
+        <MapFitBounds
+          maxLat={bounds[1][1]}
+          minLat={bounds[0][1]}
+          maxLng={bounds[1][0]}
+          minLng={bounds[0][0]}
+          padding={100}
+        />
       ) : (
         <MapFlyTo lat={0} lng={0} zoom={1} />
       )}

@@ -11,15 +11,10 @@ import { GeolocateControl, useMap } from 'react-map-gl/maplibre';
 import maplibregl, { LngLat, MapLibreEvent } from 'maplibre-gl';
 import { createRef, useCallback, useEffect, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
-import {
-  defaultCoordinatesAtom,
-  mapStyleAtom,
-} from '@/store/atoms/mapAtom';
+import { defaultCoordinatesAtom, mapStyleAtom } from '@/store/atoms/mapAtom';
 
 export const SiteMapNavigation = () => {
-  const defaultCoordinates = useAtomValue(
-    defaultCoordinatesAtom
-  );
+  const defaultCoordinates = useAtomValue(defaultCoordinatesAtom);
   const [mapStyle, setMapStyle] = useAtom(mapStyleAtom);
   const geoControlRef = createRef<maplibregl.GeolocateControl>();
   const [currentBearing, setCurrentBearing] = useState(0);

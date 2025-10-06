@@ -8,7 +8,6 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@emotion/react';
 import { Provider as JotaiProvider } from 'jotai';
 
-
 interface ThemeRegistryProps {
   lang: string;
   children: ReactNode;
@@ -20,9 +19,7 @@ export default function Providers({ lang, children }: ThemeRegistryProps) {
       <ThemeProvider theme={theme}>
         <SessionProvider>
           <AuthProvider lang={lang}>
-            <JotaiProvider>
-              {children}
-            </JotaiProvider>
+            <JotaiProvider>{children}</JotaiProvider>
           </AuthProvider>
         </SessionProvider>
       </ThemeProvider>

@@ -240,11 +240,7 @@ export const EditSiteForm = ({
               {dict.onBoarding.sites.deleteConfirmMessage}
             </DialogTitle>
             <DialogActions>
-              <Button
-                onClick={handleDeleteSite}
-              >
-                {dict.yes}
-              </Button>
+              <Button onClick={handleDeleteSite}>{dict.yes}</Button>
               <Button onClick={() => setOpenDeleteDialog(false)}>
                 {dict.no}
               </Button>

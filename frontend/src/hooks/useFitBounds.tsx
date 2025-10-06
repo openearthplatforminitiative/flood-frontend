@@ -16,7 +16,13 @@ export const useFitBounds = (
   useEffect(() => {
     const mapRef = map?.['sites-map'];
     if (!mapRef) return;
-    mapRef.fitBounds([[minLng, minLat], [maxLng, maxLat]], { padding });
+    mapRef.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding }
+    );
   }, [map, maxLat, minLat, maxLng, minLng, padding]);
 
   return null;

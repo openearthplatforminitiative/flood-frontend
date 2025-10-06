@@ -3,11 +3,7 @@
 import { useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 
-export const useFlyTo = (
-  lng?: number,
-  lat?: number,
-  zoom?: number
-) => {
+export const useFlyTo = (lng?: number, lat?: number, zoom?: number) => {
   const map = useMap();
 
   useEffect(() => {

@@ -38,10 +38,11 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
     setShowPopup(true);
   };
 
-  const mapStyleUrl = useMemo(() =>
-    mapStyle === 'streets'
-      ? 'https://tiles.openfreemap.org/styles/liberty'
-      : sentinelStyleGl,
+  const mapStyleUrl = useMemo(
+    () =>
+      mapStyle === 'streets'
+        ? 'https://tiles.openfreemap.org/styles/liberty'
+        : sentinelStyleGl,
     [mapStyle]
   );
 
