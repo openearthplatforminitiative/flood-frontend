@@ -3,47 +3,43 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { WeatherForecastModal } from './WeatherForecastModal';
-import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 import { WeatherForecastCard } from './WeatherForecastCard';
+import { Dict } from '@/utils/dictionaries';
 
 type WeatherWidgetViewProps = {
-  lang: string;
+  dict: Dict;
   weatherDaysForecast: WeatherDayForecast[];
 };
 
 export const WeatherWidgetView = ({
-  lang,
+  dict,
   weatherDaysForecast: weatherDays,
 }: WeatherWidgetViewProps) => {
-  const dict: Dict = getDictionaryWithDefault(lang);
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<number>(0);
 
   return (
     <>
-      <div className="flex flex-col">
-        <h2 className="text-3xl">{dict.sites.weather.weatherForecast}</h2>
-        {weatherDays && weatherDays.length > 0 ? (
-          <div className="flex flex-col gap-4 mt-4">
-            {weatherDays.map((weather, index) => (
-              <WeatherForecastCard
-                key={index}
-                weatherDay={weather}
-                onClick={() => {
-                  setSelectedDate(index);
-                  setOpen(true);
-                }}
-              />
-            ))}
-          </div>
-        ) : (
-          <Typography>Could not retrieve data</Typography>
-        )}
-      </div>
+      {weatherDays && weatherDays.length > 0 ? (
+        <div className="flex flex-col gap-4 mt-4">
+          {weatherDays.map((weather, index) => (
+            <WeatherForecastCard
+              key={index}
+              weatherDay={weather}
+              onClick={() => {
+                setSelectedDate(index);
+                setOpen(true);
+              }}
+            />
+          ))}
+        </div>
+      ) : (
+        <Typography>Could not retrieve data</Typography>
+      )}
       {weatherDays && weatherDays.length > 0 && (
         <WeatherForecastModal
-          lang={lang}
+          dict={dict}
           open={open}
           dayIndex={selectedDate}
           handleClose={() => setOpen(!open)}

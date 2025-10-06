@@ -1,33 +1,37 @@
-'use server';
-
-import { getUserId } from '@/lib/auth-utils';
 import { weatherClient } from '@/lib/openepi-clients';
-import { getSiteForUser } from '@/lib/prisma';
 import { CurrentWeatherView } from './CurrentWeatherView';
+import { Skeleton } from '@mui/material';
+import { Suspense } from 'react';
 
 type WeatherWidgetProps = {
-  siteId: string;
+  latLngPromise: Promise<{ lat: number; lng: number }>;
   lang: string;
 };
 
-export const CurrentWeatherWidget = async ({
-  siteId,
+export const CurrentWeatherWidget = ({
+  latLngPromise,
+  lang,
+}: WeatherWidgetProps) => (
+  <Suspense fallback={<CurrentWeatherViewSkeleton />}>
+    <CurrentWeatherViewContent latLngPromise={latLngPromise} lang={lang} />
+  </Suspense>
+);
+
+const CurrentWeatherViewSkeleton = () => (
+  <Skeleton
+    variant="rectangular"
+    height={200}
+    width={400}
+    className="w-full h-24 lg:h-52 rounded-xl"
+  />
+);
+
+const CurrentWeatherViewContent = async ({
+  latLngPromise,
   lang,
 }: WeatherWidgetProps) => {
-  const userId = await getUserId();
-
-  if (!userId) {
-    throw new Error('User not found');
-  }
-  const site = await getSiteForUser(userId, siteId);
-  if (!site) {
-    throw new Error('Site not found');
-  }
-
-  const response = await weatherClient.getLocationForecast({
-    lat: site.lat,
-    lon: site.lng,
-  });
+  const { lat, lng: lon } = await latLngPromise;
+  const response = await weatherClient.getLocationForecast({ lat, lon });
 
   const currentWeather = response.data?.properties.timeseries[0].data;
 

@@ -9,7 +9,7 @@ import { getUserId } from '@/lib/auth-utils';
 import { getOrCreateUser } from '@/lib/prisma';
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
 import { FloodWarnings } from '@/components/FloodWarnings';
-import { SiteListSkeleton, SiteList } from '@/components/SiteList';
+import { SiteList } from '@/components/SiteList';
 
 const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
   const { lang } = await params;
@@ -27,22 +27,15 @@ const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
     <>
       <Header title={dict.navbar.sites} />
       <ContentContainer>
-        <Box
-          sx={{
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-          }}
-        >
+        <div className="flex flex-col grow gap-2">
           <Suspense>
             <FloodWarnings dict={dict} />
           </Suspense>
-          <Box className="relative mt-4 lg:mt-6 mb-2 lg:mb-4 flex flex-wrap justify-between items-center">
+          <div className="relative mt-4 lg:mt-6 mb-2 lg:mb-4 flex flex-wrap justify-between items-center">
             <h2 className="text-2xl lg:text-4xl text-primary-20">
               {dict.sites.title}
             </h2>
-            <Box className="order-last lg:order-0 sticky bottom-[93px] w-full lg:w-auto z-50">
+            <div className="order-last lg:order-0 sticky bottom-[93px] w-full lg:w-auto z-50">
               <Link href={'sites/add'}>
                 <Button
                   variant={'contained'}
@@ -52,14 +45,12 @@ const Sites = async ({ params }: { params: Promise<{ lang: string }> }) => {
                   {dict.onBoarding.sites.addNewSite}
                 </Button>
               </Link>
-            </Box>
-            <Box className="w-full">
-              <Suspense fallback={<SiteListSkeleton />}>
-                <SiteList dict={dict} />
-              </Suspense>
-            </Box>
-          </Box>
-        </Box>
+            </div>
+            <div className="w-full">
+              <SiteList dict={dict} />
+            </div>
+          </div>
+        </div>
       </ContentContainer>
       <OnboardingModal lang={lang} open={showOnboardingModal} />
     </>

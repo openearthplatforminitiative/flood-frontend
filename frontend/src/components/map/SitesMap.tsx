@@ -2,22 +2,20 @@
 
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import {
-  LngLat,
-  Map,
-  MapLayerMouseEvent,
-  MapProvider,
-  Popup,
-} from 'react-map-gl/maplibre';
+import { LngLat, Map, MapLayerMouseEvent, Popup } from 'react-map-gl/maplibre';
 import Link from 'next/link';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import { Button } from '@mui/material';
-import { SitesMapAddLayer } from './SitesMapAddLayer';
-import { SiteMapNavigation } from './SitesMapNavigation';
-import { SiteMarkers } from './SitesMapSitesLayer';
-import { useSitesMap } from './SitesMapProvider';
-import { SitesMapEditLayer } from './SitesMapEditLayer';
 import { sentinelStyleGl } from '@/utils/sentinelStyleGl';
+import { useAtomValue } from 'jotai';
+import { mapStyleAtom } from '@/store/atoms/mapAtom';
+import { SitesSource } from './layers/SitesSource';
+import { SitesLayer } from './layers/SitesLayer';
+import { useImageLoader } from './utils/ImageLoader';
+import { SitesClusterLayer } from './layers/SitesClusterLayer';
+import { SitesMapAddLayer } from './SitesMapAddLayer';
+import { SitesMapEditLayer } from './SitesMapEditLayer';
+import { SiteMapNavigation } from './SitesMapNavigation';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 type SitesMapProps = {
   lang: string;
@@ -28,62 +26,60 @@ export const SitesMap = ({ lang }: SitesMapProps) => {
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupLngLat, setPopupLngLat] = useState<LngLat | undefined>();
-  const { currentSite, sites, mapStyle } = useSitesMap()!;
 
-  const currentPage = useMemo(() => {
-    if (!segments || segments.length === 0) return 'sites';
-    const lastSegment = segments[segments.length - 1] ?? '';
-    if (lastSegment === 'add') return 'add';
-    if (lastSegment === 'edit') return 'edit';
-    return 'site';
-  }, [segments]);
+  const mapStyle = useAtomValue(mapStyleAtom);
+
+  useImageLoader();
 
   const handleContextMenu = (e: MapLayerMouseEvent) => {
     e.preventDefault();
-    console.log(currentPage);
-    if (currentPage == 'add' || currentPage == 'edit') return;
+    if (segments.includes('add') || segments.includes('edit')) return;
     setPopupLngLat(e.lngLat);
     setShowPopup(true);
   };
 
-  return (
-    <MapProvider>
-      <Map
-        attributionControl={false}
-        mapStyle={
-          mapStyle === 'streets'
-            ? 'https://tiles.openfreemap.org/styles/liberty'
-            : sentinelStyleGl
-        }
-        onContextMenu={handleContextMenu}
-      >
-        {currentPage === 'add' && <SitesMapAddLayer />}
-        {currentPage === 'edit' && <SitesMapEditLayer />}
-        {SiteMarkers(lang, sites, currentPage, currentSite)}
-        <SiteMapNavigation currentPage={currentPage} />
+  const mapStyleUrl = useMemo(() =>
+    mapStyle === 'streets'
+      ? 'https://tiles.openfreemap.org/styles/liberty'
+      : sentinelStyleGl,
+    [mapStyle]
+  );
 
-        {showPopup && popupLngLat && (
-          <Popup
-            latitude={popupLngLat.lat}
-            longitude={popupLngLat.lng}
-            closeOnClick={true}
-            onClose={() => setShowPopup(false)}
-            style={{ visibility: 'hidden' }}
-            className="rounded-xl! bg-transparent!"
-            anchor="top"
+  return (
+    <Map
+      id="sites-map"
+      attributionControl={false}
+      mapStyle={mapStyleUrl}
+      onContextMenu={handleContextMenu}
+    >
+      {segments.includes('add') && <SitesMapAddLayer />}
+      {segments.includes('edit') && <SitesMapEditLayer />}
+      <SiteMapNavigation />
+      <SitesSource />
+      <SitesLayer />
+      <SitesClusterLayer />
+
+      {showPopup && popupLngLat && (
+        <Popup
+          latitude={popupLngLat.lat}
+          longitude={popupLngLat.lng}
+          closeOnClick={true}
+          onClose={() => setShowPopup(false)}
+          style={{ visibility: 'hidden' }}
+          className="rounded-xl! bg-transparent!"
+          anchor="top"
+        >
+          <Link
+            className="absolute visible w-32 top-0 left-1/2 transform -translate-x-1/2"
+            href={`/${lang}/sites/add?lat=${popupLngLat.lat}&lng=${popupLngLat.lng}`}
+            onClick={() => setShowPopup(false)}
           >
-            <Link
-              className="absolute visible w-32 top-0 left-1/2 transform -translate-x-1/2"
-              href={`/${lang}/sites/add?lat=${popupLngLat.lat}&lng=${popupLngLat.lng}`}
-              onClick={() => setShowPopup(false)}
-            >
-              <Button variant="contained" color="primary">
-                Add Site
-              </Button>
-            </Link>
-          </Popup>
-        )}
-      </Map>
-    </MapProvider>
+            <Button variant="contained" color="primary">
+              Add Site
+            </Button>
+          </Link>
+        </Popup>
+      )}
+    </Map>
   );
 };

@@ -40,9 +40,9 @@ const TokenExpiredPage = async ({ params }: TokenExpirePageProps) => {
           width={400}
           height={400}
           style={{
-            width: '80%', // Makes it responsive
-            maxWidth: '600px', // Limits maximum size
-            height: 'auto', // Maintains aspect ratio
+            width: '80%',
+            maxWidth: '600px',
+            height: 'auto',
           }}
           alt="illustration of person"
           src="/assets/images/person-green-transparent.svg"
@@ -62,7 +62,6 @@ const TokenExpiredPage = async ({ params }: TokenExpirePageProps) => {
           sx={{
             display: 'flex',
             alignItems: 'start',
-            //width: {xs: '80%', lg: '800px'},
             flexDirection: 'column',
             gap: ['36px', '32px', '32px', '36px'],
             marginX: ['20px', '20px', '20px', '40px'],
@@ -79,7 +78,7 @@ const TokenExpiredPage = async ({ params }: TokenExpirePageProps) => {
             {dict.tokenExpiredPage.description}
           </Typography>
           <SignInButton
-            callbackUrl="/{lang}/sign-in"
+            callbackUrl={`/${lang}/sites`}
             keycloakLocale={isLang(lang) ? lang : defaultLocale}
           >
             {dict.signBackIn}

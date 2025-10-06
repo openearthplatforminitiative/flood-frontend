@@ -110,7 +110,7 @@ const config: Config = {
           99: '#F8F9F6',
           100: '#FFFFFF',
         },
-        neutralVariant: {
+        neutralvariant: {
           main: '#586059',
           0: '#000000',
           5: '#0B130D',

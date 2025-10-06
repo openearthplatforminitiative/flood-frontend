@@ -6,18 +6,17 @@ import { sentinelStyleGl } from '@/utils/sentinelStyleGl';
 import { SitesMapAddLayer } from '../map/SitesMapAddLayer';
 import { SitesMapEditLayer } from '../map/SitesMapEditLayer';
 import { SiteMapNavigation } from '../map/SitesMapNavigation';
-import { useSitesMap } from '../map/SitesMapProvider';
-import { SiteMarkers } from '../map/SitesMapSitesLayer';
+import { mapStyleAtom } from '@/store/atoms/mapAtom';
+import { useAtomValue } from 'jotai';
 
 type SiteMapProps = {
   mode: 'add' | 'edit';
 };
 
 const SiteMap = ({ mode }: SiteMapProps) => {
-  const lang = 'en';
-
   const mapRef = createRef<MapRef>();
-  const { currentSite, sites, mapStyle } = useSitesMap()!;
+
+  const mapStyle = useAtomValue(mapStyleAtom);
 
   return (
     <Map
@@ -31,8 +30,7 @@ const SiteMap = ({ mode }: SiteMapProps) => {
     >
       {mode === 'add' && <SitesMapAddLayer />}
       {mode === 'edit' && <SitesMapEditLayer />}
-      {SiteMarkers(lang, sites, mode, currentSite)}
-      <SiteMapNavigation currentPage={mode} />
+      <SiteMapNavigation />
     </Map>
   );
 };

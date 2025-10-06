@@ -18,11 +18,11 @@ import {
   Close,
 } from '@mui/icons-material';
 import Image from 'next/image';
-import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
+import { Dict } from '@/utils/dictionaries';
 import { WeatherDayForecast } from './WeatherForecastActions';
 
 type WeatherForecastModalProps = {
-  lang: string;
+  dict: Dict;
   open: boolean;
   dayIndex: number;
   weatherDaysForecast: WeatherDayForecast[];
@@ -31,21 +31,20 @@ type WeatherForecastModalProps = {
 };
 
 export const WeatherForecastModal = ({
-  lang,
+  dict,
   open,
   dayIndex,
   weatherDaysForecast,
   handleClose,
   handleNext,
 }: WeatherForecastModalProps) => {
-  const dict: Dict = getDictionaryWithDefault(lang);
   const selectedDay = weatherDaysForecast[dayIndex];
 
   return (
     <Modal open={open} onClose={handleClose}>
       <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4 pointer-events-none">
-        <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full pointer-events-auto bg-neutralVariant-98 md:rounded-xl ">
-          <div className="sticky flex flex-col gap-4 top-0 w-full bg-neutralVariant-98 p-4 md:p-6 z-20">
+        <div className="relative overflow-y-scroll w-full h-full md:max-w-[800px] md:h-auto max-h-full pointer-events-auto bg-neutralvariant-98 md:rounded-xl ">
+          <div className="sticky flex flex-col gap-4 top-0 w-full bg-neutralvariant-98 p-4 md:p-6 z-20">
             <Typography variant="h4">{selectedDay.formatted}</Typography>
             <div className="absolute top-2 right-2">
               <IconButton onClick={handleClose}>

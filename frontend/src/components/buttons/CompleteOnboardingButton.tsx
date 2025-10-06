@@ -1,6 +1,6 @@
 'use client';
 
-import { completeOnboarding } from '@/app/actions';
+import { completeOnboarding } from '@/actions/actions';
 import { Button } from '@mui/material';
 import React from 'react';
 

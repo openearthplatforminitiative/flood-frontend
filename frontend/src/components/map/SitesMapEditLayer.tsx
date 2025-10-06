@@ -2,48 +2,59 @@ import { GeoAutoComplete } from '@/components/GeoAutoComplete';
 import { AddLocationAltOutlined } from '@mui/icons-material';
 import { Layer, Marker, Source } from 'react-map-gl/maplibre';
 import { LngLat } from 'maplibre-gl';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Slider, useMediaQuery } from '@mui/material';
-import { useSitesMap } from './SitesMapProvider';
 import { circle } from '@turf/turf';
+import { useAtom } from 'jotai';
+import { activeLngLatAtom, newSiteRadiusAtom } from '@/store/atoms/mapAtom';
+import { useParams } from 'next/navigation';
+import { Site } from '@prisma/client';
+import { fetchSite } from '@/actions/SitesAction';
 
 export const SitesMapEditLayer = () => {
-  const {
-    currentSite,
-    newSiteLngLat,
-    setNewSiteLngLat,
-    newSiteRadius,
-    setNewSiteRadius,
-  } = useSitesMap()!;
+  const [currentSite, setCurrentSite] = useState<Site>();
+  const [activeLngLat, setActiveLngLat] = useAtom(activeLngLatAtom);
+  const [newSiteRadius, setNewSiteRadius] = useAtom(newSiteRadiusAtom);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
+
+  const { siteId } = useParams<{ siteId: string }>();
+
+  useEffect(() => {
+    const getSite = async () => {
+      if (!siteId) return;
+      const site = await fetchSite(siteId);
+      setCurrentSite(site);
+    };
+    getSite();
+  }, [siteId]);
 
   const handleSliderChange = (_: unknown, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
   };
 
   const latlng = useMemo(() => {
-    if (!newSiteLngLat) {
+    if (!activeLngLat) {
       if (!currentSite) {
         return { lat: 0, lng: 0 };
       }
       return { lat: currentSite.lat, lng: currentSite.lng };
     }
-    return newSiteLngLat;
-  }, [newSiteLngLat, currentSite]);
+    return activeLngLat;
+  }, [activeLngLat, currentSite]);
 
   const movedFromOriginalSite = useMemo(() => {
     if (
-      newSiteLngLat?.lng !== currentSite?.lng &&
-      newSiteLngLat?.lat !== currentSite?.lat
+      activeLngLat?.lng !== currentSite?.lng &&
+      activeLngLat?.lat !== currentSite?.lat
     ) {
       return true;
     }
     return false;
-  }, [newSiteLngLat, currentSite]);
+  }, [activeLngLat, currentSite]);
 
   const handleResetLocation = () => {
-    setNewSiteLngLat(new LngLat(currentSite?.lng ?? 0, currentSite?.lat ?? 0));
+    setActiveLngLat(new LngLat(currentSite?.lng ?? 0, currentSite?.lat ?? 0));
   };
 
   const newMarker = useMemo(() => {
@@ -51,8 +62,8 @@ export const SitesMapEditLayer = () => {
       <Marker
         draggable
         className="z-10"
-        onDragEnd={(e) => setNewSiteLngLat(e.lngLat)}
-        anchor="bottom"
+        onDragEnd={(e) => setActiveLngLat(e.lngLat)}
+        anchor="center"
         latitude={latlng?.lat}
         longitude={latlng?.lng}
       >
@@ -61,7 +72,7 @@ export const SitesMapEditLayer = () => {
         </div>
       </Marker>
     );
-  }, [latlng?.lat, latlng?.lng, setNewSiteLngLat]);
+  }, [latlng?.lat, latlng?.lng, setActiveLngLat]);
 
   const circleData: GeoJSON.GeoJSON = useMemo(
     () => ({
@@ -81,7 +92,7 @@ export const SitesMapEditLayer = () => {
     <>
       {!isMobile && (
         <div className="absolute top-0 left-0 m-4 w-1/2">
-          <GeoAutoComplete setLngLat={setNewSiteLngLat} />
+          <GeoAutoComplete setLngLat={setActiveLngLat} />
           <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border border-neutral-90">
             {newSiteRadius}
             <Slider

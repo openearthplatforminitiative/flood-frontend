@@ -12,11 +12,14 @@ import type { Dict } from '@/utils/dictionaries';
 import { useMemo } from 'react';
 import { GeoAutoComplete } from '../GeoAutoComplete';
 import SiteMap from '../onboarding/SiteMap';
-import { useSitesMap } from './SitesMapProvider';
+import { useAtom } from 'jotai';
+import { activeLngLatAtom, newSiteRadiusAtom } from '@/store/atoms/mapAtom';
+import { Site } from '@prisma/client';
 
 interface PositionModalProps {
   dict: Dict;
   isOpen: boolean;
+  currentSite?: Site;
   handleCancel: () => void;
   handleConfirm: () => void;
 }
@@ -24,26 +27,22 @@ interface PositionModalProps {
 const PositionModal = ({
   dict,
   isOpen,
+  currentSite,
   handleCancel,
   handleConfirm,
 }: PositionModalProps) => {
-  const {
-    currentSite,
-    newSiteLngLat,
-    setNewSiteLngLat,
-    newSiteRadius,
-    setNewSiteRadius,
-  } = useSitesMap();
+  const [activeLngLat, setActiveLngLat] = useAtom(activeLngLatAtom);
+  const [newSiteRadius, setNewSiteRadius] = useAtom(newSiteRadiusAtom);
 
   const lngLatIsSet = useMemo(() => {
     if (
-      newSiteLngLat?.lng == currentSite?.lng &&
-      newSiteLngLat?.lat == currentSite?.lat
+      activeLngLat?.lng == currentSite?.lng &&
+      activeLngLat?.lat == currentSite?.lat
     ) {
       return false;
     }
     return true;
-  }, [newSiteLngLat, currentSite]);
+  }, [activeLngLat, currentSite]);
 
   const handleSliderChange = (_: unknown, newValue: number | number[]) => {
     setNewSiteRadius(newValue as number);
@@ -52,13 +51,13 @@ const PositionModal = ({
   return (
     <Modal open={isOpen} onClose={handleCancel}>
       <div className="w-full h-full flex justify-center items-start md:py-12 md:px-4 pointer-events-none">
-        <div className="relative overflow-y-scroll w-full h-full gap-4 flex flex-col md:max-w-[800px] p-4 md:p-6 md:h-auto max-h-full pointer-events-auto bg-neutralVariant-98 md:rounded-xl ">
+        <div className="relative overflow-y-scroll w-full h-full gap-4 flex flex-col md:max-w-[800px] p-4 md:p-6 md:h-auto max-h-full pointer-events-auto bg-neutralvariant-98 md:rounded-xl ">
           <Typography variant="h2">
             {dict.onBoarding.sites.setLocation}
           </Typography>
           <GeoAutoComplete
             setLngLat={(LngLat) => {
-              setNewSiteLngLat(LngLat);
+              setActiveLngLat(LngLat);
             }}
           />
           <Box

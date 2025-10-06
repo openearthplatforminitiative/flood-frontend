@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { defaultLocale, isLang, languages } from '@/utils/dictionaries';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
@@ -12,47 +12,57 @@ function getBrowserLocale(request: NextRequest) {
   return match(browserlanguages, languages, defaultLocale);
 }
 
-function auth(request: NextRequestWithAuth, pathname: string, lang: string) {
-  const allowedPaths = [
-    `/${lang}/sign-in`,
-    `/${lang}/token-expired`,
-    `/${lang}`,
+function isPublicPath(pathname: string, lang?: string): boolean {
+  const publicPaths = [
     '/',
+    ...(lang ? [`/${lang}/sign-in`, `/${lang}/token-expired`, `/${lang}`] : []),
   ];
-  if (allowedPaths.includes(pathname)) {
-    return;
-  }
-  return withAuth(request, {
-    pages: {
-      signIn: `/${lang}/sign-in`,
-    },
-  });
+
+  return publicPaths.includes(pathname) || pathname.startsWith('/assets');
 }
 
 export function middleware(request: NextRequestWithAuth) {
-  // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith('/api')) {
+    return withAuth(request, {
+      pages: {
+        signIn: '/en/sign-in',
+      },
+    });
+  }
+
   const pathnameLocale = languages.find(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
+  // If no language in path, redirect to default language
   if (!pathnameLocale) {
     const selectedLocale = request.cookies.get('language')?.value;
-    if (isLang(selectedLocale)) {
-      // If the user previously selected a language, redirect to that language
-      request.nextUrl.pathname = `/${selectedLocale}/`;
-      return Response.redirect(request.nextUrl);
-    } else {
-      // Redirect to the browser's preferred locale if supported, otherwise the default locale
-      const locale = getBrowserLocale(request);
-      request.nextUrl.pathname = `/${locale}/`;
-      return Response.redirect(request.nextUrl);
-    }
+    const locale = isLang(selectedLocale)
+      ? selectedLocale
+      : getBrowserLocale(request);
+
+    const newPathname =
+      pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
+    request.nextUrl.pathname = newPathname;
+    return NextResponse.redirect(request.nextUrl);
   }
-  return auth(request, pathname, pathnameLocale);
+
+  if (isPublicPath(pathname, pathnameLocale)) {
+    return NextResponse.next();
+  }
+
+  return withAuth(request, {
+    pages: {
+      signIn: `/${pathnameLocale}/sign-in`,
+    },
+  });
 }
 
 export const config = {
-  //middleware will be applied to all paths except those that contain _next, api, favicon.ico, manifest.json, or assets/*
-  matcher: ['/((?!_next|api|favicon.ico|manifest.json|assets).*)'],
+  // Middleware will be applied to all paths except those that contain _next, api, favicon.ico, manifest.json, service-worker.js, or start with assets/
+  matcher: [
+    '/((?!_next|favicon.ico|manifest.json|service-worker.js|assets).*)',
+  ],
 };

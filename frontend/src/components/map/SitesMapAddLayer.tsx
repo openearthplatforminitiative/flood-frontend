@@ -3,21 +3,22 @@ import { AddLocationAltOutlined } from '@mui/icons-material';
 import { Layer, Marker, Source, useMap } from 'react-map-gl/maplibre';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Slider, useMediaQuery } from '@mui/material';
-import { useSitesMap } from './SitesMapProvider';
 import { circle } from '@turf/turf';
+import { activeLngLatAtom, newSiteRadiusAtom } from '@/store/atoms/mapAtom';
+import { useAtom } from 'jotai';
 
 export const SitesMapAddLayer = () => {
-  const { newSiteLngLat, setNewSiteLngLat, newSiteRadius, setNewSiteRadius } =
-    useSitesMap()!;
+  const [activeLngLat, setActiveLngLat] = useAtom(activeLngLatAtom);
+  const [newSiteRadius, setNewSiteRadius] = useAtom(newSiteRadiusAtom);
 
   const mapRef = useMap();
 
   const handleContextMenu = useCallback(
     (e: maplibregl.MapMouseEvent) => {
       e.preventDefault();
-      setNewSiteLngLat(e.lngLat);
+      setActiveLngLat(e.lngLat);
     },
-    [setNewSiteLngLat]
+    [setActiveLngLat]
   );
 
   useEffect(() => {
@@ -43,37 +44,37 @@ export const SitesMapAddLayer = () => {
       <Marker
         draggable
         className="z-10"
-        onDragEnd={(e) => setNewSiteLngLat(e.lngLat)}
-        anchor="bottom"
-        latitude={newSiteLngLat?.lat ?? 0}
-        longitude={newSiteLngLat?.lng ?? 0}
+        onDragEnd={(e) => setActiveLngLat(e.lngLat)}
+        anchor="center"
+        latitude={activeLngLat?.lat ?? 0}
+        longitude={activeLngLat?.lng ?? 0}
       >
         <div className="size-10 rounded-full flex justify-center items-center bg-neutral-90 text-black">
           <AddLocationAltOutlined />
         </div>
       </Marker>
     );
-  }, [newSiteLngLat?.lat, newSiteLngLat?.lng, setNewSiteLngLat]);
+  }, [activeLngLat?.lat, activeLngLat?.lng, setActiveLngLat]);
 
   const circleData: GeoJSON.GeoJSON = useMemo(
     () => ({
       type: 'FeatureCollection',
       features: [
         circle(
-          [newSiteLngLat?.lng ?? 0, newSiteLngLat?.lat ?? 0],
+          [activeLngLat?.lng ?? 0, activeLngLat?.lat ?? 0],
           newSiteRadius ?? newSiteRadius ?? 0,
           { units: 'meters' }
         ),
       ],
     }),
-    [newSiteLngLat, newSiteRadius]
+    [activeLngLat, newSiteRadius]
   );
 
   return (
     <>
       {!isMobile && (
         <div className="absolute top-0 left-0 m-4 w-1/2">
-          <GeoAutoComplete setLngLat={setNewSiteLngLat} />
+          <GeoAutoComplete setLngLat={setActiveLngLat} />
           <div className="bg-neutral-95 rounded-xl flex flex-col items-center pt-2 pb-6 px-3 h-52 gap-6 w-min border border-neutral-90">
             {newSiteRadius}
             <Slider

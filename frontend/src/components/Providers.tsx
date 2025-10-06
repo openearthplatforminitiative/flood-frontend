@@ -6,6 +6,8 @@ import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from './authProvider';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@emotion/react';
+import { Provider as JotaiProvider } from 'jotai';
+
 
 interface ThemeRegistryProps {
   lang: string;
@@ -17,7 +19,11 @@ export default function Providers({ lang, children }: ThemeRegistryProps) {
     <AppRouterCacheProvider options={{ enableCssLayer: true }}>
       <ThemeProvider theme={theme}>
         <SessionProvider>
-          <AuthProvider lang={lang}>{children}</AuthProvider>
+          <AuthProvider lang={lang}>
+            <JotaiProvider>
+              {children}
+            </JotaiProvider>
+          </AuthProvider>
         </SessionProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>

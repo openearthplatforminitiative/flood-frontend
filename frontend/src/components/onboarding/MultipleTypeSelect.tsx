@@ -24,29 +24,28 @@ import { typesRenderer } from '@/lib/render-utils';
 
 interface DropdownProps {
   dict: Dict;
-  types: string[];
-  setTypes: (value: string[]) => void;
-  errorString: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  error: string;
 }
 
 const MultipleTypeSelect = ({
   dict,
-  types,
-  setTypes,
-  errorString,
+  value,
+  onChange,
+  error,
 }: DropdownProps) => {
   const [cropMenuOpen, setCropMenuOpen] = useState<boolean>(false);
   const [livestockMenuOpen, setLivestockMenuOpen] = useState<boolean>(false);
 
   const handleMenuItemClick = (menuItem: string) => {
-    const checked = types.includes(menuItem);
-
+    const checked = value.includes(menuItem);
     if (checked) {
       // If the checkbox is checked, remove the value from the types array
-      setTypes(types.filter((item) => item !== menuItem));
+      onChange(value.filter((item) => item !== menuItem));
     } else {
       // If the checkbox is unchecked, add the value to the types array
-      setTypes([...types, menuItem]);
+      onChange([...value, menuItem]);
     }
   };
 
@@ -63,10 +62,10 @@ const MultipleTypeSelect = ({
       <InputLabel id="select-site-type">{dict.sites.typeOfSite}</InputLabel>
       <Select
         labelId="select-site-type"
-        value={types}
+        value={value}
         multiple
         renderValue={(values) => typesRenderer(values, dict)}
-        error={!!errorString}
+        error={!!error}
         label={dict.onBoarding.sites.type}
         sx={{
           background: 'white',
@@ -113,7 +112,7 @@ const MultipleTypeSelect = ({
                     onChange={() => handleMenuItemClick(cropType)}
                     control={
                       <Checkbox
-                        checked={types.includes(cropType)}
+                        checked={value.includes(cropType)}
                         value={cropType}
                       />
                     }
@@ -146,7 +145,7 @@ const MultipleTypeSelect = ({
                     onChange={() => handleMenuItemClick(livestock)}
                     control={
                       <Checkbox
-                        checked={types.includes(livestock)}
+                        checked={value.includes(livestock)}
                         value={livestock}
                       />
                     }
@@ -166,7 +165,7 @@ const MultipleTypeSelect = ({
                 onChange={() => handleMenuItemClick(propertyType)}
                 control={
                   <Checkbox
-                    checked={types.includes(propertyType)}
+                    checked={value.includes(propertyType)}
                     value={propertyType}
                   />
                 }
@@ -181,13 +180,13 @@ const MultipleTypeSelect = ({
             sx={{ width: '100%' }}
             onChange={() => handleMenuItemClick('other')}
             control={
-              <Checkbox checked={types.includes('other')} value="other" />
+              <Checkbox checked={value.includes('other')} value="other" />
             }
             label={dict.onBoarding.sites.otherType}
           />
         </MenuItem>
       </Select>
-      <FormHelperText error>{errorString}</FormHelperText>
+      <FormHelperText error>{error}</FormHelperText>
     </FormControl>
   );
 };

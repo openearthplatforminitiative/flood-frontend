@@ -2,7 +2,7 @@
 
 import { Autocomplete, debounce, TextField } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
-import { geoCodingAction } from './map/GeoCodingActions';
+import { geoCodingAction } from '../actions/GeoCodingActions';
 import { LngLat } from 'maplibre-gl';
 
 type LocationOption = {

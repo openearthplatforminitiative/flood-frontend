@@ -1,6 +1,6 @@
 import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
 import { getUserId } from '@/lib/auth-utils';
-import SiteForm from '@/components/forms/SiteForm';
+import { EditSiteForm } from '@/components/forms/EditSiteForm';
 import { getSiteForUser } from '@/lib/prisma';
 import Header from '@/components/Header';
 import { ContentContainer } from '@/components/ContentContainer';
@@ -44,7 +44,7 @@ const EditSiteFormLoader = async ({
   }
   const dict: Dict = getDictionaryWithDefault(lang);
   return (
-    <SiteForm
+    <EditSiteForm
       dict={dict}
       site={site}
       redirectPath={`/${lang}/sites/${site.id}`}

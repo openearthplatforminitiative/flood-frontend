@@ -1,10 +1,10 @@
 'use client';
 
 import { SitesMap } from '@/components/map/SitesMap';
-import { SitesMapProvider } from '@/components/map/SitesMapProvider';
-import { Skeleton, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import { Suspense, use, useMemo } from 'react';
+import { use, useMemo } from 'react';
+import { MapProvider } from 'react-map-gl/maplibre';
 
 type SitesLayoutProps = {
   children: React.ReactNode;
@@ -20,31 +20,23 @@ const SitesLayout = ({ children, params }: SitesLayoutProps) => {
 
   const isSites = useMemo(() => pathname?.endsWith('sites'), [pathname]);
 
+  if (isMobile) return children;
+
   return (
-    <SitesMapProvider>
-      {isMobile ? (
-        children
-      ) : (
-        <div className="flex min-h-full ">
-          <div className="min-w-1/2 w-full h-screen pl-10 py-10 pr-4 sticky top-0 overflow-hidden">
-            <div className="rounded-xl h-full w-full overflow-hidden">
-              <Suspense
-                fallback={
-                  <Skeleton variant="rectangular" height="100%" width="100%" />
-                }
-              >
-                <SitesMap lang={lang} />
-              </Suspense>
-            </div>
-          </div>
-          <div
-            className={`w-full ${isSites ? 'max-w-lg' : 'max-w-3xl'} flex flex-col transition-all`}
-          >
-            {children}
+    <MapProvider>
+      <div className="flex min-h-full ">
+        <div className="min-w-1/2 w-full h-screen pl-10 py-10 pr-4 sticky top-0 overflow-hidden">
+          <div className="rounded-xl h-full w-full overflow-hidden">
+            <SitesMap lang={lang} />
           </div>
         </div>
-      )}
-    </SitesMapProvider>
+        <div
+          className={`w-full ${isSites ? 'max-w-lg' : 'max-w-3xl'} flex flex-col transition-all`}
+        >
+          {children}
+        </div>
+      </div>
+    </MapProvider>
   );
 };
 

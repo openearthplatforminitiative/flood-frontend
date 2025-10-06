@@ -2,7 +2,6 @@ import { weatherClient } from '@/lib/openepi-clients';
 
 import { DateTime } from 'luxon';
 import { Dict, getDictionaryWithDefault } from '@/utils/dictionaries';
-import { Site } from '@prisma/client';
 import {
   getLocalTime,
   getMETHour,
@@ -35,7 +34,8 @@ export type WeatherHourForecast = {
 };
 
 export const getMutadedWeatherForecast = async (
-  site: Site,
+  lat: number,
+  lon: number,
   lang: string,
   locationForecast: Awaited<
     ReturnType<typeof weatherClient.getLocationForecast>
@@ -57,10 +57,10 @@ export const getMutadedWeatherForecast = async (
     second: 0,
     millisecond: 0,
   });
-  const currentTimeLocal = getLocalTime(currentTimeUTC, [site.lat, site.lng]);
+  const currentTimeLocal = getLocalTime(currentTimeUTC, [lat, lon]);
   const lastForecastDate = getLocalTime(
     DateTime.fromISO(timeSeries[timeSeries.length - 1].time),
-    [site.lat, site.lng]
+    [lat, lon]
   );
 
   const symbolHours = {
@@ -85,8 +85,8 @@ export const getMutadedWeatherForecast = async (
   const locationForecastIndexed = new Map<string, (typeof timeSeries)[0]>();
   timeSeries.forEach((entry) => {
     const localDate = getLocalTime(DateTime.fromISO(entry.time), [
-      site.lat,
-      site.lng,
+      lat,
+      lon,
     ]).toISO();
     if (localDate) {
       locationForecastIndexed.set(localDate, entry);

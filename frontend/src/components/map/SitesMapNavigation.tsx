@@ -8,78 +8,25 @@ import {
   SatelliteAltOutlined,
 } from '@mui/icons-material';
 import { GeolocateControl, useMap } from 'react-map-gl/maplibre';
-import maplibregl, { LngLat, LngLatBounds, MapLibreEvent } from 'maplibre-gl';
-import { useSitesMap } from './SitesMapProvider';
-import { createRef, useCallback, useEffect, useMemo, useState } from 'react';
+import maplibregl, { LngLat, MapLibreEvent } from 'maplibre-gl';
+import { createRef, useCallback, useEffect, useState } from 'react';
+import { useAtom, useAtomValue } from 'jotai';
+import {
+  defaultCoordinatesAtom,
+  mapStyleAtom,
+} from '@/store/atoms/mapAtom';
 
-type SiteMapNavigationProps = {
-  currentPage: string;
-};
-
-export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
-  const {
-    defaultCoordinates,
-    defaultZoom,
-    setDefaultCoordinates,
-    setDefaultZoom,
-    currentSite,
-    newSiteLngLat,
-    sites,
-    setMapStyle,
-    mapStyle,
-  } = useSitesMap();
+export const SiteMapNavigation = () => {
+  const defaultCoordinates = useAtomValue(
+    defaultCoordinatesAtom
+  );
+  const [mapStyle, setMapStyle] = useAtom(mapStyleAtom);
   const geoControlRef = createRef<maplibregl.GeolocateControl>();
   const [currentBearing, setCurrentBearing] = useState(0);
   const [currentPitch, setCurrentPitch] = useState(0);
   const [userHasMoved, setUserHasMoved] = useState(false);
 
   const mapRef = useMap();
-
-  const sitesBounds = useMemo(() => {
-    if (sites.length === 0) {
-      return new LngLatBounds(new LngLat(-180, -90), new LngLat(180, 90));
-    }
-    return new LngLatBounds(
-      new LngLat(
-        Math.min(...sites.map((site) => site.lng)),
-        Math.min(...sites.map((site) => site.lat))
-      ),
-      new LngLat(
-        Math.max(...sites.map((site) => site.lng)),
-        Math.max(...sites.map((site) => site.lat))
-      )
-    );
-  }, [sites]);
-
-  useEffect(() => {
-    if (currentPage === 'sites') {
-      const bounds = sitesBounds;
-      setDefaultCoordinates(bounds.getCenter());
-      setDefaultZoom(undefined);
-    } else if (currentPage === 'site') {
-      if (currentSite) {
-        setDefaultCoordinates(new LngLat(currentSite.lng, currentSite.lat));
-        setDefaultZoom(14);
-      }
-    } else if (currentPage === 'add') {
-      setDefaultCoordinates(newSiteLngLat);
-      setDefaultZoom(undefined);
-    } else if (currentPage === 'edit') {
-      if (currentSite) {
-        setDefaultCoordinates(
-          newSiteLngLat ?? new LngLat(currentSite.lng, currentSite.lat)
-        );
-        setDefaultZoom(undefined);
-      }
-    }
-  }, [
-    currentPage,
-    currentSite,
-    newSiteLngLat,
-    setDefaultCoordinates,
-    setDefaultZoom,
-    sitesBounds,
-  ]);
 
   const handleUserMove = useCallback(
     (centerCoordinates?: LngLat) => {
@@ -108,22 +55,6 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
     setCurrentPitch(pitch);
   };
 
-  const zoomToLocation = useCallback(() => {
-    if (currentPage == 'sites') {
-      mapRef.current?.fitBounds(sitesBounds, {
-        padding: 100,
-        maxZoom: 14,
-        screenSpeed: 3,
-      });
-    } else {
-      mapRef.current?.flyTo({
-        center: defaultCoordinates,
-        zoom: defaultZoom,
-        screenSpeed: 3,
-      });
-    }
-  }, [currentPage, defaultCoordinates, defaultZoom, mapRef, sitesBounds]);
-
   useEffect(() => {
     const map = mapRef?.current;
     if (!map) return;
@@ -145,17 +76,8 @@ export const SiteMapNavigation = ({ currentPage }: SiteMapNavigationProps) => {
     };
   }, [defaultCoordinates, handleUserMove, mapRef]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      zoomToLocation();
-    }, 200);
-  }, [defaultCoordinates, defaultZoom, zoomToLocation]);
-
   const handleCompassClick = () => {
     mapRef.current?.resetNorthPitch();
-    if (userHasMoved) {
-      zoomToLocation();
-    }
   };
 
   const handleZoomIn = () => {

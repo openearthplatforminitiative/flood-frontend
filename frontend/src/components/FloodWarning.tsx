@@ -1,3 +1,5 @@
+'use server';
+
 import { getDictionaryWithDefault } from '@/utils/dictionaries';
 import FloodWarningBox from '@/components/FloodWarningBox';
 import { getUserId } from '@/lib/auth-utils';

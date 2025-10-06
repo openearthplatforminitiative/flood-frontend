@@ -40,7 +40,7 @@ export default async function RootLayout({
         <meta name="theme-color" content="#E9FFED" />
         <title>{dict.title}</title>
       </head>
-      <body className="flex w-full h-full m-0 bg-neutralVariant-99">
+      <body className="flex w-full h-full m-0 bg-neutralvariant-99">
         <Box sx={{ flexGrow: 1 }}>
           <Providers lang={lang}>{children}</Providers>
         </Box>
